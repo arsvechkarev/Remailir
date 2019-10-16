@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <attr name="theColorPrimary" format="color"/>
+  <attr name="theColorSecondary" format="color"/>
+  <attr name="theColorTextPrimary" format="color"/>
+  <attr name="theColorTextSecondary" format="color"/>
+
+  <attr name="radiusAuthEditText" format="dimension"/>
+
+</resources>

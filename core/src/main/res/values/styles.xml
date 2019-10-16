@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+  <!-- Activity -->
+
+  <style name="BaseTheme" parent="Theme.AppCompat.Light.DarkActionBar"/>
+
+  <style name="BaseTheme.Dark">
+    <item name="theColorPrimary">@color/dark_colorPrimary</item>
+    <item name="theColorSecondary">@color/dark_colorSecondary</item>
+    <item name="theColorTextPrimary">@color/dark_colorTextPrimary</item>
+    <item name="theColorTextSecondary">@color/dark_colorTextSecondary</item>
+
+    <item name="radiusAuthEditText">@dimen/radius_auth_edit_text</item>
+    <item name="colorPrimary">?theColorPrimary</item>
+    <item name="android:statusBarColor">?theColorPrimary</item>
+    <item name="android:windowBackground">?theColorSecondary</item>
+  </style>
+
+
+  <!-- TextView -->
+
+
+  <style name="BaseText" parent="TextAppearance.AppCompat">
+  </style>
+
+  <!-- ActionBar -->
+
+
+  <style name="BaseActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse"/>
+
+  <style name="BaseActionBar.Dark">
+    <item name="android:background">@color/dark_colorPrimary</item>
+  </style>
+
+
+  <!-- EditText -->
+
+  <style name="BaseEditText" parent="TextAppearance.AppCompat">
+    <item name="android:textSize">@dimen/text_h4</item>
+  </style>
+
+  <!-- Button -->
+
+</resources>

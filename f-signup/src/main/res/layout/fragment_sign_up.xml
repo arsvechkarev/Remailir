@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="vertical">
+
+  <EditText
+    android:id="@+id/editTextUserName"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    style="@style/BaseEditText.Auth"
+    android:hint="Enter username"
+    android:text="treftik"/>
+
+  <EditText
+    android:id="@+id/editTextEmail"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    style="@style/BaseEditText.Auth"
+    android:hint="Enter email"
+    android:text="treftik@gmail.com"/>
+
+
+  <EditText
+    android:id="@+id/editTextPassword"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    android:hint="Enter password"
+    android:text="123456789"/>
+
+  <Button
+    android:id="@+id/buttonRegister"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:text="Register"/>
+
+  <Button
+    android:id="@+id/buttonLogIn"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    android:layout_gravity="center"
+    android:text="Log In"/>
+
+  <TextView
+    android:id="@+id/textFailure"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="20dp"
+    android:layout_gravity="center"/>
+
+</LinearLayout>

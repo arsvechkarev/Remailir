@@ -1,0 +1,13 @@
+ext {
+  compileSdkVersion = 28
+  applicationId = 'com.arsvechkarev.remailir'
+  minSdkVersion = 21
+  targetSdkVersion = 28
+  versionCode = 1
+  versionName = '1.0.0'
+  testInstrumentationRunner = 'androidx.test.runner.AndroidJUnitRunner'
+  useSupportLibraryInVectorDrawables = true
+
+  minifyEnabled = false
+  shrinkResources = false
+}

@@ -1,0 +1,59 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+  def configs = rootProject.ext
+
+  compileSdkVersion configs.compileSdkVersion
+  defaultConfig {
+    minSdkVersion configs.minSdkVersion
+    targetSdkVersion configs.targetSdkVersion
+    versionCode configs.versionCode
+    versionName configs.versionName
+    testInstrumentationRunner configs.testInstrumentationRunner
+  }
+
+  buildTypes {
+    release {
+      minifyEnabled configs.minifyEnabled
+      proguardFiles(getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro')
+    }
+  }
+
+}
+
+dependencies {
+  implementation project(':core')
+  implementation project(':firebase')
+  implementation project(':h-auth')
+
+  def appDependencies = rootProject.ext.applicationDependencies
+  def testDependencies = rootProject.ext.testDependencies
+
+  implementation appDependencies.kotlin
+  implementation appDependencies.appCompat
+  implementation appDependencies.ktx
+  implementation appDependencies.materialDesign
+  implementation appDependencies.lifecycleExtensions
+  implementation appDependencies.legacySupport
+  implementation appDependencies.constraintLayout
+
+  implementation appDependencies.coroutinesCore
+  implementation appDependencies.coroutinesAndroid
+
+  implementation appDependencies.firebaseAuth
+  implementation appDependencies.firebaseFirestore
+
+  implementation appDependencies.dagger
+  kapt appDependencies.daggerCompiler
+
+  implementation appDependencies.retrofit
+  implementation appDependencies.okhttpLoggingInterceptor
+
+  testImplementation testDependencies.junit
+  testImplementation testDependencies.mockito
+  androidTestImplementation testDependencies.testRunner
+  androidTestImplementation testDependencies.espresso
+}
