@@ -8,11 +8,12 @@
 
   <style name="BaseTheme.Dark">
     <item name="theColorPrimary">@color/dark_colorPrimary</item>
+    <item name="theColorPrimaryLight">@color/dark_colorPrimaryLight</item>
     <item name="theColorSecondary">@color/dark_colorSecondary</item>
     <item name="theColorTextPrimary">@color/dark_colorTextPrimary</item>
     <item name="theColorTextSecondary">@color/dark_colorTextSecondary</item>
 
-    <item name="radiusAuthEditText">@dimen/radius_auth_edit_text</item>
+    <item name="radiusAuthEditText">@dimen/auth_edit_text_radius</item>
     <item name="colorPrimary">?theColorPrimary</item>
     <item name="android:statusBarColor">?theColorPrimary</item>
     <item name="android:windowBackground">?theColorSecondary</item>

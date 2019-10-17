@@ -2,6 +2,7 @@
 <resources>
 
   <attr name="theColorPrimary" format="color"/>
+  <attr name="theColorPrimaryLight" format="color"/>
   <attr name="theColorSecondary" format="color"/>
   <attr name="theColorTextPrimary" format="color"/>
   <attr name="theColorTextSecondary" format="color"/>

@@ -7,30 +7,30 @@
 
   <EditText
     android:id="@+id/editTextUserName"
+    style="@style/BaseEditText.Auth"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    style="@style/BaseEditText.Auth"
     android:hint="Enter username"
     android:text="treftik"/>
 
   <EditText
     android:id="@+id/editTextEmail"
+    style="@style/BaseEditText.Auth"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    style="@style/BaseEditText.Auth"
     android:hint="Enter email"
     android:text="treftik@gmail.com"/>
 
 
   <EditText
     android:id="@+id/editTextPassword"
+    style="@style/BaseEditText.Auth"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="16dp"
     android:hint="Enter password"
     android:text="123456789"/>
 
-  <Button
+  <com.google.android.material.button.MaterialButton
     android:id="@+id/buttonRegister"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"

@@ -4,6 +4,7 @@
   <color name="colorBottomAppBarIcon">#FF0000</color>
 
   <color name="dark_colorPrimary">#313335</color>
+  <color name="dark_colorPrimaryLight">#4E4F52</color>
   <color name="dark_colorSecondary">#222222</color>
 
   <color name="dark_colorTextPrimary">#FFFFFF</color>

@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <style name="BaseEditText.Auth">
+    <item name="android:padding">@dimen/auth_edit_text_padding</item>
     <item name="android:background">@drawable/bg_auth_edit_text</item>
-    <item name="android:layout_margin">@dimen/margin_edit_text</item>
+    <item name="android:layout_margin">@dimen/auth_edit_text_margin</item>
   </style>
+
+
 </resources>
