@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
   tools:context=".main.BaseFragment">
 
   <FrameLayout
@@ -15,8 +15,11 @@
     android:id="@+id/bottomNavigationBar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:menu="@menu/menu_bottom"
+    android:layout_alignParentBottom="true"
+    app:itemBackground="?theColorPrimary"
+    app:itemIconTint="@drawable/bottom_nav_bar_bg"
+    app:itemTextColor="@drawable/bottom_nav_bar_bg"
     app:labelVisibilityMode="unlabeled"
-    android:layout_alignParentBottom="true"/>
+    app:menu="@menu/menu_bottom"/>
 
 </RelativeLayout>

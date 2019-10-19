@@ -4,44 +4,73 @@
 
   <!-- Activity -->
 
-  <style name="BaseTheme" parent="Theme.AppCompat.Light.DarkActionBar"/>
+  <style name="AppTheme" parent="Theme.MaterialComponents">
+    <item name="colorPrimary">?theColorPrimary</item>
+    <item name="colorPrimaryDark">?theColorPrimary</item>
+    <item name="colorOnPrimary">?theColorOnPrimary</item>
+    <item name="colorAccent">?theColorAccent</item>
+    <item name="colorSurface">?theColorSurface</item>
+    <item name="colorOnSurface">?theColorOnSurface</item>
+    <item name="actionBarStyle">@style/ActionBar</item>
+    <item name="textAppearanceLargePopupMenu">@style/TextAppearance.PopupMenu</item>
+    <item name="android:windowBackground">?theColorBackground</item>
+    <item name="radiusAuthEditText">@dimen/auth_edit_text_radius</item>
+  </style>
 
-  <style name="BaseTheme.Dark">
+  <style name="AppTheme.Dark">
+    <item name="theColorAccent">@color/dark_colorAccent</item>
     <item name="theColorPrimary">@color/dark_colorPrimary</item>
-    <item name="theColorPrimaryLight">@color/dark_colorPrimaryLight</item>
-    <item name="theColorSecondary">@color/dark_colorSecondary</item>
+    <item name="theColorOnPrimary">@android:color/white</item>
+    <item name="theColorSurface">@color/dark_colorPrimary</item>
+    <item name="theColorOnSurface">@android:color/white</item>
+    <item name="theColorBackground">@color/dark_colorBackground</item>
     <item name="theColorTextPrimary">@color/dark_colorTextPrimary</item>
     <item name="theColorTextSecondary">@color/dark_colorTextSecondary</item>
-
-    <item name="radiusAuthEditText">@dimen/auth_edit_text_radius</item>
-    <item name="colorPrimary">?theColorPrimary</item>
-    <item name="android:statusBarColor">?theColorPrimary</item>
-    <item name="android:windowBackground">?theColorSecondary</item>
+    <item name="theColorItemSelected">@color/dark_colorItemSelected</item>
+    <item name="theColorItemNotSelected">@color/dark_colorItemNotSelected</item>
   </style>
 
 
   <!-- TextView -->
 
+  <style name="TextView" parent="TextAppearance.AppCompat"/>
 
-  <style name="BaseText" parent="TextAppearance.AppCompat">
-  </style>
 
   <!-- ActionBar -->
 
-
-  <style name="BaseActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse"/>
-
-  <style name="BaseActionBar.Dark">
-    <item name="android:background">@color/dark_colorPrimary</item>
+  <style name="ActionBar" parent="Widget.MaterialComponents.ActionBar.Solid">
+    <item name="background">@color/dark_colorPrimary</item>
   </style>
 
 
   <!-- EditText -->
 
-  <style name="BaseEditText" parent="TextAppearance.AppCompat">
+  <style name="EditText" parent="TextAppearance.AppCompat">
     <item name="android:textSize">@dimen/text_h4</item>
+    <item name="android:background">?theColorSurface</item>
   </style>
 
   <!-- Button -->
+
+
+  <!-- Popup menu -->
+
+  <style name="PopupMenu" parent="Widget.MaterialComponents.PopupMenu.Overflow">
+    <item name="textAppearanceLargePopupMenu">@style/TextAppearance</item>
+    <item name="textAppearanceSmallPopupMenu">@style/TextAppearance</item>
+    <item name="android:popupBackground">?theColorSurface</item>
+  </style>
+
+
+  <!-- TextAppearance -->
+
+  <style name="TextAppearance" parent="TextAppearance.MaterialComponents.Body1">
+    <item name="android:textColor">?theColorTextPrimary</item>
+    <item name="fontFamily">@font/metropolis_regular</item>
+  </style>
+
+  <style name="TextAppearance.PopupMenu">
+    <item name="android:textSize">@dimen/text_h5</item>
+  </style>
 
 </resources>

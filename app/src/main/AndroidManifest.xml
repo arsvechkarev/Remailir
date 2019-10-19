@@ -12,7 +12,7 @@
     android:name=".main.RemailirApp"
     android:roundIcon="@mipmap/ic_launcher_round"
     android:supportsRtl="true"
-    android:theme="@style/BaseTheme.Dark">
+    android:theme="@style/AppTheme.Dark">
     <activity android:name=".main.BaseActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>

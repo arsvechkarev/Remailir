@@ -7,7 +7,7 @@
 
   <EditText
     android:id="@+id/editTextUserName"
-    style="@style/BaseEditText.Auth"
+    style="@style/EditText.Auth"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:hint="Enter username"
@@ -15,7 +15,7 @@
 
   <EditText
     android:id="@+id/editTextEmail"
-    style="@style/BaseEditText.Auth"
+    style="@style/EditText.Auth"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:hint="Enter email"
@@ -24,7 +24,7 @@
 
   <EditText
     android:id="@+id/editTextPassword"
-    style="@style/BaseEditText.Auth"
+    style="@style/EditText.Auth"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:hint="Enter password"
