@@ -1,1 +1,1 @@
-include ':app', ':core', ':storage', ':firebase', ':f-signin', ':f-signup', ':f-profile', ':h-auth', ':f-friends', ':f-chat', ':f-messages'
+include ':app', ':core', ':storage', ':firebase', ':f-signin', ':f-signup', ':f-profile', ':h-auth', ':f-users', ':f-chat', ':f-messages', ':animation'

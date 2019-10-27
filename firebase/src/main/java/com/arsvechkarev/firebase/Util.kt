@@ -1,9 +1,9 @@
 package com.arsvechkarev.firebase
 
-import com.arsvechkarev.core.model.Friend
+import com.arsvechkarev.core.model.OtherUser
 import com.google.firebase.auth.FirebaseAuth
 
-fun getChatIdWith(friend: Friend) = getChatIdWith(friend.id)
+fun getChatIdWith(otherUser: OtherUser) = getChatIdWith(otherUser.id)
 
 fun getChatIdWith(otherUserId: String): String {
   val thisUserId = FirebaseAuth.getInstance().uid!!

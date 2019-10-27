@@ -12,6 +12,8 @@
     <item name="colorSurface">?theColorSurface</item>
     <item name="colorOnSurface">?theColorOnSurface</item>
     <item name="actionBarStyle">@style/ActionBar</item>
+    <item name="android:textViewStyle">@style/TextAppearance</item>
+    <item name="android:editTextStyle">@style/EditText</item>
     <item name="textAppearanceLargePopupMenu">@style/TextAppearance.PopupMenu</item>
     <item name="android:windowBackground">?theColorBackground</item>
     <item name="radiusAuthEditText">@dimen/auth_edit_text_radius</item>
@@ -19,22 +21,23 @@
 
   <style name="AppTheme.Dark">
     <item name="theColorAccent">@color/dark_colorAccent</item>
+    <item name="theColorAccentLight">@color/dark_colorAccentLight</item>
     <item name="theColorPrimary">@color/dark_colorPrimary</item>
     <item name="theColorOnPrimary">@android:color/white</item>
-    <item name="theColorSurface">@color/dark_colorPrimary</item>
+    <item name="theColorSurface">@color/dark_colorSurface</item>
     <item name="theColorOnSurface">@android:color/white</item>
     <item name="theColorBackground">@color/dark_colorBackground</item>
     <item name="theColorTextPrimary">@color/dark_colorTextPrimary</item>
     <item name="theColorTextSecondary">@color/dark_colorTextSecondary</item>
     <item name="theColorItemSelected">@color/dark_colorItemSelected</item>
     <item name="theColorItemNotSelected">@color/dark_colorItemNotSelected</item>
+    <item name="theColorFabIcon">@color/dark_colorItemSelected</item>
   </style>
 
-
-  <!-- TextView -->
-
-  <style name="TextView" parent="TextAppearance.AppCompat"/>
-
+  <style name="AppTheme.Dark.NoActionBar">
+    <item name="windowNoTitle">true</item>
+    <item name="windowActionBar">false</item>
+  </style>
 
   <!-- ActionBar -->
 
@@ -46,8 +49,10 @@
   <!-- EditText -->
 
   <style name="EditText" parent="TextAppearance.AppCompat">
-    <item name="android:textSize">@dimen/text_h4</item>
     <item name="android:background">?theColorSurface</item>
+    <item name="android:textColor">?theColorTextPrimary</item>
+    <item name="android:fontFamily">@font/metropolis_medium</item>
+    <item name="android:textSize">@dimen/text_h4</item>
   </style>
 
   <!-- Button -->
@@ -66,11 +71,19 @@
 
   <style name="TextAppearance" parent="TextAppearance.MaterialComponents.Body1">
     <item name="android:textColor">?theColorTextPrimary</item>
-    <item name="fontFamily">@font/metropolis_regular</item>
+    <item name="fontFamily">@font/metropolis_medium</item>
   </style>
 
   <style name="TextAppearance.PopupMenu">
+    <item name="fontFamily">@font/metropolis_bold</item>
     <item name="android:textSize">@dimen/text_h5</item>
+  </style>
+
+
+  <!-- Dialog -->
+
+  <style name="DialogFullScreen" parent="AppTheme">
+    <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
   </style>
 
 </resources>

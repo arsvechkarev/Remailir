@@ -8,14 +8,15 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/animation" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/f-chat" />
-            <option value="$PROJECT_DIR$/f-friends" />
             <option value="$PROJECT_DIR$/f-messages" />
             <option value="$PROJECT_DIR$/f-profile" />
             <option value="$PROJECT_DIR$/f-signin" />
             <option value="$PROJECT_DIR$/f-signup" />
+            <option value="$PROJECT_DIR$/f-users" />
             <option value="$PROJECT_DIR$/firebase" />
             <option value="$PROJECT_DIR$/h-auth" />
             <option value="$PROJECT_DIR$/storage" />

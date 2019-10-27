@@ -11,8 +11,9 @@ import com.arsvechkarev.auth.SignUpState
 import com.arsvechkarev.auth.SignUpState.Failure
 import com.arsvechkarev.auth.SignUpState.PreCheckFailure
 import com.arsvechkarev.auth.SignUpState.Success
-import com.arsvechkarev.core.MainActivity
+import com.arsvechkarev.core.base.EntranceActivity
 import com.arsvechkarev.core.extensions.observe
+import com.arsvechkarev.core.extensions.setTitle
 import com.arsvechkarev.core.extensions.string
 import com.arsvechkarev.core.extensions.viewModel
 import com.arsvechkarev.signup.R
@@ -40,6 +41,7 @@ class SignUpFragment : Fragment() {
   }
   
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    setTitle(R.string.title_sign_up)
     injectThis()
     signUpViewModel = viewModel(viewModelFactory) {
       observe(state, ::updateState)
@@ -54,7 +56,7 @@ class SignUpFragment : Fragment() {
     }
     
     buttonLogIn.setOnClickListener {
-      (activity as MainActivity).goToSignIn()
+      (activity as EntranceActivity).goToSignIn()
     }
   }
   
@@ -71,7 +73,7 @@ class SignUpFragment : Fragment() {
         textFailure.text = "lol"
       }
       is Success -> {
-        (activity as MainActivity).goToBase()
+        (activity as EntranceActivity).goToBase()
       }
     }
   }

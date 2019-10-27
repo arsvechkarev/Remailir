@@ -27,6 +27,8 @@ android {
 dependencies {
   implementation project(':core')
   implementation project(':firebase')
+  implementation project(':f-users')
+  implementation project(':f-chat')
 
   def appDependencies = rootProject.ext.applicationDependencies
   def testDependencies = rootProject.ext.testDependencies

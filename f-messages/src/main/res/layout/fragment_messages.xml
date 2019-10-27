@@ -1,15 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
   android:gravity="center"
+  android:clickable="true"
+  android:focusable="true"
+  android:id="@+id/rootContainer"
+  android:background="?theColorBackground"
   tools:context=".presentation.MessagesFragment">
 
-  <!-- TODO: Update blank fragment layout -->
+  <androidx.appcompat.widget.Toolbar
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:title="@string/title_messages"
+    android:minHeight="?actionBarSize"
+    android:background="?theColorPrimary"
+    app:titleTextColor="?theColorTextPrimary"
+    app:layout_constraintTop_toTopOf="parent"/>
+
   <TextView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:text="this is messages"/>
 
-</LinearLayout>
+  <!-- todo: add margins from dimens -->
+
+  <com.google.android.material.floatingactionbutton.FloatingActionButton
+    android:id="@+id/fabNewChat"
+    android:src="@drawable/ic_add"
+    app:backgroundTint="?theColorAccentLight"
+    app:tint="?theColorFabIcon"
+    android:layout_gravity="bottom|end"
+    android:layout_margin="16dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

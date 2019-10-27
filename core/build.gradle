@@ -29,6 +29,8 @@ androidExtensions {
 }
 
 dependencies {
+  implementation project(':animation')
+
   def appDependencies = rootProject.ext.applicationDependencies
 
   implementation appDependencies.kotlin

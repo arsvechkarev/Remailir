@@ -10,6 +10,9 @@
     style="@style/EditText.Auth"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/auth_edit_text_margin"
+    android:layout_marginStart="@dimen/auth_edit_text_margin"
+    android:layout_marginEnd="@dimen/auth_edit_text_margin"
     android:hint="Enter username"
     android:text="treftik"/>
 
@@ -18,6 +21,9 @@
     style="@style/EditText.Auth"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/auth_edit_text_margin"
+    android:layout_marginStart="@dimen/auth_edit_text_margin"
+    android:layout_marginEnd="@dimen/auth_edit_text_margin"
     android:hint="Enter email"
     android:text="treftik@gmail.com"/>
 
@@ -27,6 +33,9 @@
     style="@style/EditText.Auth"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/auth_edit_text_margin"
+    android:layout_marginStart="@dimen/auth_edit_text_margin"
+    android:layout_marginEnd="@dimen/auth_edit_text_margin"
     android:hint="Enter password"
     android:text="123456789"/>
 
