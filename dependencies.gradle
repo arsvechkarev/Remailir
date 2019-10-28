@@ -11,12 +11,7 @@ ext {
   circleImageView_version = '3.0.1'
   picasso_version = '2.71828'
 
-  rxJava_version = '2.2.12'
-  rxAndroid_version = '2.1.1'
   coroutines_version = '1.1.1'
-  retrofit_version = '2.6.1'
-  okhttpLoggingInterceptor_version = '4.2.0'
-  rxJavaRetrofitAdapter_version = '2.6.1'
 
   firebaseAnalytics_version = '17.2.0'
   firebaseAuth_version = '19.1.0'
@@ -37,13 +32,8 @@ ext {
       daggerCompiler          : "com.google.dagger:dagger-compiler:$dagger_version",
       circleImageView         : "de.hdodenhof:circleimageview:$circleImageView_version",
       picasso                 : "com.squareup.picasso:picasso:$picasso_version",
-      rxJava                  : "io.reactivex.rxjava2:rxjava:$rxJava_version",
-      rxAndroid               : "io.reactivex.rxjava2:rxandroid:$rxAndroid_version",
       coroutinesCore          : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version",
       coroutinesAndroid       : "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version",
-      retrofit                : "com.squareup.retrofit2:converter-gson:$retrofit_version",
-      okhttpLoggingInterceptor: "com.squareup.okhttp3:logging-interceptor:$okhttpLoggingInterceptor_version",
-      rxJavaRetrofitAdapter   : "com.squareup.retrofit2:adapter-rxjava2:$rxJavaRetrofitAdapter_version",
       firebaseAnalytics       : "com.google.firebase:firebase-analytics:$firebaseAnalytics_version",
       firebaseAuth            : "com.google.firebase:firebase-auth:$firebaseAuth_version",
       firebaseStorage         : "com.google.firebase:firebase-storage:$firebaseStorage_version",

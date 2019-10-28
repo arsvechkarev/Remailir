@@ -1,4 +1,4 @@
-package com.arsvechkarev.core.model
+package com.arsvechkarev.core.model.users
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

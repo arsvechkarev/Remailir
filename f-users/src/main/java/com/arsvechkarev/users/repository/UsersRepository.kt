@@ -1,7 +1,7 @@
 package com.arsvechkarev.users.repository
 
-import com.arsvechkarev.core.model.OtherUser
 import com.arsvechkarev.core.model.messaging.OneToOneChat
+import com.arsvechkarev.core.model.users.OtherUser
 import com.arsvechkarev.firebase.Fire
 import com.arsvechkarev.firebase.Schema
 import com.google.firebase.Timestamp

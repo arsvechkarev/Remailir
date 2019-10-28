@@ -83,7 +83,6 @@
   <!-- Dialog -->
 
   <style name="DialogFullScreen" parent="AppTheme">
-    <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
   </style>
 
 </resources>

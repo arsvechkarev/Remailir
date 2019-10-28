@@ -1,10 +1,13 @@
-package com.arsvechkarev.core.base
+package com.arsvechkarev.core.declaration
 
 import androidx.fragment.app.Fragment
 
 interface CoreActivity {
   
-  fun goToFragmentFromRoot(fragment: Fragment, addToBackStack: Boolean = false)
+  fun goToFragmentFromRoot(
+    fragment: Fragment,
+    addToBackStack: Boolean = false
+  )
   
   fun signOut()
 }

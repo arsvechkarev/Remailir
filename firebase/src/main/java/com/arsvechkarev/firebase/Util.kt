@@ -1,6 +1,6 @@
 package com.arsvechkarev.firebase
 
-import com.arsvechkarev.core.model.OtherUser
+import com.arsvechkarev.core.model.users.OtherUser
 import com.google.firebase.auth.FirebaseAuth
 
 fun getChatIdWith(otherUser: OtherUser) = getChatIdWith(otherUser.id)

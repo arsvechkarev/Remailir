@@ -3,7 +3,7 @@ package com.arsvechkarev.remailir.main
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.arsvechkarev.core.base.EntranceActivity
+import com.arsvechkarev.core.declaration.EntranceActivity
 import com.arsvechkarev.core.extensions.switchFragment
 import com.arsvechkarev.remailir.R
 import com.arsvechkarev.signin.presentation.SignInFragment
@@ -18,7 +18,7 @@ class EntranceActivity : AppCompatActivity(), EntranceActivity {
   }
   
   override fun goToBase() {
-    val intent = Intent(this, HomeActivity::class.java)
+    val intent = Intent(this, CoreActivity::class.java)
     startActivity(intent)
   }
   

@@ -2,7 +2,7 @@ package com.arsvechkarev.users.presentation
 
 import androidx.lifecycle.MutableLiveData
 import com.arsvechkarev.core.base.FireViewModel
-import com.arsvechkarev.core.model.OtherUser
+import com.arsvechkarev.core.model.users.OtherUser
 import com.arsvechkarev.users.repository.UsersRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.EventListener

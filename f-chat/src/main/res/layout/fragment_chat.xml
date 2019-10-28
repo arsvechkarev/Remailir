@@ -5,46 +5,113 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
+  android:clickable="true"
+  android:focusable="true"
   android:background="?theColorBackground"
   tools:context=".presentation.ChatFragment">
 
-  <!-- TODO: Update blank fragment layout -->
+  <androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?theColorPrimary"
+    android:minHeight="?actionBarSize"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+      android:id="@+id/imageOtherUser"
+      android:layout_width="54dp"
+      android:layout_height="54dp"
+      android:layout_marginTop="8dp"
+      android:layout_marginBottom="8dp"
+      android:layout_marginStart="8dp"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+      android:id="@+id/textOtherUserName"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="8dp"
+      android:layout_marginStart="8dp"
+      android:text="qwer"
+      android:textSize="@dimen/text_h2"
+      app:layout_constraintStart_toEndOf="@+id/imageOtherUser"
+      app:layout_constraintTop_toTopOf="@+id/imageOtherUser"/>
+
+    <TextView
+      android:id="@+id/textOtherUserExtraInfo"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="8dp"
+      android:layout_marginBottom="8dp"
+      android:layout_marginStart="8dp"
+      android:fontFamily="sans-serif-light"
+      android:text="qwer"
+      android:textColor="?theColorTextSecondary"
+      app:layout_constraintBottom_toBottomOf="@+id/imageOtherUser"
+      app:layout_constraintStart_toEndOf="@+id/imageOtherUser"
+      app:layout_constraintTop_toBottomOf="@+id/textOtherUserName"/>
+
+  </androidx.constraintlayout.widget.ConstraintLayout>
+
   <TextView
     android:id="@+id/textTest"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:text="@string/hello_blank_fragment"/>
+    android:layout_height="wrap_content"
+    android:layout_marginTop="16dp"
+    android:text="@string/hello_blank_fragment"
+    app:layout_constraintTop_toBottomOf="@id/toolbar"/>
 
   <androidx.recyclerview.widget.RecyclerView
     android:id="@+id/recyclerChat"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="0dp"
     android:layout_marginBottom="8dp"
     android:layout_marginStart="8dp"
     android:layout_marginEnd="8dp"
-    app:layout_constraintBottom_toTopOf="@+id/editText"
+    app:layout_constraintTop_toBottomOf="@id/toolbar"
+    app:layout_constraintBottom_toTopOf="@+id/layoutTyping"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"/>
 
-  <EditText
-    android:id="@+id/editText"
-    android:layout_width="0dp"
+  <androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/layoutTyping"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="8dp"
-    android:layout_marginStart="8dp"
-    android:layout_marginEnd="8dp"
+    android:background="?theColorPrimary"
     app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toStartOf="@+id/button"
-    app:layout_constraintStart_toStartOf="parent"/>
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent">
 
-  <Button
-    android:id="@+id/button"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="8dp"
-    android:text="send, fucking shit"
-    android:layout_marginEnd="8dp"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"/>
+    <EditText
+      android:id="@+id/editText"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="8dp"
+      android:layout_marginStart="8dp"
+      android:layout_marginEnd="8dp"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toStartOf="@+id/button"
+      app:layout_constraintStart_toStartOf="parent"/>
+
+    <ImageView
+      android:id="@+id/button"
+      android:layout_width="40dp"
+      android:layout_height="40dp"
+      android:layout_margin="16dp"
+      android:layout_marginBottom="8dp"
+      android:layout_marginEnd="8dp"
+      android:background="?selectableItemBackgroundBorderless"
+      android:src="@drawable/ic_send"
+      android:text="send, fucking shit"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"/>
+
+
+  </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

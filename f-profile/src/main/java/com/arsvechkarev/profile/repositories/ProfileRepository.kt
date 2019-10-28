@@ -1,7 +1,5 @@
 package com.arsvechkarev.profile.repositories
 
-import android.util.Log
-import com.arsvechkarev.core.model.User
 import com.arsvechkarev.firebase.Schema
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot

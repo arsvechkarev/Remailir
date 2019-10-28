@@ -14,3 +14,14 @@ fun AppCompatActivity.switchFragment(
   if (addToBackStack) transaction.addToBackStack(null)
   transaction.commit()
 }
+
+fun AppCompatActivity.switchFragment(
+  @IdRes containerIdRes: Int,
+  fragment: Fragment,
+  runOnCommit: () -> Unit
+) {
+  val transaction = supportFragmentManager.beginTransaction()
+    .replace(containerIdRes, fragment)
+  transaction.runOnCommit(runOnCommit)
+  transaction.commit()
+}

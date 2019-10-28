@@ -11,7 +11,7 @@ import com.arsvechkarev.auth.SignInState
 import com.arsvechkarev.auth.SignInState.Failure
 import com.arsvechkarev.auth.SignInState.PreCheckFailure
 import com.arsvechkarev.auth.SignInState.Success
-import com.arsvechkarev.core.base.EntranceActivity
+import com.arsvechkarev.core.declaration.EntranceActivity
 import com.arsvechkarev.core.extensions.observe
 import com.arsvechkarev.core.extensions.setTitle
 import com.arsvechkarev.core.extensions.string

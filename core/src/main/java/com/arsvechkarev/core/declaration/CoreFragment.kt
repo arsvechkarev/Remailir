@@ -1,4 +1,4 @@
-package com.arsvechkarev.core.base
+package com.arsvechkarev.core.declaration
 
 import androidx.fragment.app.Fragment
 

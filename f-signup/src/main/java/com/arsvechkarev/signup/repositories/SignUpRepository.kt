@@ -1,7 +1,6 @@
 package com.arsvechkarev.signup.repositories
 
-import com.arsvechkarev.core.model.User
-import com.arsvechkarev.firebase.Schema
+import com.arsvechkarev.core.model.users.ThisUser
 import com.arsvechkarev.firebase.Schema.DEFAULT_IMG_URL
 import com.arsvechkarev.firebase.Schema.USERS
 import com.google.firebase.auth.FirebaseAuth
@@ -45,7 +44,13 @@ class SignUpRepository @Inject constructor() {
   }
   
   private fun createUserInDatabase() {
-    val user = User(FirebaseAuth.getInstance().uid!!, username, email, password, DEFAULT_IMG_URL)
+    val user = ThisUser(
+      FirebaseAuth.getInstance().uid!!,
+      username,
+      email,
+      password,
+      DEFAULT_IMG_URL
+    )
     FirebaseFirestore.getInstance()
       .collection(USERS)
       .document(user.id)

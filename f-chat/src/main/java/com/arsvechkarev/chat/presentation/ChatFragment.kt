@@ -17,8 +17,8 @@ import com.arsvechkarev.core.extensions.setChatView
 import com.arsvechkarev.core.extensions.showToast
 import com.arsvechkarev.core.extensions.string
 import com.arsvechkarev.core.extensions.viewModel
-import com.arsvechkarev.core.model.OtherUser
 import com.arsvechkarev.core.model.messaging.DialogMessage
+import com.arsvechkarev.core.model.users.OtherUser
 import kotlinx.android.synthetic.main.fragment_chat.button
 import kotlinx.android.synthetic.main.fragment_chat.editText
 import kotlinx.android.synthetic.main.fragment_chat.recyclerChat

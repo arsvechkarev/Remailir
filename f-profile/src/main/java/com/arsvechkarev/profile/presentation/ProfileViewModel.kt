@@ -2,7 +2,7 @@ package com.arsvechkarev.profile.presentation
 
 import androidx.lifecycle.MutableLiveData
 import com.arsvechkarev.core.base.BaseViewModel
-import com.arsvechkarev.core.model.User
+import com.arsvechkarev.core.model.users.ThisUser
 import com.arsvechkarev.profile.repositories.ProfileRepository
 import javax.inject.Inject
 
@@ -10,11 +10,11 @@ class ProfileViewModel @Inject constructor(
   private val repository: ProfileRepository
 ) : BaseViewModel() {
   
-  var userData = MutableLiveData<User>()
+  var userData = MutableLiveData<ThisUser>()
   
   fun fetchProfileData() {
     repository.fetchProfileData(onSuccess = {
-      this@ProfileViewModel.userData.value = it.toObject(User::class.java)
+      this@ProfileViewModel.userData.value = it.toObject(ThisUser::class.java)
     }, onFailure = {
     
     })
@@ -26,11 +26,6 @@ class ProfileViewModel @Inject constructor(
     //
     //      override fun onCancelled(p0: DatabaseError) {}
     //    })
-  }
-  
-  override fun onCleared() {
-    super.onCleared()
-    //    repository.unsubscribe()
   }
   
 }

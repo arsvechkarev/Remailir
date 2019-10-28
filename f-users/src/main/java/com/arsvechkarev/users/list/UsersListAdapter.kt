@@ -5,8 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.arsvechkarev.core.model.users.OtherUser
 import com.arsvechkarev.users.R
-import com.arsvechkarev.core.model.OtherUser
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_user.view.imageProfile
 import kotlinx.android.synthetic.main.item_user.view.textUsername

@@ -27,6 +27,7 @@ android {
 dependencies {
   implementation project(':core')
   implementation project(':firebase')
+  implementation project(':f-chat')
 
   def appDependencies = rootProject.ext.applicationDependencies
   def testDependencies = rootProject.ext.testDependencies
@@ -50,9 +51,6 @@ dependencies {
 
   implementation appDependencies.dagger
   kapt appDependencies.daggerCompiler
-
-  implementation appDependencies.retrofit
-  implementation appDependencies.okhttpLoggingInterceptor
 
   testImplementation testDependencies.junit
   testImplementation testDependencies.mockito

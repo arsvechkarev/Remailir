@@ -1,7 +1,7 @@
 package com.arsvechkarev.chat.repository
 
-import com.arsvechkarev.core.model.OtherUser
 import com.arsvechkarev.core.model.messaging.DialogMessage
+import com.arsvechkarev.core.model.users.OtherUser
 import com.arsvechkarev.firebase.Schema
 import com.arsvechkarev.firebase.getChatIdWith
 import com.arsvechkarev.firebase.thisUserId

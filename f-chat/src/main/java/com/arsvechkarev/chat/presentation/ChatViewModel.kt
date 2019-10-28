@@ -1,11 +1,11 @@
 package com.arsvechkarev.chat.presentation
 
 import androidx.lifecycle.MutableLiveData
-import com.arsvechkarev.chat.presentation.MessagesState.*
+import com.arsvechkarev.chat.presentation.MessagesState.MessagesList
 import com.arsvechkarev.chat.repository.ChatRepository
 import com.arsvechkarev.core.base.FireViewModel
-import com.arsvechkarev.core.model.OtherUser
 import com.arsvechkarev.core.model.messaging.DialogMessage
+import com.arsvechkarev.core.model.users.OtherUser
 import com.google.firebase.firestore.EventListener
 import javax.inject.Inject
 
