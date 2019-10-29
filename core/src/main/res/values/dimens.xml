@@ -6,6 +6,8 @@
   <dimen name="text_h3">18sp</dimen>
   <dimen name="text_h4">16sp</dimen>
   <dimen name="text_h5">14sp</dimen>
+  <dimen name="text_h6">11sp</dimen>
+  <dimen name="text_h7">10sp</dimen>
 
   <dimen name="auth_edit_text_margin">16dp</dimen>
   <dimen name="auth_edit_text_radius">8dp</dimen>

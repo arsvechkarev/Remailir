@@ -71,7 +71,7 @@
 
   <style name="TextAppearance" parent="TextAppearance.MaterialComponents.Body1">
     <item name="android:textColor">?theColorTextPrimary</item>
-    <item name="fontFamily">@font/metropolis_medium</item>
+    <!--<item name="fontFamily">@font/metropolis_medium</item>-->
   </style>
 
   <style name="TextAppearance.PopupMenu">
