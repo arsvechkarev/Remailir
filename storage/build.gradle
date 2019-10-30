@@ -24,7 +24,13 @@ android {
 }
 
 dependencies {
+  implementation project(':core')
+
   def appDependencies = rootProject.ext.applicationDependencies
 
   implementation appDependencies.kotlin
+  implementation appDependencies.coroutinesCore
+
+  implementation appDependencies.dagger
+  kapt appDependencies.daggerCompiler
 }

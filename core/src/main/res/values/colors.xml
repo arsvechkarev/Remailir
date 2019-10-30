@@ -3,8 +3,9 @@
 
   <color name="colorBottomAppBarIcon">#FF0000</color>
 
-  <color name="dark_colorAccent">#22364A</color>
-  <color name="dark_colorAccentLight">#2D4E6F</color>
+  <color name="dark_colorMessageThisUser">#2A4663</color>
+  <color name="dark_colorMessageOtherUser">#222F41</color>
+  <color name="dark_colorAccent">#336596</color>
   <color name="dark_colorPrimary">#171F29</color>
   <color name="dark_colorSurface">#1D2836</color>
   <color name="dark_colorBackground">#0D1217</color>

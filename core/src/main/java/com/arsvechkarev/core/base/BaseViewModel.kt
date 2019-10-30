@@ -7,12 +7,17 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.launch
 
 abstract class BaseViewModel : ViewModel(), CoroutineScope {
   
   override val coroutineContext = SupervisorJob() + Dispatchers.Main
   
-  val jobs: MutableList<Job> = ArrayList()
+  private val jobs: MutableList<Job> = ArrayList()
+  
+  protected fun coroutine(block: suspend CoroutineScope.() -> Unit) {
+    jobs.add(launch(coroutineContext) { block() })
+  }
   
   fun cancelAllCoroutines() {
     for (job in jobs) {

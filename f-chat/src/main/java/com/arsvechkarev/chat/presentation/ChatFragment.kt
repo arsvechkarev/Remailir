@@ -21,6 +21,7 @@ import com.arsvechkarev.core.extensions.viewModel
 import com.arsvechkarev.core.extensions.visible
 import com.arsvechkarev.core.model.messaging.DialogMessage
 import com.arsvechkarev.core.model.users.OtherUser
+import com.arsvechkarev.firebase.Schema
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_chat.buttonSend
 import kotlinx.android.synthetic.main.fragment_chat.editText
@@ -61,13 +62,14 @@ class ChatFragment : BaseFragment() {
       if (it.isBlank()) buttonSend.invisible()
       else buttonSend.visible()
     }
-  
-    Picasso.get()
-      .load("https://hatrabbits.com/wp-content/uploads/2017/01/random.jpg")
-      .into(imageOtherUser)
   }
   
   private fun prepareView() {
+    if (otherUser.imageUrl == Schema.DEFAULT_IMG_URL) {
+      imageOtherUser.setBackgroundResource(R.drawable.image_stub)
+    } else {
+      Picasso.get().load(otherUser.imageUrl).into(imageOtherUser)
+    }
     textOtherUserName.text = otherUser.username
     textOtherUserExtraInfo.text = otherUser.id
   }

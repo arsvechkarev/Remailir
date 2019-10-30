@@ -6,7 +6,8 @@ import com.arsvechkarev.core.recycler.ViewTypeConstants
 
 data class MessageOtherUser(
   override val id: String,
-  val text: String
+  val text: String,
+  val timestamp: Long
 ) : DisplayableItem {
   override val type = ViewTypeConstants.MESSAGE_OTHER_USER
 }

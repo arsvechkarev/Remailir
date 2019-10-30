@@ -1,12 +1,13 @@
 package com.arsvechkarev.profile.presentation
 
-
 import androidx.lifecycle.ViewModelProvider
 import com.arsvechkarev.core.base.BaseFragment
-import com.arsvechkarev.core.declaration.CoreActivity
+import com.arsvechkarev.core.declaration.coreActivity
+import com.arsvechkarev.core.di.ContextModule
 import com.arsvechkarev.core.extensions.observe
 import com.arsvechkarev.core.extensions.viewModel
-import com.arsvechkarev.core.model.users.ThisUser
+import com.arsvechkarev.core.model.users.User
+import com.arsvechkarev.firebase.Schema
 import com.arsvechkarev.profile.R
 import com.arsvechkarev.profile.di.DaggerProfileComponent
 import com.squareup.picasso.Picasso
@@ -26,12 +27,12 @@ class ProfileFragment : BaseFragment() {
   override val layout: Int = R.layout.fragment_profile
   
   override fun onInit() {
-    DaggerProfileComponent.create().inject(this)
+    inject()
     toolbar.inflateMenu(R.menu.menu_main)
     toolbar.setOnMenuItemClickListener {
       when (it.itemId) {
         R.id.itemSignOut -> {
-          (activity as CoreActivity).signOut()
+          coreActivity.signOut()
           return@setOnMenuItemClickListener true
         }
       }
@@ -43,11 +44,20 @@ class ProfileFragment : BaseFragment() {
     profileViewModel.fetchProfileData()
   }
   
-  private fun updateProfile(thisUser: ThisUser) {
-    Picasso.get()
-      .load("https://hatrabbits.com/wp-content/uploads/2017/01/random.jpg")
-      .into(imageProfile)
-    textProfileName.text = thisUser.username
-    textProfileEmail.text = thisUser.email
+  private fun inject() {
+    DaggerProfileComponent.builder()
+      .contextModule(ContextModule(context!!))
+      .build()
+      .inject(this)
+  }
+  
+  private fun updateProfile(user: User) {
+    if (user.imageUrl == Schema.DEFAULT_IMG_URL) {
+      imageProfile.setBackgroundResource(R.drawable.image_stub)
+    } else {
+      Picasso.get().load(user.imageUrl).into(imageProfile)
+    }
+    textProfileName.text = user.username
+    textProfileEmail.text = user.email
   }
 }

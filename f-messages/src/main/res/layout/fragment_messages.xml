@@ -31,7 +31,7 @@
   <com.google.android.material.floatingactionbutton.FloatingActionButton
     android:id="@+id/fabNewChat"
     android:src="@drawable/ic_add"
-    app:backgroundTint="?theColorAccentLight"
+    app:backgroundTint="?theColorAccent"
     app:tint="?theColorFabIcon"
     android:layout_gravity="bottom|end"
     android:layout_margin="16dp"

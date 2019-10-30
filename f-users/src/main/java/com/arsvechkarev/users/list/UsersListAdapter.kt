@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.arsvechkarev.core.model.users.OtherUser
+import com.arsvechkarev.firebase.Schema
 import com.arsvechkarev.users.R
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_user.view.imageProfile
@@ -28,8 +29,11 @@ class UsersListAdapter(private val clickListener: (OtherUser) -> Unit) :
 class FriendsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
   
   fun bind(otherUser: OtherUser, clickListener: (OtherUser) -> Unit) {
-    Picasso.get().load("https://hatrabbits.com/wp-content/uploads/2017/01/random.jpg")
-      .into(itemView.imageProfile)
+    if (otherUser.imageUrl == Schema.DEFAULT_IMG_URL) {
+      itemView.imageProfile.setBackgroundResource(com.arsvechkarev.chat.R.drawable.image_stub)
+    } else {
+      Picasso.get().load(otherUser.imageUrl).into(itemView.imageProfile)
+    }
     itemView.textUsername.text = otherUser.username
     itemView.setOnClickListener { clickListener(otherUser) }
   }

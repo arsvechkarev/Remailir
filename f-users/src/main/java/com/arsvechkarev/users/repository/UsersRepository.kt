@@ -14,7 +14,8 @@ import javax.inject.Inject
 class UsersRepository @Inject constructor() {
   
   fun fetchFriends(eventListener: EventListener<QuerySnapshot>) {
-    FirebaseFirestore.getInstance().collection(Schema.Users).addSnapshotListener(eventListener)
+    FirebaseFirestore.getInstance().collection(Schema.Collections.Users)
+      .addSnapshotListener(eventListener)
   }
   
   fun createOneToOneChat(
@@ -25,7 +26,7 @@ class UsersRepository @Inject constructor() {
     val thisUserId = FirebaseAuth.getInstance().uid!!
     val otherUserId = otherUser.id
     val oneToOneChat = OneToOneChat(thisUserId, otherUserId, Timestamp.now().seconds)
-    FirebaseFirestore.getInstance().collection(Schema.OneToOneChats)
+    FirebaseFirestore.getInstance().collection(Schema.Collections.OneToOneChats)
       .document(Fire.chatIdWith(otherUser))
       .set(oneToOneChat)
       .addOnSuccessListener { onSuccess() }

@@ -38,7 +38,6 @@
     android:layout_marginTop="20dp"
     android:layout_marginStart="8dp"
     android:layout_marginEnd="8dp"
-    android:text="Treft29"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/imageProfile"/>
@@ -50,7 +49,6 @@
     android:layout_marginTop="20dp"
     android:layout_marginStart="8dp"
     android:layout_marginEnd="8dp"
-    android:text="Treft@gmail.com"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/textProfileName"/>

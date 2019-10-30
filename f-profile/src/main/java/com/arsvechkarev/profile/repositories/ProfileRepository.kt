@@ -1,19 +1,65 @@
 package com.arsvechkarev.profile.repositories
 
+import com.arsvechkarev.core.model.users.User
 import com.arsvechkarev.firebase.Schema
+import com.arsvechkarev.storage.Storage
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import javax.inject.Inject
 
-class ProfileRepository @Inject constructor() {
+class ProfileRepository @Inject constructor(
+  private val storage: Storage
+) {
   
   fun fetchProfileData(onSuccess: (DocumentSnapshot) -> Unit, onFailure: (Throwable) -> Unit) {
     val uid = FirebaseAuth.getInstance().currentUser!!.uid
-    FirebaseFirestore.getInstance().collection(Schema.USERS)
+    FirebaseFirestore.getInstance().collection(Schema.Collections.Users)
       .document(uid)
       .get()
       .addOnSuccessListener { onSuccess(it) }
       .addOnFailureListener { onFailure(it) }
+  }
+  
+  suspend fun fetchProfileData(listenerBlock: UserInfoListener.() -> Unit) {
+    val listener = UserInfoListener().apply(listenerBlock)
+    
+    val savedUser = storage.get<User>(FILENAME_USER)
+    if (savedUser != null) {
+      listener.successBlock(savedUser)
+      return
+    }
+    
+    val uid = FirebaseAuth.getInstance().currentUser!!.uid
+    FirebaseFirestore.getInstance().collection(Schema.Collections.Users)
+      .document(uid)
+      .get()
+      .addOnSuccessListener {
+        val user = it.toObject(User::class.java)!!
+        storage.saveSwitching(user, FILENAME_USER)
+        listener.successBlock(user)
+      }
+      .addOnFailureListener {
+        listener.failureBlock(it)
+      }
+  }
+  
+  companion object {
+    const val FILENAME_USER = "FILENAME_USER"
+  }
+  
+  class UserInfoListener {
+    lateinit var successBlock: (User) -> Unit
+    
+    lateinit var failureBlock: (Exception) -> Unit
+    
+    fun onSuccess(successBlock: (User) -> Unit) {
+      this.successBlock = successBlock
+    }
+    
+    fun onFailure(failureBlock: (Exception) -> Unit) {
+      this.failureBlock = failureBlock
+    }
+    
   }
 }

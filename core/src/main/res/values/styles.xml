@@ -21,7 +21,6 @@
 
   <style name="AppTheme.Dark">
     <item name="theColorAccent">@color/dark_colorAccent</item>
-    <item name="theColorAccentLight">@color/dark_colorAccentLight</item>
     <item name="theColorPrimary">@color/dark_colorPrimary</item>
     <item name="theColorOnPrimary">@android:color/white</item>
     <item name="theColorSurface">@color/dark_colorSurface</item>
@@ -32,6 +31,8 @@
     <item name="theColorItemSelected">@color/dark_colorItemSelected</item>
     <item name="theColorItemNotSelected">@color/dark_colorItemNotSelected</item>
     <item name="theColorFabIcon">@color/dark_colorItemSelected</item>
+    <item name="colorMessageThisUser">@color/dark_colorMessageThisUser</item>
+    <item name="colorMessageOtherUser">@color/dark_colorMessageOtherUser</item>
   </style>
 
   <style name="AppTheme.Dark.NoActionBar">

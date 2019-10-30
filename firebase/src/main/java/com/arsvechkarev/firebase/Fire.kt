@@ -1,6 +1,8 @@
 package com.arsvechkarev.firebase
 
 import com.arsvechkarev.core.model.users.OtherUser
+import com.google.firebase.Timestamp
+import com.google.firebase.firestore.FirebaseFirestore
 
 object Fire {
   
@@ -8,7 +10,10 @@ object Fire {
     return organizeIdsForChat(thisUserId, otherUser.id)
   }
   
-  fun idOfGroup(list: List<OtherUser>):String {
-    TODO("Do I really need it?")
+  fun update(status: OnlineOfflineStatus) {
+    val userStatus = UserStatus(defineStatus(status), Timestamp.now().seconds, false)
+    FirebaseFirestore.getInstance().collection(Schema.Collections.UsersMetadata)
+      .document(thisUser.uid)
+      .set(userStatus)
   }
 }

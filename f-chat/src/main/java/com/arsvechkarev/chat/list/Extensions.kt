@@ -11,8 +11,20 @@ fun List<DialogMessage>.toDisplayableItems(): MutableList<DisplayableItem> {
   val displayMessages = ArrayList<DisplayableItem>()
   this.forEach {
     when (thisUserId) {
-      it.fromUserId -> displayMessages.add(MessageThisUser(UUID.randomUUID().toString(), it.text))
-      it.toUserId -> displayMessages.add(MessageOtherUser(UUID.randomUUID().toString(), it.text))
+      it.fromUserId -> displayMessages.add(
+        MessageThisUser(
+          UUID.randomUUID().toString(),
+          it.text,
+          it.timestamp
+        )
+      )
+      it.toUserId -> displayMessages.add(
+        MessageOtherUser(
+          UUID.randomUUID().toString(),
+          it.text,
+          it.timestamp
+        )
+      )
     }
   }
   return displayMessages

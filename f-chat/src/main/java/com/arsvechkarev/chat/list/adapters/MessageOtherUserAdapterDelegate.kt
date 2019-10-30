@@ -8,7 +8,12 @@ import com.arsvechkarev.core.extensions.inflate
 import com.arsvechkarev.core.model.messaging.MessageOtherUser
 import com.arsvechkarev.core.recycler.AdapterDelegate
 import com.arsvechkarev.core.recycler.DisplayableItem
+import com.arsvechkarev.core.strings.FORMAT_MSG_TIME
 import kotlinx.android.synthetic.main.item_message_other_user.view.textMessage
+import kotlinx.android.synthetic.main.item_message_other_user.view.textTime
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.ZonedDateTime
+import org.threeten.bp.format.DateTimeFormatter
 
 
 class MessageOtherUserAdapterDelegate : AdapterDelegate {
@@ -27,6 +32,10 @@ class MessageOtherUserAdapterDelegate : AdapterDelegate {
     
     fun bind(messageOtherUser: MessageOtherUser) {
       itemView.textMessage.text = messageOtherUser.text
+      val time =
+        LocalDateTime.ofEpochSecond(messageOtherUser.timestamp, 0, ZonedDateTime.now().offset)
+      val format = time.format(DateTimeFormatter.ofPattern(FORMAT_MSG_TIME))
+      itemView.textTime.text = format
     }
     
   }

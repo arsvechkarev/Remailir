@@ -6,9 +6,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.arsvechkarev.chat.R
 import com.arsvechkarev.core.extensions.inflate
 import com.arsvechkarev.core.model.messaging.MessageThisUser
-import com.arsvechkarev.core.recycler.DisplayableItem
 import com.arsvechkarev.core.recycler.AdapterDelegate
+import com.arsvechkarev.core.recycler.DisplayableItem
+import com.arsvechkarev.core.strings.FORMAT_MSG_TIME
 import kotlinx.android.synthetic.main.item_message_this_user.view.textMessage
+import kotlinx.android.synthetic.main.item_message_this_user.view.textTime
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.ZonedDateTime
+import org.threeten.bp.format.DateTimeFormatter
 
 class MessageThisUserAdapterDelegate : AdapterDelegate {
   
@@ -26,6 +31,9 @@ class MessageThisUserAdapterDelegate : AdapterDelegate {
     
     fun bind(messageThis: MessageThisUser) {
       itemView.textMessage.text = messageThis.text
+      val time = LocalDateTime.ofEpochSecond(messageThis.timestamp, 0, ZonedDateTime.now().offset)
+      val format = time.format(DateTimeFormatter.ofPattern(FORMAT_MSG_TIME))
+      itemView.textTime.text = format
     }
     
   }

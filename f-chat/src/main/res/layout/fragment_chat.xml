@@ -101,7 +101,7 @@
       android:hint="Message"
       android:maxLines="4"
       android:padding="16dp"
-      android:textColorHint="?theColorTextSecondary"
+      android:textCursorDrawable="@drawable/bg_cursor"
       android:textSize="@dimen/text_h3"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toStartOf="@+id/buttonSend"
