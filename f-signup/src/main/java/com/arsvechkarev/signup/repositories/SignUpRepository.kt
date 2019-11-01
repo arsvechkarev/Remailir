@@ -1,8 +1,8 @@
 package com.arsvechkarev.signup.repositories
 
 import com.arsvechkarev.core.model.users.User
-import com.arsvechkarev.firebase.Schema.Collections.Users
-import com.arsvechkarev.firebase.Schema.DEFAULT_IMG_URL
+import com.arsvechkarev.firebase.Collections.Users
+import com.arsvechkarev.firebase.DEFAULT_IMG_URL
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import javax.inject.Inject

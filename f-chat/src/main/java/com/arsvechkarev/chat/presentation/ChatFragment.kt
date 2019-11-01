@@ -21,7 +21,7 @@ import com.arsvechkarev.core.extensions.viewModel
 import com.arsvechkarev.core.extensions.visible
 import com.arsvechkarev.core.model.messaging.DialogMessage
 import com.arsvechkarev.core.model.users.OtherUser
-import com.arsvechkarev.firebase.Schema
+import com.arsvechkarev.firebase.DEFAULT_IMG_URL
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_chat.buttonSend
 import kotlinx.android.synthetic.main.fragment_chat.editText
@@ -57,7 +57,14 @@ class ChatFragment : BaseFragment() {
       editText.text.clear()
     }
     recyclerChat.setChatView(chatAdapter)
-  
+    recyclerChat.addOnLayoutChangeListener { _, _, _, _, bottom, _, _, _, oldBottom ->
+      if (bottom < oldBottom) {
+        recyclerChat.post {
+          recyclerChat.scrollToPosition(chatAdapter.itemCount - 1)
+        }
+      }
+    }
+    
     editText.onTextChanged {
       if (it.isBlank()) buttonSend.invisible()
       else buttonSend.visible()
@@ -65,7 +72,7 @@ class ChatFragment : BaseFragment() {
   }
   
   private fun prepareView() {
-    if (otherUser.imageUrl == Schema.DEFAULT_IMG_URL) {
+    if (otherUser.imageUrl == DEFAULT_IMG_URL) {
       imageOtherUser.setBackgroundResource(R.drawable.image_stub)
     } else {
       Picasso.get().load(otherUser.imageUrl).into(imageOtherUser)
@@ -85,6 +92,7 @@ class ChatFragment : BaseFragment() {
   
   private fun updateList(messages: List<DialogMessage>) {
     chatAdapter.submitList(messages.toDisplayableItems())
+    recyclerChat.scrollToPosition(chatAdapter.itemCount - 1)
   }
   
   companion object {

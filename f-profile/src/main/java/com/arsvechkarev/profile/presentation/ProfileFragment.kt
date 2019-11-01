@@ -7,7 +7,7 @@ import com.arsvechkarev.core.di.ContextModule
 import com.arsvechkarev.core.extensions.observe
 import com.arsvechkarev.core.extensions.viewModel
 import com.arsvechkarev.core.model.users.User
-import com.arsvechkarev.firebase.Schema
+import com.arsvechkarev.firebase.DEFAULT_IMG_URL
 import com.arsvechkarev.profile.R
 import com.arsvechkarev.profile.di.DaggerProfileComponent
 import com.squareup.picasso.Picasso
@@ -52,7 +52,7 @@ class ProfileFragment : BaseFragment() {
   }
   
   private fun updateProfile(user: User) {
-    if (user.imageUrl == Schema.DEFAULT_IMG_URL) {
+    if (user.imageUrl == DEFAULT_IMG_URL) {
       imageProfile.setBackgroundResource(R.drawable.image_stub)
     } else {
       Picasso.get().load(user.imageUrl).into(imageProfile)

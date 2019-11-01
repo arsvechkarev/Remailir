@@ -39,6 +39,7 @@ ext {
       firebaseStorage    : "com.google.firebase:firebase-storage:$firebaseStorage_version",
       firebaseDatabase   : "com.google.firebase:firebase-database:$firebaseDatabase_version",
       firebaseFirestore  : "com.google.firebase:firebase-firestore:$firebaseFirestore_version",
+      firebaseUI: "com.firebaseui:firebase-ui-auth:4.3.1",
       threeTenAbp         : "com.jakewharton.threetenabp:threetenabp:1.2.1",
   ]
 

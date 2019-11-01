@@ -28,6 +28,7 @@ android {
 dependencies {
   implementation project(':core')
   implementation project(':firebase')
+  implementation project(':storage')
 
   implementation project(':f-chat')
   implementation project(':f-users')
@@ -49,10 +50,10 @@ dependencies {
   implementation appDependencies.threeTenAbp
 
   implementation appDependencies.coroutinesCore
-  implementation appDependencies.coroutinesAndroid
 
   implementation appDependencies.firebaseAuth
   implementation appDependencies.firebaseFirestore
+  implementation appDependencies.firebaseUI
 
   implementation appDependencies.dagger
   kapt appDependencies.daggerCompiler

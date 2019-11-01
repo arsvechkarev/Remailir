@@ -1,7 +1,6 @@
 package com.arsvechkarev.core.base
 
-import androidx.annotation.CallSuper
-import androidx.lifecycle.ViewModel
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -10,13 +9,13 @@ import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.launch
 
 @Suppress("MemberVisibilityCanBePrivate")
-abstract class BaseViewModel : ViewModel(), CoroutineScope {
+abstract class BaseActivity : AppCompatActivity(), CoroutineScope {
   
   override val coroutineContext = SupervisorJob() + Dispatchers.Main
   
   private val jobs: MutableList<Job> = ArrayList()
   
-  protected fun coroutine(block: suspend CoroutineScope.() -> Unit) {
+  fun coroutine(block: suspend CoroutineScope.() -> Unit) {
     jobs.add(launch(coroutineContext) { block() })
   }
   
@@ -32,8 +31,8 @@ abstract class BaseViewModel : ViewModel(), CoroutineScope {
     }
   }
   
-  @CallSuper
-  override fun onCleared() {
+  override fun onDestroy() {
     cancelAllCoroutines()
+    super.onDestroy()
   }
 }

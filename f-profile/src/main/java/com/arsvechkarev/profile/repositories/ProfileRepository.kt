@@ -1,25 +1,16 @@
 package com.arsvechkarev.profile.repositories
 
 import com.arsvechkarev.core.model.users.User
-import com.arsvechkarev.firebase.Schema
+import com.arsvechkarev.core.strings.FILENAME_USER
+import com.arsvechkarev.firebase.Collections
 import com.arsvechkarev.storage.Storage
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import javax.inject.Inject
 
 class ProfileRepository @Inject constructor(
   private val storage: Storage
 ) {
-  
-  fun fetchProfileData(onSuccess: (DocumentSnapshot) -> Unit, onFailure: (Throwable) -> Unit) {
-    val uid = FirebaseAuth.getInstance().currentUser!!.uid
-    FirebaseFirestore.getInstance().collection(Schema.Collections.Users)
-      .document(uid)
-      .get()
-      .addOnSuccessListener { onSuccess(it) }
-      .addOnFailureListener { onFailure(it) }
-  }
   
   suspend fun fetchProfileData(listenerBlock: UserInfoListener.() -> Unit) {
     val listener = UserInfoListener().apply(listenerBlock)
@@ -31,7 +22,7 @@ class ProfileRepository @Inject constructor(
     }
     
     val uid = FirebaseAuth.getInstance().currentUser!!.uid
-    FirebaseFirestore.getInstance().collection(Schema.Collections.Users)
+    FirebaseFirestore.getInstance().collection(Collections.Users)
       .document(uid)
       .get()
       .addOnSuccessListener {
@@ -44,13 +35,9 @@ class ProfileRepository @Inject constructor(
       }
   }
   
-  companion object {
-    const val FILENAME_USER = "FILENAME_USER"
-  }
-  
   class UserInfoListener {
+  
     lateinit var successBlock: (User) -> Unit
-    
     lateinit var failureBlock: (Exception) -> Unit
     
     fun onSuccess(successBlock: (User) -> Unit) {

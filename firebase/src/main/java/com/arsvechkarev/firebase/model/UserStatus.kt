@@ -1,4 +1,4 @@
-package com.arsvechkarev.firebase
+package com.arsvechkarev.firebase.model
 
 class UserStatus(
   val status: String,
@@ -9,5 +9,3 @@ class UserStatus(
 enum class OnlineOfflineStatus {
   ONLINE, OFFLINE
 }
-
-

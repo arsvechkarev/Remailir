@@ -52,7 +52,6 @@
   <style name="EditText" parent="TextAppearance.AppCompat">
     <item name="android:background">?theColorSurface</item>
     <item name="android:textColor">?theColorTextPrimary</item>
-    <item name="android:fontFamily">@font/metropolis_medium</item>
     <item name="android:textSize">@dimen/text_h4</item>
   </style>
 
@@ -72,11 +71,9 @@
 
   <style name="TextAppearance" parent="TextAppearance.MaterialComponents.Body1">
     <item name="android:textColor">?theColorTextPrimary</item>
-    <!--<item name="fontFamily">@font/metropolis_medium</item>-->
   </style>
 
   <style name="TextAppearance.PopupMenu">
-    <item name="fontFamily">@font/metropolis_bold</item>
     <item name="android:textSize">@dimen/text_h5</item>
   </style>
 

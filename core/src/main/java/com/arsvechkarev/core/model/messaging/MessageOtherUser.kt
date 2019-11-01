@@ -1,7 +1,6 @@
 package com.arsvechkarev.core.model.messaging
 
 import com.arsvechkarev.core.recycler.DisplayableItem
-import com.arsvechkarev.core.recycler.ViewTypeConstants
 
 
 data class MessageOtherUser(

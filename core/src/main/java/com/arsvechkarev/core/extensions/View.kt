@@ -12,7 +12,6 @@ import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.ScrollView
 import android.widget.TextView
-import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.core.text.HtmlCompat
 

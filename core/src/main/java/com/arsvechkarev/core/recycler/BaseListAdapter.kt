@@ -2,10 +2,11 @@ package com.arsvechkarev.core.recycler
 
 import android.view.ViewGroup
 import androidx.collection.SparseArrayCompat
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.arsvechkarev.core.recycler.DisplayableItem.DiffCallBack
 
-abstract class BaseAdapter : RecyclerView.Adapter<ViewHolder>() {
+abstract class BaseListAdapter : ListAdapter<DisplayableItem, ViewHolder>(DiffCallBack()) {
   
   var data: MutableList<DisplayableItem> = ArrayList()
   val delegates = SparseArrayCompat<AdapterDelegate>()
@@ -22,12 +23,8 @@ abstract class BaseAdapter : RecyclerView.Adapter<ViewHolder>() {
     return data[position].type
   }
   
-  override fun getItemCount(): Int {
-    return data.size
-  }
-  
-  fun submitList(list: MutableList<DisplayableItem>?) {
+  override fun submitList(list: MutableList<DisplayableItem>?) {
     data = list ?: ArrayList()
-    notifyDataSetChanged()
+    super.submitList(list)
   }
 }
