@@ -13,4 +13,4 @@ interface CoreActivity {
 }
 
 val Fragment.coreActivity: CoreActivity
-  get() = (activity as CoreActivity)
+  get() = activity as CoreActivity

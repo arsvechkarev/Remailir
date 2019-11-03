@@ -2,16 +2,23 @@
 <resources>
 
   <attr name="theColorAccent" format="color"/>
+  <attr name="theColorAccentSecondary" format="color"/>
   <attr name="theColorPrimary" format="color"/>
   <attr name="theColorOnPrimary" format="color"/>
   <attr name="theColorSurface" format="color"/>
   <attr name="theColorOnSurface" format="color"/>
   <attr name="theColorBackground" format="color"/>
+
   <attr name="theColorTextPrimary" format="color"/>
   <attr name="theColorTextSecondary" format="color"/>
+  <attr name="theColorTextOther" format="color"/>
+
   <attr name="theColorItemSelected" format="color"/>
   <attr name="theColorItemNotSelected" format="color"/>
   <attr name="theColorFabIcon" format="color"/>
+
+  <attr name="theColorTextInputSelected" format="color"/>
+  <attr name="theColorTextInputNotSelected" format="color"/>
 
   <attr name="radiusAuthEditText" format="dimension"/>
 

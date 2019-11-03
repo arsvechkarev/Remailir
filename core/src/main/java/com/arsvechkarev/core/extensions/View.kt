@@ -15,8 +15,8 @@ import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.core.text.HtmlCompat
 
-fun ViewGroup.inflate(@LayoutRes layoutId: Int): View {
-  return LayoutInflater.from(this.context).inflate(layoutId, this, false)
+fun View.onClick(block: () -> Unit) {
+  setOnClickListener { block() }
 }
 
 fun View.visible() {
@@ -29,6 +29,10 @@ fun View.invisible() {
 
 fun View.gone() {
   visibility = GONE
+}
+
+fun ViewGroup.inflate(@LayoutRes layoutId: Int): View {
+  return LayoutInflater.from(this.context).inflate(layoutId, this, false)
 }
 
 fun ScrollView.scrollToTop() {
@@ -47,7 +51,7 @@ fun EditText.onSearchClick(block: () -> Unit) {
 
 fun EditText.string(): String = text.toString()
 
-fun EditText.onTextChanged(block: (String) -> Unit) {
+fun EditText.afterTextChanged(block: (String) -> Unit) {
   this.addTextChangedListener(object : TextWatcher {
     override fun afterTextChanged(s: Editable?) {
       block(s.toString())

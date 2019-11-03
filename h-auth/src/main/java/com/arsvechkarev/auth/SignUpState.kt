@@ -6,7 +6,7 @@ sealed class SignUpState {
   
   class PreCheckFailure(val reason: SignUpCorrectnessState) : SignUpState()
   
-  class Failure(val throwable: Throwable) : SignUpState()
+  class Failure(val error: Throwable) : SignUpState()
 }
 
 sealed class SignInState {
@@ -16,4 +16,11 @@ sealed class SignInState {
   class PreCheckFailure(val reason: SignInCorrectnessState) : SignInState()
   
   class Failure(val throwable: Throwable) : SignInState()
+}
+
+enum class CheckingState {
+  CORRECT,
+  TOO_SHORT,
+  INCORRECT;
+  
 }

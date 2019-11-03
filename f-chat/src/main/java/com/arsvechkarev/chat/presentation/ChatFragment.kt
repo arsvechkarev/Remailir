@@ -10,9 +10,9 @@ import com.arsvechkarev.chat.list.toDisplayableItems
 import com.arsvechkarev.chat.presentation.MessagesState.Failure
 import com.arsvechkarev.chat.presentation.MessagesState.MessagesList
 import com.arsvechkarev.core.base.BaseFragment
+import com.arsvechkarev.core.extensions.afterTextChanged
 import com.arsvechkarev.core.extensions.invisible
 import com.arsvechkarev.core.extensions.observe
-import com.arsvechkarev.core.extensions.onTextChanged
 import com.arsvechkarev.core.extensions.popBackStack
 import com.arsvechkarev.core.extensions.setChatView
 import com.arsvechkarev.core.extensions.showToast
@@ -64,8 +64,8 @@ class ChatFragment : BaseFragment() {
         }
       }
     }
-    
-    editText.onTextChanged {
+  
+    editText.afterTextChanged {
       if (it.isBlank()) buttonSend.invisible()
       else buttonSend.visible()
     }
@@ -91,8 +91,10 @@ class ChatFragment : BaseFragment() {
   }
   
   private fun updateList(messages: List<DialogMessage>) {
-    chatAdapter.submitList(messages.toDisplayableItems())
-    recyclerChat.scrollToPosition(chatAdapter.itemCount - 1)
+    recyclerChat.post {
+      chatAdapter.submitList(messages.toDisplayableItems())
+      recyclerChat.scrollToPosition(chatAdapter.itemCount - 1)
+    }
   }
   
   companion object {

@@ -12,17 +12,18 @@ import com.arsvechkarev.auth.SignInState.Failure
 import com.arsvechkarev.auth.SignInState.PreCheckFailure
 import com.arsvechkarev.auth.SignInState.Success
 import com.arsvechkarev.core.declaration.EntranceActivity
+import com.arsvechkarev.core.declaration.entranceActivity
+import com.arsvechkarev.core.extensions.afterTextChanged
 import com.arsvechkarev.core.extensions.observe
-import com.arsvechkarev.core.extensions.setTitle
 import com.arsvechkarev.core.extensions.string
 import com.arsvechkarev.core.extensions.viewModel
 import com.arsvechkarev.signin.R
 import com.arsvechkarev.signin.di.DaggerSignInComponent
 import kotlinx.android.synthetic.main.fragment_sign_in.buttonLogIn
-import kotlinx.android.synthetic.main.fragment_sign_in.buttonRegister
 import kotlinx.android.synthetic.main.fragment_sign_in.editTextEmail
 import kotlinx.android.synthetic.main.fragment_sign_in.editTextPassword
 import kotlinx.android.synthetic.main.fragment_sign_in.textFailure
+import kotlinx.android.synthetic.main.fragment_sign_in.textSignIn
 import javax.inject.Inject
 
 
@@ -40,8 +41,7 @@ class SignInFragment : Fragment() {
   }
   
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-    setTitle(R.string.title_sign_in)
-    injectThis()
+    DaggerSignInComponent.create().inject(this)
     signInViewModel = viewModel(viewModelFactory) {
       observe(state, ::updateState)
     }
@@ -52,14 +52,21 @@ class SignInFragment : Fragment() {
         editTextPassword.string()
       )
     }
-    
-    buttonRegister.setOnClickListener {
+  
+    textSignIn.setOnClickListener {
       (activity as EntranceActivity).goToSighUp()
     }
+  
+    editTextEmail.afterTextChanged { defineSignUpButtonState() }
+    editTextPassword.afterTextChanged { defineSignUpButtonState() }
   }
   
-  private fun injectThis() {
-    DaggerSignInComponent.create().inject(this)
+  
+  private fun defineSignUpButtonState() {
+    buttonLogIn.isEnabled = (
+        editTextEmail.string().isNotBlank()
+            && editTextPassword.string().isNotBlank()
+        )
   }
   
   private fun updateState(state: SignInState) {
@@ -69,7 +76,7 @@ class SignInFragment : Fragment() {
       }
       is PreCheckFailure -> textFailure.text = "lol"
       is Success -> {
-        (activity as EntranceActivity).goToBase()
+        entranceActivity.goToBase()
       }
     }
   }

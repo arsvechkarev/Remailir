@@ -1,7 +1,6 @@
 <resources>
 
-  <style name="SplashTheme" parent="AppTheme.Dark.NoActionBar">
-    <item name="android:statusBarColor">?theColorBackground</item>
+  <style name="SplashTheme" parent="AppTheme.Dark.Auth">
     <item name="android:windowBackground">@drawable/splash_screen_bg</item>
   </style>
 

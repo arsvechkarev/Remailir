@@ -1,48 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   android:orientation="vertical">
 
-  <EditText
-    android:id="@+id/editTextEmail"
-    style="@style/EditText.Auth"
+  <ImageView
+    android:id="@+id/imageView"
+    android:layout_width="100dp"
+    android:layout_height="100dp"
+    android:layout_gravity="center"
+    android:src="@drawable/image_msg"
+    app:layout_constraintBottom_toTopOf="@+id/guideline2"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"/>
+
+  <androidx.constraintlayout.widget.Guideline
+    android:id="@+id/guideline2"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    app:layout_constraintGuide_percent="0.24"/>
+
+  <com.google.android.material.textfield.TextInputLayout
+    android:id="@+id/inputLayoutEmail"
+    style="@style/TextInputLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:hint="Enter email"
-    android:text="treftik@gmail.com"/>
+    android:layout_marginTop="16dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
+    android:hint="Email"
+    android:textColorHint="?theColorTextInputNotSelected"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/guideline2">
 
+    <com.google.android.material.textfield.TextInputEditText
+      android:id="@+id/editTextEmail"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:inputType="textEmailAddress"
+      android:maxLines="1"/>
 
-  <EditText
-    android:id="@+id/editTextPassword"
-    style="@style/EditText.Auth"
+  </com.google.android.material.textfield.TextInputLayout>
+
+  <com.google.android.material.textfield.TextInputLayout
+    android:id="@+id/inputLayoutPassword"
+    style="@style/TextInputLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="16dp"
-    android:hint="Enter password"
-    android:text="123456789"/>
+    android:layout_marginTop="16dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
+    android:hint="Password"
+    android:textColorHint="?theColorTextInputNotSelected"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/inputLayoutEmail">
 
-  <Button
+    <com.google.android.material.textfield.TextInputEditText
+      android:id="@+id/editTextPassword"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:inputType="textPassword"
+      android:maxLines="1"/>
+
+  </com.google.android.material.textfield.TextInputLayout>
+
+  <com.google.android.material.button.MaterialButton
     android:id="@+id/buttonLogIn"
+    android:textStyle="normal"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="32dp"
+    android:layout_gravity="center"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    android:paddingStart="32dp"
+    android:paddingEnd="32dp"
+    android:enabled="false"
+    android:letterSpacing="0.03"
+    android:text="Log in"
+    android:textAllCaps="false"
+    android:textSize="@dimen/text_h3"
+    app:backgroundTint="@color/color_button_sign"
+    app:cornerRadius="16dp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/inputLayoutPassword"/>
+
+  <TextView
+    android:id="@+id/textSignIn"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="16dp"
+    android:layout_marginTop="8dp"
     android:layout_gravity="center"
-    android:text="LogIn"/>
-
-  <Button
-    android:id="@+id/buttonRegister"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:text="Register"/>
+    android:padding="8dp"
+    android:gravity="center"
+    android:text="@string/text_dont_have_an_account"
+    android:textColor="?theColorTextOther"
+    android:textSize="@dimen/text_h4"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="@+id/guideline"/>
 
   <TextView
     android:id="@+id/textFailure"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="20dp"
     android:layout_gravity="center"/>
+  <androidx.constraintlayout.widget.Guideline
+    android:id="@+id/guideline"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    app:layout_constraintGuide_percent="0.84"/>
 
-</LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

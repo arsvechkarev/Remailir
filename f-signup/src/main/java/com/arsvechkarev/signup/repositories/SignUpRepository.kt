@@ -12,7 +12,6 @@ class SignUpRepository @Inject constructor() {
   private lateinit var username: String
   private lateinit var email: String
   private lateinit var password: String
-  
   private lateinit var onSuccess: () -> Unit
   private lateinit var onFailure: (Throwable) -> Unit
   
@@ -45,11 +44,7 @@ class SignUpRepository @Inject constructor() {
   
   private fun createUserInDatabase() {
     val user = User(
-      FirebaseAuth.getInstance().uid!!,
-      username,
-      email,
-      password,
-      DEFAULT_IMG_URL
+      FirebaseAuth.getInstance().uid!!, username, email, password, DEFAULT_IMG_URL
     )
     FirebaseFirestore.getInstance()
       .collection(Users)
@@ -57,6 +52,5 @@ class SignUpRepository @Inject constructor() {
       .set(user)
       .addOnSuccessListener { onSuccess() }
       .addOnFailureListener { onFailure(it) }
-    
   }
 }

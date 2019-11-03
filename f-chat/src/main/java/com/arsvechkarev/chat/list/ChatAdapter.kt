@@ -4,9 +4,9 @@ import com.arsvechkarev.chat.list.adapters.MessageOtherUserAdapterDelegate
 import com.arsvechkarev.chat.list.adapters.MessageThisUserAdapterDelegate
 import com.arsvechkarev.chat.list.adapters.TimeDividerAdapterDelegate
 import com.arsvechkarev.core.model.messaging.ViewTypeConstants
-import com.arsvechkarev.core.recycler.BaseListAdapter
+import com.arsvechkarev.core.recycler.BaseAdapter
 
-class ChatAdapter : BaseListAdapter() {
+class ChatAdapter : BaseAdapter() {
   
   init {
     delegates.put(ViewTypeConstants.MESSAGE_THIS_USER, MessageThisUserAdapterDelegate())

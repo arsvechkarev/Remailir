@@ -23,10 +23,11 @@ class EntranceActivity : AppCompatActivity(), EntranceActivity {
   }
   
   override fun goToSignIn() {
-    switchFragment(R.id.rootContainer, SignInFragment())
+    switchFragment(R.id.rootContainer, SignInFragment(), true)
   }
   
   override fun goToSighUp() {
+    supportFragmentManager.popBackStack()
     switchFragment(R.id.rootContainer, SignUpFragment())
   }
 

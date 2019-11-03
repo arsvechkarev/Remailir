@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <style name="AppTheme" parent="Theme.MaterialComponents">
+    <item name="colorPrimary">?theColorPrimary</item>
+    <item name="colorPrimaryDark">?theColorPrimary</item>
+    <item name="colorOnPrimary">?theColorOnPrimary</item>
+    <item name="colorAccent">?theColorAccent</item>
+    <item name="colorSurface">?theColorSurface</item>
+    <item name="colorOnSurface">?theColorOnSurface</item>
+    <item name="actionBarStyle">@style/ActionBar</item>
+    <item name="android:textViewStyle">@style/TextAppearance</item>
+    <item name="android:editTextStyle">@style/EditText</item>
+    <item name="textAppearanceLargePopupMenu">@style/TextAppearance.PopupMenu</item>
+    <item name="android:windowBackground">?theColorBackground</item>
+    <item name="radiusAuthEditText">@dimen/auth_edit_text_radius</item>
+    <item name="android:autofilledHighlight">@android:color/transparent</item>
+  </style>
+</resources>

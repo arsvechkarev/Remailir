@@ -5,12 +5,19 @@
   <!-- Activity -->
 
   <style name="AppTheme" parent="Theme.MaterialComponents">
-    <item name="colorPrimary">?theColorPrimary</item>
-    <item name="colorPrimaryDark">?theColorPrimary</item>
-    <item name="colorOnPrimary">?theColorOnPrimary</item>
-    <item name="colorAccent">?theColorAccent</item>
-    <item name="colorSurface">?theColorSurface</item>
-    <item name="colorOnSurface">?theColorOnSurface</item>
+
+    <item name="colorPrimary">#FFF</item>
+    <item name="colorPrimaryDark">#F00</item>
+    <item name="colorOnPrimary">#0F0</item>
+    <item name="colorAccent">#FF0</item>
+    <item name="colorSurface">#000</item>
+    <!--<item name="colorOnSurface">?theColorOnSurface</item>-->
+    <!--<item name="colorPrimary">?theColorPrimary</item>-->
+    <!--<item name="colorPrimaryDark">?theColorPrimary</item>-->
+    <!--<item name="colorOnPrimary">?theColorOnPrimary</item>-->
+    <!--<item name="colorAccent">?theColorAccent</item>-->
+    <!--<item name="colorSurface">?theColorSurface</item>-->
+    <!--<item name="colorOnSurface">?theColorOnSurface</item>-->
     <item name="actionBarStyle">@style/ActionBar</item>
     <item name="android:textViewStyle">@style/TextAppearance</item>
     <item name="android:editTextStyle">@style/EditText</item>
@@ -21,6 +28,7 @@
 
   <style name="AppTheme.Dark">
     <item name="theColorAccent">@color/dark_colorAccent</item>
+    <item name="theColorAccentSecondary">@color/dark_colorAccentSecondary</item>
     <item name="theColorPrimary">@color/dark_colorPrimary</item>
     <item name="theColorOnPrimary">@android:color/white</item>
     <item name="theColorSurface">@color/dark_colorSurface</item>
@@ -28,14 +36,23 @@
     <item name="theColorBackground">@color/dark_colorBackground</item>
     <item name="theColorTextPrimary">@color/dark_colorTextPrimary</item>
     <item name="theColorTextSecondary">@color/dark_colorTextSecondary</item>
+    <item name="theColorTextOther">@color/dark_colorTextOther</item>
     <item name="theColorItemSelected">@color/dark_colorItemSelected</item>
     <item name="theColorItemNotSelected">@color/dark_colorItemNotSelected</item>
     <item name="theColorFabIcon">@color/dark_colorItemSelected</item>
+    <item name="theColorTextInputSelected">@color/dark_colorTextInputSelected</item>
+    <item name="theColorTextInputNotSelected">@color/dark_colorTextInputNotSelected</item>
     <item name="colorMessageThisUser">@color/dark_colorMessageThisUser</item>
     <item name="colorMessageOtherUser">@color/dark_colorMessageOtherUser</item>
   </style>
 
-  <style name="AppTheme.Dark.NoActionBar">
+  <style name="AppTheme.Dark.Core">
+    <item name="windowNoTitle">true</item>
+    <item name="windowActionBar">false</item>
+  </style>
+
+  <style name="AppTheme.Dark.Auth">
+    <item name="android:statusBarColor">?theColorBackground</item>
     <item name="windowNoTitle">true</item>
     <item name="windowActionBar">false</item>
   </style>
@@ -81,6 +98,13 @@
   <!-- Dialog -->
 
   <style name="DialogFullScreen" parent="AppTheme">
+  </style>
+
+  <!-- TextInputLayout -->
+
+  <style name="TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+    <item name="boxStrokeColor">@color/color_text_input</item>
+    <item name="hintTextColor">?theColorTextInputSelected</item>
   </style>
 
 </resources>

@@ -11,10 +11,6 @@ fun Fragment.popBackStack() {
   requireActivity().supportFragmentManager.popBackStack()
 }
 
-fun Fragment.setTitle(@StringRes stringResId: Int) {
-  requireActivity().setTitle(stringResId)
-}
-
 fun Fragment.showKeyboard() {
   val inputMethodManager =
     activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
