@@ -1,41 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/rootContainer"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
-  android:gravity="center"
+  android:background="?theColorBackground"
   android:clickable="true"
   android:focusable="true"
-  android:id="@+id/rootContainer"
-  android:background="?theColorBackground"
+  android:gravity="center"
   tools:context=".presentation.MessagesFragment">
 
-  <androidx.appcompat.widget.Toolbar
-    android:id="@+id/toolbar"
+  <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:title="@string/title_messages"
-    android:minHeight="?actionBarSize"
-    android:background="?theColorPrimary"
-    app:titleTextColor="?theColorTextPrimary"
-    app:layout_constraintTop_toTopOf="parent"/>
+    android:layout_height="match_parent">
 
-  <TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="this is messages"/>
+    <androidx.appcompat.widget.Toolbar
+      android:id="@+id/toolbar"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="?theColorPrimary"
+      android:minHeight="?actionBarSize"
+      app:layout_constraintTop_toTopOf="parent"
+      app:title="@string/title_messages"
+      app:titleTextColor="?theColorTextPrimary"/>
 
-  <!-- todo: add margins from dimens -->
+    <androidx.recyclerview.widget.RecyclerView
+      android:id="@+id/recyclerChats"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/toolbar"/>
+
+  </androidx.constraintlayout.widget.ConstraintLayout>
+
 
   <com.google.android.material.floatingactionbutton.FloatingActionButton
     android:id="@+id/fabNewChat"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    android:layout_gravity="bottom|end"
     android:src="@drawable/ic_add"
     app:backgroundTint="?theColorAccent"
-    app:tint="?theColorFabIcon"
-    android:layout_gravity="bottom|end"
-    android:layout_margin="16dp"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"/>
+    app:tint="?theColorFabIcon"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -10,6 +10,7 @@
   <color name="dark_colorPrimary">#171F29</color>
   <color name="dark_colorSurface">#1D2836</color>
   <color name="dark_colorBackground">#0D1217</color>
+  <color name="dark_colorDivider">#528B8B8B</color>
 
   <color name="dark_colorTextPrimary">#FFFFFF</color>
   <color name="dark_colorTextSecondary">#A3A3A3</color>

@@ -1,10 +1,10 @@
 package com.arsvechkarev.users.list
 
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.arsvechkarev.core.extensions.inflate
 import com.arsvechkarev.core.model.users.OtherUser
 import com.arsvechkarev.firebase.DEFAULT_IMG_URL
 import com.arsvechkarev.users.R
@@ -16,8 +16,7 @@ class UsersListAdapter(private val clickListener: (OtherUser) -> Unit) :
   ListAdapter<OtherUser, FriendsViewHolder>(UsersDiffCallback()) {
   
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FriendsViewHolder {
-    val inflater = LayoutInflater.from(parent.context)
-    return FriendsViewHolder(inflater.inflate(R.layout.item_user, parent, false))
+    return FriendsViewHolder(parent.inflate(R.layout.item_user))
   }
   
   override fun onBindViewHolder(holder: FriendsViewHolder, position: Int) {

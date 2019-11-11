@@ -16,6 +16,7 @@
   <attr name="theColorItemSelected" format="color"/>
   <attr name="theColorItemNotSelected" format="color"/>
   <attr name="theColorFabIcon" format="color"/>
+  <attr name="theColorDivider" format="color"/>
 
   <attr name="theColorTextInputSelected" format="color"/>
   <attr name="theColorTextInputNotSelected" format="color"/>

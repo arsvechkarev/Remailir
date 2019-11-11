@@ -24,11 +24,22 @@ class ChatRepository @Inject constructor() {
     otherUser: OtherUser,
     listener: EventListener<QuerySnapshot>
   ): ListenerRegistration {
+    addChatMetadata(otherUser)
     return FirebaseFirestore.getInstance().collection(Collections.OneToOneChats)
       .document(getChatIdWith(otherUser.id))
       .collection(Collections.Messages)
       .orderBy(MessageModel.timestamp, Query.Direction.ASCENDING)
       .addSnapshotListener(listener)
+  }
+  
+  fun addChatMetadata(otherUser: OtherUser) {
+    val data = hashMapOf(
+      "memberIds" to listOf(otherUser.id, thisUser.uid),
+      "otherUserId" to otherUser.id
+    )
+    FirebaseFirestore.getInstance().collection(Collections.OneToOneChats)
+      .document(getChatIdWith(otherUser.id))
+      .set(data)
   }
   
   fun sendMessage(
