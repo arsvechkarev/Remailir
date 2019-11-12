@@ -1,18 +1,14 @@
 package com.arsvechkarev.remailir.main
 
 import android.app.Application
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.FirebaseFirestoreSettings
 import com.jakewharton.threetenabp.AndroidThreeTen
+import timber.log.Timber
 
 class RemailirApp : Application() {
   
   override fun onCreate() {
     super.onCreate()
+    Timber.plant(Timber.DebugTree())
     AndroidThreeTen.init(this)
-    val settings = FirebaseFirestoreSettings.Builder()
-      .setPersistenceEnabled(true)
-      .build()
-    FirebaseFirestore.getInstance().firestoreSettings = settings
   }
 }

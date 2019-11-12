@@ -35,7 +35,7 @@ class ChatRepository @Inject constructor() {
   fun addChatMetadata(otherUser: OtherUser) {
     val data = hashMapOf(
       "memberIds" to listOf(otherUser.id, thisUser.uid),
-      "otherUserId" to otherUser.id
+      "otherUser" to otherUser
     )
     FirebaseFirestore.getInstance().collection(Collections.OneToOneChats)
       .document(getChatIdWith(otherUser.id))
