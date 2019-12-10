@@ -43,9 +43,7 @@ class SignUpRepository @Inject constructor() {
   }
   
   private fun createUserInDatabase() {
-    val user = User(
-      FirebaseAuth.getInstance().uid!!, username, email, password, DEFAULT_IMG_URL
-    )
+    val user = User(FirebaseAuth.getInstance().uid!!, username, email, password, DEFAULT_IMG_URL)
     FirebaseFirestore.getInstance()
       .collection(Users)
       .document(user.id)

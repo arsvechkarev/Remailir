@@ -29,12 +29,12 @@ interface DisplayableItem {
   /**
    * Callback for updating items in recycler view
    */
-  class DiffCallBack : DiffUtil.ItemCallback<DisplayableItem>() {
-    
-    override fun areItemsTheSame(oldItem: DisplayableItem, newItem: DisplayableItem) =
+  class DiffCallBack<T : DisplayableItem> : DiffUtil.ItemCallback<T>() {
+  
+    override fun areItemsTheSame(oldItem: T, newItem: T) =
       oldItem.id == newItem.id
-    
-    override fun areContentsTheSame(oldItem: DisplayableItem, newItem: DisplayableItem) =
+  
+    override fun areContentsTheSame(oldItem: T, newItem: T) =
       oldItem == newItem
   }
 }

@@ -33,7 +33,7 @@ dependencies {
 
   def appDependencies = rootProject.ext.applicationDependencies
 
-  api 'com.jakewharton.timber:timber:4.7.1'
+  api project(':log')
 
   implementation appDependencies.kotlin
   implementation appDependencies.appCompat

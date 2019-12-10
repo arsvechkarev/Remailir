@@ -23,26 +23,25 @@
       android:minHeight="?actionBarSize"
       app:layout_constraintTop_toTopOf="parent"
       app:title="@string/title_messages"
-      app:titleTextColor="?theColorTextPrimary"/>
+      app:titleTextColor="?theColorTextPrimary" />
 
     <androidx.recyclerview.widget.RecyclerView
       android:id="@+id/recyclerChats"
       android:layout_width="match_parent"
       android:layout_height="0dp"
       app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/toolbar"/>
+      app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
   </androidx.constraintlayout.widget.ConstraintLayout>
-
 
   <com.google.android.material.floatingactionbutton.FloatingActionButton
     android:id="@+id/fabNewChat"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="16dp"
     android:layout_gravity="bottom|end"
+    android:layout_margin="16dp"
     android:src="@drawable/ic_add"
     app:backgroundTint="?theColorAccent"
-    app:tint="?theColorFabIcon"/>
+    app:tint="?theColorFabIcon" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
