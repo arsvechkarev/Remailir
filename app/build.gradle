@@ -53,15 +53,9 @@ dependencies {
 
   implementation appDependencies.firebaseAuth
   implementation appDependencies.firebaseFirestore
-  implementation appDependencies.firebaseUI
 
   implementation appDependencies.dagger
   kapt appDependencies.daggerCompiler
-
-  testImplementation testDependencies.junit
-  testImplementation testDependencies.mockito
-  androidTestImplementation testDependencies.testRunner
-  androidTestImplementation testDependencies.espresso
 }
 
 apply plugin: 'com.google.gms.google-services'

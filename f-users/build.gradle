@@ -51,9 +51,4 @@ dependencies {
 
   implementation appDependencies.dagger
   kapt appDependencies.daggerCompiler
-
-  testImplementation testDependencies.junit
-  testImplementation testDependencies.mockito
-  androidTestImplementation testDependencies.testRunner
-  androidTestImplementation testDependencies.espresso
 }

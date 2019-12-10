@@ -21,9 +21,13 @@
             <option value="$PROJECT_DIR$/h-auth" />
             <option value="$PROJECT_DIR$/log" />
             <option value="$PROJECT_DIR$/storage" />
+            <option value="$PROJECT_DIR$/test-common" />
+            <option value="$PROJECT_DIR$/test-ui" />
+            <option value="$PROJECT_DIR$/test-unit" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
+        <option name="testRunner" value="PLATFORM" />
       </GradleProjectSettings>
     </option>
   </component>

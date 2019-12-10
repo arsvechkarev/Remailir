@@ -1,7 +1,5 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'kotlin-android-extensions'
 
 android {
   def configs = rootProject.ext
@@ -26,29 +24,16 @@ android {
 
 dependencies {
   implementation project(':core')
-  implementation project(':firebase')
+  implementation project(':storage')
 
   def appDependencies = rootProject.ext.applicationDependencies
   def testDependencies = rootProject.ext.testDependencies
 
   implementation appDependencies.kotlin
   implementation appDependencies.appCompat
-  implementation appDependencies.ktx
-  implementation appDependencies.materialDesign
-  implementation appDependencies.lifecycleExtensions
-  implementation appDependencies.legacySupport
-  implementation appDependencies.constraintLayout
-  implementation appDependencies.threeTenAbp
-
-  implementation appDependencies.circleImageView
-  implementation appDependencies.picasso
-
   implementation appDependencies.coroutinesCore
-  implementation appDependencies.coroutinesAndroid
 
-  implementation appDependencies.firebaseAuth
-  implementation appDependencies.firebaseFirestore
-
-  implementation appDependencies.dagger
-  kapt appDependencies.daggerCompiler
+  api testDependencies.junit
+  api testDependencies.mockk
+  api testDependencies.coroutinesTest
 }
