@@ -2,13 +2,13 @@ package com.arsvechkarev.remailir.main
 
 import android.app.Application
 import com.jakewharton.threetenabp.AndroidThreeTen
-import timber.log.Timber
+import log.Logger
 
 class RemailirApp : Application() {
   
   override fun onCreate() {
     super.onCreate()
-    Timber.plant(Timber.DebugTree())
+    Logger.activate()
     AndroidThreeTen.init(this)
   }
 }

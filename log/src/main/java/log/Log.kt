@@ -1,24 +1,25 @@
 package log
 
-import timber.log.Timber
+import log.Logger.areDebugMessagesAllowed
 
-object State {
-  var isDebugMessagesAllowed = false
-}
-
-fun activate() {
-  State.isDebugMessagesAllowed = true
-  MyTimber.plant(MyTimber.DebugTree())
+object Logger {
+  var areDebugMessagesAllowed = false
+  
+  fun activate() {
+    areDebugMessagesAllowed = true
+    MyTimber.plant(MyTimber.DebugTree())
+  }
+  
 }
 
 inline fun debug(lazyMessage: () -> String) {
-  if (State.isDebugMessagesAllowed) {
-    Timber.d(lazyMessage())
+  if (areDebugMessagesAllowed) {
+    MyTimber.d(lazyMessage())
   }
 }
 
 inline fun debug(lazyMessage: () -> String, e: Exception) {
-  if (State.isDebugMessagesAllowed) {
-    Timber.d(e, lazyMessage())
+  if (areDebugMessagesAllowed) {
+    MyTimber.d(e, lazyMessage())
   }
 }
