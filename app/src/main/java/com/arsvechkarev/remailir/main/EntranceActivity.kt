@@ -30,5 +30,5 @@ class EntranceActivity : AppCompatActivity(), EntranceActivity {
     supportFragmentManager.popBackStack()
     switchFragment(R.id.rootContainer, SignUpFragment())
   }
-
+  
 }
