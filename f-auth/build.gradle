@@ -47,4 +47,6 @@ dependencies {
 
   implementation appDependencies.dagger
   kapt appDependencies.daggerCompiler
+
+  testImplementation testDependencies.junit
 }

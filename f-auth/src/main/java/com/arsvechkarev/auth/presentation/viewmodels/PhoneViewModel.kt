@@ -1,7 +1,8 @@
 package com.arsvechkarev.auth.presentation.viewmodels
 
 import com.arsvechkarev.core.base.BaseViewModel
+import javax.inject.Inject
 
-class PhoneViewModel : BaseViewModel() {
+class PhoneViewModel @Inject constructor(): BaseViewModel() {
 
 }

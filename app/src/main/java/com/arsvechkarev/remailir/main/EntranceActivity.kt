@@ -3,6 +3,7 @@ package com.arsvechkarev.remailir.main
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.arsvechkarev.auth.presentation.fragments.PhoneFragment
 import com.arsvechkarev.core.declaration.EntranceActivity
 import com.arsvechkarev.core.extensions.switchFragment
 import com.arsvechkarev.remailir.R
@@ -14,7 +15,7 @@ class EntranceActivity : AppCompatActivity(), EntranceActivity {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_entrance)
-    goToSighUp()
+    switchFragment(R.id.rootContainer, PhoneFragment(), true)
   }
   
   override fun goToBase() {
