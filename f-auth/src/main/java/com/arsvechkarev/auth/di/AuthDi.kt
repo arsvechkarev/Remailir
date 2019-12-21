@@ -1,21 +1,28 @@
 package com.arsvechkarev.auth.di
 
 import androidx.lifecycle.ViewModel
-import com.arsvechkarev.core.di.CoreModule
-import com.arsvechkarev.core.di.FeatureScope
-import com.arsvechkarev.core.di.viewmodel.ViewModelKey
 import com.arsvechkarev.auth.presentation.fragments.EnterFragment
 import com.arsvechkarev.auth.presentation.fragments.PhoneFragment
 import com.arsvechkarev.auth.presentation.fragments.RegistrationFragment
 import com.arsvechkarev.auth.presentation.viewmodels.EnterViewModel
 import com.arsvechkarev.auth.presentation.viewmodels.PhoneViewModel
 import com.arsvechkarev.auth.presentation.viewmodels.RegisterViewModel
+import com.arsvechkarev.core.di.CoreModule
+import com.arsvechkarev.core.di.FeatureScope
+import com.arsvechkarev.core.di.viewmodel.ViewModelKey
+import com.arsvechkarev.firebase.di.FirebaseModule
 import dagger.Binds
 import dagger.Component
 import dagger.Module
 import dagger.multibindings.IntoMap
 
-@Component(modules = [CoreModule::class, AuthViewModelModule::class])
+@Component(
+  modules = [
+    CoreModule::class,
+    AuthViewModelModule::class,
+    FirebaseModule::class
+  ]
+)
 @FeatureScope
 interface AuthComponent {
   

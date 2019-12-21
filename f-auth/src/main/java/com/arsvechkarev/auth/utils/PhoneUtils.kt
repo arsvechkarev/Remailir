@@ -1,8 +1,27 @@
 package com.arsvechkarev.auth.utils
 
+import android.text.Editable
 import android.util.SparseArray
+import android.widget.EditText
 
 const val MAX_COUNTRY_CODES = 215
+
+fun Editable?.removeDashes(): String {
+  var p = 0
+  if (this == null) return ""
+  while (p < this.length) {
+    if (this[p] == '-') {
+      this.delete(p, p + 1)
+    } else {
+      p++
+    }
+  }
+  return this.toString()
+}
+
+fun EditText?.phoneNumber(): String {
+  return this?.text.removeDashes()
+}
 
 fun createCountryCodeToRegionCodeMap(): SparseArray<List<String>> {
   val map = SparseArray<List<String>>(MAX_COUNTRY_CODES)

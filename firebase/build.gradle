@@ -35,4 +35,7 @@ dependencies {
   implementation appDependencies.firebaseAuth
   implementation appDependencies.firebaseStorage
   implementation appDependencies.firebaseFirestore
+
+  implementation appDependencies.dagger
+  kapt appDependencies.daggerCompiler
 }
