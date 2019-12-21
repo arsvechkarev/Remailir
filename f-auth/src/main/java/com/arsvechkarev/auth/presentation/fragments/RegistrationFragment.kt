@@ -8,13 +8,13 @@ import com.arsvechkarev.auth.presentation.viewmodels.RegisterViewModel
 import com.arsvechkarev.core.base.BaseFragment
 import javax.inject.Inject
 
-class RegisterFragment : BaseFragment() {
+class RegistrationFragment : BaseFragment() {
   
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
   private lateinit var viewModel: RegisterViewModel
   
-  override val layout: Int = R.layout.fragment_register
+  override val layout: Int = R.layout.fragment_registration
   
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
   

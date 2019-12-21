@@ -6,7 +6,7 @@ import com.arsvechkarev.core.di.FeatureScope
 import com.arsvechkarev.core.di.viewmodel.ViewModelKey
 import com.arsvechkarev.auth.presentation.fragments.EnterFragment
 import com.arsvechkarev.auth.presentation.fragments.PhoneFragment
-import com.arsvechkarev.auth.presentation.fragments.RegisterFragment
+import com.arsvechkarev.auth.presentation.fragments.RegistrationFragment
 import com.arsvechkarev.auth.presentation.viewmodels.EnterViewModel
 import com.arsvechkarev.auth.presentation.viewmodels.PhoneViewModel
 import com.arsvechkarev.auth.presentation.viewmodels.RegisterViewModel
@@ -21,7 +21,7 @@ interface AuthComponent {
   
   fun inject(fragment: PhoneFragment)
   fun inject(fragment: EnterFragment)
-  fun inject(fragment: RegisterFragment)
+  fun inject(fragment: RegistrationFragment)
 }
 
 @Module

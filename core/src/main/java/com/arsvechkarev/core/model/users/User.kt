@@ -14,3 +14,13 @@ data class User(
 ) : Parcelable, Serializable {
   constructor() : this("", "", "", "", "")
 }
+@Parcelize
+data class NewUser(
+  val id: String,
+  val phone: String,
+  val username: String,
+  val password: String,
+  val imageUrl: String
+) : Parcelable, Serializable {
+  constructor() : this("", "", "", "", "")
+}

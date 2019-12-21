@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:id="@+id/rootLayoutRegistrationFragment"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+
+  <ImageView
+    android:id="@+id/imageView"
+    android:layout_width="100dp"
+    android:layout_height="100dp"
+    android:layout_gravity="center"
+    android:src="@drawable/image_msg"
+    app:layout_constraintBottom_toTopOf="@+id/guideline"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"/>
+
+  <com.google.android.material.textfield.TextInputLayout
+    android:id="@+id/inputLayoutUsername"
+    style="@style/TextInputLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="16dp"
+    android:layout_marginTop="24dp"
+    android:layout_marginEnd="16dp"
+    android:hint="Username"
+    android:textColorHint="?theColorTextInputNotSelected"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/guideline">
+
+    <com.google.android.material.textfield.TextInputEditText
+      android:id="@+id/editTextUsername"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:inputType="textPersonName"
+      android:maxLines="1"
+      android:textCursorDrawable="@drawable/bg_cursor"/>
+
+  </com.google.android.material.textfield.TextInputLayout>
+
+  <com.google.android.material.textfield.TextInputLayout
+    android:id="@+id/inputLayoutPassword"
+    style="@style/TextInputLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="16dp"
+    android:layout_marginTop="24dp"
+    android:layout_marginEnd="16dp"
+    android:hint="Password"
+    android:textColorHint="?theColorTextInputNotSelected"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/inputLayoutUsername">
+
+    <com.google.android.material.textfield.TextInputEditText
+      android:id="@+id/editTextPassword"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:inputType="textPersonName"
+      android:maxLines="1"
+      android:textCursorDrawable="@drawable/bg_cursor"/>
+
+  </com.google.android.material.textfield.TextInputLayout>
+
+  <com.google.android.material.textfield.TextInputLayout
+    android:id="@+id/inputLayoutRepeatPassword"
+    style="@style/TextInputLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="16dp"
+    android:layout_marginTop="24dp"
+    android:layout_marginEnd="16dp"
+    android:hint="Repeat password"
+    android:textColorHint="?theColorTextInputNotSelected"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/inputLayoutPassword">
+
+    <com.google.android.material.textfield.TextInputEditText
+      android:id="@+id/editTextRepeatPassword"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:inputType="textPersonName"
+      android:maxLines="1"
+      android:textCursorDrawable="@drawable/bg_cursor"/>
+
+  </com.google.android.material.textfield.TextInputLayout>
+
+
+  <com.google.android.material.button.MaterialButton
+    android:id="@+id/buttonNext"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:enabled="false"
+    android:letterSpacing="0.03"
+    android:paddingStart="32dp"
+    android:paddingTop="8dp"
+    android:paddingEnd="32dp"
+    android:paddingBottom="8dp"
+    android:text="Next"
+    android:textAllCaps="false"
+    android:layout_marginTop="36dp"
+    android:textSize="@dimen/text_h3"
+    android:textStyle="normal"
+    app:backgroundTint="@color/color_button_sign"
+    app:cornerRadius="16dp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/inputLayoutRepeatPassword"/>
+
+  <androidx.constraintlayout.widget.Guideline
+    android:id="@+id/guideline"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    app:layout_constraintGuide_percent="0.3"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -179,7 +179,7 @@ public final class MyTimber {
   }
 
   /**
-   * Set a one-time tag for use on the next logging call.
+   * Set a one-time logTag for use on the next logging call.
    */
   @NotNull
   public static Tree tag(String tag) {
@@ -631,7 +631,7 @@ public final class MyTimber {
     }
 
     /**
-     * Return whether a message at {@code priority} or {@code tag} should be logged.
+     * Return whether a message at {@code priority} or {@code logTag} should be logged.
      */
     protected boolean isLoggable(@Nullable String tag, int priority) {
       //noinspection deprecation
@@ -639,7 +639,7 @@ public final class MyTimber {
     }
 
     private void prepareLog(int priority, Throwable t, String message, Object... args) {
-      // Consume tag even when message is not loggable so that next message is correctly tagged.
+      // Consume logTag even when message is not loggable so that next message is correctly tagged.
       String tag = getTag();
 
       if (!isLoggable(tag, priority)) {
@@ -687,7 +687,7 @@ public final class MyTimber {
      * default.
      *
      * @param priority Log level. See {@link Log} for constants.
-     * @param tag Explicit or inferred tag. May be {@code null}.
+     * @param tag Explicit or inferred logTag. May be {@code null}.
      * @param message Formatted log message. May be {@code null}, but then {@code t} will
      * not be.
      * @param t Accompanying exceptions. May be {@code null}, but then {@code message}
@@ -699,7 +699,7 @@ public final class MyTimber {
   }
 
   /**
-   * A {@link Tree Tree} for debug builds. Automatically infers the tag from the calling
+   * A {@link Tree Tree} for debug builds. Automatically infers the logTag from the calling
    * class.
    */
   public static class DebugTree extends Tree {
@@ -710,11 +710,11 @@ public final class MyTimber {
     private static final Pattern ANONYMOUS_CLASS = Pattern.compile("(\\$\\d+)+$");
 
     /**
-     * Extract the tag which should be used for the message from the {@code element}. By
+     * Extract the logTag which should be used for the message from the {@code element}. By
      * default this will use the class name without any anonymous class suffixes (e.g.,
      * {@code Foo$1} becomes {@code Foo}).
      * <p>
-     * Note: This will not be called if a {@linkplain #tag(String) manual tag} was
+     * Note: This will not be called if a {@linkplain #tag(String) manual logTag} was
      * specified.
      */
     @Nullable
