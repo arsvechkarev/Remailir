@@ -6,7 +6,7 @@ import com.arsvechkarev.auth.presentation.fragments.PhoneFragment
 import com.arsvechkarev.auth.presentation.fragments.RegistrationFragment
 import com.arsvechkarev.auth.presentation.viewmodels.EnterViewModel
 import com.arsvechkarev.auth.presentation.viewmodels.PhoneViewModel
-import com.arsvechkarev.auth.presentation.viewmodels.RegisterViewModel
+import com.arsvechkarev.auth.presentation.viewmodels.RegistrationViewModel
 import com.arsvechkarev.core.di.CoreModule
 import com.arsvechkarev.core.di.FeatureScope
 import com.arsvechkarev.core.di.viewmodel.ViewModelKey
@@ -46,7 +46,7 @@ abstract class AuthViewModelModule {
   
   @Binds
   @IntoMap
-  @ViewModelKey(RegisterViewModel::class)
-  internal abstract fun postRegisterViewModel(viewModel: RegisterViewModel): ViewModel
+  @ViewModelKey(RegistrationViewModel::class)
+  internal abstract fun postRegisterViewModel(viewModel: RegistrationViewModel): ViewModel
   
 }

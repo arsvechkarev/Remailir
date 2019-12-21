@@ -90,7 +90,7 @@
 
 
   <com.google.android.material.button.MaterialButton
-    android:id="@+id/buttonNext"
+    android:id="@+id/buttonSignIn"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
@@ -100,7 +100,7 @@
     android:paddingTop="8dp"
     android:paddingEnd="32dp"
     android:paddingBottom="8dp"
-    android:text="Next"
+    android:text="Sign in"
     android:textAllCaps="false"
     android:layout_marginTop="36dp"
     android:textSize="@dimen/text_h3"

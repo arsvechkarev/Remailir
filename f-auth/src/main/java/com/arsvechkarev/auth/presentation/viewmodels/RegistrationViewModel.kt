@@ -9,7 +9,7 @@ import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
 import javax.inject.Inject
 
-class RegisterViewModel @Inject constructor(
+class RegistrationViewModel @Inject constructor(
   private val firebaseFirestore: FirebaseFirestore
 
 ): BaseViewModel() {
