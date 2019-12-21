@@ -9,6 +9,11 @@ interface EntranceActivity {
   fun goToSignIn()
   
   fun goToSighUp()
+  
+  fun goToFragment(
+    fragment: Fragment,
+    addToBackStack: Boolean = false
+  )
 }
 
 val Fragment.entranceActivity: EntranceActivity

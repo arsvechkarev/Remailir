@@ -5,7 +5,7 @@ import com.arsvechkarev.core.base.BaseFragment
 import com.arsvechkarev.core.declaration.coreActivity
 import com.arsvechkarev.core.di.ContextModule
 import com.arsvechkarev.core.extensions.observe
-import com.arsvechkarev.core.extensions.viewModel
+import com.arsvechkarev.core.extensions.viewModelOf
 import com.arsvechkarev.core.model.users.User
 import com.arsvechkarev.firebase.DEFAULT_IMG_URL
 import com.arsvechkarev.profile.R
@@ -38,7 +38,7 @@ class ProfileFragment : BaseFragment() {
       }
       return@setOnMenuItemClickListener false
     }
-    profileViewModel = viewModel(viewModelFactory) {
+    profileViewModel = viewModelOf(viewModelFactory) {
       observe(userData, ::updateProfile)
     }
     profileViewModel.fetchProfileData()

@@ -19,7 +19,7 @@ import com.arsvechkarev.core.extensions.observe
 import com.arsvechkarev.core.extensions.onClick
 import com.arsvechkarev.core.extensions.showToast
 import com.arsvechkarev.core.extensions.string
-import com.arsvechkarev.core.extensions.viewModel
+import com.arsvechkarev.core.extensions.viewModelOf
 import com.arsvechkarev.signup.R
 import com.arsvechkarev.signup.di.DaggerSignUpComponent
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -48,7 +48,7 @@ class SignUpFragment : Fragment() {
   
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     injectThis()
-    signUpViewModel = viewModel(viewModelFactory) {
+    signUpViewModel = viewModelOf(viewModelFactory) {
       observe(generalState, ::updateGeneralState)
       observe(usernameState, ::handleUsernameState)
       observe(emailState, ::handleEmailState)

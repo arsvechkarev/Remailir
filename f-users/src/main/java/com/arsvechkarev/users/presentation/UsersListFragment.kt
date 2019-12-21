@@ -11,7 +11,7 @@ import com.arsvechkarev.chat.presentation.ChatFragment
 import com.arsvechkarev.core.declaration.coreActivity
 import com.arsvechkarev.core.extensions.observe
 import com.arsvechkarev.core.extensions.popBackStack
-import com.arsvechkarev.core.extensions.viewModel
+import com.arsvechkarev.core.extensions.viewModelOf
 import com.arsvechkarev.core.model.users.OtherUser
 import com.arsvechkarev.users.R
 import com.arsvechkarev.users.di.DaggerUsersComponent
@@ -46,7 +46,7 @@ class UsersListFragment : Fragment() {
     toolbar.setNavigationOnClickListener {
       popBackStack()
     }
-    usersViewModel = viewModel(viewModelFactory) {
+    usersViewModel = viewModelOf(viewModelFactory) {
       observe(friends, ::updateList)
     }
     recyclerUsers.adapter = adapter

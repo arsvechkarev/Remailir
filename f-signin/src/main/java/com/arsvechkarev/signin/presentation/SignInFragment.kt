@@ -16,7 +16,7 @@ import com.arsvechkarev.core.declaration.entranceActivity
 import com.arsvechkarev.core.extensions.afterTextChanged
 import com.arsvechkarev.core.extensions.observe
 import com.arsvechkarev.core.extensions.string
-import com.arsvechkarev.core.extensions.viewModel
+import com.arsvechkarev.core.extensions.viewModelOf
 import com.arsvechkarev.signin.R
 import com.arsvechkarev.signin.di.DaggerSignInComponent
 import kotlinx.android.synthetic.main.fragment_sign_in.buttonLogIn
@@ -42,7 +42,7 @@ class SignInFragment : Fragment() {
   
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     DaggerSignInComponent.create().inject(this)
-    signInViewModel = viewModel(viewModelFactory) {
+    signInViewModel = viewModelOf(viewModelFactory) {
       observe(state, ::updateState)
     }
     

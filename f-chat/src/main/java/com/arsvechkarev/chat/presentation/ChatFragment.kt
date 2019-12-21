@@ -17,7 +17,7 @@ import com.arsvechkarev.core.extensions.popBackStack
 import com.arsvechkarev.core.extensions.setChatView
 import com.arsvechkarev.core.extensions.showToast
 import com.arsvechkarev.core.extensions.string
-import com.arsvechkarev.core.extensions.viewModel
+import com.arsvechkarev.core.extensions.viewModelOf
 import com.arsvechkarev.core.extensions.visible
 import com.arsvechkarev.core.model.messaging.DialogMessage
 import com.arsvechkarev.core.model.users.OtherUser
@@ -46,7 +46,7 @@ class ChatFragment : BaseFragment() {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     DaggerChatComponent.create().inject(this)
     imageBack.setOnClickListener { popBackStack() }
-    viewModel = viewModel(viewModelFactory) {
+    viewModel = viewModelOf(viewModelFactory) {
       observe(messages, ::updateMessagesList)
     }
     otherUser = arguments!!.getParcelable(FRIEND)
