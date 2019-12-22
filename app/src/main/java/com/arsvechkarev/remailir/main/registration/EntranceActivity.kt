@@ -46,7 +46,7 @@ class EntranceActivity : AppCompatActivity(), EntranceActivity {
   
   private fun handleState(state: PhoneAuthState) {
     when (state) {
-      is OnCodeSent -> goToFragment(smsCodeFragment, true)
+      is OnCodeSent -> goToFragment(smsCodeFragment)
       is UserAlreadyExists -> goToBase()
       is UserNotExist -> goToFragment(registrationFragment)
     }

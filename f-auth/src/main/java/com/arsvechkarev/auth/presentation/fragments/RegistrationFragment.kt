@@ -16,6 +16,8 @@ import com.arsvechkarev.core.extensions.observe
 import com.arsvechkarev.core.extensions.showToast
 import com.arsvechkarev.core.extensions.string
 import com.arsvechkarev.core.extensions.viewModelOf
+import com.arsvechkarev.firebase.DEFAULT_IMG_URL
+import com.arsvechkarev.storage.Database
 import kotlinx.android.synthetic.main.fragment_registration.buttonSignUp
 import kotlinx.android.synthetic.main.fragment_registration.editTextUsername
 import javax.inject.Inject
@@ -39,7 +41,10 @@ class RegistrationFragment : BaseFragment() {
   
   private fun handleState(state: UserCreationState) {
     when (state) {
-      is Completed -> entranceActivity.goToBase()
+      is Completed -> {
+        Database.saveUser(context!!, editTextUsername.string(), DEFAULT_IMG_URL)
+        entranceActivity.goToBase()
+      }
       is Failed -> showToast("Something went wrong")
     }
   }

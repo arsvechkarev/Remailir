@@ -30,6 +30,7 @@ dependencies {
 
   implementation appDependencies.kotlin
   implementation appDependencies.coroutinesCore
+  implementation appDependencies.firebaseAuth
 
   implementation appDependencies.dagger
   kapt appDependencies.daggerCompiler
