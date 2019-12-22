@@ -40,55 +40,6 @@
 
   </com.google.android.material.textfield.TextInputLayout>
 
-  <com.google.android.material.textfield.TextInputLayout
-    android:id="@+id/inputLayoutPassword"
-    style="@style/TextInputLayout"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="16dp"
-    android:layout_marginTop="24dp"
-    android:layout_marginEnd="16dp"
-    android:hint="Password"
-    android:textColorHint="?theColorTextInputNotSelected"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/inputLayoutUsername">
-
-    <com.google.android.material.textfield.TextInputEditText
-      android:id="@+id/editTextPassword"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:inputType="textPersonName"
-      android:maxLines="1"
-      android:textCursorDrawable="@drawable/bg_cursor"/>
-
-  </com.google.android.material.textfield.TextInputLayout>
-
-  <com.google.android.material.textfield.TextInputLayout
-    android:id="@+id/inputLayoutRepeatPassword"
-    style="@style/TextInputLayout"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="16dp"
-    android:layout_marginTop="24dp"
-    android:layout_marginEnd="16dp"
-    android:hint="Repeat password"
-    android:textColorHint="?theColorTextInputNotSelected"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/inputLayoutPassword">
-
-    <com.google.android.material.textfield.TextInputEditText
-      android:id="@+id/editTextRepeatPassword"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:inputType="textPersonName"
-      android:maxLines="1"
-      android:textCursorDrawable="@drawable/bg_cursor"/>
-
-  </com.google.android.material.textfield.TextInputLayout>
-
-
   <com.google.android.material.button.MaterialButton
     android:id="@+id/buttonSignUp"
     android:layout_width="wrap_content"
@@ -109,7 +60,7 @@
     app:cornerRadius="16dp"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/inputLayoutRepeatPassword"/>
+    app:layout_constraintTop_toBottomOf="@+id/inputLayoutUsername"/>
 
   <androidx.constraintlayout.widget.Guideline
     android:id="@+id/guideline"

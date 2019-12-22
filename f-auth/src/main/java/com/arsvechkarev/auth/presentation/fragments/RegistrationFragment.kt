@@ -17,16 +17,10 @@ import com.arsvechkarev.core.extensions.showToast
 import com.arsvechkarev.core.extensions.string
 import com.arsvechkarev.core.extensions.viewModelOf
 import kotlinx.android.synthetic.main.fragment_registration.buttonSignUp
-import kotlinx.android.synthetic.main.fragment_registration.editTextPassword
-import kotlinx.android.synthetic.main.fragment_registration.editTextRepeatPassword
 import kotlinx.android.synthetic.main.fragment_registration.editTextUsername
 import javax.inject.Inject
 
 class RegistrationFragment : BaseFragment() {
-  
-  private var usernameIsNotEmpty = false
-  private var passwordIsNotEmpty = false
-  private var passwordRepeatIsNotEmpty = false
   
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -38,35 +32,21 @@ class RegistrationFragment : BaseFragment() {
     DaggerAuthComponent.create().inject(this)
     viewModel.creationState().observe(this, ::handleState)
     handleEditTexts()
+    buttonSignUp.setOnClickListener {
+      viewModel.createUser(editTextUsername.string())
+    }
   }
   
   private fun handleState(state: UserCreationState) {
-   when (state) {
-     is Completed -> entranceActivity.goToBase()
-     is Failed -> showToast("Something went wrong")
-   }
+    when (state) {
+      is Completed -> entranceActivity.goToBase()
+      is Failed -> showToast("Something went wrong")
+    }
   }
   
   private fun handleEditTexts() {
     editTextUsername.doAfterTextChanged {
-      usernameIsNotEmpty = it?.toString()?.isNotBlank() == true
-      updateVisibility()
+      buttonSignUp.isEnabled = it?.toString()?.isNotBlank() == true
     }
-    editTextPassword.doAfterTextChanged {
-      passwordIsNotEmpty = it?.toString()?.isNotBlank() == true
-      updateVisibility()
-    }
-    editTextRepeatPassword.doAfterTextChanged {
-      passwordRepeatIsNotEmpty = it?.toString()?.isNotBlank() == true
-      updateVisibility()
-    }
-  
-    buttonSignUp.setOnClickListener {
-      viewModel.createUser(editTextUsername.string(), editTextPassword.string())
-    }
-  }
-  
-  private fun updateVisibility() {
-    buttonSignUp.isEnabled = usernameIsNotEmpty && passwordIsNotEmpty && passwordRepeatIsNotEmpty
   }
 }

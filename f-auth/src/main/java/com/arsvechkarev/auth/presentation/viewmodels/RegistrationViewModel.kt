@@ -16,9 +16,9 @@ class RegistrationViewModel @Inject constructor(
   private var userCreationState: MutableLiveData<UserCreationState> = MutableLiveData()
   fun creationState(): LiveData<UserCreationState> = userCreationState
   
-  fun createUser(username: String, password: String) {
+  fun createUser(username: String) {
     val firebaseUser = FirebaseAuth.getInstance().currentUser!!
-    val newUser = NewUser(firebaseUser.uid, firebaseUser.phoneNumber!!, username, password, "")
+    val newUser = NewUser(firebaseUser.uid, firebaseUser.phoneNumber!!, username, "")
     firebaseFirestore.collection(Users)
       .document(firebaseUser.uid)
       .set(newUser)
