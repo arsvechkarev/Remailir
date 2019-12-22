@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.arsvechkarev.auth.presentation.fragments.PhoneFragment
 import com.arsvechkarev.auth.presentation.fragments.RegistrationFragment
-import com.arsvechkarev.auth.presentation.fragments.SignInFragment
 import com.arsvechkarev.auth.presentation.fragments.SmsCodeFragment
 import com.arsvechkarev.core.declaration.EntranceActivity
 import com.arsvechkarev.core.extensions.observe
@@ -28,7 +27,6 @@ class EntranceActivity : AppCompatActivity(), EntranceActivity {
   private val phoneFragment = PhoneFragment()
   private val smsCodeFragment = SmsCodeFragment()
   private val registrationFragment = RegistrationFragment()
-  private val signInFragment = SignInFragment()
   
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -49,7 +47,7 @@ class EntranceActivity : AppCompatActivity(), EntranceActivity {
   private fun handleState(state: PhoneAuthState) {
     when (state) {
       is OnCodeSent -> goToFragment(smsCodeFragment, true)
-      is UserAlreadyExists -> goToFragment(signInFragment)
+      is UserAlreadyExists -> goToBase()
       is UserNotExist -> goToFragment(registrationFragment)
     }
   }

@@ -1,9 +1,7 @@
 package com.arsvechkarev.auth.di
 
 import androidx.lifecycle.ViewModel
-import com.arsvechkarev.auth.presentation.fragments.SignInFragment
 import com.arsvechkarev.auth.presentation.fragments.RegistrationFragment
-import com.arsvechkarev.auth.presentation.viewmodels.SignInViewModel
 import com.arsvechkarev.auth.presentation.viewmodels.RegistrationViewModel
 import com.arsvechkarev.core.di.CoreModule
 import com.arsvechkarev.core.di.FeatureScope
@@ -24,17 +22,11 @@ import dagger.multibindings.IntoMap
 @FeatureScope
 interface AuthComponent {
   
-  fun inject(fragment: SignInFragment)
   fun inject(fragment: RegistrationFragment)
 }
 
 @Module
 abstract class AuthViewModelModule {
-  
-  @Binds
-  @IntoMap
-  @ViewModelKey(SignInViewModel::class)
-  internal abstract fun postSignInViewModel(viewModel: SignInViewModel): ViewModel
   
   @Binds
   @IntoMap

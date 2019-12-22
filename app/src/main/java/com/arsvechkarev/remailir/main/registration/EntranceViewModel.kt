@@ -21,7 +21,6 @@ import log.debug
 import javax.inject.Inject
 
 class EntranceViewModel @Inject constructor(
-  private val phoneAuthProvider: PhoneAuthProvider,
   private val firebaseAuth: FirebaseAuth,
   private val firebaseFirestore: FirebaseFirestore
 ) : BaseViewModel(), Loggable {
@@ -48,7 +47,7 @@ class EntranceViewModel @Inject constructor(
     
     override fun onCodeSent(p0: String, p1: PhoneAuthProvider.ForceResendingToken) {
       verificationId = p0
-      phoneVerificationState.value = OnCodeSent(p0)
+      phoneVerificationState.value = OnCodeSent
       debug { "onCodeSent, p0 = $p0" }
     }
   }
@@ -79,10 +78,9 @@ class EntranceViewModel @Inject constructor(
         }
     }.addOnFailureListener {
       phoneVerificationState.value = Failed(it)
-      debug(it) { "fail1" }
     }.addOnCanceledListener {
       phoneVerificationState.value = Cancelled
     }
-    
   }
+  
 }

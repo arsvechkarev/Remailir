@@ -6,7 +6,7 @@ sealed class PhoneAuthState {
   object UserNotExist : PhoneAuthState()
   object Cancelled : PhoneAuthState()
   object OnCheckedAutomatically : PhoneAuthState()
-  class OnCodeSent(val verificationId: String) : PhoneAuthState()
+  object OnCodeSent : PhoneAuthState()
   class Failed(val exception: Exception) : PhoneAuthState()
   
 }
