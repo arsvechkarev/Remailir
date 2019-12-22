@@ -7,15 +7,16 @@ import androidx.fragment.app.Fragment
 import com.arsvechkarev.auth.presentation.fragments.PhoneFragment
 import com.arsvechkarev.core.declaration.EntranceActivity
 import com.arsvechkarev.core.extensions.switchFragment
+import com.arsvechkarev.core.model.Country
 import com.arsvechkarev.remailir.R
-import com.arsvechkarev.signin.presentation.SignInFragment
-import com.arsvechkarev.signup.presentation.SignUpFragment
 
 class EntranceActivity : AppCompatActivity(), EntranceActivity {
+  private val phoneFragment = PhoneFragment()
+  
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_entrance)
-    switchFragment(R.id.rootContainer, PhoneFragment(), true)
+    switchFragment(R.id.rootContainer, phoneFragment, false)
   }
   
   override fun goToBase() {
@@ -23,13 +24,8 @@ class EntranceActivity : AppCompatActivity(), EntranceActivity {
     startActivity(intent)
   }
   
-  override fun goToSignIn() {
-    switchFragment(R.id.rootContainer, SignInFragment(), true)
-  }
-  
-  override fun goToSighUp() {
-    supportFragmentManager.popBackStack()
-    switchFragment(R.id.rootContainer, SignUpFragment())
+  override fun onCountrySelected(country: Country) {
+    phoneFragment.onCountrySelected(country)
   }
   
   override fun goToFragment(fragment: Fragment, addToBackStack: Boolean) {

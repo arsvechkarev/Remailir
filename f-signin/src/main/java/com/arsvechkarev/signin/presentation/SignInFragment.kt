@@ -54,7 +54,7 @@ class SignInFragment : Fragment() {
     }
   
     textSignIn.setOnClickListener {
-      (activity as EntranceActivity).goToSighUp()
+//      (activity as EntranceActivity).goToSighUp()
     }
   
     editTextEmail.afterTextChanged { defineSignUpButtonState() }

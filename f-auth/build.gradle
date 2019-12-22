@@ -38,6 +38,7 @@ dependencies {
   implementation appDependencies.lifecycleExtensions
   implementation appDependencies.legacySupport
   implementation appDependencies.constraintLayout
+  implementation appDependencies.libPhoneNumber
 
   implementation appDependencies.coroutinesCore
   implementation appDependencies.coroutinesAndroid

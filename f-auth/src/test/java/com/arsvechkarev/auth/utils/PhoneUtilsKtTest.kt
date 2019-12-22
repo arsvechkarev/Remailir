@@ -1,6 +1,8 @@
 package com.arsvechkarev.auth.utils
 
 import androidx.core.util.forEach
+import com.arsvechkarev.core.model.Country
+import com.google.i18n.phonenumbers.PhoneNumberUtil
 import org.junit.Test
 import java.util.Locale
 
@@ -24,6 +26,23 @@ class PhoneUtilsKtTest {
       println(countryName)
     }
     println(countries.size)
+  }
+  
+  
+  @Test
+  fun getCountriesAndCodes() {
+    val countries = ArrayList<Country>()
+    val phoneNumberUtils = PhoneNumberUtil.getInstance()
+    Locale.getISOCountries().forEach {
+      val locale = Locale("", it)
+      val codeForRegion = phoneNumberUtils.getCountryCodeForRegion(it)
+      if (codeForRegion != 0) {
+        val country =
+          Country(locale.displayName, it, codeForRegion.toString())
+        println(country)
+        countries.add(country)
+      }
+    }
   }
   
   @Test

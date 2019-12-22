@@ -23,6 +23,7 @@ import com.arsvechkarev.core.extensions.viewModelOf
 import com.arsvechkarev.core.model.Country
 import kotlinx.android.synthetic.main.fragment_phone.buttonNext
 import kotlinx.android.synthetic.main.fragment_phone.editTextPhone
+import kotlinx.android.synthetic.main.fragment_phone.layoutCountryCode
 import kotlinx.android.synthetic.main.fragment_phone.textCountryCode
 import javax.inject.Inject
 
@@ -45,6 +46,12 @@ class PhoneFragment : BaseFragment() {
     })
     buttonNext.setOnClickListener {
       viewModel.sendNumber(textCountryCode.text.toString(), editTextPhone.phoneNumber(), activity!!)
+    }
+    layoutCountryCode.setOnClickListener {
+      activity!!.supportFragmentManager.beginTransaction()
+        .add(R.id.rootLayoutPhoneFragment, CountryCodeFragment())
+        .addToBackStack(null)
+        .commit()
     }
   }
   

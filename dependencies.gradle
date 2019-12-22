@@ -40,6 +40,7 @@ ext {
       firebaseDatabase   : "com.google.firebase:firebase-database:$firebaseDatabase_version",
       firebaseFirestore  : "com.google.firebase:firebase-firestore:$firebaseFirestore_version",
       threeTenAbp        : "com.jakewharton.threetenabp:threetenabp:1.2.1",
+      libPhoneNumber     : "com.googlecode.libphonenumber:libphonenumber:8.9.9"
   ]
 
   junit_version = '4.12'

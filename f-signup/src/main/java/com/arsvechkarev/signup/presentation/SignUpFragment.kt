@@ -63,7 +63,7 @@ class SignUpFragment : Fragment() {
       )
     }
   
-    textLogIn.onClick(entranceActivity::goToSignIn)
+//    textLogIn.onClick(entranceActivity::goToSignIn)
   
     editTextUsername.handleTyping(inputLayoutUsername, this::defineSignUpButtonState)
     editTextEmail.handleTyping(inputLayoutEmail, this::defineSignUpButtonState)
