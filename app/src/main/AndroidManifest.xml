@@ -31,7 +31,7 @@
       android:noHistory="true"/>
 
     <activity
-      android:name=".main.EntranceActivity"
+      android:name=".main.registration.EntranceActivity"
       android:theme="@style/AppTheme.Dark.Auth"
       android:noHistory="true"/>
 

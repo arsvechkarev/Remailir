@@ -20,7 +20,7 @@ fun Editable?.removeDashes(): String {
 }
 
 fun EditText?.phoneNumber(): String {
-  return this?.text.removeDashes()
+  return this?.text.toString().normalize()
 }
 
 fun String.normalize(): String {

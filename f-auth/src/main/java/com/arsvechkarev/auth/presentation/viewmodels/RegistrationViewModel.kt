@@ -1,5 +1,6 @@
 package com.arsvechkarev.auth.presentation.viewmodels
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.arsvechkarev.core.base.BaseViewModel
 import com.arsvechkarev.core.model.users.NewUser
@@ -13,6 +14,7 @@ class RegistrationViewModel @Inject constructor(
 ) : BaseViewModel() {
   
   private var userCreationState: MutableLiveData<UserCreationState> = MutableLiveData()
+  fun creationState(): LiveData<UserCreationState> = userCreationState
   
   fun createUser(username: String, password: String) {
     val firebaseUser = FirebaseAuth.getInstance().currentUser!!

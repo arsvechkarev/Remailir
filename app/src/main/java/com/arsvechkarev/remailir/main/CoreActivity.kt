@@ -9,6 +9,7 @@ import com.arsvechkarev.core.extensions.switchFragment
 import com.arsvechkarev.messages.presentation.MessagesFragment
 import com.arsvechkarev.profile.presentation.ProfileFragment
 import com.arsvechkarev.remailir.R
+import com.arsvechkarev.remailir.main.registration.EntranceActivity
 import com.arsvechkarev.storage.StorageUtils
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_home.bottomNavigationBar

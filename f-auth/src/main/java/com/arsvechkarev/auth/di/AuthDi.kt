@@ -5,7 +5,6 @@ import com.arsvechkarev.auth.presentation.fragments.EnterFragment
 import com.arsvechkarev.auth.presentation.fragments.PhoneFragment
 import com.arsvechkarev.auth.presentation.fragments.RegistrationFragment
 import com.arsvechkarev.auth.presentation.viewmodels.EnterViewModel
-import com.arsvechkarev.auth.presentation.viewmodels.PhoneViewModel
 import com.arsvechkarev.auth.presentation.viewmodels.RegistrationViewModel
 import com.arsvechkarev.core.di.CoreModule
 import com.arsvechkarev.core.di.FeatureScope
@@ -26,18 +25,12 @@ import dagger.multibindings.IntoMap
 @FeatureScope
 interface AuthComponent {
   
-  fun inject(fragment: PhoneFragment)
   fun inject(fragment: EnterFragment)
   fun inject(fragment: RegistrationFragment)
 }
 
 @Module
 abstract class AuthViewModelModule {
-  
-  @Binds
-  @IntoMap
-  @ViewModelKey(PhoneViewModel::class)
-  internal abstract fun postPhoneViewModel(viewModel: PhoneViewModel): ViewModel
   
   @Binds
   @IntoMap
