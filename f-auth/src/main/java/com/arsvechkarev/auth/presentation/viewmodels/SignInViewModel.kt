@@ -10,12 +10,16 @@ import com.arsvechkarev.core.model.users.NewUser
 import com.arsvechkarev.firebase.Collections
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import log.Loggable
+import log.debug
 import javax.inject.Inject
 
-class EnterViewModel @Inject constructor(
+class SignInViewModel @Inject constructor(
   private val firebaseAuth: FirebaseAuth,
   private val firebaseFirestore: FirebaseFirestore
-) : BaseViewModel() {
+) : BaseViewModel(), Loggable {
+  
+  override val logTag = "SignInViewModel"
   
   private val signInState: MutableLiveData<SignInState> = MutableLiveData()
   
@@ -28,6 +32,8 @@ class EnterViewModel @Inject constructor(
       .addOnCompleteListener {
         if (it.isSuccessful) {
           val userDb = it.result!!.toObject(NewUser::class.java)
+          debug { "enteredPassword = $password" }
+          debug { "dbPassword = ${userDb!!.password}" }
           if (userDb!!.password == password) {
             signInState.value = Completed
           } else {

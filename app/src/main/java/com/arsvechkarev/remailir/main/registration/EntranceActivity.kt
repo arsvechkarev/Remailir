@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.arsvechkarev.auth.presentation.fragments.PhoneFragment
 import com.arsvechkarev.auth.presentation.fragments.RegistrationFragment
+import com.arsvechkarev.auth.presentation.fragments.SignInFragment
 import com.arsvechkarev.auth.presentation.fragments.SmsCodeFragment
 import com.arsvechkarev.core.declaration.EntranceActivity
 import com.arsvechkarev.core.extensions.observe
@@ -15,7 +16,6 @@ import com.arsvechkarev.core.extensions.viewModelOf
 import com.arsvechkarev.core.model.Country
 import com.arsvechkarev.remailir.R
 import com.arsvechkarev.remailir.main.CoreActivity
-import com.arsvechkarev.remailir.main.registration.PhoneAuthState.OnCheckedAutomatically
 import com.arsvechkarev.remailir.main.registration.PhoneAuthState.OnCodeSent
 import com.arsvechkarev.remailir.main.registration.PhoneAuthState.UserAlreadyExists
 import com.arsvechkarev.remailir.main.registration.PhoneAuthState.UserNotExist
@@ -28,6 +28,7 @@ class EntranceActivity : AppCompatActivity(), EntranceActivity {
   private val phoneFragment = PhoneFragment()
   private val smsCodeFragment = SmsCodeFragment()
   private val registrationFragment = RegistrationFragment()
+  private val signInFragment = SignInFragment()
   
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -44,10 +45,11 @@ class EntranceActivity : AppCompatActivity(), EntranceActivity {
     viewModel.phoneState().observe(this, ::handleState)
     switchFragment(R.id.rootContainer, phoneFragment, false)
   }
+  
   private fun handleState(state: PhoneAuthState) {
     when (state) {
       is OnCodeSent -> goToFragment(smsCodeFragment, true)
-      is UserAlreadyExists -> goToBase()
+      is UserAlreadyExists -> goToFragment(signInFragment)
       is UserNotExist -> goToFragment(registrationFragment)
     }
   }
