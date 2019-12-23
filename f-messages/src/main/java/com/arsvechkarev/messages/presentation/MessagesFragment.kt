@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.arsvechkarev.chat.presentation.ChatFragment
-import com.arsvechkarev.core.declaration.coreActivity
+import core.declaration.coreActivity
 import com.arsvechkarev.messages.R
 import com.arsvechkarev.messages.list.MessagesAdapter
 import com.arsvechkarev.messages.repository.MessagesRepository

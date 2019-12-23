@@ -1,7 +1,7 @@
 package com.arsvechkarev.users.list
 
 import androidx.recyclerview.widget.DiffUtil
-import com.arsvechkarev.core.model.users.OtherUser
+import core.model.users.OtherUser
 
 class UsersDiffCallback : DiffUtil.ItemCallback<OtherUser>() {
   override fun areItemsTheSame(oldItem: OtherUser, newItem: OtherUser): Boolean {

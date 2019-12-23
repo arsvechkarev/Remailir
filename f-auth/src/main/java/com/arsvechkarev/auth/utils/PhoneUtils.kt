@@ -2,7 +2,7 @@ package com.arsvechkarev.auth.utils
 
 import android.text.Editable
 import android.widget.EditText
-import com.arsvechkarev.core.model.Country
+import core.model.Country
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import java.util.Locale
 

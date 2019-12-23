@@ -4,8 +4,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.arsvechakrev.auth.R
-import com.arsvechkarev.core.extensions.inflate
-import com.arsvechkarev.core.model.Country
+import core.extensions.inflate
+import core.model.Country
 import kotlinx.android.synthetic.main.item_country.view.textCountry
 
 class CountryCodesAdapter(

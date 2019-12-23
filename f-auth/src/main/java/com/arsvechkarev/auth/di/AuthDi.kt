@@ -3,10 +3,10 @@ package com.arsvechkarev.auth.di
 import androidx.lifecycle.ViewModel
 import com.arsvechkarev.auth.presentation.fragments.RegistrationFragment
 import com.arsvechkarev.auth.presentation.viewmodels.RegistrationViewModel
-import com.arsvechkarev.core.di.CoreModule
-import com.arsvechkarev.core.di.FeatureScope
-import com.arsvechkarev.core.di.viewmodel.ViewModelKey
-import com.arsvechkarev.firebase.di.FirebaseModule
+import core.di.CoreModule
+import core.di.FeatureScope
+import core.di.viewmodel.ViewModelKey
+import firebase.di.FirebaseModule
 import dagger.Binds
 import dagger.Component
 import dagger.Module

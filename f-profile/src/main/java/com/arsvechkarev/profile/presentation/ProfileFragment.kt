@@ -1,13 +1,13 @@
 package com.arsvechkarev.profile.presentation
 
 import androidx.lifecycle.ViewModelProvider
-import com.arsvechkarev.core.base.BaseFragment
-import com.arsvechkarev.core.declaration.coreActivity
-import com.arsvechkarev.core.di.ContextModule
-import com.arsvechkarev.core.extensions.observe
-import com.arsvechkarev.core.extensions.viewModelOf
-import com.arsvechkarev.core.model.users.User
-import com.arsvechkarev.firebase.DEFAULT_IMG_URL
+import core.base.BaseFragment
+import core.declaration.coreActivity
+import core.di.ContextModule
+import core.extensions.observe
+import core.extensions.viewModelOf
+import core.model.users.User
+import firebase.DEFAULT_IMG_URL
 import com.arsvechkarev.profile.R
 import com.arsvechkarev.profile.di.DaggerProfileComponent
 import com.squareup.picasso.Picasso

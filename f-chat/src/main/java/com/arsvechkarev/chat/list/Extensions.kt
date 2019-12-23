@@ -1,14 +1,14 @@
 package com.arsvechkarev.chat.list
 
 import android.util.Log
-import com.arsvechkarev.core.model.messaging.DialogMessage
-import com.arsvechkarev.core.model.messaging.MessageOtherUser
-import com.arsvechkarev.core.model.messaging.MessageThisUser
-import com.arsvechkarev.core.model.messaging.TimeDivider
-import com.arsvechkarev.core.recycler.DisplayableItem
-import com.arsvechkarev.core.strings.FORMAT_TIME_DIVIDER
-import com.arsvechkarev.firebase.randomUid
-import com.arsvechkarev.firebase.thisUser
+import core.model.messaging.DialogMessage
+import core.model.messaging.MessageOtherUser
+import core.model.messaging.MessageThisUser
+import core.model.messaging.TimeDivider
+import core.recycler.DisplayableItem
+import core.strings.FORMAT_TIME_DIVIDER
+import firebase.randomUid
+import firebase.thisUser
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZonedDateTime
 import org.threeten.bp.format.DateTimeFormatter

@@ -1,6 +1,6 @@
 package com.arsvechkarev.chat.presentation
 
-import com.arsvechkarev.core.model.messaging.DialogMessage
+import core.model.messaging.DialogMessage
 
 sealed class MessagesState {
   

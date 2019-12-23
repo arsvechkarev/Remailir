@@ -1,15 +1,15 @@
 package com.arsvechkarev.messages.repository
 
 import android.util.Log
-import com.arsvechkarev.core.base.repos.ListenersHolder
-import com.arsvechkarev.core.model.Chat
-import com.arsvechkarev.core.model.PartialChat
-import com.arsvechkarev.core.model.messaging.DialogMessage
-import com.arsvechkarev.firebase.Collections.Messages
-import com.arsvechkarev.firebase.Collections.OneToOneChats
-import com.arsvechkarev.firebase.MessageModel.timestamp
-import com.arsvechkarev.firebase.getChatIdWith
-import com.arsvechkarev.firebase.thisUser
+import core.base.repos.ListenersHolder
+import core.model.Chat
+import core.model.PartialChat
+import core.model.messaging.DialogMessage
+import firebase.Collections.Messages
+import firebase.Collections.OneToOneChats
+import firebase.MessageModel.timestamp
+import firebase.getChatIdWith
+import firebase.thisUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query.Direction.DESCENDING
 

@@ -1,10 +1,10 @@
 package com.arsvechkarev.remailir.main.registration
 
 import androidx.lifecycle.ViewModel
-import com.arsvechkarev.core.di.CoreModule
-import com.arsvechkarev.core.di.FeatureScope
-import com.arsvechkarev.core.di.viewmodel.ViewModelKey
-import com.arsvechkarev.firebase.di.FirebaseModule
+import core.di.CoreModule
+import core.di.FeatureScope
+import core.di.viewmodel.ViewModelKey
+import firebase.di.FirebaseModule
 import dagger.Binds
 import dagger.Component
 import dagger.Module

@@ -2,9 +2,9 @@ package com.arsvechkarev.remailir.main.registration
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.arsvechkarev.core.base.BaseViewModel
-import com.arsvechkarev.core.model.users.NewUser
-import com.arsvechkarev.firebase.Collections.Users
+import core.base.BaseViewModel
+import core.model.users.NewUser
+import firebase.Collections.Users
 import com.arsvechkarev.remailir.main.registration.PhoneAuthState.Cancelled
 import com.arsvechkarev.remailir.main.registration.PhoneAuthState.Failed
 import com.arsvechkarev.remailir.main.registration.PhoneAuthState.OnCheckedAutomatically

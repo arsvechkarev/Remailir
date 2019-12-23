@@ -8,11 +8,11 @@ import androidx.lifecycle.ViewModelProvider
 import com.arsvechkarev.auth.presentation.fragments.PhoneFragment
 import com.arsvechkarev.auth.presentation.fragments.RegistrationFragment
 import com.arsvechkarev.auth.presentation.fragments.SmsCodeFragment
-import com.arsvechkarev.core.declaration.EntranceActivity
-import com.arsvechkarev.core.extensions.observe
-import com.arsvechkarev.core.extensions.switchFragment
-import com.arsvechkarev.core.extensions.viewModelOf
-import com.arsvechkarev.core.model.Country
+import core.declaration.EntranceActivity
+import core.extensions.observe
+import core.extensions.switchFragment
+import core.extensions.viewModelOf
+import core.model.Country
 import com.arsvechkarev.remailir.R
 import com.arsvechkarev.remailir.main.CoreActivity
 import com.arsvechkarev.remailir.main.registration.PhoneAuthState.OnCodeSent

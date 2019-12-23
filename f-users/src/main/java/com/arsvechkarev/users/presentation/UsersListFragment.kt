@@ -8,11 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.arsvechkarev.chat.presentation.ChatFragment
-import com.arsvechkarev.core.declaration.coreActivity
-import com.arsvechkarev.core.extensions.observe
-import com.arsvechkarev.core.extensions.popBackStack
-import com.arsvechkarev.core.extensions.viewModelOf
-import com.arsvechkarev.core.model.users.OtherUser
+import core.declaration.coreActivity
+import core.extensions.observe
+import core.extensions.popBackStack
+import core.extensions.viewModelOf
+import core.model.users.OtherUser
 import com.arsvechkarev.users.R
 import com.arsvechkarev.users.di.DaggerUsersComponent
 import com.arsvechkarev.users.list.UsersListAdapter

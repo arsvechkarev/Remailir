@@ -2,9 +2,9 @@ package com.arsvechkarev.auth.presentation.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.arsvechkarev.core.base.BaseViewModel
-import com.arsvechkarev.core.model.users.NewUser
-import com.arsvechkarev.firebase.Collections.Users
+import core.base.BaseViewModel
+import core.model.users.NewUser
+import firebase.Collections.Users
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import javax.inject.Inject

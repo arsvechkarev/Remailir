@@ -1,8 +1,8 @@
 package com.arsvechkarev.profile.presentation
 
 import androidx.lifecycle.MutableLiveData
-import com.arsvechkarev.core.base.BaseViewModel
-import com.arsvechkarev.core.model.users.User
+import core.base.BaseViewModel
+import core.model.users.User
 import com.arsvechkarev.profile.repositories.ProfileRepository
 import javax.inject.Inject
 

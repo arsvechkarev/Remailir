@@ -1,7 +1,7 @@
 package com.arsvechkarev.chat.di
 
 import com.arsvechkarev.chat.presentation.ChatFragment
-import com.arsvechkarev.core.di.viewmodel.CoreViewModelModule
+import core.di.viewmodel.CoreViewModelModule
 import dagger.Component
 
 @Component(

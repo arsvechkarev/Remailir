@@ -3,8 +3,8 @@ package com.arsvechkarev.chat.list
 import com.arsvechkarev.chat.list.adapters.MessageOtherUserAdapterDelegate
 import com.arsvechkarev.chat.list.adapters.MessageThisUserAdapterDelegate
 import com.arsvechkarev.chat.list.adapters.TimeDividerAdapterDelegate
-import com.arsvechkarev.core.model.messaging.ViewTypeConstants
-import com.arsvechkarev.core.recycler.BaseAdapter
+import core.model.messaging.ViewTypeConstants
+import core.recycler.BaseAdapter
 
 class ChatAdapter : BaseAdapter() {
   

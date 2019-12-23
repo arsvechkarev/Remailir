@@ -4,8 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.arsvechkarev.remailir.main.registration.EntranceActivity
-import com.arsvechkarev.storage.Database
-import com.google.firebase.auth.FirebaseAuth
+import storage.Database
 
 class SplashActivity : AppCompatActivity() {
   

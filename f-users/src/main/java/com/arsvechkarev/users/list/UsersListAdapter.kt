@@ -4,9 +4,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.arsvechkarev.core.extensions.inflate
-import com.arsvechkarev.core.model.users.OtherUser
-import com.arsvechkarev.firebase.DEFAULT_IMG_URL
+import core.extensions.inflate
+import core.model.users.OtherUser
+import firebase.DEFAULT_IMG_URL
 import com.arsvechkarev.users.R
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_user.view.imageProfile

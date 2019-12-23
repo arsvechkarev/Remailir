@@ -1,6 +1,6 @@
 package com.arsvechkarev.users.repository
 
-import com.arsvechkarev.firebase.Collections
+import firebase.Collections
 import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot

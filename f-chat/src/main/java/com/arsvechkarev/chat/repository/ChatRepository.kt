@@ -1,12 +1,12 @@
 package com.arsvechkarev.chat.repository
 
 import android.util.Log
-import com.arsvechkarev.core.model.messaging.DialogMessage
-import com.arsvechkarev.core.model.users.OtherUser
-import com.arsvechkarev.firebase.Collections
-import com.arsvechkarev.firebase.MessageModel
-import com.arsvechkarev.firebase.getChatIdWith
-import com.arsvechkarev.firebase.thisUser
+import core.model.messaging.DialogMessage
+import core.model.users.OtherUser
+import firebase.Collections
+import firebase.MessageModel
+import firebase.getChatIdWith
+import firebase.thisUser
 import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration

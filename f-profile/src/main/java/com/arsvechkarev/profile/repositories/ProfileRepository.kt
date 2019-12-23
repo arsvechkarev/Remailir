@@ -1,9 +1,9 @@
 package com.arsvechkarev.profile.repositories
 
-import com.arsvechkarev.core.model.users.User
-import com.arsvechkarev.core.strings.FILENAME_USER
-import com.arsvechkarev.firebase.Collections
-import com.arsvechkarev.storage.Storage
+import core.model.users.User
+import core.strings.FILENAME_USER
+import firebase.Collections
+import storage.Storage
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import javax.inject.Inject
