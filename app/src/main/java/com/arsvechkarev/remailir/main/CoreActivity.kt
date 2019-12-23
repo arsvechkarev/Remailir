@@ -11,7 +11,6 @@ import com.arsvechkarev.profile.presentation.ProfileFragment
 import com.arsvechkarev.remailir.R
 import com.arsvechkarev.remailir.main.registration.EntranceActivity
 import storage.Database
-import storage.StorageUtils
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_home.bottomNavigationBar
 
@@ -39,7 +38,6 @@ class CoreActivity : BaseActivity(), CoreActivity {
     coroutine {
       FirebaseAuth.getInstance().signOut()
       Database.deleteAll(this@CoreActivity)
-      StorageUtils.deleteAll(this@CoreActivity)
       val intent = Intent(this@CoreActivity, EntranceActivity::class.java)
       startActivity(intent)
     }

@@ -7,10 +7,6 @@ import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 
-fun Fragment.goToFragmentFromParent(fragment: Fragment, addToBackStack: Boolean = false) {
-
-}
-
 fun Fragment.popBackStack() {
   requireActivity().supportFragmentManager.popBackStack()
 }

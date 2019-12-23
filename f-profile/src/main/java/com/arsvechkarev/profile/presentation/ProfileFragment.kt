@@ -3,7 +3,6 @@ package com.arsvechkarev.profile.presentation
 import androidx.lifecycle.ViewModelProvider
 import core.base.BaseFragment
 import core.declaration.coreActivity
-import core.di.ContextModule
 import core.extensions.observe
 import core.extensions.viewModelOf
 import core.model.users.User
@@ -27,7 +26,7 @@ class ProfileFragment : BaseFragment() {
   override val layout: Int = R.layout.fragment_profile
   
   override fun onInit() {
-    inject()
+    DaggerProfileComponent.create().inject(this)
     toolbar.inflateMenu(R.menu.menu_main)
     toolbar.setOnMenuItemClickListener {
       when (it.itemId) {
@@ -42,13 +41,6 @@ class ProfileFragment : BaseFragment() {
       observe(userData, ::updateProfile)
     }
     profileViewModel.fetchProfileData()
-  }
-  
-  private fun inject() {
-    DaggerProfileComponent.builder()
-      .contextModule(ContextModule(context!!))
-      .build()
-      .inject(this)
   }
   
   private fun updateProfile(user: User) {

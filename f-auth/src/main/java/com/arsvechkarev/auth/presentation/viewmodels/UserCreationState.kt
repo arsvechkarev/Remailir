@@ -4,6 +4,6 @@ sealed class UserCreationState {
   
   object Completed : UserCreationState()
   object NameOccupied : UserCreationState()
-  class Failed(exception: Exception) : UserCreationState()
+  class Failed(val exception: Exception) : UserCreationState()
   
 }
