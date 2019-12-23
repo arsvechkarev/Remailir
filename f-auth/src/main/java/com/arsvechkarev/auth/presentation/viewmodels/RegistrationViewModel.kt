@@ -2,11 +2,11 @@ package com.arsvechkarev.auth.presentation.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import core.base.BaseViewModel
 import core.model.users.NewUser
 import firebase.Collections.Users
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import javax.inject.Inject
 
 class RegistrationViewModel @Inject constructor(
@@ -20,12 +20,22 @@ class RegistrationViewModel @Inject constructor(
     val firebaseUser = FirebaseAuth.getInstance().currentUser!!
     val newUser = NewUser(firebaseUser.uid, firebaseUser.phoneNumber!!, username, "")
     firebaseFirestore.collection(Users)
-      .document(firebaseUser.uid)
-      .set(newUser)
+      .whereEqualTo("name", username)
+      .get()
       .addOnCompleteListener {
-        userCreationState.value = UserCreationState.Completed
-      }.addOnFailureListener {
-        userCreationState.value = UserCreationState.Failed(it)
+        val foundUsers = it.result?.toObjects(NewUser::class.java)
+        if (foundUsers?.size != 0) {
+          userCreationState.value = UserCreationState.NameOccupied
+        } else {
+          firebaseFirestore.collection(Users)
+            .document(firebaseUser.uid)
+            .set(newUser)
+            .addOnCompleteListener {
+              userCreationState.value = UserCreationState.Completed
+            }.addOnFailureListener { exception ->
+              userCreationState.value = UserCreationState.Failed(exception)
+            }
+        }
       }
   }
   

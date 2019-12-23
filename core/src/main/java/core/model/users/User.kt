@@ -18,7 +18,7 @@ data class User(
 data class NewUser(
   val id: String,
   val phone: String,
-  val username: String,
+  val name: String,
   val imageUrl: String
 ) : Parcelable, Serializable {
   constructor() : this("", "", "", "")
