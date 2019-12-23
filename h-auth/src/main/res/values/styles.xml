@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-  <style name="EditText.Auth">
-    <item name="android:padding">@dimen/auth_edit_text_padding</item>
-    <item name="android:background">@drawable/bg_auth_edit_text</item>
-  </style>
-
-</resources>

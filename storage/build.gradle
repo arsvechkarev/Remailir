@@ -26,12 +26,12 @@ android {
 dependencies {
   implementation project(':core')
 
-  def appDependencies = rootProject.ext.applicationDependencies
+  def dependencies = rootProject.ext.applicationDependencies
 
-  implementation appDependencies.kotlin
-  implementation appDependencies.coroutinesCore
-  implementation appDependencies.firebaseAuth
+  implementation dependencies.kotlin
+  implementation dependencies.coroutinesCore
+  implementation dependencies.firebaseAuth
 
-  implementation appDependencies.dagger
-  kapt appDependencies.daggerCompiler
+  implementation dependencies.dagger
+  kapt dependencies.daggerCompiler
 }

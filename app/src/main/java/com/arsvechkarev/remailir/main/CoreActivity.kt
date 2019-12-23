@@ -37,8 +37,8 @@ class CoreActivity : BaseActivity(), CoreActivity {
   
   override fun signOut() {
     coroutine {
-      Database.deleteAll(this@CoreActivity)
       FirebaseAuth.getInstance().signOut()
+      Database.deleteAll(this@CoreActivity)
       StorageUtils.deleteAll(this@CoreActivity)
       val intent = Intent(this@CoreActivity, EntranceActivity::class.java)
       startActivity(intent)

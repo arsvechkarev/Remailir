@@ -34,14 +34,9 @@ dependencies {
   implementation project(':f-users')
   implementation project(':f-messages')
   implementation project(':f-profile')
-
-
   implementation project(':f-auth')
-  implementation project(':f-signup')
-  implementation project(':f-signin')
 
   def appDependencies = rootProject.ext.applicationDependencies
-  def testDependencies = rootProject.ext.testDependencies
 
   implementation appDependencies.kotlin
   implementation appDependencies.appCompat
@@ -59,6 +54,9 @@ dependencies {
 
   implementation appDependencies.dagger
   kapt appDependencies.daggerCompiler
+
+  testImplementation project(':test-unit')
+  androidTestImplementation project(':test-ui')
 }
 
 apply plugin: 'com.google.gms.google-services'

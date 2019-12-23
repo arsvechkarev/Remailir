@@ -29,27 +29,29 @@ dependencies {
   implementation project(':firebase')
   implementation project(':storage')
 
-  def appDependencies = rootProject.ext.applicationDependencies
-  def testDependencies = rootProject.ext.testDependencies
+  def dependencies = rootProject.ext.applicationDependencies
 
-  implementation appDependencies.kotlin
-  implementation appDependencies.appCompat
-  implementation appDependencies.ktx
-  implementation appDependencies.materialDesign
-  implementation appDependencies.lifecycleExtensions
-  implementation appDependencies.legacySupport
-  implementation appDependencies.constraintLayout
+  implementation dependencies.kotlin
+  implementation dependencies.appCompat
+  implementation dependencies.ktx
+  implementation dependencies.materialDesign
+  implementation dependencies.lifecycleExtensions
+  implementation dependencies.legacySupport
+  implementation dependencies.constraintLayout
 
-  implementation appDependencies.circleImageView
-  implementation appDependencies.picasso
+  implementation dependencies.circleImageView
+  implementation dependencies.picasso
 
-  implementation appDependencies.coroutinesCore
-  implementation appDependencies.coroutinesAndroid
+  implementation dependencies.coroutinesCore
+  implementation dependencies.coroutinesAndroid
 
-  implementation appDependencies.firebaseAuth
-  implementation appDependencies.firebaseStorage
-  implementation appDependencies.firebaseFirestore
+  implementation dependencies.firebaseAuth
+  implementation dependencies.firebaseStorage
+  implementation dependencies.firebaseFirestore
 
-  implementation appDependencies.dagger
-  kapt appDependencies.daggerCompiler
+  implementation dependencies.dagger
+  kapt dependencies.daggerCompiler
+
+  testImplementation project(':test-unit')
+  androidTestImplementation project(':test-ui')
 }
