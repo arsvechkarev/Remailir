@@ -7,7 +7,7 @@ import com.arsvechakrev.auth.R
 import com.arsvechkarev.auth.list.CountryCodesAdapter
 import com.arsvechkarev.auth.utils.getCountries
 import core.base.BaseFragment
-import core.declaration.entranceActivity
+import core.base.entranceActivity
 import core.extensions.popBackStack
 import kotlinx.android.synthetic.main.fragment_country_code.recyclerCountries
 

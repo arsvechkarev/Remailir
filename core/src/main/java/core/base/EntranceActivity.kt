@@ -1,18 +1,13 @@
-package core.declaration
+package core.base
 
 import androidx.fragment.app.Fragment
-import core.model.Country
+import core.model.other.Country
 
 interface EntranceActivity {
   
   fun goToBase()
   
   fun onCountrySelected(country: Country)
-  
-  fun goToFragment(
-    fragment: Fragment,
-    addToBackStack: Boolean = false
-  )
   
   fun onPhoneEntered(phoneNumber: String)
   

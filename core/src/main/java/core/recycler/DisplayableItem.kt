@@ -13,7 +13,7 @@ interface DisplayableItem {
   /**
    * Type to bind recycler adapter
    */
-  val type: Int
+  val type: Int get() = -1
   
   /**
    * Id to distinguish two different elements

@@ -8,8 +8,8 @@ import com.arsvechakrev.auth.R
 import com.arsvechkarev.auth.utils.phoneNumber
 import com.arsvechkarev.auth.utils.removeDashes
 import core.base.BaseFragment
-import core.declaration.entranceActivity
-import core.model.Country
+import core.base.entranceActivity
+import core.model.other.Country
 import kotlinx.android.synthetic.main.fragment_phone.buttonNext
 import kotlinx.android.synthetic.main.fragment_phone.editTextPhone
 import kotlinx.android.synthetic.main.fragment_phone.layoutCountryCode

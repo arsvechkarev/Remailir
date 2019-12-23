@@ -1,12 +1,12 @@
 package com.arsvechkarev.users.di
 
-import core.di.viewmodel.CoreViewModelModule
 import com.arsvechkarev.users.presentation.UsersListFragment
+import core.di.CoreModule
 import dagger.Component
 
 @Component(
   modules = [
-    CoreViewModelModule::class,
+    CoreModule::class,
     UsersViewModelModule::class
   ]
 )

@@ -13,13 +13,12 @@ import com.arsvechkarev.remailir.R
 import com.arsvechkarev.remailir.entrance.PhoneAuthState.OnCodeSent
 import com.arsvechkarev.remailir.entrance.PhoneAuthState.UserAlreadyExists
 import com.arsvechkarev.remailir.entrance.PhoneAuthState.UserNotExist
-import com.arsvechkarev.remailir.main.registration.DaggerEntranceComponent
 import com.google.firebase.auth.PhoneAuthProvider
-import core.declaration.EntranceActivity
+import core.base.EntranceActivity
 import core.extensions.observe
 import core.extensions.switchFragment
 import core.extensions.viewModelOf
-import core.model.Country
+import core.model.other.Country
 import java.util.concurrent.TimeUnit.SECONDS
 import javax.inject.Inject
 
@@ -62,8 +61,8 @@ class EntranceActivity : AppCompatActivity(), EntranceActivity {
     phoneFragment.onCountrySelected(country)
   }
   
-  override fun goToFragment(fragment: Fragment, addToBackStack: Boolean) {
-    switchFragment(R.id.rootContainer, fragment, addToBackStack)
+  private fun goToFragment(fragment: Fragment) {
+    switchFragment(R.id.rootContainer, fragment)
   }
   
   override fun onPhoneEntered(phoneNumber: String) {

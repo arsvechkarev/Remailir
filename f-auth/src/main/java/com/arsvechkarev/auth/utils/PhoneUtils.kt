@@ -2,8 +2,8 @@ package com.arsvechkarev.auth.utils
 
 import android.text.Editable
 import android.widget.EditText
-import core.model.Country
 import com.google.i18n.phonenumbers.PhoneNumberUtil
+import core.model.other.Country
 import java.util.Locale
 
 fun Editable?.removeDashes(): String {

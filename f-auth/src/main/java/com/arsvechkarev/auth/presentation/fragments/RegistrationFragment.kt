@@ -12,16 +12,16 @@ import com.arsvechkarev.auth.presentation.viewmodels.UserCreationState.Completed
 import com.arsvechkarev.auth.presentation.viewmodels.UserCreationState.Failed
 import com.arsvechkarev.auth.presentation.viewmodels.UserCreationState.NameOccupied
 import core.base.BaseFragment
-import core.declaration.entranceActivity
+import core.base.entranceActivity
 import core.extensions.observe
 import core.extensions.showToast
 import core.extensions.string
 import core.extensions.viewModelOf
-import firebase.DEFAULT_IMG_URL
-import storage.Database
+import core.strings.DEFAULT_IMG_URL
 import kotlinx.android.synthetic.main.fragment_registration.buttonSignUp
 import kotlinx.android.synthetic.main.fragment_registration.editTextUsername
 import kotlinx.android.synthetic.main.fragment_registration.inputLayoutUsername
+import storage.Database
 import javax.inject.Inject
 
 class RegistrationFragment : BaseFragment() {

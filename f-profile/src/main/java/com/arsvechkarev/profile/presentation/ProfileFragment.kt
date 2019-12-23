@@ -1,15 +1,15 @@
 package com.arsvechkarev.profile.presentation
 
 import androidx.lifecycle.ViewModelProvider
-import core.base.BaseFragment
-import core.declaration.coreActivity
-import core.extensions.observe
-import core.extensions.viewModelOf
-import core.model.users.User
-import firebase.DEFAULT_IMG_URL
 import com.arsvechkarev.profile.R
 import com.arsvechkarev.profile.di.DaggerProfileComponent
 import com.squareup.picasso.Picasso
+import core.base.BaseFragment
+import core.base.coreActivity
+import core.extensions.observe
+import core.extensions.viewModelOf
+import core.model.users.User
+import core.strings.DEFAULT_IMG_URL
 import kotlinx.android.synthetic.main.fragment_profile.imageProfile
 import kotlinx.android.synthetic.main.fragment_profile.textProfileEmail
 import kotlinx.android.synthetic.main.fragment_profile.textProfileName

@@ -1,19 +1,33 @@
 package com.arsvechkarev.messages.repository
 
 import android.util.Log
-import core.base.repos.ListenersHolder
-import core.model.Chat
-import core.model.PartialChat
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query.Direction.DESCENDING
+import core.model.messaging.Chat
 import core.model.messaging.DialogMessage
+import core.model.messaging.PartialChat
 import firebase.Collections.Messages
 import firebase.Collections.OneToOneChats
 import firebase.MessageModel.timestamp
 import firebase.getChatIdWith
 import firebase.thisUser
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query.Direction.DESCENDING
 
 class MessagesRepository {
+  
+  class ListenersHolder<S> {
+    
+    lateinit var successBlock: (S) -> Unit
+    lateinit var failureBlock: (Throwable) -> Unit
+    
+    fun onSuccess(successBlock: (S) -> Unit) {
+      this.successBlock = successBlock
+    }
+    
+    fun onFailure(failureBlock: (Throwable) -> Unit) {
+      this.failureBlock = failureBlock
+    }
+    
+  }
   
   fun fetchMessages(block: ListenersHolder<List<Chat>>.() -> Unit) {
     val holder = ListenersHolder<List<Chat>>().apply(block)
@@ -27,8 +41,6 @@ class MessagesRepository {
         partialChats.forEach { partialChat ->
           FirebaseFirestore.getInstance()
             .collection(OneToOneChats)
-            //            .whereLessThan("id", thisUser.uid)
-            //            .whereGreaterThan("id", thisUser.uid)
             .document(getChatIdWith(partialChat.otherUser.id))
             .addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
               if (documentSnapshot!!.exists()) {

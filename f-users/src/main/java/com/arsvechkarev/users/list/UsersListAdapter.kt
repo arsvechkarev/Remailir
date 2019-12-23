@@ -4,11 +4,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import core.extensions.inflate
-import core.model.users.OtherUser
-import firebase.DEFAULT_IMG_URL
 import com.arsvechkarev.users.R
 import com.squareup.picasso.Picasso
+import core.extensions.inflate
+import core.model.users.OtherUser
+import core.strings.DEFAULT_IMG_URL
 import kotlinx.android.synthetic.main.item_user.view.imageProfile
 import kotlinx.android.synthetic.main.item_user.view.textUsername
 

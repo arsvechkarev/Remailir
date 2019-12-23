@@ -1,12 +1,12 @@
 package com.arsvechkarev.chat.di
 
 import com.arsvechkarev.chat.presentation.ChatFragment
-import core.di.viewmodel.CoreViewModelModule
+import core.di.CoreModule
 import dagger.Component
 
 @Component(
   modules = [
-    CoreViewModelModule::class,
+    CoreModule::class,
     ChatViewModelModule::class
   ]
 )

@@ -1,4 +1,4 @@
-package core.declaration
+package core.base
 
 import androidx.fragment.app.Fragment
 

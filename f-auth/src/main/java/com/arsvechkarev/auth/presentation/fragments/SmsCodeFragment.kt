@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import com.arsvechakrev.auth.R
 import core.base.BaseFragment
-import core.declaration.entranceActivity
+import core.base.entranceActivity
 import core.extensions.string
 import kotlinx.android.synthetic.main.fragment_sms_code.buttonCheckCode
 import kotlinx.android.synthetic.main.fragment_sms_code.editTextCode

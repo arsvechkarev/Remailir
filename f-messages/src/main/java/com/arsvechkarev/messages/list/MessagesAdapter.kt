@@ -4,13 +4,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.arsvechkarev.messages.R
 import core.extensions.gone
 import core.extensions.inflate
 import core.extensions.visible
-import core.model.Chat
-import firebase.DEFAULT_IMG_URL
+import core.model.messaging.Chat
+import core.recycler.DisplayableItem
+import core.strings.DEFAULT_IMG_URL
 import firebase.thisUser
-import com.arsvechkarev.messages.R
 import kotlinx.android.synthetic.main.item_chat.view.divider
 import kotlinx.android.synthetic.main.item_chat.view.imageUser
 import kotlinx.android.synthetic.main.item_chat.view.textLastMessage
@@ -18,7 +19,7 @@ import kotlinx.android.synthetic.main.item_chat.view.textUsername
 
 class MessagesAdapter(
   private val clickListener: (Chat) -> Unit
-) : ListAdapter<Chat, MessagesAdapter.ChatViewHolder>(Chat.DiffCallBack()) {
+) : ListAdapter<Chat, MessagesAdapter.ChatViewHolder>(DisplayableItem.DiffCallBack()) {
   
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatViewHolder {
     return ChatViewHolder(parent.inflate(R.layout.item_chat))

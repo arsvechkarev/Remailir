@@ -8,7 +8,7 @@ import com.arsvechkarev.profile.presentation.ProfileFragment
 import com.arsvechkarev.remailir.entrance.EntranceActivity
 import com.google.firebase.auth.FirebaseAuth
 import core.base.BaseActivity
-import core.declaration.CoreActivity
+import core.base.CoreActivity
 import core.extensions.switchFragment
 import kotlinx.android.synthetic.main.activity_home.bottomNavigationBar
 import storage.Database

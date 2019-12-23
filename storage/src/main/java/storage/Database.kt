@@ -1,13 +1,13 @@
 package storage
 
 import android.content.Context
-import core.model.users.NewUser
 import com.google.firebase.auth.FirebaseAuth
+import core.model.users.NewUser
 
 object Database {
   
-  const val USERNAME = "USERNAME"
-  const val IMAGE_URL= "IMAGE_URL"
+  private const val USERNAME = "USERNAME"
+  private const val IMAGE_URL = "IMAGE_URL"
   
   fun saveUser(context: Context, username: String, imageUrl: String) {
     PreferencesUtils.saveString(context, USERNAME, username)

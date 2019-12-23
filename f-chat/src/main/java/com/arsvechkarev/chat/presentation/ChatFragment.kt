@@ -2,6 +2,7 @@ package com.arsvechkarev.chat.presentation
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.ViewModelProvider
 import com.arsvechkarev.chat.R
 import com.arsvechkarev.chat.di.DaggerChatComponent
@@ -9,8 +10,8 @@ import com.arsvechkarev.chat.list.ChatAdapter
 import com.arsvechkarev.chat.list.toDisplayableItems
 import com.arsvechkarev.chat.presentation.MessagesState.Failure
 import com.arsvechkarev.chat.presentation.MessagesState.MessagesList
+import com.squareup.picasso.Picasso
 import core.base.BaseFragment
-import core.extensions.afterTextChanged
 import core.extensions.invisible
 import core.extensions.observe
 import core.extensions.popBackStack
@@ -21,8 +22,7 @@ import core.extensions.viewModelOf
 import core.extensions.visible
 import core.model.messaging.DialogMessage
 import core.model.users.OtherUser
-import firebase.DEFAULT_IMG_URL
-import com.squareup.picasso.Picasso
+import core.strings.DEFAULT_IMG_URL
 import kotlinx.android.synthetic.main.fragment_chat.buttonSend
 import kotlinx.android.synthetic.main.fragment_chat.editText
 import kotlinx.android.synthetic.main.fragment_chat.imageBack
@@ -65,8 +65,8 @@ class ChatFragment : BaseFragment() {
       }
     }
   
-    editText.afterTextChanged {
-      if (it.isBlank()) buttonSend.invisible()
+    editText.doAfterTextChanged {
+      if (it.isNullOrBlank()) buttonSend.invisible()
       else buttonSend.visible()
     }
   }
