@@ -1,9 +1,9 @@
-package com.arsvechkarev.remailir.main
+package com.arsvechkarev.remailir
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.arsvechkarev.remailir.main.registration.EntranceActivity
+import com.arsvechkarev.remailir.entrance.EntranceActivity
 import storage.Database
 
 class SplashActivity : AppCompatActivity() {

@@ -9,12 +9,13 @@
     android:allowBackup="true"
     android:icon="@mipmap/ic_launcher"
     android:label="@string/app_name"
-    android:name=".main.RemailirApp"
+    android:name=".RemailirApp"
     android:roundIcon="@mipmap/ic_launcher"
     android:supportsRtl="true"
     android:theme="@style/AppTheme.Dark">
 
-    <activity android:name=".main.SplashActivity"
+    <activity
+      android:name=".SplashActivity"
       android:theme="@style/SplashTheme"
       android:noHistory="true">
       <intent-filter>
@@ -25,13 +26,13 @@
     </activity>
 
     <activity
-      android:name=".main.CoreActivity"
+      android:name=".CoreActivity"
       android:windowSoftInputMode="adjustResize"
       android:theme="@style/AppTheme.Dark.Core"
       android:noHistory="true"/>
 
     <activity
-      android:name=".main.registration.EntranceActivity"
+      android:name=".entrance.EntranceActivity"
       android:theme="@style/AppTheme.Dark.Auth"
       android:noHistory="true"/>
 

@@ -1,18 +1,17 @@
-package com.arsvechkarev.remailir.main
+package com.arsvechkarev.remailir
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import com.arsvechkarev.messages.presentation.MessagesFragment
+import com.arsvechkarev.profile.presentation.ProfileFragment
+import com.arsvechkarev.remailir.entrance.EntranceActivity
+import com.google.firebase.auth.FirebaseAuth
 import core.base.BaseActivity
 import core.declaration.CoreActivity
 import core.extensions.switchFragment
-import com.arsvechkarev.messages.presentation.MessagesFragment
-import com.arsvechkarev.profile.presentation.ProfileFragment
-import com.arsvechkarev.remailir.R
-import com.arsvechkarev.remailir.main.registration.EntranceActivity
-import storage.Database
-import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_home.bottomNavigationBar
+import storage.Database
 
 class CoreActivity : BaseActivity(), CoreActivity {
   

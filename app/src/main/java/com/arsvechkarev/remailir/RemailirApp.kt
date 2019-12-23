@@ -1,4 +1,4 @@
-package com.arsvechkarev.remailir.main
+package com.arsvechkarev.remailir
 
 import android.app.Application
 import com.jakewharton.threetenabp.AndroidThreeTen
