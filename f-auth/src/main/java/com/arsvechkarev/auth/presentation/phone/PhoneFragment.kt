@@ -27,13 +27,7 @@ class PhoneFragment : BaseFragment() {
       entranceActivity.onPhoneEntered(phoneNumber)
     }
     layoutCountryCode.setOnClickListener {
-      activity!!.supportFragmentManager.beginTransaction()
-        .add(
-          R.id.rootLayoutPhoneFragment,
-          CountryCodeFragment()
-        )
-        .addToBackStack(null)
-        .commit()
+      entranceActivity.goToFragment(CountryCodeFragment(), true)
     }
   }
   

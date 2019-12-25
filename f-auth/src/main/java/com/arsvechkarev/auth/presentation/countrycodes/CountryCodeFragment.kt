@@ -25,6 +25,7 @@ class CountryCodeFragment : BaseFragment(), ToolbarSearch {
   }
   
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    textTitle.text = getString(R.string.title_countries)
     recyclerCountries.adapter = adapter
     recyclerCountries.layoutManager = LinearLayoutManager(context)
     adapter.submitList(countriesAndCodes)

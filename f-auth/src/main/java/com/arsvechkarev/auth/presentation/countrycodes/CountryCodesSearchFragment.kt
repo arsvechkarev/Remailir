@@ -23,6 +23,7 @@ class CountryCodesSearchFragment : BaseFragment(), LayoutSearch {
   private val adapter = CountryCodesAdapter {
     entranceActivity.onCountrySelected(it)
     popBackStack()
+    popBackStack()
   }
   
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
