@@ -42,7 +42,9 @@ class EntranceActivity : AppCompatActivity(), EntranceActivity {
     setContentView(R.layout.activity_entrance)
     DaggerEntranceComponent.create().inject(this)
     viewModel.phoneState().observe(this, ::handleState)
-    switchFragment(R.id.rootContainer, phoneFragment, false)
+    if (savedInstanceState == null) {
+      switchFragment(R.id.rootContainer, phoneFragment, false)
+    }
   }
   
   private fun handleState(state: PhoneAuthState) {

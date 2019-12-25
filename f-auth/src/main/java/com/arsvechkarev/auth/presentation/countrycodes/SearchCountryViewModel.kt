@@ -17,8 +17,11 @@ class SearchCountryViewModel @Inject constructor() : BaseViewModel() {
   }
   
   fun filter(text: String) {
-    allCountries.value?.filterTo(filteredCountries.value!!) {
-      it.name.startsWith(text)
+    coroutine {
+      val filtered: List<Country>? = allCountries.value?.filter {
+        it.name.startsWith(text, ignoreCase = true)
+      }
+      filteredCountries.value = filtered as MutableList<Country>?
     }
   }
   
