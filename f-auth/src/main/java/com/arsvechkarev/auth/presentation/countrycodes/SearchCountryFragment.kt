@@ -4,27 +4,39 @@ import android.os.Bundle
 import android.text.Editable
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.arsvechakrev.auth.R
+import com.arsvechkarev.auth.di.DaggerAuthComponent
 import com.arsvechkarev.auth.list.CountryCodesAdapter
-import com.arsvechkarev.auth.utils.CountryCodesHolder
 import core.base.BaseFragment
 import core.base.entranceActivity
 import core.extensions.hideKeyboard
+import core.extensions.observe
 import core.extensions.popBackStack
 import core.extensions.showKeyboard
+import core.extensions.viewModelOf
 import core.model.other.Country
 import core.viewdelegates.LayoutSearch
 import kotlinx.android.synthetic.main.fragment_country_code_search.layoutIncludedSearch
 import kotlinx.android.synthetic.main.fragment_country_code_search.recyclerCountries
+import javax.inject.Inject
 
-class CountryCodesSearchFragment : BaseFragment(), LayoutSearch {
+class SearchCountryFragment : BaseFragment(), LayoutSearch {
   
   override val includedSearch: View by lazy { layoutIncludedSearch }
-  
   override val layout: Int = R.layout.fragment_country_code_search
   
-  private val originalList by lazy { CountryCodesHolder.countries }
+  @Inject
+  lateinit var viewModelFactory: ViewModelProvider.Factory
+  private val viewModel by lazy {
+    viewModelOf<SearchCountryViewModel>(viewModelFactory) {
+      observe(allCountries, ::handleAllList)
+      observe(filteredCountries, ::handleFilteredCountries)
+    }
+  }
+  
+  private var originalList: MutableList<Country>? = null
   
   private val adapter = CountryCodesAdapter {
     entranceActivity.onCountrySelected(it)
@@ -33,6 +45,8 @@ class CountryCodesSearchFragment : BaseFragment(), LayoutSearch {
   }
   
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    DaggerAuthComponent.create().inject(this)
+    viewModel.fetchCountries()
     recyclerCountries.adapter = adapter
     recyclerCountries.layoutManager = LinearLayoutManager(context)
     adapter.submitList(originalList)
@@ -48,11 +62,7 @@ class CountryCodesSearchFragment : BaseFragment(), LayoutSearch {
       if (editable.isNullOrBlank()) {
         adapter.submitList(originalList)
       } else {
-        val filteredList = ArrayList<Country>()
-        originalList.filterTo(filteredList) {
-          it.name.startsWith(editable.toString(), ignoreCase = true)
-        }
-        adapter.submitList(filteredList)
+        viewModel.filter(editable.toString())
       }
     }
   }
@@ -61,5 +71,14 @@ class CountryCodesSearchFragment : BaseFragment(), LayoutSearch {
     super.onResume()
     editTextSearch.requestFocus()
     showKeyboard()
+  }
+  
+  private fun handleAllList(countries: MutableList<Country>) {
+    originalList = countries
+    adapter.submitList(countries)
+  }
+  
+  private fun handleFilteredCountries(countries: MutableList<Country>) {
+    adapter.submitList(countries)
   }
 }

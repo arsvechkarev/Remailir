@@ -5,7 +5,7 @@ import android.telephony.PhoneNumberFormattingTextWatcher
 import android.text.Editable
 import android.view.View
 import com.arsvechakrev.auth.R
-import com.arsvechkarev.auth.presentation.countrycodes.CountryCodeFragment
+import com.arsvechkarev.auth.presentation.countrycodes.CountriesFragment
 import com.arsvechkarev.auth.utils.phoneNumber
 import com.arsvechkarev.auth.utils.removeDashes
 import core.base.BaseFragment
@@ -29,7 +29,7 @@ class PhoneFragment : BaseFragment() {
     }
     layoutCountryCode.setOnClickListener {
       hideKeyboard(editTextPhone)
-      entranceActivity.goToFragment(CountryCodeFragment(), true)
+      entranceActivity.goToFragment(CountriesFragment(), true)
     }
   }
   

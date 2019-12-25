@@ -29,7 +29,7 @@ fun String.normalize(): String {
   return this.replace(Regex("[ ()\\-]"), "")
 }
 
-fun getCountries(): MutableList<Country> {
+fun getCountriesList(): MutableList<Country> {
   val phoneNumberUtil = PhoneNumberUtil.getInstance()
   val countries = ArrayList<Country>()
   Locale.getISOCountries().forEach {
@@ -61,14 +61,3 @@ fun getCountriesWithLetters(countries: List<Country>): MutableList<DisplayableIt
   return resultList
 }
 
-object CountryCodesHolder {
-  
-  val countries by lazy {
-    getCountries()
-  }
-  
-  val countriesAndCodes by lazy {
-    getCountriesWithLetters(countries)
-  }
-  
-}
