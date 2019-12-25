@@ -1,7 +1,9 @@
 package com.arsvechkarev.auth.presentation.countrycodes
 
 import android.os.Bundle
+import android.text.Editable
 import android.view.View
+import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.arsvechakrev.auth.R
 import com.arsvechkarev.auth.list.CountryCodesAdapter
@@ -10,6 +12,7 @@ import core.base.BaseFragment
 import core.base.entranceActivity
 import core.extensions.popBackStack
 import core.extensions.showKeyboard
+import core.model.other.Country
 import core.viewdelegates.LayoutSearch
 import kotlinx.android.synthetic.main.fragment_country_code_search.layoutIncludedSearch
 import kotlinx.android.synthetic.main.fragment_country_code_search.recyclerCountries
@@ -20,6 +23,8 @@ class CountryCodesSearchFragment : BaseFragment(), LayoutSearch {
   
   override val layout: Int = R.layout.fragment_country_code_search
   
+  private val originalList by lazy { CountryCodesHolder.countries }
+  
   private val adapter = CountryCodesAdapter {
     entranceActivity.onCountrySelected(it)
     popBackStack()
@@ -29,7 +34,15 @@ class CountryCodesSearchFragment : BaseFragment(), LayoutSearch {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     recyclerCountries.adapter = adapter
     recyclerCountries.layoutManager = LinearLayoutManager(context)
-    adapter.submitList(CountryCodesHolder.countries)
+    adapter.submitList(originalList)
+    editTextSearch.doAfterTextChanged { editable: Editable? ->
+      if (editable.isNullOrBlank()) return@doAfterTextChanged
+      val filtered = ArrayList<Country>()
+      originalList.filterTo(filtered) {
+        it.name.startsWith(editable.toString(), ignoreCase = true)
+      }
+      adapter.submitList(filtered)
+    }
   }
   
   override fun onResume() {
