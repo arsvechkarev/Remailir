@@ -20,12 +20,7 @@ class PhoneFragment : BaseFragment() {
   override val layout: Int = R.layout.fragment_phone
   
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-    editTextPhone.addTextChangedListener(object : PhoneNumberFormattingTextWatcher() {
-      override fun afterTextChanged(s: Editable?) {
-        super.afterTextChanged(s)
-        buttonNext.isEnabled = s.removeDashes().length >= 10
-      }
-    })
+    addTextWatcher()
     buttonNext.setOnClickListener {
       val phoneNumber = textCountryCode.text.toString() + editTextPhone.phoneNumber()
       entranceActivity.onPhoneEntered(phoneNumber)
@@ -38,7 +33,17 @@ class PhoneFragment : BaseFragment() {
     }
   }
   
+  private fun addTextWatcher() {
+    editTextPhone.addTextChangedListener(object : PhoneNumberFormattingTextWatcher() {
+      override fun afterTextChanged(s: Editable?) {
+        super.afterTextChanged(s)
+        buttonNext.isEnabled = s.removeDashes().length >= 10
+      }
+    })
+  }
+  
   fun onCountrySelected(country: Country) {
+    addTextWatcher()
     textCountryCode.text = "+${country.code}"
   }
   

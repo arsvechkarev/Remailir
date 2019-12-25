@@ -49,7 +49,7 @@ class ChatFragment : BaseFragment() {
     viewModel = viewModelOf(viewModelFactory) {
       observe(messages, ::updateMessagesList)
     }
-    otherUser = arguments!!.getParcelable(FRIEND)
+    otherUser = arguments!!.getParcelable(FRIEND) as OtherUser
     prepareView()
     viewModel.fetchMessagesList(otherUser)
     buttonSend.setOnClickListener {

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   android:gravity="center_horizontal"
@@ -13,15 +14,88 @@
 
   <EditText
     android:id="@+id/editTextCode"
-    android:layout_margin="16dp"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"/>
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"/>
+
+  <EditText
+    android:id="@+id/editTextHiddenCode"
+    android:layout_width="1px"
+    android:layout_height="1px"
+    android:inputType="number"/>
+
+  <LinearLayout
+    android:id="@+id/layoutDigits"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <TextView
+      android:id="@+id/textCode1"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_margin="6dp"
+      android:text="_"
+      android:textColor="?theColorTextPrimary"
+      android:textSize="@dimen/text_code_size"
+      tools:textColor="@color/dark_colorTextPrimary"/>
+
+    <TextView
+      android:id="@+id/textCode2"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_margin="6dp"
+      android:text="_"
+      android:textColor="?theColorTextPrimary"
+      android:textSize="@dimen/text_code_size"
+      tools:textColor="@color/dark_colorTextPrimary"/>
+
+    <TextView
+      android:id="@+id/textCode3"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_margin="6dp"
+      android:text="_"
+      android:textColor="?theColorTextPrimary"
+      android:textSize="@dimen/text_code_size"
+      tools:textColor="@color/dark_colorTextPrimary"/>
+
+    <TextView
+      android:id="@+id/textCode4"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_margin="6dp"
+      android:text="_"
+      android:textColor="?theColorTextPrimary"
+      android:textSize="@dimen/text_code_size"
+      tools:textColor="@color/dark_colorTextPrimary"/>
+
+    <TextView
+      android:id="@+id/textCode5"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_margin="6dp"
+      android:text="_"
+      android:textColor="?theColorTextPrimary"
+      android:textSize="@dimen/text_code_size"
+      tools:textColor="@color/dark_colorTextPrimary"/>
+
+    <TextView
+      android:id="@+id/textCode6"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_margin="6dp"
+      android:text="_"
+      android:textColor="?theColorTextPrimary"
+      android:textSize="@dimen/text_code_size"
+      tools:textColor="@color/dark_colorTextPrimary"/>
+
+  </LinearLayout>
 
   <Button
     android:id="@+id/buttonCheckCode"
-    android:text="Check code"
-    android:layout_margin="16dp"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"/>
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    android:text="Check"/>
 
 </LinearLayout>
