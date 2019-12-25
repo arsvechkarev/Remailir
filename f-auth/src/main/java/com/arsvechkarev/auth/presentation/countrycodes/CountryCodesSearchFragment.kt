@@ -36,12 +36,15 @@ class CountryCodesSearchFragment : BaseFragment(), LayoutSearch {
     recyclerCountries.layoutManager = LinearLayoutManager(context)
     adapter.submitList(originalList)
     editTextSearch.doAfterTextChanged { editable: Editable? ->
-      if (editable.isNullOrBlank()) return@doAfterTextChanged
-      val filtered = ArrayList<Country>()
-      originalList.filterTo(filtered) {
-        it.name.startsWith(editable.toString(), ignoreCase = true)
+      if (editable.isNullOrBlank()) {
+        adapter.submitList(originalList)
+      } else {
+        val filtered = ArrayList<Country>()
+        originalList.filterTo(filtered) {
+          it.name.startsWith(editable.toString(), ignoreCase = true)
+        }
+        adapter.submitList(filtered)
       }
-      adapter.submitList(filtered)
     }
   }
   
