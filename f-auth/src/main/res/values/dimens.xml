@@ -6,5 +6,5 @@
   <dimen name="text_country_m_start">24dp</dimen>
 
   <dimen name="text_letter_padding">16dp</dimen>
-  <dimen name="text_letter_margin">16dp</dimen>
+  <dimen name="text_letter_margin">8dp</dimen>
 </resources>

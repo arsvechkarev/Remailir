@@ -7,21 +7,24 @@ import javax.inject.Inject
 
 class SearchCountryViewModel @Inject constructor() : BaseViewModel() {
   
-  val allCountries = MutableLiveData<MutableList<Country>>()
-  val filteredCountries = MutableLiveData<MutableList<Country>>()
+  val countries = MutableLiveData<MutableList<Country>>()
   
   fun fetchCountries() {
     coroutine {
-      allCountries.value = CountriesAndCodesRepository.getCountries()
+      countries.value = CountriesAndCodesRepository.getCountries()
     }
   }
   
   fun filter(text: String) {
     coroutine {
-      val filtered: List<Country>? = allCountries.value?.filter {
-        it.name.startsWith(text, ignoreCase = true)
+      if (text.isBlank()) {
+        countries.value = CountriesAndCodesRepository.getCountries()
+      } else {
+        val filtered: List<Country>? = countries.value?.filter {
+          it.name.startsWith(text, ignoreCase = true)
+        }
+        countries.value = filtered as MutableList<Country>?
       }
-      filteredCountries.value = filtered as MutableList<Country>?
     }
   }
   

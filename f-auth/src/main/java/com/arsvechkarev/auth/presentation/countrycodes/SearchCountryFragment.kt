@@ -31,12 +31,9 @@ class SearchCountryFragment : BaseFragment(), LayoutSearch {
   lateinit var viewModelFactory: ViewModelProvider.Factory
   private val viewModel by lazy {
     viewModelOf<SearchCountryViewModel>(viewModelFactory) {
-      observe(allCountries, ::handleAllList)
-      observe(filteredCountries, ::handleFilteredCountries)
+      observe(countries, ::handleList)
     }
   }
-  
-  private var originalList: MutableList<Country>? = null
   
   private val adapter = CountryCodesAdapter {
     entranceActivity.onCountrySelected(it)
@@ -49,7 +46,6 @@ class SearchCountryFragment : BaseFragment(), LayoutSearch {
     viewModel.fetchCountries()
     recyclerCountries.adapter = adapter
     recyclerCountries.layoutManager = LinearLayoutManager(context)
-    adapter.submitList(originalList)
     imageBack.setOnClickListener {
       hideKeyboard(editTextSearch)
       popBackStack()
@@ -59,11 +55,7 @@ class SearchCountryFragment : BaseFragment(), LayoutSearch {
     }
     editTextSearch.setHint(R.string.hint_search_countries)
     editTextSearch.doAfterTextChanged { editable: Editable? ->
-      if (editable.isNullOrBlank()) {
-        adapter.submitList(originalList)
-      } else {
-        viewModel.filter(editable.toString())
-      }
+      viewModel.filter(editable.toString())
     }
   }
   
@@ -73,12 +65,7 @@ class SearchCountryFragment : BaseFragment(), LayoutSearch {
     showKeyboard()
   }
   
-  private fun handleAllList(countries: MutableList<Country>) {
-    originalList = countries
-    adapter.submitList(countries)
-  }
-  
-  private fun handleFilteredCountries(countries: MutableList<Country>) {
+  private fun handleList(countries: MutableList<Country>) {
     adapter.submitList(countries)
   }
 }

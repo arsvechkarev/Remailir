@@ -9,7 +9,6 @@
     android:id="@+id/textLetter"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/text_letter_margin"
     android:padding="@dimen/text_letter_padding"
     android:textColor="?theColorTextOther"
     android:textSize="@dimen/text_h1"

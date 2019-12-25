@@ -19,4 +19,6 @@
   <dimen name="toolbar_image_margin">16dp</dimen>
   <dimen name="toolbar_title_margin">32dp</dimen>
 
+  <dimen name="logo_size">100dp</dimen>
+
 </resources>
