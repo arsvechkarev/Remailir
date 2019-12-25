@@ -1,3 +1,4 @@
 <resources>
   <string name="title_countries">Countries</string>
+  <string name="hint_search_countries">Type country name…</string>
 </resources>

@@ -10,6 +10,7 @@ import com.arsvechkarev.auth.list.CountryCodesAdapter
 import com.arsvechkarev.auth.utils.CountryCodesHolder
 import core.base.BaseFragment
 import core.base.entranceActivity
+import core.extensions.hideKeyboard
 import core.extensions.popBackStack
 import core.extensions.showKeyboard
 import core.model.other.Country
@@ -35,15 +36,23 @@ class CountryCodesSearchFragment : BaseFragment(), LayoutSearch {
     recyclerCountries.adapter = adapter
     recyclerCountries.layoutManager = LinearLayoutManager(context)
     adapter.submitList(originalList)
+    imageBack.setOnClickListener {
+      hideKeyboard(editTextSearch)
+      popBackStack()
+    }
+    imageCross.setOnClickListener {
+      editTextSearch.text.clear()
+    }
+    editTextSearch.setHint(R.string.hint_search_countries)
     editTextSearch.doAfterTextChanged { editable: Editable? ->
       if (editable.isNullOrBlank()) {
         adapter.submitList(originalList)
       } else {
-        val filtered = ArrayList<Country>()
-        originalList.filterTo(filtered) {
+        val filteredList = ArrayList<Country>()
+        originalList.filterTo(filteredList) {
           it.name.startsWith(editable.toString(), ignoreCase = true)
         }
-        adapter.submitList(filtered)
+        adapter.submitList(filteredList)
       }
     }
   }

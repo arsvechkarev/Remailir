@@ -28,6 +28,9 @@ class CountryCodeFragment : BaseFragment(), ToolbarSearch {
     textTitle.text = getString(R.string.title_countries)
     recyclerCountries.adapter = adapter
     recyclerCountries.layoutManager = LinearLayoutManager(context)
+    imageBack.setOnClickListener {
+      popBackStack()
+    }
     adapter.submitList(countriesAndCodes)
     imageSearch.setOnClickListener {
       entranceActivity.goToFragment(CountryCodesSearchFragment(), true)

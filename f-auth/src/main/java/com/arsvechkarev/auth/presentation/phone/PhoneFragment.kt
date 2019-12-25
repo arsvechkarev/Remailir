@@ -10,6 +10,7 @@ import com.arsvechkarev.auth.utils.phoneNumber
 import com.arsvechkarev.auth.utils.removeDashes
 import core.base.BaseFragment
 import core.base.entranceActivity
+import core.extensions.hideKeyboard
 import core.model.other.Country
 import kotlinx.android.synthetic.main.fragment_phone.buttonNext
 import kotlinx.android.synthetic.main.fragment_phone.editTextPhone
@@ -27,6 +28,7 @@ class PhoneFragment : BaseFragment() {
       entranceActivity.onPhoneEntered(phoneNumber)
     }
     layoutCountryCode.setOnClickListener {
+      hideKeyboard(editTextPhone)
       entranceActivity.goToFragment(CountryCodeFragment(), true)
     }
   }

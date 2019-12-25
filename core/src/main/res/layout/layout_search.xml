@@ -27,7 +27,7 @@
     android:layout_marginStart="@dimen/toolbar_title_margin"
     android:layout_marginEnd="@dimen/toolbar_title_margin"
     android:background="@null"
-    android:textSize="@dimen/text_h2"
+    android:textSize="@dimen/text_h3"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toStartOf="@id/imageCross"
     app:layout_constraintStart_toEndOf="@id/imageBack"
