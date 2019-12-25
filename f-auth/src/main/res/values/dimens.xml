@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <dimen name="item_country_padding">16dp</dimen>
+
+  <dimen name="text_country_code_m_end">16dp</dimen>
+  <dimen name="text_country_m_start">24dp</dimen>
+
+  <dimen name="text_letter_padding">16dp</dimen>
+  <dimen name="text_letter_margin">16dp</dimen>
+</resources>

@@ -1,4 +1,4 @@
-package com.arsvechkarev.chat.list.adapters
+package com.arsvechkarev.chat.list.delegates
 
 import android.view.View
 import android.view.ViewGroup

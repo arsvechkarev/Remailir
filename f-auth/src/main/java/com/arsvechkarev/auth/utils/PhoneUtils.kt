@@ -4,6 +4,8 @@ import android.text.Editable
 import android.widget.EditText
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import core.model.other.Country
+import core.model.other.Letter
+import core.recycler.DisplayableItem
 import java.util.Locale
 
 fun Editable?.removeDashes(): String {
@@ -39,6 +41,34 @@ fun getCountries(): List<Country> {
       countries.add(country)
     }
   }
-  countries.sortBy { it.name  }
+  countries.sortBy { it.name }
   return countries
+}
+
+fun getCountriesWithLetters(): MutableList<DisplayableItem> {
+  val phoneNumberUtil = PhoneNumberUtil.getInstance()
+  val resultList = ArrayList<DisplayableItem>()
+  val countries = ArrayList<Country>()
+  Locale.getISOCountries().forEach {
+    val locale = Locale("", it)
+    val code = phoneNumberUtil.getCountryCodeForRegion(it)
+    if (code != 0) {
+      val country = Country(locale.displayName, it, code)
+      println(countries)
+      countries.add(country)
+    }
+  }
+  countries.sortBy { it.name }
+  for (i in countries.indices) {
+    if (i == 0) {
+      resultList += Letter(countries[0].name.first().toString())
+    }
+    resultList += countries[i]
+    if (i < countries.size - 1) {
+      if (countries[i].name.first() != countries[i + 1].name.first()) {
+        resultList += Letter(countries[i + 1].name.first().toString())
+      }
+    }
+  }
+  return resultList
 }

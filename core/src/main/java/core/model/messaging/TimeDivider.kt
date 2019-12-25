@@ -6,5 +6,5 @@ data class TimeDivider(
   override val id: String,
   val header: String
 ) : DisplayableItem {
-  override val type: Int = ViewTypeConstants.TIME_DIVIDER
+  override val type: Int = TYPE_TIME_DIVIDER
 }

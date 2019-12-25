@@ -5,7 +5,8 @@ import androidx.collection.SparseArrayCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 
-abstract class BaseAdapter : RecyclerView.Adapter<ViewHolder>() {
+abstract class BaseAdapter(block: BaseAdapter.() -> Unit = {}) :
+  RecyclerView.Adapter<ViewHolder>() {
   
   var data: MutableList<DisplayableItem> = ArrayList()
   val delegates = SparseArrayCompat<AdapterDelegate>()
@@ -29,5 +30,9 @@ abstract class BaseAdapter : RecyclerView.Adapter<ViewHolder>() {
   fun submitList(list: MutableList<DisplayableItem>?) {
     data = list ?: ArrayList()
     notifyDataSetChanged()
+  }
+  
+  init {
+    this.apply(block)
   }
 }

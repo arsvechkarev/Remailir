@@ -7,5 +7,5 @@ data class MessageOtherUser(
   val text: String,
   val timestamp: Long
 ) : DisplayableItem {
-  override val type = ViewTypeConstants.MESSAGE_OTHER_USER
+  override val type = TYPE_MESSAGE_OTHER_USER
 }
