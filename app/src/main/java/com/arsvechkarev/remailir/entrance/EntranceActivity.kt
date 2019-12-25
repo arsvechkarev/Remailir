@@ -24,12 +24,11 @@ import java.util.concurrent.TimeUnit.SECONDS
 import javax.inject.Inject
 
 class EntranceActivity : AppCompatActivity(), EntranceActivity {
-  
   private val phoneFragment = PhoneFragment()
+  
   private val smsCodeFragment = SmsCodeFragment()
   private val registrationFragment =
     RegistrationFragment()
-  
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
   
@@ -78,4 +77,8 @@ class EntranceActivity : AppCompatActivity(), EntranceActivity {
     viewModel.checkCode(code)
   }
   
+  override fun goToFragment(fragment: Fragment, addToBackStack: Boolean) {
+    switchFragment(R.id.rootContainer, fragment, addToBackStack)
+  }
+
 }

@@ -5,11 +5,15 @@ import androidx.collection.SparseArrayCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 
-abstract class BaseAdapter(block: BaseAdapter.() -> Unit = {}) :
+abstract class BaseAdapter<T : DisplayableItem>(block: BaseAdapter<T>.() -> Unit = {}) :
   RecyclerView.Adapter<ViewHolder>() {
   
-  var data: MutableList<DisplayableItem> = ArrayList()
+  var data: MutableList<T> = ArrayList()
   val delegates = SparseArrayCompat<AdapterDelegate>()
+  
+  init {
+    this.apply(block)
+  }
   
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
     return delegates[viewType]!!.onCreateViewHolder(parent)
@@ -27,12 +31,9 @@ abstract class BaseAdapter(block: BaseAdapter.() -> Unit = {}) :
     return data.size
   }
   
-  fun submitList(list: MutableList<DisplayableItem>?) {
+  fun submitList(list: MutableList<T>?) {
     data = list ?: ArrayList()
     notifyDataSetChanged()
   }
   
-  init {
-    this.apply(block)
-  }
 }

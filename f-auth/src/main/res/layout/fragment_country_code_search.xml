@@ -8,8 +8,8 @@
   android:orientation="vertical">
 
   <include
-    android:id="@+id/layoutIncludedToolbar"
-    layout="@layout/toolbar_search"/>
+    android:id="@+id/layoutIncludedSearch"
+    layout="@layout/layout_search"/>
 
   <androidx.recyclerview.widget.RecyclerView
     android:id="@+id/recyclerCountries"

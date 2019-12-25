@@ -12,6 +12,8 @@ interface EntranceActivity {
   fun onPhoneEntered(phoneNumber: String)
   
   fun onCheckCode(code: String)
+  
+  fun goToFragment(fragment: Fragment, addToBackStack: Boolean)
 }
 
 val Fragment.entranceActivity: EntranceActivity

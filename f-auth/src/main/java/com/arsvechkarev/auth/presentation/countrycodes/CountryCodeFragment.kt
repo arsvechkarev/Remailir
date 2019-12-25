@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.arsvechakrev.auth.R
-import com.arsvechkarev.auth.list.CountryCodesBaseAdapter
-import com.arsvechkarev.auth.utils.CountryCodesHolder.countryCodes
+import com.arsvechkarev.auth.list.CountryAndLettersAdapter
+import com.arsvechkarev.auth.utils.CountryCodesHolder.countriesAndCodes
 import core.base.BaseFragment
 import core.base.entranceActivity
 import core.extensions.popBackStack
@@ -19,7 +19,7 @@ class CountryCodeFragment : BaseFragment(), ToolbarSearch {
   
   override val layout: Int = R.layout.fragment_country_code
   
-  private val adapter = CountryCodesBaseAdapter {
+  private val adapter = CountryAndLettersAdapter {
     entranceActivity.onCountrySelected(it)
     popBackStack()
   }
@@ -27,6 +27,9 @@ class CountryCodeFragment : BaseFragment(), ToolbarSearch {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     recyclerCountries.adapter = adapter
     recyclerCountries.layoutManager = LinearLayoutManager(context)
-    adapter.submitList(countryCodes)
+    adapter.submitList(countriesAndCodes)
+    imageSearch.setOnClickListener {
+      entranceActivity.goToFragment(CountryCodesSearchFragment(), true)
+    }
   }
 }

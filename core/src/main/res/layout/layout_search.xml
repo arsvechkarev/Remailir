@@ -1,6 +1,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
-  android:id="@+id/layoutToolbar"
+  android:id="@+id/layoutSearch"
   android:layout_width="match_parent"
   android:layout_height="wrap_content"
   android:background="?theColorPrimary"
@@ -20,14 +20,31 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"/>
 
-  <TextView
-    android:id="@+id/textTitle"
-    android:layout_width="wrap_content"
+  <EditText
+    android:id="@+id/editTextSearch"
+    android:layout_width="0dp"
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/toolbar_title_margin"
+    android:layout_marginEnd="@dimen/toolbar_title_margin"
+    android:background="@null"
     android:textSize="@dimen/text_h2"
     app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toStartOf="@id/imageCross"
     app:layout_constraintStart_toEndOf="@id/imageBack"
+    app:layout_constraintTop_toTopOf="parent"/>
+
+  <ImageView
+    android:id="@+id/imageCross"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="@dimen/toolbar_image_margin"
+    android:background="?selectableItemBackgroundBorderless"
+    android:clickable="true"
+    android:focusable="true"
+    android:src="@drawable/ic_cross"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toEndOf="@id/editTextSearch"
     app:layout_constraintTop_toTopOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
