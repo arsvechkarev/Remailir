@@ -19,6 +19,7 @@ import core.extensions.observe
 import core.extensions.switchFragment
 import core.extensions.viewModelOf
 import core.model.other.Country
+import storage.Database
 import java.util.concurrent.TimeUnit.SECONDS
 import javax.inject.Inject
 
@@ -47,7 +48,10 @@ class EntranceActivity : AppCompatActivity(), EntranceActivity {
   private fun handleState(state: PhoneAuthState) {
     when (state) {
       is OnCodeSent -> goToFragment(smsCodeFragment)
-      is UserAlreadyExists -> goToBase()
+      is UserAlreadyExists -> {
+        Database.saveUser(this, state.user.name, state.user.imageUrl)
+        goToBase()
+      }
       is UserNotExist -> goToFragment(registrationFragment)
     }
   }

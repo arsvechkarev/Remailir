@@ -13,12 +13,6 @@
     android:text="Enter code"/>
 
   <EditText
-    android:id="@+id/editTextCode"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="16dp"/>
-
-  <EditText
     android:id="@+id/editTextHiddenCode"
     android:layout_width="1px"
     android:layout_height="1px"
@@ -30,72 +24,65 @@
     android:layout_height="wrap_content">
 
     <TextView
-      android:id="@+id/textCode1"
+      android:id="@+id/code1"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_margin="6dp"
+      android:layout_margin="16dp"
       android:text="_"
       android:textColor="?theColorTextPrimary"
       android:textSize="@dimen/text_code_size"
       tools:textColor="@color/dark_colorTextPrimary"/>
 
     <TextView
-      android:id="@+id/textCode2"
+      android:id="@+id/code2"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_margin="6dp"
+      android:layout_margin="16dp"
       android:text="_"
       android:textColor="?theColorTextPrimary"
       android:textSize="@dimen/text_code_size"
       tools:textColor="@color/dark_colorTextPrimary"/>
 
     <TextView
-      android:id="@+id/textCode3"
+      android:id="@+id/code3"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_margin="6dp"
+      android:layout_margin="16dp"
       android:text="_"
       android:textColor="?theColorTextPrimary"
       android:textSize="@dimen/text_code_size"
       tools:textColor="@color/dark_colorTextPrimary"/>
 
     <TextView
-      android:id="@+id/textCode4"
+      android:id="@+id/code4"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_margin="6dp"
+      android:layout_margin="16dp"
       android:text="_"
       android:textColor="?theColorTextPrimary"
       android:textSize="@dimen/text_code_size"
       tools:textColor="@color/dark_colorTextPrimary"/>
 
     <TextView
-      android:id="@+id/textCode5"
+      android:id="@+id/code5"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_margin="6dp"
+      android:layout_margin="16dp"
       android:text="_"
       android:textColor="?theColorTextPrimary"
       android:textSize="@dimen/text_code_size"
       tools:textColor="@color/dark_colorTextPrimary"/>
 
     <TextView
-      android:id="@+id/textCode6"
+      android:id="@+id/code6"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_margin="6dp"
+      android:layout_margin="16dp"
       android:text="_"
       android:textColor="?theColorTextPrimary"
       android:textSize="@dimen/text_code_size"
       tools:textColor="@color/dark_colorTextPrimary"/>
 
   </LinearLayout>
-
-  <Button
-    android:id="@+id/buttonCheckCode"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="16dp"
-    android:text="Check"/>
 
 </LinearLayout>

@@ -9,9 +9,9 @@
     <item name="colorSurface">?theColorSurface</item>
     <item name="colorOnSurface">?theColorOnSurface</item>
     <item name="actionBarStyle">@style/ActionBar</item>
-    <item name="android:textViewStyle">@style/TextAppearance</item>
+    <item name="android:textViewStyle">@style/Text</item>
     <item name="android:editTextStyle">@style/EditText</item>
-    <item name="textAppearanceLargePopupMenu">@style/TextAppearance.PopupMenu</item>
+    <item name="textAppearanceLargePopupMenu">@style/Text.PopupMenu</item>
     <item name="android:windowBackground">?theColorBackground</item>
     <item name="radiusAuthEditText">@dimen/auth_edit_text_radius</item>
     <item name="android:autofilledHighlight">@android:color/transparent</item>

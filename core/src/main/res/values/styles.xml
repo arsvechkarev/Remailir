@@ -12,9 +12,9 @@
     <item name="colorSurface">?theColorSurface</item>
     <item name="colorOnSurface">?theColorOnSurface</item>
     <item name="actionBarStyle">@style/ActionBar</item>
-    <item name="android:textViewStyle">@style/TextAppearance</item>
+    <item name="android:textViewStyle">@style/Text</item>
     <item name="android:editTextStyle">@style/EditText</item>
-    <item name="textAppearanceLargePopupMenu">@style/TextAppearance.PopupMenu</item>
+    <item name="textAppearanceLargePopupMenu">@style/Text.PopupMenu</item>
     <item name="android:windowBackground">?theColorBackground</item>
     <item name="radiusAuthEditText">@dimen/auth_edit_text_radius</item>
   </style>
@@ -72,19 +72,19 @@
   <!-- Popup menu -->
 
   <style name="PopupMenu" parent="Widget.MaterialComponents.PopupMenu.Overflow">
-    <item name="textAppearanceLargePopupMenu">@style/TextAppearance</item>
-    <item name="textAppearanceSmallPopupMenu">@style/TextAppearance</item>
+    <item name="textAppearanceLargePopupMenu">@style/Text.PopupMenu</item>
+    <item name="textAppearanceSmallPopupMenu">@style/Text.PopupMenu</item>
     <item name="android:popupBackground">?theColorSurface</item>
   </style>
 
 
   <!-- TextAppearance -->
 
-  <style name="TextAppearance" parent="TextAppearance.MaterialComponents.Body1">
+  <style name="Text" parent="TextAppearance.MaterialComponents.Body1">
     <item name="android:textColor">?theColorTextPrimary</item>
   </style>
 
-  <style name="TextAppearance.PopupMenu">
+  <style name="Text.PopupMenu">
     <item name="android:textSize">@dimen/text_h5</item>
   </style>
 

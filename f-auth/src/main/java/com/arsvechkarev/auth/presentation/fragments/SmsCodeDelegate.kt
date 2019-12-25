@@ -39,6 +39,14 @@ class SmsCodeDelegate(
     hiddenEditText.requestFocus()
   }
   
+  fun enable() {
+    hiddenEditText.isEnabled = true
+  }
+  
+  fun disable() {
+    hiddenEditText.isEnabled = false
+  }
+  
   private val customTextWatcher = object : TextWatcher {
     
     private var lastLength: Int = 0
@@ -65,10 +73,8 @@ class SmsCodeDelegate(
     override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
       lastLength = s.length
     }
-    
-    override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-    
-    }
+  
+    override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
     
   }
   
@@ -78,11 +84,5 @@ class SmsCodeDelegate(
   
   private fun addDigit() {
     textViews[currentPosition - 1].text = code.last().toString()
-  }
-  
-  private fun updateTextViews() {
-    code.forEachIndexed { index, c ->
-      textViews[index].text = c.toString()
-    }
   }
 }

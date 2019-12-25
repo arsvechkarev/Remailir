@@ -1,8 +1,10 @@
 package com.arsvechkarev.remailir.entrance
 
+import core.model.users.NewUser
+
 sealed class PhoneAuthState {
   
-  object UserAlreadyExists : PhoneAuthState()
+  class UserAlreadyExists(val user: NewUser) : PhoneAuthState()
   object UserNotExist : PhoneAuthState()
   object Cancelled : PhoneAuthState()
   object OnCheckedAutomatically : PhoneAuthState()

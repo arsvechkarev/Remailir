@@ -69,12 +69,11 @@ class EntranceViewModel @Inject constructor(
             if (userDb == null) {
               phoneVerificationState.value = UserNotExist
             } else {
-              phoneVerificationState.value = UserAlreadyExists
+              phoneVerificationState.value = UserAlreadyExists(userDb)
             }
           }
         }.addOnFailureListener {
           phoneVerificationState.value = Failed(it)
-          debug(it) { "fail1" }
         }
     }.addOnFailureListener {
       phoneVerificationState.value = Failed(it)
