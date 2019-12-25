@@ -1,10 +1,11 @@
-package com.arsvechkarev.auth.presentation.fragments
+package com.arsvechkarev.auth.presentation.phone
 
 import android.os.Bundle
 import android.telephony.PhoneNumberFormattingTextWatcher
 import android.text.Editable
 import android.view.View
 import com.arsvechakrev.auth.R
+import com.arsvechkarev.auth.presentation.countrycodes.CountryCodeFragment
 import com.arsvechkarev.auth.utils.phoneNumber
 import com.arsvechkarev.auth.utils.removeDashes
 import core.base.BaseFragment
@@ -27,7 +28,10 @@ class PhoneFragment : BaseFragment() {
     }
     layoutCountryCode.setOnClickListener {
       activity!!.supportFragmentManager.beginTransaction()
-        .add(R.id.rootLayoutPhoneFragment, CountryCodeFragment())
+        .add(
+          R.id.rootLayoutPhoneFragment,
+          CountryCodeFragment()
+        )
         .addToBackStack(null)
         .commit()
     }

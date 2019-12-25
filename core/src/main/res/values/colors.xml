@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-  <color name="colorBottomAppBarIcon">#FF0000</color>
-
   <color name="dark_colorMessageThisUser">#2A4663</color>
   <color name="dark_colorMessageOtherUser">#222F41</color>
   <color name="dark_colorAccent">#306599</color>

@@ -1,4 +1,4 @@
-package com.arsvechkarev.auth.presentation.fragments
+package com.arsvechkarev.auth.presentation.sms
 
 import android.text.Editable
 import android.text.TextWatcher

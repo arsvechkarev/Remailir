@@ -5,9 +5,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.arsvechkarev.auth.presentation.fragments.PhoneFragment
-import com.arsvechkarev.auth.presentation.fragments.RegistrationFragment
-import com.arsvechkarev.auth.presentation.fragments.SmsCodeFragment
+import com.arsvechkarev.auth.presentation.phone.PhoneFragment
+import com.arsvechkarev.auth.presentation.signup.RegistrationFragment
+import com.arsvechkarev.auth.presentation.sms.SmsCodeFragment
 import com.arsvechkarev.remailir.CoreActivity
 import com.arsvechkarev.remailir.R
 import com.arsvechkarev.remailir.entrance.PhoneAuthState.OnCodeSent
@@ -27,7 +27,8 @@ class EntranceActivity : AppCompatActivity(), EntranceActivity {
   
   private val phoneFragment = PhoneFragment()
   private val smsCodeFragment = SmsCodeFragment()
-  private val registrationFragment = RegistrationFragment()
+  private val registrationFragment =
+    RegistrationFragment()
   
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory

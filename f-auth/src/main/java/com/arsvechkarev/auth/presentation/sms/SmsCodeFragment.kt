@@ -1,4 +1,4 @@
-package com.arsvechkarev.auth.presentation.fragments
+package com.arsvechkarev.auth.presentation.sms
 
 import android.os.Bundle
 import android.view.View
@@ -20,7 +20,15 @@ class SmsCodeFragment : BaseFragment() {
   override val layout: Int = R.layout.fragment_sms_code
   
   private val smsCodeDelegate by lazy {
-    SmsCodeDelegate(code1, code2, code3, code4, code5, code6, editTextHiddenCode) {
+    SmsCodeDelegate(
+      code1,
+      code2,
+      code3,
+      code4,
+      code5,
+      code6,
+      editTextHiddenCode
+    ) {
       entranceActivity.onCheckCode(it)
     }
   }

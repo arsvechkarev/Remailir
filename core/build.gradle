@@ -39,6 +39,7 @@ dependencies {
   implementation appDependencies.appCompat
   implementation appDependencies.lifecycleExtensions
   implementation appDependencies.materialDesign
+  implementation appDependencies.constraintLayout
 
   implementation appDependencies.coroutinesCore
   implementation appDependencies.coroutinesAndroid

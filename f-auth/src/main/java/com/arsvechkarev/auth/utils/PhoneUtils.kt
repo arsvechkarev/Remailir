@@ -72,3 +72,11 @@ fun getCountriesWithLetters(): MutableList<DisplayableItem> {
   }
   return resultList
 }
+
+object CountryCodesHolder {
+  
+  val countryCodes by lazy {
+    getCountriesWithLetters()
+  }
+  
+}

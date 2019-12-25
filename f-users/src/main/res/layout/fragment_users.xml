@@ -14,7 +14,7 @@
     android:layout_height="wrap_content"
     android:background="?theColorPrimary"
     android:minHeight="?actionBarSize"
-    app:navigationIcon="@drawable/ic_arrow_back"
+    app:navigationIcon="@drawable/ic_back"
     app:title="@string/title_select_user"
     app:titleTextColor="?theColorTextPrimary"/>
 

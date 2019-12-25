@@ -1,4 +1,4 @@
-package com.arsvechkarev.auth.presentation.fragments
+package com.arsvechkarev.auth.presentation.signup
 
 import android.os.Bundle
 import android.view.View
@@ -6,11 +6,9 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.ViewModelProvider
 import com.arsvechakrev.auth.R
 import com.arsvechkarev.auth.di.DaggerAuthComponent
-import com.arsvechkarev.auth.presentation.viewmodels.RegistrationViewModel
-import com.arsvechkarev.auth.presentation.viewmodels.UserCreationState
-import com.arsvechkarev.auth.presentation.viewmodels.UserCreationState.Completed
-import com.arsvechkarev.auth.presentation.viewmodels.UserCreationState.Failed
-import com.arsvechkarev.auth.presentation.viewmodels.UserCreationState.NameOccupied
+import com.arsvechkarev.auth.presentation.signup.UserCreationState.Completed
+import com.arsvechkarev.auth.presentation.signup.UserCreationState.Failed
+import com.arsvechkarev.auth.presentation.signup.UserCreationState.NameOccupied
 import core.base.BaseFragment
 import core.base.entranceActivity
 import core.extensions.observe

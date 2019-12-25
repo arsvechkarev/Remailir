@@ -42,6 +42,6 @@
     android:layout_margin="16dp"
     android:src="@drawable/ic_add"
     app:backgroundTint="?theColorAccent"
-    app:tint="?theColorFabIcon" />
+    app:tint="?attr/theColorIcon"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
