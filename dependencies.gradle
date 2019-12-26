@@ -11,7 +11,7 @@ ext {
   circleImageView_version = '3.0.1'
   picasso_version = '2.71828'
 
-  coroutines_version = '1.1.1'
+  coroutines_version = '1.3.2'
 
   firebaseAnalytics_version = '17.2.0'
   firebaseAuth_version = '19.1.0'
