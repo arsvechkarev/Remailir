@@ -17,7 +17,7 @@ import core.base.BaseViewModel
 import core.model.users.NewUser
 import firebase.Collections.Users
 import log.Loggable
-import log.debug
+import log.log
 import javax.inject.Inject
 
 class EntranceViewModel @Inject constructor(
@@ -38,7 +38,7 @@ class EntranceViewModel @Inject constructor(
     override fun onVerificationCompleted(credential: PhoneAuthCredential) {
       phoneVerificationState.value = OnCheckedAutomatically
       performMainSignCheck(credential)
-      debug { "completed, smsCode = ${credential.smsCode}" }
+      log { "completed, smsCode = ${credential.smsCode}" }
     }
     
     override fun onVerificationFailed(exception: FirebaseException) {
@@ -48,7 +48,7 @@ class EntranceViewModel @Inject constructor(
     override fun onCodeSent(p0: String, p1: PhoneAuthProvider.ForceResendingToken) {
       verificationId = p0
       phoneVerificationState.value = OnCodeSent
-      debug { "onCodeSent, p0 = $p0" }
+      log { "onCodeSent, p0 = $p0" }
     }
   }
   

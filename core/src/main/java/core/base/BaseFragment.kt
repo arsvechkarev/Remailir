@@ -17,7 +17,7 @@ abstract class BaseFragment : Fragment() {
     container: ViewGroup?,
     savedInstanceState: Bundle?
   ): View? {
-    return view ?: inflater.inflate(layout, container, false)
+    return inflater.inflate(layout, container, false)
   }
   
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

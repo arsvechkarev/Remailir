@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Logging for lazy people.
+ * Just base Timber with changed depth of CALL_STACK_INDEX
  */
 @SuppressWarnings({"WeakerAccess", "unused"}) // Public API.
 public final class MyTimber {
@@ -43,21 +43,21 @@ public final class MyTimber {
   }
 
   /**
-   * Log a debug message with optional format args.
+   * Log a log message with optional format args.
    */
   public static void d(@NonNls String message, Object... args) {
     TREE_OF_SOULS.d(message, args);
   }
 
   /**
-   * Log a debug exception and a message with optional format args.
+   * Log a log exception and a message with optional format args.
    */
   public static void d(Throwable t, @NonNls String message, Object... args) {
     TREE_OF_SOULS.d(t, message, args);
   }
 
   /**
-   * Log a debug exception.
+   * Log a log exception.
    */
   public static void d(Throwable t) {
     TREE_OF_SOULS.d(t);
@@ -495,21 +495,21 @@ public final class MyTimber {
     }
 
     /**
-     * Log a debug message with optional format args.
+     * Log a log message with optional format args.
      */
     public void d(String message, Object... args) {
       prepareLog(Log.DEBUG, null, message, args);
     }
 
     /**
-     * Log a debug exception and a message with optional format args.
+     * Log a log exception and a message with optional format args.
      */
     public void d(Throwable t, String message, Object... args) {
       prepareLog(Log.DEBUG, t, message, args);
     }
 
     /**
-     * Log a debug exception.
+     * Log a log exception.
      */
     public void d(Throwable t) {
       prepareLog(Log.DEBUG, t, null);
@@ -699,7 +699,7 @@ public final class MyTimber {
   }
 
   /**
-   * A {@link Tree Tree} for debug builds. Automatically infers the logTag from the calling
+   * A {@link Tree Tree} for log builds. Automatically infers the logTag from the calling
    * class.
    */
   public static class DebugTree extends Tree {

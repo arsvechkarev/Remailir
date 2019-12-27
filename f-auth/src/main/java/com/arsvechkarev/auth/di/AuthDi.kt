@@ -3,8 +3,6 @@ package com.arsvechkarev.auth.di
 import androidx.lifecycle.ViewModel
 import com.arsvechkarev.auth.presentation.countrycodes.CountriesFragment
 import com.arsvechkarev.auth.presentation.countrycodes.CountriesViewModel
-import com.arsvechkarev.auth.presentation.countrycodes.SearchCountryFragment
-import com.arsvechkarev.auth.presentation.countrycodes.SearchCountryViewModel
 import com.arsvechkarev.auth.presentation.signup.RegistrationFragment
 import com.arsvechkarev.auth.presentation.signup.RegistrationViewModel
 import core.di.CoreModule
@@ -25,9 +23,9 @@ import firebase.di.FirebaseModule
 )
 @FeatureScope
 interface AuthComponent {
+  
   fun inject(fragment: RegistrationFragment)
   fun inject(fragment: CountriesFragment)
-  fun inject(fragment: SearchCountryFragment)
 }
 
 @Module
@@ -42,10 +40,5 @@ abstract class AuthViewModelModule {
   @IntoMap
   @ViewModelKey(CountriesViewModel::class)
   internal abstract fun postCountriesViewModel(viewModel: CountriesViewModel): ViewModel
-  
-  @Binds
-  @IntoMap
-  @ViewModelKey(SearchCountryViewModel::class)
-  internal abstract fun postSearchCountryViewModel(viewModel: SearchCountryViewModel): ViewModel
   
 }

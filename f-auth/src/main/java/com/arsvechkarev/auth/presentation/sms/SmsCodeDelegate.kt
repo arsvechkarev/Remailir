@@ -6,7 +6,7 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.core.text.isDigitsOnly
 import log.Loggable
-import log.debug
+import log.log
 
 
 class SmsCodeDelegate(
@@ -66,8 +66,8 @@ class SmsCodeDelegate(
           addDigit()
         }
       }
-      debug { "code = $code" }
-      debug { "currentPosition = $currentPosition" }
+      log { "code = $code" }
+      log { "currentPosition = $currentPosition" }
     }
     
     override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {

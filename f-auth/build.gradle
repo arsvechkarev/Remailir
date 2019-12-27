@@ -35,7 +35,9 @@ dependencies {
   implementation dependencies.appCompat
   implementation dependencies.ktx
   implementation dependencies.materialDesign
+  implementation dependencies.fragmentKtx
   implementation dependencies.lifecycleExtensions
+  implementation dependencies.viewModelSavedState
   implementation dependencies.legacySupport
   implementation dependencies.constraintLayout
   implementation dependencies.libPhoneNumber
