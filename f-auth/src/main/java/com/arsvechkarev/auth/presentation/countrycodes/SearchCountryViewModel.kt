@@ -16,7 +16,7 @@ class SearchCountryViewModel(
   val editTextString = savingStateHandle[EDIT_TEXT_VALUE] ?: ""
   
   
-  private val countries = MutableLiveData<MutableList<Country>>()
+  val countries = MutableLiveData<MutableList<Country>>()
   
   fun fetchCountries() {
     coroutine {

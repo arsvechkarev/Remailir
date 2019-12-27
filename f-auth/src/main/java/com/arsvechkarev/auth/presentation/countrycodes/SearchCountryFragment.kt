@@ -12,6 +12,7 @@ import com.arsvechkarev.auth.list.CountryCodesAdapter
 import core.base.BaseFragment
 import core.base.entranceActivity
 import core.extensions.hideKeyboard
+import core.extensions.observe
 import core.extensions.popBackStack
 import core.extensions.showKeyboard
 import core.model.other.Country
@@ -36,6 +37,7 @@ class SearchCountryFragment : BaseFragment(), LayoutSearch {
   
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     viewModel.fetchCountries()
+    viewModel.countries.observe(this, ::handleList)
     editTextSearch.setText(viewModel.editTextString)
     recyclerCountries.adapter = adapter
     recyclerCountries.layoutManager = LinearLayoutManager(context)
