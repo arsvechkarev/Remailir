@@ -6,6 +6,6 @@ import core.R
 interface ToolbarSearch : Toolbar {
   
   val imageSearch: ImageView
-    get() = includedToolbar.findViewById(R.id.imageSearch)
+    get() = includedToolbar!!.findViewById(R.id.imageSearch)
   
 }

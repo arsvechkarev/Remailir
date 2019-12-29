@@ -7,12 +7,13 @@ import core.R
 
 interface Toolbar {
   
-  val includedToolbar: View
+  val includedToolbar: View?
+    get() = null
   
   val textTitle: TextView
-    get() = includedToolbar.findViewById(R.id.textTitle)
+    get() = includedToolbar!!.findViewById(R.id.textTitle)
   
   val imageBack: ImageView
-    get() = includedToolbar.findViewById(R.id.imageBack)
+    get() = includedToolbar!!.findViewById(R.id.imageBack)
   
 }

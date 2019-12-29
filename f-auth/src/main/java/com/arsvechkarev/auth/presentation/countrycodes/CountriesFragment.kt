@@ -13,14 +13,11 @@ import core.extensions.observe
 import core.extensions.popBackStack
 import core.extensions.viewModelOf
 import core.recycler.DisplayableItem
-import core.viewdelegates.ToolbarSearch
-import kotlinx.android.synthetic.main.fragment_country_code.layoutIncludedToolbar
 import kotlinx.android.synthetic.main.fragment_country_code.recyclerCountries
+import kotlinx.android.synthetic.main.fragment_country_code.theToolbar
 import javax.inject.Inject
 
-class CountriesFragment : BaseFragment(), ToolbarSearch {
-  
-  override val includedToolbar: View by lazy { layoutIncludedToolbar }
+class CountriesFragment : BaseFragment() {
   
   override val layout: Int = R.layout.fragment_country_code
   
@@ -40,13 +37,12 @@ class CountriesFragment : BaseFragment(), ToolbarSearch {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     DaggerAuthComponent.create().inject(this)
     viewModel.fetchCountriesAndCodes()
-    textTitle.text = getString(R.string.title_countries)
     recyclerCountries.adapter = adapter
     recyclerCountries.layoutManager = LinearLayoutManager(context)
-    imageBack.setOnClickListener {
+    theToolbar.onBackClick {
       popBackStack()
     }
-    imageSearch.setOnClickListener {
+    theToolbar.onSearchClick {
       entranceActivity.goToFragment(SearchCountryFragment(), true)
     }
   }

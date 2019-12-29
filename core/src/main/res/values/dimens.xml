@@ -16,8 +16,7 @@
   <dimen name="auth_edit_text_padding">12dp</dimen>
 
   <dimen name="icon_size">24dp</dimen>
-  <dimen name="toolbar_image_margin">16dp</dimen>
-  <dimen name="toolbar_title_margin">32dp</dimen>
+
 
   <dimen name="logo_size">100dp</dimen>
 
