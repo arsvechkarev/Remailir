@@ -7,9 +7,10 @@
   android:focusable="true"
   android:orientation="vertical">
 
-  <include
-    android:id="@+id/layoutIncludedSearch"
-    layout="@layout/layout_search"/>
+  <com.arsvecharev.views.SearchToolbar
+    android:id="@+id/searchToolbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"/>
 
   <androidx.recyclerview.widget.RecyclerView
     android:id="@+id/recyclerCountries"

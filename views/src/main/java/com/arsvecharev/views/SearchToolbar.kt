@@ -2,10 +2,10 @@ package com.arsvecharev.views
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.isGone
 import views.R
 
 
@@ -15,59 +15,26 @@ class SearchToolbar @JvmOverloads constructor(
   defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
   
-  private var hasSearch = false
-  private var title = ""
-  
-  private val textTitle by lazy { findViewById<TextView>(R.id.textTitle) }
+  val editTextSearch by lazy { findViewById<EditText>(R.id.editTextSearch) }
   private val imageBack by lazy { findViewById<ImageView>(R.id.imageBack) }
-  private val imageSearch by lazy { findViewById<ImageView>(R.id.imageSearch) }
+  private val imageCross by lazy { findViewById<ImageView>(R.id.imageCross) }
   
   init {
     inflate(context, R.layout.the_toolbar, this)
-    val typedArray = context.theme.obtainStyledAttributes(attrs, R.styleable.SearchToolbar, 0, 0)
-    try {
-      this.setBackgroundIfNeeded(typedArray, R.styleable.SearchToolbar_backgroundColor)
-      imageBack.setBackgroundIfNeeded(typedArray, R.styleable.SearchToolbar_imageBackColor)
-      imageSearch.setBackgroundIfNeeded(typedArray, R.styleable.SearchToolbar_imageSearchColor)
-      textTitle.setTextColorIfNeeded(typedArray, R.styleable.SearchToolbar_titleColor)
-      textTitle.setTextSizeIfNeeded(typedArray, R.styleable.SearchToolbar_titleTextSize)
-      title = typedArray.getString(R.styleable.SearchToolbar_title) ?: ""
-      hasSearch = typedArray.getBoolean(R.styleable.SearchToolbar_hasSearch, false)
-      maxHeight = getAttributeValue(android.R.attr.actionBarSize)
-      minHeight = getAttributeValue(android.R.attr.actionBarSize)
-    } finally {
-      typedArray.recycle()
-    }
-    textTitle.text = title
-    imageSearch.isGone = !hasSearch
+    //    val typedArray = context.theme.obtainStyledAttributes(attrs, R.styleable.SearchToolbar, 0, 0)
+    //    try {
+    //      this.setBackgroundIfNeeded(typedArray, R.styleable.SearchToolbar_backgroundColor)
+    //      maxHeight = getAttributeValue(android.R.attr.actionBarSize)
+    //      minHeight = getAttributeValue(android.R.attr.actionBarSize)
+    //    } finally {
+    //      typedArray.recycle()
+    //    }
     setConstrains()
   }
   
   private fun setConstrains() {
-    imageBack.constraints {
-      topToTop = id
-      bottomToBottom = id
-      startToStart = id
-    }
-    textTitle.constraints {
-      topToTop = id
-      bottomToBottom = id
-      startToEnd = R.id.imageBack
-    }
-    imageSearch.constraints {
-      topToTop = id
-      bottomToBottom = id
-      endToEnd = id
-    }
+  
     requestLayout()
-  }
-  
-  fun setTextToEditText() {
-  
-  }
-  
-  fun setHintToEditText() {
-  
   }
   
   fun onBackClick(block: () -> Unit) {
@@ -75,6 +42,13 @@ class SearchToolbar @JvmOverloads constructor(
   }
   
   fun onCrossClick(block: () -> Unit) {
-    imageSearch.setOnClickListener { block() }
+    imageCross.setOnClickListener { block() }
   }
+  
+  fun hideKeyboard(context: Context) {
+    val inputMethodManager =
+      context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+    inputMethodManager!!.hideSoftInputFromWindow(editTextSearch.windowToken, 0)
+  }
+  
 }

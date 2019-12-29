@@ -31,10 +31,8 @@ class TheToolbar @JvmOverloads constructor(
       imageSearch.setBackgroundIfNeeded(typedArray, R.styleable.TheToolbar_imageSearchColor)
       textTitle.setTextColorIfNeeded(typedArray, R.styleable.TheToolbar_titleColor)
       textTitle.setTextSizeIfNeeded(typedArray, R.styleable.TheToolbar_titleTextSize)
-      
       title = typedArray.getString(R.styleable.TheToolbar_title) ?: ""
       hasSearch = typedArray.getBoolean(R.styleable.TheToolbar_hasSearch, false)
-  
       maxHeight = getAttributeValue(android.R.attr.actionBarSize)
       minHeight = getAttributeValue(android.R.attr.actionBarSize)
     } finally {

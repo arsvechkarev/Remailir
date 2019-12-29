@@ -4,8 +4,8 @@
 
   <ImageView
     android:id="@+id/imageBack"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="@dimen/image_default_size"
+    android:layout_height="@dimen/image_default_size"
     android:layout_marginStart="@dimen/toolbar_image_margin"
     android:background="?selectableItemBackgroundBorderless"
     android:clickable="true"
@@ -17,8 +17,8 @@
 
   <ImageView
     android:id="@+id/imageSearch"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="@dimen/image_default_size"
+    android:layout_height="@dimen/image_default_size"
     android:layout_marginStart="@dimen/toolbar_image_margin"
     android:layout_marginEnd="@dimen/toolbar_image_margin"
     android:background="?selectableItemBackgroundBorderless"
@@ -34,7 +34,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/toolbar_title_margin"
-    android:textSize="@dimen/text_h2"
+    android:textSize="@dimen/toolbar_title_size"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintStart_toEndOf="@id/imageBack"
     app:layout_constraintTop_toTopOf="parent"/>

@@ -3,6 +3,8 @@ package com.arsvechkarev.auth.presentation.countrycodes
 import android.os.Bundle
 import android.text.Editable
 import android.view.View
+import android.widget.EditText
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -10,17 +12,15 @@ import com.arsvechakrev.auth.R
 import com.arsvechkarev.auth.list.CountryCodesAdapter
 import core.base.BaseFragment
 import core.base.entranceActivity
-import core.extensions.hideKeyboard
 import core.extensions.observe
 import core.extensions.popBackStack
 import core.extensions.showKeyboard
 import core.model.other.Country
-import kotlinx.android.synthetic.main.fragment_country_code_search.layoutIncludedSearch
 import kotlinx.android.synthetic.main.fragment_country_code_search.recyclerCountries
+import kotlinx.android.synthetic.main.fragment_country_code_search.searchToolbar
 
 class SearchCountryFragment : BaseFragment() {
   
-  override val includedSearch: View by lazy { layoutIncludedSearch }
   override val layout: Int = R.layout.fragment_country_code_search
   
   private val viewModel: SearchCountryViewModel by viewModels(
@@ -36,25 +36,25 @@ class SearchCountryFragment : BaseFragment() {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     viewModel.fetchCountries()
     viewModel.countries.observe(this, ::handleList)
-    editTextSearch.setText(viewModel.editTextString)
+    searchToolbar.editTextSearch.setText(viewModel.editTextString)
     recyclerCountries.adapter = adapter
     recyclerCountries.layoutManager = LinearLayoutManager(context)
-    imageBack.setOnClickListener {
-      hideKeyboard(editTextSearch)
+    searchToolbar.onBackClick {
+      searchToolbar.hideKeyboard(context!!)
       popBackStack()
     }
-    imageCross.setOnClickListener {
-      editTextSearch.text.clear()
+    searchToolbar.onCrossClick {
+      searchToolbar.editTextSearch.text.clear()
     }
-    editTextSearch.setHint(R.string.hint_search_countries)
-    editTextSearch.doAfterTextChanged { editable: Editable? ->
+    searchToolbar.editTextSearch.setHint(R.string.hint_search_countries)
+    EditText(context).doAfterTextChanged { editable: Editable? ->
       viewModel.filter(editable.toString())
     }
   }
   
   override fun onResume() {
     super.onResume()
-    editTextSearch.requestFocus()
+    searchToolbar.editTextSearch.requestFocus()
     showKeyboard()
   }
   
