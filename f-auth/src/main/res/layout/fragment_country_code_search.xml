@@ -7,7 +7,7 @@
   android:focusable="true"
   android:orientation="vertical">
 
-  <com.arsvecharev.views.SearchToolbar
+  <com.arsvechkarev.views.SearchToolbar
     android:id="@+id/searchToolbar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"/>

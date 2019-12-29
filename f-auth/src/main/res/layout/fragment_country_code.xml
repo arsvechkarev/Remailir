@@ -8,13 +8,13 @@
   android:focusable="true"
   android:orientation="vertical">
 
-  <com.arsvecharev.views.TheToolbar
+  <com.arsvechkarev.views.TheToolbar
     android:id="@+id/theToolbar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:backgroundColor="?theColorPrimary"
-    app:hasSearch="true"
-    app:title="@string/title_countries"/>
+    app:the_toolbar_backgroundColor="?theColorPrimary"
+    app:the_toolbar_hasSearch="true"
+    app:the_toolbar_title="@string/title_countries"/>
 
   <androidx.recyclerview.widget.RecyclerView
     android:id="@+id/recyclerCountries"

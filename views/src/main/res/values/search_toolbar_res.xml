@@ -5,10 +5,10 @@
   <dimen name="search_toolbar_title_margin">32dp</dimen>
 
   <declare-styleable name="SearchToolbar">
-    <attr name="backgroundColor" format="color"/>
-    <attr name="imageBackColor" format="color"/>
-    <attr name="imageCrossColor" format="color"/>
-    <attr name="editTextHint" format="string"/>
+    <attr name="search_toolbar_backgroundColor" format="color"/>
+    <attr name="search_toolbar_imageBackColor" format="color"/>
+    <attr name="search_toolbar_imageCrossColor" format="color"/>
+    <attr name="search_toolbar_editTextHint" format="string"/>
   </declare-styleable>
 
 </resources>
