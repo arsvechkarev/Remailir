@@ -9,10 +9,13 @@ import com.arsvechkarev.auth.di.DaggerAuthComponent
 import com.arsvechkarev.auth.list.CountryAndLettersAdapter
 import core.base.BaseFragment
 import core.base.entranceActivity
+import core.extensions.gone
 import core.extensions.observe
 import core.extensions.popBackStack
 import core.extensions.viewModelOf
+import core.extensions.visible
 import core.recycler.DisplayableItem
+import kotlinx.android.synthetic.main.fragment_country_code.progressBarCountries
 import kotlinx.android.synthetic.main.fragment_country_code.recyclerCountries
 import kotlinx.android.synthetic.main.fragment_country_code.theToolbar
 import javax.inject.Inject
@@ -37,6 +40,7 @@ class CountriesFragment : BaseFragment() {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     DaggerAuthComponent.create().inject(this)
     viewModel.fetchCountriesAndCodes()
+    progressBarCountries.visible()
     recyclerCountries.adapter = adapter
     recyclerCountries.layoutManager = LinearLayoutManager(context)
     theToolbar.onBackClick {
@@ -49,5 +53,6 @@ class CountriesFragment : BaseFragment() {
   
   private fun handleList(countries: MutableList<DisplayableItem>) {
     adapter.submitList(countries)
+    progressBarCountries.gone()
   }
 }
