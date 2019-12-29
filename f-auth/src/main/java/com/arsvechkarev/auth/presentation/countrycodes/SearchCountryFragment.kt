@@ -3,7 +3,6 @@ package com.arsvechkarev.auth.presentation.countrycodes
 import android.os.Bundle
 import android.text.Editable
 import android.view.View
-import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,11 +15,10 @@ import core.extensions.observe
 import core.extensions.popBackStack
 import core.extensions.showKeyboard
 import core.model.other.Country
-import core.viewdelegates.LayoutSearch
 import kotlinx.android.synthetic.main.fragment_country_code_search.layoutIncludedSearch
 import kotlinx.android.synthetic.main.fragment_country_code_search.recyclerCountries
 
-class SearchCountryFragment : BaseFragment(), LayoutSearch {
+class SearchCountryFragment : BaseFragment() {
   
   override val includedSearch: View by lazy { layoutIncludedSearch }
   override val layout: Int = R.layout.fragment_country_code_search
