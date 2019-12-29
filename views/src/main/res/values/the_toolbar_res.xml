@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-  <dimen name="toolbar_image_margin">16dp</dimen>
-  <dimen name="toolbar_title_margin">32dp</dimen>
+  <dimen name="the_toolbar_image_margin">16dp</dimen>
+  <dimen name="the_toolbar_title_margin">32dp</dimen>
 
   <declare-styleable name="TheToolbar">
     <attr name="backgroundColor" format="color"/>
