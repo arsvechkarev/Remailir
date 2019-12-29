@@ -10,11 +10,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 
-fun <T> LiveData<T>.observe(activity: AppCompatActivity, block: (T) -> Unit) {
+inline fun <T> LiveData<T>.observe(activity: AppCompatActivity, crossinline block: (T) -> Unit) {
   observe(activity, Observer { block(it) })
 }
 
-fun <T> LiveData<T>.observe(fragment: Fragment, block: (T) -> Unit) {
+inline fun <T> LiveData<T>.observe(fragment: Fragment, crossinline block: (T) -> Unit) {
   observe(fragment, Observer { block(it) })
 }
 

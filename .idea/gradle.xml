@@ -22,6 +22,7 @@
             <option value="$PROJECT_DIR$/test-common" />
             <option value="$PROJECT_DIR$/test-ui" />
             <option value="$PROJECT_DIR$/test-unit" />
+            <option value="$PROJECT_DIR$/views" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
