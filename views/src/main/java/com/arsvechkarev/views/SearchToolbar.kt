@@ -20,7 +20,7 @@ class SearchToolbar @JvmOverloads constructor(
   
   init {
     inflate(context, R.layout.search_toolbar, this)
-    val typedArray = context.theme.obtainStyledAttributes(attrs, R.styleable.TheToolbar, 0, 0)
+    val typedArray = context.theme.obtainStyledAttributes(attrs, R.styleable.SearchToolbar, 0, 0)
     this.setBackgroundIfNeeded(typedArray, R.styleable.SearchToolbar_search_toolbar_backgroundColor)
     imageBack.setBackgroundIfNeeded(
       typedArray,
@@ -40,7 +40,23 @@ class SearchToolbar @JvmOverloads constructor(
   }
   
   private fun setConstrains() {
-    
+    imageBack.constraints {
+      startToStart = id
+      topToTop = id
+      bottomToBottom = id
+    }
+    editTextSearch.constraints {
+      startToEnd = R.id.imageBack
+      topToTop = id
+      endToStart = R.id.imageCross
+      bottomToBottom = id
+    }
+    imageCross.constraints {
+      startToEnd = R.id.editTextSearch
+      topToTop = id
+      endToEnd = id
+      bottomToBottom = id
+    }
     requestLayout()
   }
   
