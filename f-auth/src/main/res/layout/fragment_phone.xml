@@ -3,11 +3,8 @@
   xmlns:app="http://schemas.android.com/apk/res-auto"
   android:id="@+id/rootLayoutPhoneFragment"
   android:layout_width="match_parent"
-  android:background="?theColorBackground"
-  android:clickable="true"
-  android:focusable="true"
   android:layout_height="match_parent"
-  android:orientation="vertical">
+  android:background="?theColorBackground">
 
   <ImageView
     android:id="@+id/imageView"

@@ -3,10 +3,8 @@
   xmlns:app="http://schemas.android.com/apk/res-auto"
   android:id="@+id/rootLayoutRegistrationFragment"
   android:layout_width="match_parent"
-  android:background="?theColorBackground"
-  android:clickable="true"
-  android:focusable="true"
-  android:layout_height="match_parent">
+  android:layout_height="match_parent"
+  android:background="?theColorBackground">
 
   <ImageView
     android:id="@+id/imageView"
@@ -48,6 +46,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
+    android:layout_marginTop="36dp"
     android:enabled="false"
     android:letterSpacing="0.03"
     android:paddingStart="32dp"
@@ -56,7 +55,6 @@
     android:paddingBottom="8dp"
     android:text="Sign in"
     android:textAllCaps="false"
-    android:layout_marginTop="36dp"
     android:textSize="@dimen/text_h3"
     android:textStyle="normal"
     app:backgroundTint="@color/color_button_sign"
