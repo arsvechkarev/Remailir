@@ -3,7 +3,6 @@ package com.arsvechkarev.auth.presentation.countrycodes
 import android.os.Bundle
 import android.text.Editable
 import android.view.View
-import android.widget.EditText
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.SavedStateViewModelFactory
@@ -47,7 +46,7 @@ class SearchCountryFragment : BaseFragment() {
       searchToolbar.editTextSearch.text.clear()
     }
     searchToolbar.editTextSearch.setHint(R.string.hint_search_countries)
-    EditText(context).doAfterTextChanged { editable: Editable? ->
+    searchToolbar.editTextSearch.doAfterTextChanged { editable: Editable? ->
       viewModel.filter(editable.toString())
     }
   }

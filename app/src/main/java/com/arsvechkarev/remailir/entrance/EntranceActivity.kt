@@ -10,12 +10,15 @@ import com.arsvechkarev.auth.presentation.signup.RegistrationFragment
 import com.arsvechkarev.auth.presentation.sms.SmsCodeFragment
 import com.arsvechkarev.remailir.CoreActivity
 import com.arsvechkarev.remailir.R
+import com.arsvechkarev.remailir.entrance.PhoneAuthState.Failed
 import com.arsvechkarev.remailir.entrance.PhoneAuthState.OnCodeSent
 import com.arsvechkarev.remailir.entrance.PhoneAuthState.UserAlreadyExists
 import com.arsvechkarev.remailir.entrance.PhoneAuthState.UserNotExist
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthProvider
 import core.base.EntranceActivity
 import core.extensions.observe
+import core.extensions.showToast
 import core.extensions.switchFragment
 import core.extensions.viewModelOf
 import core.model.other.Country
@@ -27,8 +30,8 @@ class EntranceActivity : AppCompatActivity(), EntranceActivity {
   private val phoneFragment = PhoneFragment()
   
   private val smsCodeFragment = SmsCodeFragment()
-  private val registrationFragment =
-    RegistrationFragment()
+  private val registrationFragment = RegistrationFragment()
+  
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
   
@@ -55,6 +58,11 @@ class EntranceActivity : AppCompatActivity(), EntranceActivity {
         goToBase()
       }
       is UserNotExist -> goToFragment(registrationFragment)
+      is Failed -> {
+        if (state.exception is FirebaseAuthInvalidCredentialsException) {
+          showToast("Code is invalid")
+        }
+      }
     }
   }
   
@@ -72,6 +80,7 @@ class EntranceActivity : AppCompatActivity(), EntranceActivity {
   }
   
   override fun onPhoneEntered(phoneNumber: String) {
+    switchFragment(R.id.rootContainer, SmsCodeFragment())
     phoneAuthProvider.verifyPhoneNumber(phoneNumber, 60, SECONDS, this, viewModel.callbacks)
   }
   
@@ -82,5 +91,5 @@ class EntranceActivity : AppCompatActivity(), EntranceActivity {
   override fun goToFragment(fragment: Fragment, addToBackStack: Boolean) {
     switchFragment(R.id.rootContainer, fragment, addToBackStack)
   }
-
+  
 }

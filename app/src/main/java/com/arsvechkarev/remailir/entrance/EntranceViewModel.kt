@@ -59,6 +59,10 @@ class EntranceViewModel @Inject constructor(
   
   private fun performMainSignCheck(credential: PhoneAuthCredential) {
     firebaseAuth.signInWithCredential(credential).addOnCompleteListener { signInTask ->
+      if (!signInTask.isSuccessful) {
+        phoneVerificationState.value = Failed(signInTask.exception)
+        return@addOnCompleteListener
+      }
       val user = signInTask.result!!.user!!
       firebaseFirestore.collection(Users)
         .document(user.uid)

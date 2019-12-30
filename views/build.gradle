@@ -34,7 +34,4 @@ dependencies {
   implementation dependencies.lifecycleExtensions
   implementation dependencies.legacySupport
   implementation dependencies.constraintLayout
-
-  testImplementation project(':test-unit')
-  androidTestImplementation project(':test-ui')
 }
