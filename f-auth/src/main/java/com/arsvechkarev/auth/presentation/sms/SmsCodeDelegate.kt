@@ -20,13 +20,12 @@ class SmsCodeDelegate(
   private val onDone: (String) -> Unit
 ) : Loggable {
   
-  override val logTag: String
-    get() = "SmsCodeDelegate"
+  override val logTag = "SmsCodeDelegate"
   
   private var code = StringBuilder()
   private var currentPosition = 0
   
-  private val textViews = listOf(
+  private val textViews = arrayOf(
     textCode1, textCode2, textCode3, textCode4, textCode5, textCode6
   )
   

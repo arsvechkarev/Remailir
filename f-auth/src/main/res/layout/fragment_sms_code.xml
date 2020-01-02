@@ -15,6 +15,7 @@
 
   <EditText
     android:id="@+id/editTextHiddenCode"
+    android:maxLength="6"
     android:layout_width="1px"
     android:layout_height="1px"
     android:inputType="number"/>
