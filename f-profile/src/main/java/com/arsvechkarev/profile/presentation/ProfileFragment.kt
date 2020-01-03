@@ -45,7 +45,7 @@ class ProfileFragment : BaseFragment() {
   
   private fun updateProfile(user: User) {
     if (user.imageUrl == DEFAULT_IMG_URL) {
-      imageProfile.setBackgroundResource(R.drawable.image_stub)
+      imageProfile.setBackgroundResource(R.drawable.image_profile_stub)
     } else {
       Picasso.get().load(user.imageUrl).into(imageProfile)
     }

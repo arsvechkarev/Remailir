@@ -29,7 +29,7 @@ class FriendsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
   
   fun bind(otherUser: OtherUser, clickListener: (OtherUser) -> Unit) {
     if (otherUser.imageUrl == DEFAULT_IMG_URL) {
-      itemView.imageProfile.setBackgroundResource(com.arsvechkarev.chat.R.drawable.image_stub)
+      itemView.imageProfile.setBackgroundResource(com.arsvechkarev.chat.R.drawable.image_profile_stub)
     } else {
       Picasso.get().load(otherUser.imageUrl).into(itemView.imageProfile)
     }

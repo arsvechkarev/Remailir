@@ -40,7 +40,7 @@ class MessagesAdapter(
       itemView.setOnClickListener { clickListener(chat) }
       itemView.textUsername.text = chat.otherUser.username
       if (chat.otherUser.imageUrl == DEFAULT_IMG_URL) {
-        itemView.imageUser.setBackgroundResource(R.drawable.image_stub)
+        itemView.imageUser.setBackgroundResource(R.drawable.image_profile_stub)
       } else {
       }
       chat.lastMessage?.let {

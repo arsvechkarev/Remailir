@@ -73,7 +73,7 @@ class ChatFragment : BaseFragment() {
   
   private fun prepareView() {
     if (otherUser.imageUrl == DEFAULT_IMG_URL) {
-      imageOtherUser.setBackgroundResource(R.drawable.image_stub)
+      imageOtherUser.setBackgroundResource(R.drawable.image_profile_stub)
     } else {
       Picasso.get().load(otherUser.imageUrl).into(imageOtherUser)
     }
