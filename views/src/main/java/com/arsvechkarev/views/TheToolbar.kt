@@ -13,9 +13,6 @@ class TheToolbar @JvmOverloads constructor(
   defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
   
-  private var hasSearch = false
-  private var title = ""
-  
   private val textTitle by lazy { findViewById<TextView>(R.id.textTitle) }
   private val imageBack by lazy { findViewById<ImageView>(R.id.imageBack) }
   private val imageSearch by lazy { findViewById<ImageView>(R.id.imageSearch) }
@@ -32,15 +29,18 @@ class TheToolbar @JvmOverloads constructor(
       )
       textTitle.setTextColorIfNeeded(typedArray, R.styleable.TheToolbar_the_toolbar_titleColor)
       textTitle.setTextSizeIfNeeded(typedArray, R.styleable.TheToolbar_the_toolbar_titleTextSize)
-      title = typedArray.getString(R.styleable.TheToolbar_the_toolbar_title) ?: ""
-      hasSearch = typedArray.getBoolean(R.styleable.TheToolbar_the_toolbar_hasSearch, false)
+      textTitle.text = typedArray.getString(R.styleable.TheToolbar_the_toolbar_title) ?: ""
       maxHeight = getAttributeValue(android.R.attr.actionBarSize)
       minHeight = getAttributeValue(android.R.attr.actionBarSize)
+      val hasSearch = typedArray.getBoolean(R.styleable.TheToolbar_the_toolbar_hasSearch, false)
+      val hasBackImage =
+        typedArray.getBoolean(R.styleable.TheToolbar_the_toolbar_hasBackImage, true)
+      imageSearch.isGone = !hasSearch
+      imageBack.isGone = !hasBackImage
     } finally {
       typedArray.recycle()
     }
-    textTitle.text = title
-    imageSearch.isGone = !hasSearch
+  
     setConstrains()
   }
   

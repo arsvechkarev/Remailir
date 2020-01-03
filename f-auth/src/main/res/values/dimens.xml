@@ -18,6 +18,7 @@
   <dimen name="bt_next_p_bottom">8dp</dimen>
   <dimen name="et_phone_p_start">16dp</dimen>
   <dimen name="layout_phone_margin">16dp</dimen>
+  <dimen name="layout_phone_margin_top">4dp</dimen>
   <dimen name="input_username_m_start">16dp</dimen>
   <dimen name="input_username_m_top">24dp</dimen>
   <dimen name="input_username_m_end">16dp</dimen>
@@ -25,5 +26,7 @@
   <dimen name="bt_sign_up_p_side">32dp</dimen>
   <dimen name="bt_sign_up_p_top">8dp</dimen>
   <dimen name="bt_sign_up_p_bottom">8dp</dimen>
+  <dimen name="header_phone_m_start">16dp</dimen>
+  <dimen name="header_phone_m_top">24dp</dimen>
 
 </resources>

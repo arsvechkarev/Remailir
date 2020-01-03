@@ -19,14 +19,35 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"/>
 
+  <androidx.constraintlayout.widget.Guideline
+    android:id="@+id/guideline"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    app:layout_constraintGuide_percent="0.40"/>
+
+  <TextView
+    android:id="@+id/headerEnterYourPhone"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/header_phone_m_start"
+    android:layout_marginTop="@dimen/header_phone_m_top"
+    android:text="@string/text_enter_phone"
+    app:layout_constraintBottom_toTopOf="@+id/layoutPhone"
+    app:layout_constraintStart_toStartOf="@id/layoutPhone"
+    app:layout_constraintTop_toTopOf="@+id/guideline"/>
+
   <androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/layoutPhone"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/layout_phone_margin"
+    android:layout_marginStart="@dimen/layout_phone_margin"
+    android:layout_marginTop="@dimen/layout_phone_margin_top"
+    android:layout_marginEnd="@dimen/layout_phone_margin"
+    android:layout_marginBottom="@dimen/layout_phone_margin"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="@+id/guideline">
+    app:layout_constraintTop_toBottomOf="@+id/headerEnterYourPhone">
 
     <LinearLayout
       android:id="@+id/layoutCountryCode"
@@ -89,11 +110,5 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/layoutPhone"/>
 
-  <androidx.constraintlayout.widget.Guideline
-    android:id="@+id/guideline"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    app:layout_constraintGuide_percent="0.4"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

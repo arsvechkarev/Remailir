@@ -12,6 +12,7 @@
     <attr name="the_toolbar_titleColor" format="color"/>
     <attr name="the_toolbar_titleTextSize" format="dimension"/>
     <attr name="the_toolbar_hasSearch" format="boolean"/>
+    <attr name="the_toolbar_hasBackImage" format="boolean"/>
   </declare-styleable>
 
 </resources>
