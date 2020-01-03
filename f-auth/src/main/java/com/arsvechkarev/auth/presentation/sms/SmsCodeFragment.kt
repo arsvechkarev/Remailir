@@ -5,6 +5,7 @@ import android.view.View
 import com.arsvechakrev.auth.R
 import core.base.BaseFragment
 import core.base.entranceActivity
+import core.extensions.popBackStack
 import kotlinx.android.synthetic.main.fragment_sms_code.code1
 import kotlinx.android.synthetic.main.fragment_sms_code.code2
 import kotlinx.android.synthetic.main.fragment_sms_code.code3
@@ -13,6 +14,7 @@ import kotlinx.android.synthetic.main.fragment_sms_code.code5
 import kotlinx.android.synthetic.main.fragment_sms_code.code6
 import kotlinx.android.synthetic.main.fragment_sms_code.editTextHiddenCode
 import kotlinx.android.synthetic.main.fragment_sms_code.layoutDigits
+import kotlinx.android.synthetic.main.fragment_sms_code.theToolbar
 
 class SmsCodeFragment : BaseFragment() {
   
@@ -33,6 +35,9 @@ class SmsCodeFragment : BaseFragment() {
   }
   
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    theToolbar.onBackClick {
+      popBackStack()
+    }
     layoutDigits.setOnClickListener {
       smsCodeDelegate.requestFocus()
     }

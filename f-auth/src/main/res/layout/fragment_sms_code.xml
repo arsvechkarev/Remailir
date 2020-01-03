@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   android:background="?theColorBackground"
   android:gravity="center_horizontal"
   android:orientation="vertical">
+
+  <com.arsvechkarev.views.TheToolbar
+    android:id="@+id/theToolbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_constraintTop_toTopOf="parent"
+    app:the_toolbar_backgroundColor="?theColorPrimary"
+    app:the_toolbar_title="@string/title_sms_verification"/>
 
   <TextView
     android:layout_width="wrap_content"
@@ -15,10 +24,10 @@
 
   <EditText
     android:id="@+id/editTextHiddenCode"
-    android:maxLength="6"
     android:layout_width="1px"
     android:layout_height="1px"
-    android:inputType="number"/>
+    android:inputType="number"
+    android:maxLength="6"/>
 
   <LinearLayout
     android:id="@+id/layoutDigits"

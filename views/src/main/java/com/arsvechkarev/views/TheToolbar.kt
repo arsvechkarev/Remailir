@@ -42,7 +42,6 @@ class TheToolbar @JvmOverloads constructor(
     } finally {
       typedArray.recycle()
     }
-  
     setConstrains()
   }
   
@@ -59,6 +58,7 @@ class TheToolbar @JvmOverloads constructor(
         startToEnd = R.id.imageBack
       } else {
         startToStart = id
+        marginStart = context.resources.getDimension(R.dimen.the_toolbar_image_margin).toInt()
       }
     }
     imageSearch.constraints {

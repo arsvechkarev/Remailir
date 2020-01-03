@@ -82,7 +82,7 @@
 
   <!-- TextAppearance -->
 
-  <style name="Text" parent="TextAppearance.MaterialComponents.Body1">
+  <style name="Text">
     <item name="android:textColor">?theColorTextPrimary</item>
   </style>
 

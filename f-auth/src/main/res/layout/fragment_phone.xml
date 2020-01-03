@@ -26,25 +26,14 @@
     app:layout_constraintBottom_toTopOf="@+id/guideline"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"/>
+    app:layout_constraintTop_toBottomOf="@id/theToolbar"/>
 
   <androidx.constraintlayout.widget.Guideline
     android:id="@+id/guideline"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    app:layout_constraintGuide_percent="0.40"/>
-
-  <TextView
-    android:id="@+id/headerEnterYourPhone"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/header_phone_m_start"
-    android:layout_marginTop="@dimen/header_phone_m_top"
-    android:text="@string/text_enter_phone"
-    app:layout_constraintBottom_toTopOf="@+id/layoutPhone"
-    app:layout_constraintStart_toStartOf="@id/layoutPhone"
-    app:layout_constraintTop_toTopOf="@+id/guideline"/>
+    app:layout_constraintGuide_percent="0.32"/>
 
   <androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/layoutPhone"
@@ -56,7 +45,7 @@
     android:layout_marginBottom="@dimen/layout_phone_margin"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/headerEnterYourPhone">
+    app:layout_constraintTop_toBottomOf="@+id/guideline">
 
     <LinearLayout
       android:id="@+id/layoutCountryCode"
@@ -93,6 +82,7 @@
       android:importantForAutofill="no"
       android:inputType="phone"
       android:paddingStart="@dimen/et_phone_p_start"
+      android:textSize="@dimen/text_h2"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toEndOf="@id/constraint_helper"

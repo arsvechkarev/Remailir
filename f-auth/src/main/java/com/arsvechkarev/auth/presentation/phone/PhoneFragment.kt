@@ -25,9 +25,15 @@ class PhoneFragment : BaseFragment() {
   override val layout: Int = R.layout.fragment_phone
   
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-    addTextWatcher(Locale.getDefault().country)
-    textCountryCode.text =
-      "+${PhoneNumberUtil.getInstance().getCountryCodeForRegion(Locale.getDefault().country)}"
+    val country = arguments?.getParcelable(COUNTRY) as? Country
+    if (country != null) {
+      setTextWatcher(country.letters)
+      textCountryCode.text = "+${country.code}"
+    } else {
+      setTextWatcher(Locale.getDefault().country)
+      textCountryCode.text =
+        "+${PhoneNumberUtil.getInstance().getCountryCodeForRegion(Locale.getDefault().country)}"
+    }
     buttonNext.setOnClickListener {
       val phoneNumber = textCountryCode.text.toString() + editTextPhone.phoneNumber()
       entranceActivity.onPhoneEntered(phoneNumber)
@@ -38,7 +44,7 @@ class PhoneFragment : BaseFragment() {
     }
   }
   
-  private fun addTextWatcher(countryLetters: String) {
+  private fun setTextWatcher(countryLetters: String) {
     editTextPhone.addTextChangedListener(object : PhoneNumberFormattingTextWatcher(countryLetters) {
       override fun afterTextChanged(s: Editable) {
         super.afterTextChanged(s)
@@ -48,7 +54,20 @@ class PhoneFragment : BaseFragment() {
   }
   
   fun onCountrySelected(country: Country) {
-    addTextWatcher(country.letters)
+    setTextWatcher(country.letters)
     textCountryCode.text = "+${country.code}"
+  }
+  
+  companion object {
+    
+    private const val COUNTRY = "COUNTRY"
+    
+    fun instance(country: Country): PhoneFragment {
+      val bundle = Bundle()
+      bundle.putParcelable(COUNTRY, country)
+      val fragment = PhoneFragment()
+      fragment.arguments = bundle
+      return fragment
+    }
   }
 }

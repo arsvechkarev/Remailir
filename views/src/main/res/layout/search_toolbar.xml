@@ -22,6 +22,7 @@
     android:layout_marginStart="@dimen/search_toolbar_title_margin"
     android:layout_marginEnd="@dimen/search_toolbar_title_margin"
     android:background="@null"
+    android:maxLines="1"
     android:textSize="@dimen/text_h3"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toStartOf="@id/imageCross"

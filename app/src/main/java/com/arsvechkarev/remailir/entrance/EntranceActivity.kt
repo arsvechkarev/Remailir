@@ -27,7 +27,6 @@ import java.util.concurrent.TimeUnit.SECONDS
 import javax.inject.Inject
 
 class EntranceActivity : AppCompatActivity(), EntranceActivity {
-  private val phoneFragment = PhoneFragment()
   
   private val smsCodeFragment = SmsCodeFragment()
   private val registrationFragment = RegistrationFragment()
@@ -46,7 +45,7 @@ class EntranceActivity : AppCompatActivity(), EntranceActivity {
     DaggerEntranceComponent.create().inject(this)
     viewModel.phoneState().observe(this, ::handleState)
     if (savedInstanceState == null) {
-      switchFragment(R.id.rootContainer, phoneFragment, false)
+      switchFragment(R.id.rootContainer, PhoneFragment(), false)
     }
   }
   
@@ -72,7 +71,7 @@ class EntranceActivity : AppCompatActivity(), EntranceActivity {
   }
   
   override fun onCountrySelected(country: Country) {
-    phoneFragment.onCountrySelected(country)
+    goToFragment(PhoneFragment.instance(country), false)
   }
   
   private fun goToFragment(fragment: Fragment) {
@@ -80,7 +79,7 @@ class EntranceActivity : AppCompatActivity(), EntranceActivity {
   }
   
   override fun onPhoneEntered(phoneNumber: String) {
-    switchFragment(R.id.rootContainer, SmsCodeFragment())
+    switchFragment(R.id.rootContainer, SmsCodeFragment(), true)
     phoneAuthProvider.verifyPhoneNumber(phoneNumber, 60, SECONDS, this, viewModel.callbacks)
   }
   
