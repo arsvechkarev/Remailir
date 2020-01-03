@@ -8,15 +8,6 @@
   android:background="?theColorBackground"
   tools:ignore="ContentDescription">
 
-  <com.arsvechkarev.views.TheToolbar
-    android:id="@+id/theToolbar"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:layout_constraintTop_toTopOf="parent"
-    app:the_toolbar_backgroundColor="?theColorPrimary"
-    app:the_toolbar_hasBackImage="false"
-    app:the_toolbar_title="@string/app_name"/>
-
   <ImageView
     android:id="@+id/imageView"
     android:layout_width="@dimen/logo_size"
@@ -26,7 +17,7 @@
     app:layout_constraintBottom_toTopOf="@+id/guideline"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/theToolbar"/>
+    app:layout_constraintTop_toTopOf="parent"/>
 
   <androidx.constraintlayout.widget.Guideline
     android:id="@+id/guideline"
@@ -86,13 +77,13 @@
 
     <EditText
       android:id="@+id/editTextPhone"
+      style="@style/EditText"
       android:layout_width="0dp"
       android:layout_height="0dp"
       android:background="@drawable/bg_edit_text_phone"
       android:importantForAutofill="no"
       android:inputType="phone"
       android:paddingStart="@dimen/et_phone_p_start"
-      android:theme="@style/EditText"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toEndOf="@id/constraint_helper"
@@ -103,6 +94,7 @@
 
   <com.google.android.material.button.MaterialButton
     android:id="@+id/buttonNext"
+    style="@style/MaterialButton"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
@@ -113,7 +105,6 @@
     android:paddingEnd="@dimen/bt_next_p_end"
     android:paddingBottom="@dimen/bt_next_p_bottom"
     android:text="@string/text_next"
-    android:theme="@style/MaterialButton"
     app:cornerRadius="@dimen/radius_button_auth"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"

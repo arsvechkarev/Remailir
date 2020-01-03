@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto">
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  tools:ignore="ContentDescription">
 
   <ImageView
     android:id="@+id/imageBack"
@@ -10,10 +12,10 @@
     android:background="?selectableItemBackgroundBorderless"
     android:clickable="true"
     android:focusable="true"
-    android:src="@drawable/ic_back"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"/>
+    app:layout_constraintTop_toTopOf="parent"
+    app:srcCompat="@drawable/ic_back"/>
 
   <ImageView
     android:id="@+id/imageSearch"
@@ -24,10 +26,10 @@
     android:background="?selectableItemBackgroundBorderless"
     android:clickable="true"
     android:focusable="true"
-    android:src="@drawable/ic_search"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintTop_toTopOf="parent"/>
+    app:layout_constraintTop_toTopOf="parent"
+    app:srcCompat="@drawable/ic_search"/>
 
   <TextView
     android:id="@+id/textTitle"

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-  <style name="BaseTheme">
+  <style name="BaseTheme" parent="Theme.MaterialComponents">
     <item name="android:autofilledHighlight">@android:color/transparent</item>
   </style>
 
