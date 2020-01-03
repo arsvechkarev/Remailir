@@ -71,7 +71,7 @@ class EntranceActivity : AppCompatActivity(), EntranceActivity {
   }
   
   override fun onCountrySelected(country: Country) {
-    goToFragment(PhoneFragment.instance(country), false)
+    goToFragment(PhoneFragment.instance(country), true)
   }
   
   private fun goToFragment(fragment: Fragment) {

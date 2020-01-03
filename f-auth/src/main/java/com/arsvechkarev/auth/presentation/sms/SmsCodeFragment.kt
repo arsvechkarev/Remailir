@@ -6,6 +6,7 @@ import com.arsvechakrev.auth.R
 import core.base.BaseFragment
 import core.base.entranceActivity
 import core.extensions.popBackStack
+import core.extensions.showKeyboard
 import kotlinx.android.synthetic.main.fragment_sms_code.code1
 import kotlinx.android.synthetic.main.fragment_sms_code.code2
 import kotlinx.android.synthetic.main.fragment_sms_code.code3
@@ -39,6 +40,7 @@ class SmsCodeFragment : BaseFragment() {
       popBackStack()
     }
     layoutDigits.setOnClickListener {
+      showKeyboard()
       smsCodeDelegate.requestFocus()
     }
   }
