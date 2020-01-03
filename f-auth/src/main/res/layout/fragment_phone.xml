@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
   android:id="@+id/rootLayoutPhoneFragment"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  android:background="?theColorBackground">
+  android:background="?theColorBackground"
+  tools:ignore="ContentDescription">
 
   <ImageView
     android:id="@+id/imageView"
@@ -21,7 +23,7 @@
     android:id="@+id/layoutPhone"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="16dp"
+    android:layout_margin="@dimen/layout_phone_margin"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="@+id/guideline">
@@ -44,20 +46,28 @@
 
     </LinearLayout>
 
+    <View
+      android:id="@+id/constraint_helper"
+      android:layout_width="0dp"
+      android:layout_height="0dp"
+      android:layout_marginEnd="@dimen/stroke_edit_text_auth"
+      app:layout_constraintEnd_toEndOf="@id/layoutCountryCode"
+      app:layout_constraintTop_toTopOf="@id/layoutCountryCode"/>
+
     <EditText
       android:id="@+id/editTextPhone"
       android:layout_width="0dp"
       android:layout_height="0dp"
       android:background="@drawable/bg_edit_text_phone"
+      android:importantForAutofill="no"
       android:inputType="phone"
-      android:maxLines="1"
-      android:paddingStart="16dp"
-      android:textCursorDrawable="@drawable/bg_cursor"
-      android:textSize="@dimen/text_h2"
+      android:paddingStart="@dimen/et_phone_p_start"
+      android:theme="@style/EditText"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toEndOf="@id/layoutCountryCode"
-      app:layout_constraintTop_toTopOf="parent"/>
+      app:layout_constraintStart_toEndOf="@id/constraint_helper"
+      app:layout_constraintTop_toTopOf="parent"
+      tools:ignore="LabelFor,RtlSymmetry"/>
 
   </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -66,19 +76,15 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:layout_marginTop="32dp"
+    android:layout_marginTop="@dimen/bt_next_m_top"
     android:enabled="false"
-    android:letterSpacing="0.03"
-    android:paddingStart="32dp"
-    android:paddingTop="8dp"
-    android:paddingEnd="32dp"
-    android:paddingBottom="8dp"
-    android:text="Next"
-    android:textAllCaps="false"
-    android:textSize="@dimen/text_h3"
-    android:textStyle="normal"
-    app:backgroundTint="@color/color_button_sign"
-    app:cornerRadius="16dp"
+    android:paddingStart="@dimen/bt_next_p_start"
+    android:paddingTop="@dimen/bt_next_p_top"
+    android:paddingEnd="@dimen/bt_next_p_end"
+    android:paddingBottom="@dimen/bt_next_p_bottom"
+    android:text="@string/text_next"
+    android:theme="@style/MaterialButton"
+    app:cornerRadius="@dimen/radius_button_auth"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/layoutPhone"/>
