@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/rootLayoutPhoneFragment"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:background="?theColorBackground"
+  android:orientation="vertical"
+  tools:ignore="ContentDescription">
+
+  <com.arsvechkarev.views.TheToolbar
+    android:id="@+id/theToolbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_constraintTop_toTopOf="parent"
+    app:the_toolbar_backgroundColor="?theColorPrimary"
+    app:the_toolbar_hasBackImage="false"
+    app:the_toolbar_title="@string/app_name"/>
+
+  <!-- todo: Add margin to dimens -->
+
+  <ImageView
+    android:id="@+id/imageView"
+    android:layout_width="@dimen/logo_size"
+    android:layout_height="@dimen/logo_size"
+    android:layout_gravity="center"
+    android:layout_margin="24dp"
+    android:src="@drawable/image_msg"/>
+
+  <androidx.constraintlayout.widget.Guideline
+    android:id="@+id/guideline"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    app:layout_constraintGuide_percent="0.32"/>
+
+  <androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/layoutPhone"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/layout_phone_margin"
+    android:layout_marginTop="@dimen/layout_phone_margin_top"
+    android:layout_marginEnd="@dimen/layout_phone_margin"
+    android:layout_marginBottom="@dimen/layout_phone_margin"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/guideline">
+
+    <LinearLayout
+      android:id="@+id/layoutCountryCode"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:background="@drawable/bg_card_country_code"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent">
+
+      <TextView
+        android:id="@+id/textCountryCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:textSize="@dimen/text_h2"/>
+
+    </LinearLayout>
+
+    <View
+      android:id="@+id/constraint_helper"
+      android:layout_width="0dp"
+      android:layout_height="0dp"
+      android:layout_marginEnd="@dimen/stroke_edit_text_auth"
+      app:layout_constraintEnd_toEndOf="@id/layoutCountryCode"
+      app:layout_constraintTop_toTopOf="@id/layoutCountryCode"/>
+
+    <EditText
+      android:id="@+id/editTextPhone"
+      style="@style/EditText"
+      android:layout_width="0dp"
+      android:layout_height="0dp"
+      android:background="@drawable/bg_edit_text_phone"
+      android:importantForAutofill="no"
+      android:inputType="phone"
+      android:paddingStart="@dimen/et_phone_p_start"
+      android:textSize="@dimen/text_h2"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toEndOf="@id/constraint_helper"
+      app:layout_constraintTop_toTopOf="parent"
+      tools:ignore="LabelFor,RtlSymmetry"/>
+
+  </androidx.constraintlayout.widget.ConstraintLayout>
+
+  <com.google.android.material.button.MaterialButton
+    android:id="@+id/buttonNext"
+    style="@style/MaterialButton"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginTop="@dimen/bt_next_m_top"
+    android:enabled="false"
+    android:paddingStart="@dimen/bt_next_p_start"
+    android:paddingTop="@dimen/bt_next_p_top"
+    android:paddingEnd="@dimen/bt_next_p_end"
+    android:paddingBottom="@dimen/bt_next_p_bottom"
+    android:text="@string/text_next"
+    app:cornerRadius="@dimen/radius_button_auth"/>
+
+
+</LinearLayout>
