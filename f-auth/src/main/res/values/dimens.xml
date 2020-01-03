@@ -19,7 +19,7 @@
   <dimen name="et_phone_p_start">16dp</dimen>
   <dimen name="layout_phone_margin">16dp</dimen>
   <dimen name="layout_phone_margin_top">4dp</dimen>
-  <dimen name="input_username_m_start">16dp</dimen>
+  <dimen name="input_username_m_sides">16dp</dimen>
   <dimen name="input_username_m_top">24dp</dimen>
   <dimen name="input_username_m_end">16dp</dimen>
   <dimen name="bt_sign_up_m_top">36dp</dimen>

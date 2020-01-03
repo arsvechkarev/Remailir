@@ -18,7 +18,6 @@ import core.extensions.viewModelOf
 import core.strings.DEFAULT_IMG_URL
 import kotlinx.android.synthetic.main.fragment_registration.buttonSignUp
 import kotlinx.android.synthetic.main.fragment_registration.editTextUsername
-import kotlinx.android.synthetic.main.fragment_registration.inputLayoutUsername
 import storage.Database
 import javax.inject.Inject
 
@@ -45,14 +44,13 @@ class RegistrationFragment : BaseFragment() {
         Database.saveUser(context!!, editTextUsername.string(), DEFAULT_IMG_URL)
         entranceActivity.goToBase()
       }
-      is NameOccupied -> inputLayoutUsername.error = "User with this name already exists"
+      is NameOccupied -> showToast("User with this name already exists")
       is Failed -> showToast("Something went wrong")
     }
   }
   
   private fun handleEditTexts() {
     editTextUsername.doAfterTextChanged {
-      inputLayoutUsername.error = null
       buttonSignUp.isEnabled = it?.toString()?.isNotBlank() == true
     }
   }
