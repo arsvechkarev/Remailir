@@ -36,9 +36,6 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/the_toolbar_title_margin"
-    android:textSize="@dimen/toolbar_title_size"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintStart_toEndOf="@id/imageBack"
-    app:layout_constraintTop_toTopOf="parent"/>
+    android:textSize="@dimen/toolbar_title_size"/>
 
 </merge>

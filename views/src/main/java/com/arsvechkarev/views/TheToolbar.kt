@@ -17,6 +17,8 @@ class TheToolbar @JvmOverloads constructor(
   private val imageBack by lazy { findViewById<ImageView>(R.id.imageBack) }
   private val imageSearch by lazy { findViewById<ImageView>(R.id.imageSearch) }
   
+  private var hasBackImage = true
+  
   init {
     inflate(context, R.layout.the_toolbar, this)
     val typedArray = context.theme.obtainStyledAttributes(attrs, R.styleable.TheToolbar, 0, 0)
@@ -33,7 +35,7 @@ class TheToolbar @JvmOverloads constructor(
       maxHeight = getAttributeValue(android.R.attr.actionBarSize)
       minHeight = getAttributeValue(android.R.attr.actionBarSize)
       val hasSearch = typedArray.getBoolean(R.styleable.TheToolbar_the_toolbar_hasSearch, false)
-      val hasBackImage =
+      hasBackImage =
         typedArray.getBoolean(R.styleable.TheToolbar_the_toolbar_hasBackImage, true)
       imageSearch.isGone = !hasSearch
       imageBack.isGone = !hasBackImage
@@ -53,7 +55,11 @@ class TheToolbar @JvmOverloads constructor(
     textTitle.constraints {
       topToTop = id
       bottomToBottom = id
-      startToEnd = R.id.imageBack
+      if (hasBackImage) {
+        startToEnd = R.id.imageBack
+      } else {
+        startToStart = id
+      }
     }
     imageSearch.constraints {
       topToTop = id
