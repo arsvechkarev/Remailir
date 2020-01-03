@@ -3,19 +3,23 @@
 
   <!-- Activity -->
 
-  <style name="AppTheme" parent="Theme.MaterialComponents">
+  <style name="BaseTheme" parent="Theme.MaterialComponents"/>
+
+  <style name="AppTheme" parent="BaseTheme">
+    <item name="android:statusBarColor">?theColorBackground</item>
+    <item name="windowNoTitle">true</item>
+    <item name="windowActionBar">false</item>
+    <item name="actionBarStyle">@style/ActionBar</item>
+    <item name="android:windowBackground">?theColorBackground</item>
     <item name="colorPrimary">?theColorPrimary</item>
     <item name="colorPrimaryDark">?theColorPrimary</item>
     <item name="colorOnPrimary">?theColorOnPrimary</item>
     <item name="colorAccent">?theColorAccent</item>
     <item name="colorSurface">?theColorSurface</item>
     <item name="colorOnSurface">?theColorOnSurface</item>
-    <item name="actionBarStyle">@style/ActionBar</item>
     <item name="android:textViewStyle">@style/Text</item>
     <item name="android:editTextStyle">@style/EditText</item>
     <item name="textAppearanceLargePopupMenu">@style/Text.PopupMenu</item>
-    <item name="android:windowBackground">?theColorBackground</item>
-    <item name="radiusAuthEditText">@dimen/auth_edit_text_radius</item>
   </style>
 
   <style name="AppTheme.Dark">
@@ -37,17 +41,6 @@
     <item name="theColorTextInputNotSelected">@color/dark_colorTextInputNotSelected</item>
     <item name="colorMessageThisUser">@color/dark_colorMessageThisUser</item>
     <item name="colorMessageOtherUser">@color/dark_colorMessageOtherUser</item>
-  </style>
-
-  <style name="AppTheme.Dark.Core">
-    <item name="windowNoTitle">true</item>
-    <item name="windowActionBar">false</item>
-  </style>
-
-  <style name="AppTheme.Dark.Auth">
-    <item name="android:statusBarColor">?theColorBackground</item>
-    <item name="windowNoTitle">true</item>
-    <item name="windowActionBar">false</item>
   </style>
 
   <!-- ActionBar -->

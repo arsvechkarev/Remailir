@@ -28,12 +28,10 @@
     <activity
       android:name=".CoreActivity"
       android:windowSoftInputMode="adjustResize"
-      android:theme="@style/AppTheme.Dark.Core"
       android:noHistory="true"/>
 
     <activity
       android:name=".entrance.EntranceActivity"
-      android:theme="@style/AppTheme.Dark.Auth"
       android:noHistory="true"/>
 
   </application>

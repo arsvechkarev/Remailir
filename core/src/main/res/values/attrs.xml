@@ -21,8 +21,6 @@
   <attr name="theColorTextInputSelected" format="color"/>
   <attr name="theColorTextInputNotSelected" format="color"/>
 
-  <attr name="radiusAuthEditText" format="dimension"/>
-
   <attr name="colorMessageThisUser" format="color"/>
   <attr name="colorMessageOtherUser" format="color"/>
 

@@ -1,5 +1,5 @@
 <resources>
-  <string name="app_name">Core</string>
+  <string name="app_name" translatable="false">Remailir</string>
   <string name="title_sign_up">Sign up</string>
   <string name="title_sign_in">Sign in</string>
   <string name="title_messages">Messages</string>
