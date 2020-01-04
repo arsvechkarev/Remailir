@@ -22,7 +22,7 @@ class BaseTest {
   val rule = ActivityTestRule(EntranceActivity::class.java)
   
   @Test
-  fun test1_entering() {
+  fun test1_Creating_new_account() {
     onScreen<PhoneScreen> {
       editTextPhone {
         // TODO (1/4/2020): Change hardcoded test number
@@ -30,16 +30,23 @@ class BaseTest {
       }
       buttonNext.click()
     }
-    
+  
+    sleep(2000)
+  
     onScreen<SmsCodeScreen> {
       editTextSmsCode.typeText("123456")
     }
   
-    sleep(5000) // TODO (1/4/2020): Add idling resource
+    sleep(4000) // TODO (1/4/2020): Add idling resource
   
     onScreen<RegistrationScreen> {
-      editTextUsername.isVisible()
+      editTextUsername {
+        isVisible()
+        typeText("qwerty")
+      }
+      buttonSignUp.click()
     }
-    
+  
+    sleep(5000)
   }
 }
