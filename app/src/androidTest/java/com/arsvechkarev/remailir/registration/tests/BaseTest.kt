@@ -1,11 +1,12 @@
 package com.arsvechkarev.remailir.registration.tests
 
-import android.os.SystemClock
+import android.os.SystemClock.sleep
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import androidx.test.rule.ActivityTestRule
 import com.agoda.kakao.screen.Screen.Companion.onScreen
 import com.arsvechkarev.remailir.entrance.EntranceActivity
 import com.arsvechkarev.remailir.registration.screens.PhoneScreen
+import com.arsvechkarev.remailir.registration.screens.RegistrationScreen
 import com.arsvechkarev.remailir.registration.screens.SmsCodeScreen
 import org.junit.FixMethodOrder
 import org.junit.Rule
@@ -22,23 +23,23 @@ class BaseTest {
   
   @Test
   fun test1_entering() {
-    SystemClock.sleep(1000)
-    
     onScreen<PhoneScreen> {
       editTextPhone {
-        typeText("6666661234")
+        // TODO (1/4/2020): Change hardcoded test number
+        typeText("5555551234")
       }
-      SystemClock.sleep(3000)
       buttonNext.click()
     }
-    
-    SystemClock.sleep(3000)
     
     onScreen<SmsCodeScreen> {
       editTextSmsCode.typeText("123456")
     }
-    
-    SystemClock.sleep(5000) // TODO (1/4/2020): Add idling resource
+  
+    sleep(5000) // TODO (1/4/2020): Add idling resource
+  
+    onScreen<RegistrationScreen> {
+      editTextUsername.isVisible()
+    }
     
   }
 }
