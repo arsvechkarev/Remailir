@@ -11,22 +11,30 @@
   <dimen name="radius_edit_text_auth">24dp</dimen>
   <dimen name="radius_button_auth">16dp</dimen>
   <dimen name="stroke_edit_text_auth">2dp</dimen>
+
   <dimen name="bt_next_m_top">32dp</dimen>
   <dimen name="bt_next_p_start">32dp</dimen>
   <dimen name="bt_next_p_top">8dp</dimen>
   <dimen name="bt_next_p_end">32dp</dimen>
   <dimen name="bt_next_p_bottom">8dp</dimen>
+
   <dimen name="et_phone_p_start">16dp</dimen>
+
   <dimen name="layout_phone_margin">16dp</dimen>
   <dimen name="layout_phone_margin_top">4dp</dimen>
+
   <dimen name="input_username_m_sides">16dp</dimen>
   <dimen name="input_username_m_top">24dp</dimen>
   <dimen name="input_username_m_end">16dp</dimen>
+
   <dimen name="bt_sign_up_m_top">36dp</dimen>
   <dimen name="bt_sign_up_p_side">32dp</dimen>
   <dimen name="bt_sign_up_p_top">8dp</dimen>
   <dimen name="bt_sign_up_p_bottom">8dp</dimen>
+
   <dimen name="header_phone_m_start">20dp</dimen>
   <dimen name="header_phone_m_top">24dp</dimen>
 
+  <dimen name="text_sms_code_m_top">40dp</dimen>
+  <dimen name="six_digits_layout_margin_top">40dp</dimen>
 </resources>

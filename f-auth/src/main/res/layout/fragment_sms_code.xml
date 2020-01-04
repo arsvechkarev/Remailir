@@ -18,14 +18,15 @@
   <TextView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginTop="40dp"
+    android:layout_marginTop="@dimen/text_sms_code_m_top"
     android:gravity="center"
     android:text="Enter a code we've \nsent to you"
     android:textSize="@dimen/text_h1"/>
 
   <com.arsvechkarev.views.SixDigitCodeLayout
+    android:layout_width="wrap_content"
     android:id="@+id/sixDigitsCodeLayout"
-    android:layout_width="match_parent"
+    android:layout_marginTop="@dimen/six_digits_layout_margin_top"
     android:layout_height="wrap_content"
     app:digitsTextColor="?theColorTextPrimary"
     app:underscoresColor="?theColorAccent"/>
