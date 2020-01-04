@@ -13,9 +13,19 @@ fun View.setBackgroundIfNeeded(arr: TypedArray, @StyleableRes stylableRes: Int) 
   if (backgroundColor != Int.MIN_VALUE) this.setBackgroundColor(backgroundColor)
 }
 
+fun Array<View>.setBackgroundIfNeeded(arr: TypedArray, @StyleableRes stylableRes: Int) {
+  val backgroundColor = arr.getColor(stylableRes, Int.MIN_VALUE)
+  if (backgroundColor != Int.MIN_VALUE) this.forEach { it.setBackgroundColor(backgroundColor) }
+}
+
 fun TextView.setTextColorIfNeeded(arr: TypedArray, @StyleableRes stylableRes: Int) {
   val textColor = arr.getColor(stylableRes, Int.MIN_VALUE)
   if (textColor != Int.MIN_VALUE) this.setTextColor(textColor)
+}
+
+fun Array<TextView>.setTextColorIfNeeded(arr: TypedArray, @StyleableRes stylableRes: Int) {
+  val textColor = arr.getColor(stylableRes, Int.MIN_VALUE)
+  if (textColor != Int.MIN_VALUE) this.forEach { it.setTextColor(textColor) }
 }
 
 fun TextView.setTextSizeIfNeeded(arr: TypedArray, @StyleableRes stylableRes: Int) {

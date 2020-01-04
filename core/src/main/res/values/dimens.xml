@@ -9,7 +9,6 @@
   <dimen name="text_h6">11sp</dimen>
   <dimen name="text_h7">10sp</dimen>
 
-  <dimen name="text_sms_code_size">32sp</dimen>
   <dimen name="icon_size">24dp</dimen>
   <dimen name="logo_size">100dp</dimen>
 

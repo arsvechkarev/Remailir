@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <style name="TextSmsCodeDigit" parent="TextAppearance.MaterialComponents.Headline4">
+    <item name="android:textSize">@dimen/text_sms_code_size</item>
+  </style>
+
+  <dimen name="text_sms_code_size">28sp</dimen>
+  <dimen name="underscore_width">24dp</dimen>
+  <dimen name="underscore_height">3dp</dimen>
+  <dimen name="digit_margin">16dp</dimen>
+
+  <declare-styleable name="SixDigitCodeLayout">
+    <attr name="digitsTextColor" format="color"/>
+    <attr name="underscoresColor" format="color"/>
+  </declare-styleable>
+
+</resources>

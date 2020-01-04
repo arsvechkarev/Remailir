@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="wrap_content"
+  android:layout_height="wrap_content">
+
+  <EditText
+    android:id="@+id/editTextHiddenCode"
+    android:layout_width="1px"
+    android:layout_height="1px"
+    android:importantForAutofill="no"
+    android:inputType="number"
+    android:maxLength="6"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    tools:ignore="LabelFor"/>
+
+  <TextView
+    android:id="@+id/textCode1"
+    style="@style/TextSmsCodeDigit"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_constraintBottom_toTopOf="@id/underscore1"
+    app:layout_constraintEnd_toEndOf="@+id/underscore1"
+    app:layout_constraintStart_toStartOf="@+id/underscore1"
+    tools:text="9"
+    tools:textColor="@color/dark_colorTextPrimary"/>
+
+  <View
+    android:id="@+id/underscore1"
+    android:layout_width="@dimen/underscore_width"
+    android:layout_height="@dimen/underscore_height"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/textCode1"
+    tools:background="@android:color/white"/>
+
+  <TextView
+    android:id="@+id/textCode2"
+    style="@style/TextSmsCodeDigit"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_constraintBottom_toTopOf="@id/underscore2"
+    app:layout_constraintEnd_toEndOf="@+id/underscore2"
+    app:layout_constraintStart_toStartOf="@+id/underscore2"
+    tools:text="4"
+    tools:textColor="@color/dark_colorTextPrimary"/>
+
+  <View
+    android:id="@+id/underscore2"
+    android:layout_width="@dimen/underscore_width"
+    android:layout_height="@dimen/underscore_height"
+    android:layout_marginStart="@dimen/digit_margin"
+    app:layout_constraintStart_toEndOf="@id/underscore1"
+    app:layout_constraintTop_toBottomOf="@id/textCode2"
+    tools:background="@android:color/white"/>
+
+  <TextView
+    android:id="@+id/textCode3"
+    style="@style/TextSmsCodeDigit"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_constraintBottom_toTopOf="@id/underscore3"
+    app:layout_constraintEnd_toEndOf="@+id/underscore3"
+    app:layout_constraintStart_toStartOf="@+id/underscore3"
+    tools:text="5"
+    tools:textColor="@color/dark_colorTextPrimary"/>
+
+  <View
+    android:id="@+id/underscore3"
+    android:layout_width="@dimen/underscore_width"
+    android:layout_height="@dimen/underscore_height"
+    android:layout_marginStart="@dimen/digit_margin"
+    app:layout_constraintStart_toEndOf="@id/underscore2"
+    app:layout_constraintTop_toBottomOf="@id/textCode3"
+    tools:background="@android:color/white"/>
+
+  <TextView
+    android:id="@+id/textCode4"
+    style="@style/TextSmsCodeDigit"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_constraintBottom_toTopOf="@id/underscore4"
+    app:layout_constraintEnd_toEndOf="@+id/underscore4"
+    app:layout_constraintStart_toStartOf="@+id/underscore4"
+    tools:text="5"
+    tools:textColor="@color/dark_colorTextPrimary"/>
+
+  <View
+    android:id="@+id/underscore4"
+    android:layout_width="@dimen/underscore_width"
+    android:layout_height="@dimen/underscore_height"
+    android:layout_marginStart="@dimen/digit_margin"
+    app:layout_constraintStart_toEndOf="@id/underscore3"
+    app:layout_constraintTop_toBottomOf="@id/textCode4"
+    tools:background="@android:color/white"/>
+
+  <TextView
+    android:id="@+id/textCode5"
+    style="@style/TextSmsCodeDigit"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_constraintBottom_toTopOf="@id/underscore5"
+    app:layout_constraintEnd_toEndOf="@+id/underscore5"
+    app:layout_constraintStart_toStartOf="@+id/underscore5"
+    tools:text="5"
+    tools:textColor="@color/dark_colorTextPrimary"/>
+
+  <View
+    android:id="@+id/underscore5"
+    android:layout_width="@dimen/underscore_width"
+    android:layout_height="@dimen/underscore_height"
+    android:layout_marginStart="@dimen/digit_margin"
+    app:layout_constraintStart_toEndOf="@id/underscore4"
+    app:layout_constraintTop_toBottomOf="@id/textCode5"
+    tools:background="@android:color/white"/>
+
+  <TextView
+    android:id="@+id/textCode6"
+    style="@style/TextSmsCodeDigit"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_constraintBottom_toTopOf="@id/underscore6"
+    app:layout_constraintEnd_toEndOf="@+id/underscore6"
+    app:layout_constraintStart_toStartOf="@+id/underscore6"
+    tools:text="7"
+    tools:textColor="@color/dark_colorTextPrimary"/>
+
+  <View
+    android:id="@+id/underscore6"
+    android:layout_width="@dimen/underscore_width"
+    android:layout_height="@dimen/underscore_height"
+    android:layout_marginStart="@dimen/digit_margin"
+    app:layout_constraintStart_toEndOf="@id/underscore5"
+    app:layout_constraintTop_toBottomOf="@id/textCode6"
+    tools:background="@android:color/white"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

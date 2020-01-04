@@ -7,46 +7,28 @@ import core.base.BaseFragment
 import core.base.entranceActivity
 import core.extensions.popBackStack
 import core.extensions.showKeyboard
-import kotlinx.android.synthetic.main.fragment_sms_code.code1
-import kotlinx.android.synthetic.main.fragment_sms_code.code2
-import kotlinx.android.synthetic.main.fragment_sms_code.code3
-import kotlinx.android.synthetic.main.fragment_sms_code.code4
-import kotlinx.android.synthetic.main.fragment_sms_code.code5
-import kotlinx.android.synthetic.main.fragment_sms_code.code6
-import kotlinx.android.synthetic.main.fragment_sms_code.editTextHiddenCode
-import kotlinx.android.synthetic.main.fragment_sms_code.layoutDigits
+import kotlinx.android.synthetic.main.fragment_sms_code.sixDigitsCodeLayout
 import kotlinx.android.synthetic.main.fragment_sms_code.theToolbar
 
 class SmsCodeFragment : BaseFragment() {
   
   override val layout: Int = R.layout.fragment_sms_code
   
-  private val smsCodeDelegate by lazy {
-    SmsCodeDelegate(
-      code1,
-      code2,
-      code3,
-      code4,
-      code5,
-      code6,
-      editTextHiddenCode
-    ) {
-      entranceActivity.onCheckCode(it)
-    }
-  }
-  
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     theToolbar.onBackClick {
       popBackStack()
     }
-    layoutDigits.setOnClickListener {
+    sixDigitsCodeLayout.onDone {
+      entranceActivity.onCheckCode(it)
+    }
+    sixDigitsCodeLayout.setOnClickListener {
       showKeyboard()
-      smsCodeDelegate.requestFocus()
+      sixDigitsCodeLayout.start()
     }
   }
   
   override fun onResume() {
     super.onResume()
-    smsCodeDelegate.start()
+    sixDigitsCodeLayout.start()
   }
 }
