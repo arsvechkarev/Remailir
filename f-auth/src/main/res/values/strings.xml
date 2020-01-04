@@ -6,4 +6,5 @@
   <string name="hint_enter_username">Username</string>
   <string name="text_enter_phone">Enter your phone number</string>
   <string name="title_sms_verification">Sms verification</string>
+  <string name="text_enter_a_code">Enter a code we\'ve\nsent to you</string>
 </resources>

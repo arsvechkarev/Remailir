@@ -42,7 +42,6 @@
     android:layout_marginStart="@dimen/layout_phone_margin"
     android:layout_marginTop="@dimen/layout_phone_margin_top"
     android:layout_marginEnd="@dimen/layout_phone_margin"
-    android:layout_marginBottom="@dimen/layout_phone_margin"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/guideline">
@@ -109,5 +108,14 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/layoutPhone"/>
 
+  <TextView
+    android:id="@+id/textError"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/text_error_m_start"
+    android:textColor="?colorError"
+    app:layout_constraintStart_toStartOf="@+id/layoutPhone"
+    app:layout_constraintTop_toBottomOf="@+id/layoutPhone"
+    tools:text="Error. Blah blah blah"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

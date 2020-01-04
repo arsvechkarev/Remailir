@@ -37,4 +37,7 @@
 
   <dimen name="text_sms_code_m_top">40dp</dimen>
   <dimen name="six_digits_layout_margin_top">40dp</dimen>
+
+  <dimen name="text_error_m_start">24dp</dimen>
+  <dimen name="text_error_sms_m_top">16dp</dimen>
 </resources>
