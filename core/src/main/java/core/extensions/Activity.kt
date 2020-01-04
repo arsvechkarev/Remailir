@@ -12,7 +12,7 @@ fun AppCompatActivity.switchFragment(
   addToBackStack: Boolean = false
 ) {
   val transaction = supportFragmentManager.beginTransaction()
-    .add(containerIdRes, fragment, Fragment::class.java.simpleName)
+    .replace(containerIdRes, fragment, Fragment::class.java.simpleName)
   if (addToBackStack) transaction.addToBackStack(null)
   transaction.commit()
 }

@@ -34,7 +34,6 @@ class CountriesFragment : BaseFragment() {
   
   private val adapter = CountryAndLettersAdapter {
     entranceActivity.onCountrySelected(it)
-    popBackStack()
   }
   
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

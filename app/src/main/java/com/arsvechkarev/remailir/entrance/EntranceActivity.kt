@@ -71,7 +71,10 @@ class EntranceActivity : AppCompatActivity(), EntranceActivity {
   }
   
   override fun onCountrySelected(country: Country) {
-    goToFragment(PhoneFragment.instance(country), true)
+    repeat(supportFragmentManager.backStackEntryCount) {
+      supportFragmentManager.popBackStack()
+    }
+    goToFragment(PhoneFragment.instance(country))
   }
   
   private fun goToFragment(fragment: Fragment) {

@@ -17,8 +17,10 @@ class SixDigitCodeLayout @JvmOverloads constructor(
 ) : LinearLayout(context, attrs, defStyleAttr) {
   
   private var blockOnDone: (String) -> Unit = {}
-  private val hiddenEditText by lazy { findViewById<EditText>(R.id.editTextHiddenCode) }
+  private var code = StringBuilder()
+  private var currentPosition = 0
   
+  private val hiddenEditText by lazy { findViewById<EditText>(R.id.editTextHiddenCode) }
   private val textCodes by lazy {
     arrayOf<TextView>(
       findViewById(R.id.textCode1),
@@ -40,21 +42,6 @@ class SixDigitCodeLayout @JvmOverloads constructor(
       findViewById(R.id.underscore6)
     )
   }
-  
-  init {
-    inflate(context, R.layout.layout_six_digit_code, this)
-    val typedArray =
-      context.theme.obtainStyledAttributes(attrs, R.styleable.SixDigitCodeLayout, defStyleAttr, 0)
-    try {
-      textCodes.setTextColorIfNeeded(typedArray, R.styleable.SixDigitCodeLayout_digitsTextColor)
-      underscores.setBackgroundIfNeeded(typedArray, R.styleable.SixDigitCodeLayout_underscoresColor)
-    } finally {
-      typedArray.recycle()
-    }
-  }
-  
-  private var code = StringBuilder()
-  private var currentPosition = 0
   
   private val customTextWatcher = object : TextWatcher {
     
@@ -85,9 +72,21 @@ class SixDigitCodeLayout @JvmOverloads constructor(
     
   }
   
+  init {
+    inflate(context, R.layout.layout_six_digit_code, this)
+    val typedArray =
+      context.theme.obtainStyledAttributes(attrs, R.styleable.SixDigitCodeLayout, defStyleAttr, 0)
+    try {
+      textCodes.setTextColorIfNeeded(typedArray, R.styleable.SixDigitCodeLayout_digitsTextColor)
+      underscores.setBackgroundIfNeeded(typedArray, R.styleable.SixDigitCodeLayout_underscoresColor)
+    } finally {
+      typedArray.recycle()
+    }
+    hiddenEditText.addTextChangedListener(customTextWatcher)
+  }
+  
   fun start() {
     requestFocus()
-    hiddenEditText.addTextChangedListener(customTextWatcher)
   }
   
   fun requestEditTextFocus() {

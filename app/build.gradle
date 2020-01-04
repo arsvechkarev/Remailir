@@ -37,6 +37,7 @@ dependencies {
   implementation project(':f-auth')
 
   def appDependencies = rootProject.ext.applicationDependencies
+  def testDependencies = rootProject.ext.testDependencies
 
   implementation appDependencies.kotlin
   implementation appDependencies.appCompat
@@ -56,7 +57,13 @@ dependencies {
   kapt appDependencies.daggerCompiler
 
   testImplementation project(':test-unit')
-  androidTestImplementation project(':test-ui')
+
+  androidTestImplementation testDependencies.kakao
+  androidTestImplementation testDependencies.espresso
+  androidTestImplementation testDependencies.espressoContrib
+  androidTestImplementation testDependencies.androidTestRunner
+  androidTestImplementation testDependencies.androidTestRules
+  androidTestImplementation testDependencies.androidTestCore
 }
 
 apply plugin: 'com.google.gms.google-services'
