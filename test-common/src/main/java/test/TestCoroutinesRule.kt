@@ -1,6 +1,6 @@
 package test
 
-import core.util.DispatcherProvider
+import core.DispatcherProvider
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

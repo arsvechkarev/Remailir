@@ -1,66 +1,80 @@
 package com.arsvechkarev.profile.presentation
 
-import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.app.Activity.RESULT_OK
 import android.content.Intent
-import android.content.pm.PackageManager.PERMISSION_GRANTED
-import android.net.Uri
+import android.content.Intent.ACTION_PICK
 import android.provider.MediaStore
-import android.util.Log
-import androidx.core.content.ContextCompat.checkSelfPermission
+import android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
 import androidx.lifecycle.ViewModelProvider
 import com.arsvechkarev.profile.R
 import com.arsvechkarev.profile.di.DaggerProfileComponent
 import com.squareup.picasso.Picasso
+import core.RawResult
 import core.base.BaseFragment
 import core.model.users.User
+import core.onFailure
+import core.onSuccess
 import core.strings.DEFAULT_IMG_URL
 import core.util.observe
+import core.util.showToast
 import core.util.viewModelOf
 import core.util.visible
 import kotlinx.android.synthetic.main.fragment_profile.imageEdit
 import kotlinx.android.synthetic.main.fragment_profile.imageProfile
 import kotlinx.android.synthetic.main.fragment_profile.textProfileName
 import kotlinx.android.synthetic.main.fragment_profile.textProfilePhone
+import log.debug
 import javax.inject.Inject
 
 
 class ProfileFragment : BaseFragment() {
   
-  private val PICK_IMAGE_REQUEST = 314
-  private val READ_EXTERNAL_STORAGE_PERMISSION = 5
+  override val layout: Int = R.layout.fragment_profile
+  private val permissionDelegate = PermissionDelegate(this)
   
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
-  private lateinit var profileViewModel: ProfileViewModel
-  
-  override val layout: Int = R.layout.fragment_profile
+  private lateinit var viewModel: ProfileViewModel
   
   override fun onInit() {
     DaggerProfileComponent.create().inject(this)
-    profileViewModel = viewModelOf(viewModelFactory) {
-      observe(userData, ::updateProfile)
+    viewModel = viewModelOf(viewModelFactory) {
+      observe(userDataState, ::updateProfile)
+      observe(uploadingImageState, ::handleUpload)
     }
-    profileViewModel.fetchProfileData()
+    viewModel.fetchProfileData()
     imageEdit.setOnClickListener {
-      if (checkSelfPermission(requireContext(), READ_EXTERNAL_STORAGE) == PERMISSION_GRANTED) {
-        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        activity!!.startActivityForResult(intent, PICK_IMAGE_REQUEST)
+      if (permissionDelegate.allowReadExternalStorage) {
+        requestForImage()
       } else {
-        requestPermissions(arrayOf(READ_EXTERNAL_STORAGE), READ_EXTERNAL_STORAGE_PERMISSION)
+        permissionDelegate.requestReadExternalStorage()
       }
+    }
+  }
+  
+  override fun onRequestPermissionsResult(
+    requestCode: Int,
+    permissions: Array<out String>,
+    grantResults: IntArray
+  ) {
+    if (permissionDelegate.allowReadExternalStorage) {
+      requestForImage()
     }
   }
   
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
     if (requestCode == PICK_IMAGE_REQUEST) {
       if (resultCode == RESULT_OK && data != null && data.data != null) {
-        val imageUri: Uri = data.data!!
-        Log.d("qwerty", imageUri.toString())
-        val bitmap = MediaStore.Images.Media.getBitmap(activity!!.contentResolver, imageUri)
+        val uri = data.data!!
+        val bitmap = MediaStore.Images.Media.getBitmap(activity!!.contentResolver, uri)
         imageProfile.setImageBitmap(bitmap)
+        viewModel.uploadImage(uri)
       }
     }
+  }
+  
+  private fun requestForImage() {
+    startActivityForResult(Intent(ACTION_PICK, EXTERNAL_CONTENT_URI), PICK_IMAGE_REQUEST)
   }
   
   private fun updateProfile(result: Result<User>) {
@@ -74,5 +88,22 @@ class ProfileFragment : BaseFragment() {
       textProfileName.text = user.name
       textProfilePhone.text = user.phone
     }
+  }
+  
+  private fun handleUpload(rawResult: RawResult) {
+    rawResult.apply {
+      onSuccess {
+        showToast("Successfully uploaded")
+      }
+      onFailure {
+        showToast("Failure")
+        debug(it) { "Exception." }
+      }
+    }
+  }
+  
+  companion object {
+    
+    const val PICK_IMAGE_REQUEST = 654
   }
 }

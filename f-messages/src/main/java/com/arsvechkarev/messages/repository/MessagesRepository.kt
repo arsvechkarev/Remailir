@@ -11,22 +11,25 @@ import firebase.schema.Collections.OneToOneChats
 import firebase.schema.MessageModel.timestamp
 import firebase.utils.getChatIdWith
 import firebase.utils.thisUser
+import log.Loggable
 
-class MessagesRepository {
+class MessagesRepository : Loggable {
+  
+  override val logTag: String = "MessagesRepository"
   
   class ListenersHolder<S> {
-    
     lateinit var successBlock: (S) -> Unit
+  
     lateinit var failureBlock: (Throwable) -> Unit
-    
+  
     fun onSuccess(successBlock: (S) -> Unit) {
       this.successBlock = successBlock
     }
-    
+  
     fun onFailure(failureBlock: (Throwable) -> Unit) {
       this.failureBlock = failureBlock
     }
-    
+  
   }
   
   fun fetchMessages(block: ListenersHolder<List<Chat>>.() -> Unit) {

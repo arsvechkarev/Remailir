@@ -1,5 +1,9 @@
 package firebase.schema
 
+object Storage {
+  const val images = "images"
+}
+
 object MessageModel {
   const val timestamp = "timestamp"
 }

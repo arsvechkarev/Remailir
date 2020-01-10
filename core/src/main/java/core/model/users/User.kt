@@ -12,7 +12,15 @@ data class User(
   val imageUrl: String
 ) : Parcelable, Serializable {
   constructor() : this("", "", "", "")
+  
+  companion object {
+    fun empty() = User("", "", "", "")
+  }
 }
+
+fun User.withNewImageUrl(newUrl: String) = User(id, phone, name, newUrl)
+
+fun User.withNewProfileName(newName: String) = User(newName, phone, name, imageUrl)
 
 fun List<User>.toOthers(): List<OtherUser> {
   val others = ArrayList<OtherUser>()

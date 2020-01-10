@@ -3,6 +3,7 @@ package firebase.utils
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import core.strings.UNDERSCORE
+import firebase.schema.Storage
 import java.util.UUID
 
 fun randomUid(): String = UUID.randomUUID().toString()
@@ -17,3 +18,5 @@ fun getChatIdWith(otherUserId: String): String {
     thisUserId + UNDERSCORE + otherUserId
   }
 }
+
+fun getProfilePhotoPath() = Storage.images + "/" + thisUser.uid + "_profile.jpg"

@@ -1,4 +1,4 @@
-package core.util
+package core
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
