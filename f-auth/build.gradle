@@ -42,6 +42,7 @@ dependencies {
   implementation dependencies.legacySupport
   implementation dependencies.constraintLayout
   implementation dependencies.libPhoneNumber
+  implementation dependencies.snowfallView
 
   implementation dependencies.coroutinesCore
   implementation dependencies.coroutinesAndroid

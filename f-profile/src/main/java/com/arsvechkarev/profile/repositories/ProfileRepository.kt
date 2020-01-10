@@ -1,16 +1,15 @@
 package com.arsvechkarev.profile.repositories
 
-import core.model.users.User
-import core.strings.FILENAME_USER
-import firebase.Collections
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import core.model.users.User
+import firebase.Collections
 import javax.inject.Inject
 
 class ProfileRepository @Inject constructor(
 ) {
   
-  suspend fun fetchProfileData(listenerBlock: UserInfoListener.() -> Unit) {
+  fun fetchProfileData(listenerBlock: UserInfoListener.() -> Unit) {
     val listener = UserInfoListener().apply(listenerBlock)
     
     val uid = FirebaseAuth.getInstance().currentUser!!.uid

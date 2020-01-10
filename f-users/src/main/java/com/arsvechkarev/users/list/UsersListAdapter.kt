@@ -8,12 +8,13 @@ import com.arsvechkarev.users.R
 import com.squareup.picasso.Picasso
 import core.extensions.inflate
 import core.model.users.OtherUser
+import core.recycler.DisplayableItem.DiffCallBack
 import core.strings.DEFAULT_IMG_URL
 import kotlinx.android.synthetic.main.item_user.view.imageProfile
 import kotlinx.android.synthetic.main.item_user.view.textUsername
 
 class UsersListAdapter(private val clickListener: (OtherUser) -> Unit) :
-  ListAdapter<OtherUser, FriendsViewHolder>(UsersDiffCallback()) {
+  ListAdapter<OtherUser, FriendsViewHolder>(DiffCallBack()) {
   
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FriendsViewHolder {
     return FriendsViewHolder(parent.inflate(R.layout.item_user))

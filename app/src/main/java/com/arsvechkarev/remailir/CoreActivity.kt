@@ -15,6 +15,9 @@ import storage.Database
 
 class CoreActivity : BaseActivity(), CoreActivity {
   
+  private val messagesFragment = MessagesFragment()
+  private val profileFragment = ProfileFragment()
+  
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_home)
@@ -22,10 +25,17 @@ class CoreActivity : BaseActivity(), CoreActivity {
     bottomNavigationBar.selectedItemId = R.id.itemMessages
     bottomNavigationBar.setOnNavigationItemSelectedListener {
       when (it.itemId) {
-        R.id.itemMessages -> switchFragment(R.id.baseContainer, MessagesFragment())
-        R.id.itemProfile -> switchFragment(R.id.baseContainer, ProfileFragment())
+        R.id.itemMessages -> switchFragment(R.id.baseContainer, messagesFragment)
+        R.id.itemProfile -> switchFragment(R.id.baseContainer, profileFragment)
       }
       return@setOnNavigationItemSelectedListener true
+    }
+  }
+  
+  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    super.onActivityResult(requestCode, resultCode, data)
+    if (profileFragment.isVisible) {
+      profileFragment.onActivityResult(requestCode, resultCode, data)
     }
   }
   

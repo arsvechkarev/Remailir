@@ -22,7 +22,7 @@ import java.util.Locale
 
 class PhoneFragment : BaseFragment() {
   
-  override val layout: Int = R.layout.fragment_phone_linear
+  override val layout: Int = R.layout.fragment_phone
   
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     val country = arguments?.getParcelable(COUNTRY) as? Country

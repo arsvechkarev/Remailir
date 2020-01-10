@@ -14,7 +14,7 @@ import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
 import core.base.BaseViewModel
-import core.model.users.NewUser
+import core.model.users.User
 import firebase.Collections.Users
 import log.Loggable
 import log.log
@@ -69,7 +69,7 @@ class EntranceViewModel @Inject constructor(
         .get()
         .addOnCompleteListener { fetchUserTask ->
           if (fetchUserTask.isSuccessful) {
-            val userDb = fetchUserTask.result?.toObject(NewUser::class.java)
+            val userDb = fetchUserTask.result?.toObject(User::class.java)
             if (userDb == null) {
               phoneVerificationState.value = UserNotExist
             } else {

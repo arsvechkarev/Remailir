@@ -36,6 +36,7 @@ class SearchToolbar @JvmOverloads constructor(
     )
     maxHeight = getAttributeValue(android.R.attr.actionBarSize)
     minHeight = getAttributeValue(android.R.attr.actionBarSize)
+    typedArray.recycle()
     setConstrains()
   }
   

@@ -5,7 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import core.base.BaseViewModel
-import core.model.users.NewUser
+import core.model.users.User
+import core.strings.DEFAULT_IMG_URL
 import firebase.Collections.Users
 import javax.inject.Inject
 
@@ -18,12 +19,12 @@ class RegistrationViewModel @Inject constructor(
   
   fun createUser(username: String) {
     val firebaseUser = FirebaseAuth.getInstance().currentUser!!
-    val newUser = NewUser(firebaseUser.uid, firebaseUser.phoneNumber!!, username, "")
+    val newUser = User(firebaseUser.uid, firebaseUser.phoneNumber!!, username, DEFAULT_IMG_URL)
     firebaseFirestore.collection(Users)
       .whereEqualTo("name", username)
       .get()
       .addOnCompleteListener {
-        val foundUsers = it.result?.toObjects(NewUser::class.java)
+        val foundUsers = it.result?.toObjects(User::class.java)
         if (foundUsers?.size != 0) {
           userCreationState.value = UserCreationState.NameOccupied
         } else {

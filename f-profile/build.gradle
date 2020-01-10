@@ -28,6 +28,7 @@ dependencies {
   implementation project(':core')
   implementation project(':firebase')
   implementation project(':storage')
+  implementation project(':views')
 
   def dependencies = rootProject.ext.applicationDependencies
 
@@ -41,6 +42,7 @@ dependencies {
 
   implementation dependencies.circleImageView
   implementation dependencies.picasso
+  implementation dependencies.imageCropping
 
   implementation dependencies.coroutinesCore
   implementation dependencies.coroutinesAndroid

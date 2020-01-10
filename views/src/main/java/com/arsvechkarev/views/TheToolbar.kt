@@ -22,26 +22,23 @@ class TheToolbar @JvmOverloads constructor(
   init {
     inflate(context, R.layout.the_toolbar, this)
     val typedArray = context.theme.obtainStyledAttributes(attrs, R.styleable.TheToolbar, 0, 0)
-    try {
-      this.setBackgroundIfNeeded(typedArray, R.styleable.TheToolbar_the_toolbar_backgroundColor)
-      imageBack.setBackgroundIfNeeded(typedArray, R.styleable.TheToolbar_the_toolbar_imageBackColor)
-      imageSearch.setBackgroundIfNeeded(
-        typedArray,
-        R.styleable.TheToolbar_the_toolbar_imageSearchColor
-      )
-      textTitle.setTextColorIfNeeded(typedArray, R.styleable.TheToolbar_the_toolbar_titleColor)
-      textTitle.setTextSizeIfNeeded(typedArray, R.styleable.TheToolbar_the_toolbar_titleTextSize)
-      textTitle.text = typedArray.getString(R.styleable.TheToolbar_the_toolbar_title) ?: ""
-      maxHeight = getAttributeValue(android.R.attr.actionBarSize)
-      minHeight = getAttributeValue(android.R.attr.actionBarSize)
-      val hasSearch = typedArray.getBoolean(R.styleable.TheToolbar_the_toolbar_hasSearch, false)
-      hasBackImage =
-        typedArray.getBoolean(R.styleable.TheToolbar_the_toolbar_hasBackImage, true)
-      imageSearch.isGone = !hasSearch
-      imageBack.isGone = !hasBackImage
-    } finally {
-      typedArray.recycle()
-    }
+    this.setBackgroundIfNeeded(typedArray, R.styleable.TheToolbar_the_toolbar_backgroundColor)
+    imageBack.setBackgroundIfNeeded(typedArray, R.styleable.TheToolbar_the_toolbar_imageBackColor)
+    imageSearch.setBackgroundIfNeeded(
+      typedArray,
+      R.styleable.TheToolbar_the_toolbar_imageSearchColor
+    )
+    textTitle.setTextColorIfNeeded(typedArray, R.styleable.TheToolbar_the_toolbar_titleColor)
+    textTitle.setTextSizeIfNeeded(typedArray, R.styleable.TheToolbar_the_toolbar_titleTextSize)
+    textTitle.text = typedArray.getString(R.styleable.TheToolbar_the_toolbar_title) ?: ""
+    maxHeight = getAttributeValue(android.R.attr.actionBarSize)
+    minHeight = getAttributeValue(android.R.attr.actionBarSize)
+    val hasSearch = typedArray.getBoolean(R.styleable.TheToolbar_the_toolbar_hasSearch, false)
+    hasBackImage =
+      typedArray.getBoolean(R.styleable.TheToolbar_the_toolbar_hasBackImage, true)
+    imageSearch.isGone = !hasSearch
+    imageBack.isGone = !hasBackImage
+    typedArray.recycle()
     setConstrains()
   }
   

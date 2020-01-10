@@ -1,43 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  android:background="?theColorBackground"
-  android:gravity="center_horizontal"
-  android:orientation="vertical">
+  android:background="?theColorBackground">
 
-  <com.arsvechkarev.views.TheToolbar
-    android:id="@+id/theToolbar"
+  <LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:layout_constraintTop_toTopOf="parent"
-    app:the_toolbar_backgroundColor="?theColorPrimary"
-    app:the_toolbar_title="@string/title_sms_verification"/>
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
 
-  <TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/text_sms_code_m_top"
-    android:gravity="center"
-    android:text="@string/text_enter_a_code"
-    android:textSize="@dimen/text_h1"/>
+    <com.arsvechkarev.views.TheToolbar
+      android:id="@+id/theToolbar"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      app:layout_constraintTop_toTopOf="parent"
+      app:the_toolbar_backgroundColor="?theColorPrimary"
+      app:the_toolbar_title="@string/title_sms_verification"/>
 
-  <com.arsvechkarev.views.SixDigitCodeLayout
-    android:id="@+id/sixDigitsCodeLayout"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/six_digits_layout_margin_top"
-    app:digitsTextColor="?theColorTextPrimary"
-    app:underscoresColor="?theColorAccent"/>
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="@dimen/text_sms_code_m_top"
+      android:gravity="center"
+      android:text="@string/text_enter_a_code"
+      android:textSize="@dimen/text_h1"/>
 
-  <TextView
-    android:id="@+id/textError"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/text_error_sms_m_top"
-    android:textColor="?colorError"
-    tools:text="Error. Blah blah blah"/>
+    <com.arsvechkarev.views.SixDigitCodeLayout
+      android:id="@+id/sixDigitsCodeLayout"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="@dimen/six_digits_layout_margin_top"
+      app:digitsTextColor="?theColorTextPrimary"
+      app:underscoresColor="?theColorAccent"/>
 
-</LinearLayout>
+    <TextView
+      android:id="@+id/textError"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="@dimen/text_error_sms_m_top"
+      android:textColor="?colorError"
+      tools:text="Error. Blah blah blah"/>
+
+  </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

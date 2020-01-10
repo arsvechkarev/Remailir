@@ -76,12 +76,9 @@ class SixDigitCodeLayout @JvmOverloads constructor(
     inflate(context, R.layout.layout_six_digit_code, this)
     val typedArray =
       context.theme.obtainStyledAttributes(attrs, R.styleable.SixDigitCodeLayout, defStyleAttr, 0)
-    try {
-      textCodes.setTextColorIfNeeded(typedArray, R.styleable.SixDigitCodeLayout_digitsTextColor)
-      underscores.setBackgroundIfNeeded(typedArray, R.styleable.SixDigitCodeLayout_underscoresColor)
-    } finally {
-      typedArray.recycle()
-    }
+    textCodes.setTextColorIfNeeded(typedArray, R.styleable.SixDigitCodeLayout_digitsTextColor)
+    underscores.setBackgroundIfNeeded(typedArray, R.styleable.SixDigitCodeLayout_underscoresColor)
+    typedArray.recycle()
     hiddenEditText.addTextChangedListener(customTextWatcher)
   }
   

@@ -103,4 +103,12 @@
     <item name="hintTextColor">?theColorTextInputSelected</item>
   </style>
 
+
+  <style name="Snowfall">
+    <item name="amount">150</item>
+    <item name="maxSize">30</item>
+    <item name="maxSpeed">1.0</item>
+    <item name="maxWind">0.1</item>
+  </style>
+
 </resources>

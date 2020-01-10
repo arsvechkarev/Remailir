@@ -4,50 +4,58 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  android:clickable="true"
   android:background="?theColorBackground"
+  android:clickable="true"
   android:focusable="true"
   tools:context=".presentation.ProfileFragment">
 
-  <androidx.appcompat.widget.Toolbar
-    android:id="@+id/toolbar"
+  <com.arsvechkarev.views.TheToolbar
+    android:id="@+id/theToolbar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:title="@string/title_profile"
-    android:minHeight="?actionBarSize"
-    android:background="?theColorPrimary"
-    app:titleTextColor="?theColorTextPrimary"
-    app:layout_constraintTop_toTopOf="parent"/>
+    app:layout_constraintTop_toTopOf="parent"
+    app:the_toolbar_backgroundColor="?theColorPrimary"
+    app:the_toolbar_hasBackImage="false"
+    app:the_toolbar_title="@string/app_name"/>
 
   <de.hdodenhof.circleimageview.CircleImageView
     android:id="@+id/imageProfile"
-    android:layout_width="120dp"
-    android:layout_height="120dp"
-    android:layout_marginTop="40dp"
+    android:layout_width="140dp"
+    android:layout_height="140dp"
     android:layout_marginStart="8dp"
+    android:layout_marginTop="40dp"
     android:layout_marginEnd="8dp"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintHorizontal_bias="0.498"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/toolbar"/>
+    app:layout_constraintTop_toBottomOf="@id/theToolbar"
+    tools:src="@drawable/image_profile_stub"/>
+
+  <ImageView
+    android:id="@+id/imageEdit"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:src="@drawable/ic_edit"
+    app:layout_constraintStart_toEndOf="@id/imageProfile"
+    app:layout_constraintTop_toBottomOf="@+id/imageProfile"/>
 
   <TextView
     android:id="@+id/textProfileName"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginTop="20dp"
     android:layout_marginStart="8dp"
+    android:layout_marginTop="20dp"
     android:layout_marginEnd="8dp"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/imageProfile"/>
+    app:layout_constraintTop_toBottomOf="@+id/imageEdit"/>
 
   <TextView
-    android:id="@+id/textProfileEmail"
+    android:id="@+id/textProfilePhone"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginTop="20dp"
     android:layout_marginStart="8dp"
+    android:layout_marginTop="20dp"
     android:layout_marginEnd="8dp"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"

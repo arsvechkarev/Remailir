@@ -1,11 +1,13 @@
 package com.arsvechkarev.users.presentation
 
 import androidx.lifecycle.MutableLiveData
-import core.base.FireViewModel
-import core.model.users.OtherUser
 import com.arsvechkarev.users.repository.UsersRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.EventListener
+import core.base.FireViewModel
+import core.model.users.OtherUser
+import core.model.users.User
+import core.model.users.toOthers
 import javax.inject.Inject
 
 class UsersViewModel @Inject constructor(
@@ -15,14 +17,16 @@ class UsersViewModel @Inject constructor(
   var friends = MutableLiveData<List<OtherUser>>()
   
   fun fetchUsers() {
-    repository.fetchFriends(
+    repository.fetchUsers(
       EventListener { snapshot, exception ->
         if (exception != null) {
           return@EventListener
         }
-        val users = snapshot?.toObjects(OtherUser::class.java)
-        val list = users?.filter { it.id != FirebaseAuth.getInstance().uid!! }
-        this@UsersViewModel.friends.value = list
+        val users = snapshot?.toObjects(User::class.java)
+        val otherUsers = users!!
+          .filter { it.id != FirebaseAuth.getInstance().uid!! }
+          .toOthers()
+        this@UsersViewModel.friends.value = otherUsers
       })
   }
   

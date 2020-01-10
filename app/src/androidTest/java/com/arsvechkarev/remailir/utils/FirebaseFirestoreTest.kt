@@ -3,7 +3,7 @@ package com.arsvechkarev.remailir.utils
 import android.os.SystemClock
 import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
-import core.model.users.NewUser
+import core.model.users.User
 import firebase.Collections
 import org.junit.rules.ExternalResource
 
@@ -22,7 +22,7 @@ object FirebaseFirestoreTest {
       .whereEqualTo("phone", "+15555551234")
       .get()
       .addOnCompleteListener { task ->
-        val objects = task.result?.toObjects(NewUser::class.java)
+        val objects = task.result?.toObjects(User::class.java)
         when {
           objects.isNullOrEmpty() -> {
             Log.e(tag, "No test account found in the database")

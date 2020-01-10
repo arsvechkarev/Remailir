@@ -2,7 +2,7 @@ package storage
 
 import android.content.Context
 import com.google.firebase.auth.FirebaseAuth
-import core.model.users.NewUser
+import core.model.users.User
 
 object Database {
   
@@ -14,10 +14,10 @@ object Database {
     PreferencesUtils.saveString(context, IMAGE_URL, imageUrl)
   }
   
-  fun getUser(context: Context): NewUser? {
+  fun getUser(context: Context): User? {
     val username = PreferencesUtils.getString(context, USERNAME) ?: return null
     val imageUrl = PreferencesUtils.getString(context, IMAGE_URL)!!
-    return NewUser(
+    return User(
       FirebaseAuth.getInstance().currentUser!!.uid,
       FirebaseAuth.getInstance().currentUser!!.phoneNumber!!,
       username,
