@@ -4,7 +4,7 @@ import android.os.SystemClock
 import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import core.model.users.User
-import firebase.Collections
+import firebase.schema.Collections
 import org.junit.rules.ExternalResource
 
 object FirebaseFirestoreTest {

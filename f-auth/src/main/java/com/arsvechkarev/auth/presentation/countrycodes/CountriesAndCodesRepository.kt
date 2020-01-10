@@ -3,8 +3,8 @@ package com.arsvechkarev.auth.presentation.countrycodes
 import com.arsvechkarev.auth.utils.getCountriesList
 import com.arsvechkarev.auth.utils.getCountriesWithLetters
 import core.model.other.Country
-import core.providers.DispatcherProvider
 import core.recycler.DisplayableItem
+import core.util.DispatcherProvider
 import kotlinx.coroutines.withContext
 
 object CountriesAndCodesRepository {

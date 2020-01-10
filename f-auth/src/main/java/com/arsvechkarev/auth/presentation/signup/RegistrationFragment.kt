@@ -11,11 +11,11 @@ import com.arsvechkarev.auth.presentation.signup.UserCreationState.Failed
 import com.arsvechkarev.auth.presentation.signup.UserCreationState.NameOccupied
 import core.base.BaseFragment
 import core.base.entranceActivity
-import core.extensions.observe
-import core.extensions.showToast
-import core.extensions.string
-import core.extensions.viewModelOf
 import core.strings.DEFAULT_IMG_URL
+import core.util.observe
+import core.util.showToast
+import core.util.string
+import core.util.viewModelOf
 import kotlinx.android.synthetic.main.fragment_registration.buttonSignUp
 import kotlinx.android.synthetic.main.fragment_registration.editTextUsername
 import storage.Database

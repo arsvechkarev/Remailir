@@ -1,4 +1,4 @@
-package core.extensions
+package core.util
 
 import android.content.Context
 import android.view.inputmethod.InputMethodManager

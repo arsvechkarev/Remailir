@@ -5,8 +5,8 @@ import android.view.View
 import com.arsvechakrev.auth.R
 import core.base.BaseFragment
 import core.base.entranceActivity
-import core.extensions.popBackStack
-import core.extensions.showKeyboard
+import core.util.popBackStack
+import core.util.showKeyboard
 import kotlinx.android.synthetic.main.fragment_sms_code.sixDigitsCodeLayout
 import kotlinx.android.synthetic.main.fragment_sms_code.theToolbar
 

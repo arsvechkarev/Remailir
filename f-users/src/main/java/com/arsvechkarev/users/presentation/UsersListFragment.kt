@@ -12,10 +12,10 @@ import com.arsvechkarev.users.R
 import com.arsvechkarev.users.di.DaggerUsersComponent
 import com.arsvechkarev.users.list.UsersListAdapter
 import core.base.coreActivity
-import core.extensions.observe
-import core.extensions.popBackStack
-import core.extensions.viewModelOf
 import core.model.users.OtherUser
+import core.util.observe
+import core.util.popBackStack
+import core.util.viewModelOf
 import kotlinx.android.synthetic.main.fragment_users.recyclerUsers
 import kotlinx.android.synthetic.main.fragment_users.toolbar
 import javax.inject.Inject
@@ -47,14 +47,19 @@ class UsersListFragment : Fragment() {
       popBackStack()
     }
     usersViewModel = viewModelOf(viewModelFactory) {
-      observe(friends, ::updateList)
+      observe(otherUsers, ::updateList)
     }
     recyclerUsers.adapter = adapter
     recyclerUsers.layoutManager = LinearLayoutManager(context)
     usersViewModel.fetchUsers()
   }
   
-  private fun updateList(list: List<OtherUser>) {
-    adapter.submitList(list)
+  private fun updateList(result: Result<List<OtherUser>>) {
+    result.onFailure {
+    
+    }
+    result.onSuccess {
+      adapter.submitList(it)
+    }
   }
 }

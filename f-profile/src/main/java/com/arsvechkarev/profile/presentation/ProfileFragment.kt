@@ -11,13 +11,13 @@ import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.lifecycle.ViewModelProvider
 import com.arsvechkarev.profile.R
 import com.arsvechkarev.profile.di.DaggerProfileComponent
-import com.arsvechkarev.profile.presentation.ProfileState.Success
 import com.squareup.picasso.Picasso
 import core.base.BaseFragment
-import core.extensions.observe
-import core.extensions.viewModelOf
-import core.extensions.visible
+import core.model.users.User
 import core.strings.DEFAULT_IMG_URL
+import core.util.observe
+import core.util.viewModelOf
+import core.util.visible
 import kotlinx.android.synthetic.main.fragment_profile.imageEdit
 import kotlinx.android.synthetic.main.fragment_profile.imageProfile
 import kotlinx.android.synthetic.main.fragment_profile.textProfileName
@@ -63,19 +63,16 @@ class ProfileFragment : BaseFragment() {
     }
   }
   
-  private fun updateProfile(state: ProfileState) {
-    when (state) {
-      is Success -> {
-        imageEdit.visible()
-        val user = state.user
-        if (user.imageUrl == DEFAULT_IMG_URL) {
-          imageProfile.setBackgroundResource(R.drawable.image_profile_stub)
-        } else {
-          Picasso.get().load(user.imageUrl).into(imageProfile)
-        }
-        textProfileName.text = user.name
-        textProfilePhone.text = user.phone
+  private fun updateProfile(result: Result<User>) {
+    result.onSuccess { user ->
+      imageEdit.visible()
+      if (user.imageUrl == DEFAULT_IMG_URL) {
+        imageProfile.setBackgroundResource(R.drawable.image_profile_stub)
+      } else {
+        Picasso.get().load(user.imageUrl).into(imageProfile)
       }
+      textProfileName.text = user.name
+      textProfilePhone.text = user.phone
     }
   }
 }

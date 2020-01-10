@@ -1,4 +1,4 @@
-package firebase
+package firebase.schema
 
 object MessageModel {
   const val timestamp = "timestamp"

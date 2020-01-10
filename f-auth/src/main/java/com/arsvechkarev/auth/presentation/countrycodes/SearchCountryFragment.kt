@@ -11,10 +11,10 @@ import com.arsvechakrev.auth.R
 import com.arsvechkarev.auth.list.CountryCodesAdapter
 import core.base.BaseFragment
 import core.base.entranceActivity
-import core.extensions.observe
-import core.extensions.popBackStack
-import core.extensions.showKeyboard
 import core.model.other.Country
+import core.util.observe
+import core.util.popBackStack
+import core.util.showKeyboard
 import kotlinx.android.synthetic.main.fragment_country_code_search.recyclerCountries
 import kotlinx.android.synthetic.main.fragment_country_code_search.searchToolbar
 

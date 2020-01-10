@@ -5,13 +5,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.arsvechkarev.messages.R
-import core.extensions.gone
-import core.extensions.inflate
-import core.extensions.visible
 import core.model.messaging.Chat
 import core.recycler.DisplayableItem
 import core.strings.DEFAULT_IMG_URL
-import firebase.thisUser
+import core.util.gone
+import core.util.inflate
+import core.util.visible
+import firebase.utils.thisUser
 import kotlinx.android.synthetic.main.item_chat.view.divider
 import kotlinx.android.synthetic.main.item_chat.view.imageUser
 import kotlinx.android.synthetic.main.item_chat.view.textLastMessage

@@ -1,17 +1,17 @@
 package com.arsvechkarev.chat.repository
 
 import android.util.Log
-import core.model.messaging.DialogMessage
-import core.model.users.OtherUser
-import firebase.Collections
-import firebase.MessageModel
-import firebase.getChatIdWith
-import firebase.thisUser
 import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
+import core.model.messaging.DialogMessage
+import core.model.users.OtherUser
+import firebase.schema.Collections
+import firebase.schema.MessageModel
+import firebase.utils.getChatIdWith
+import firebase.utils.thisUser
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneId
 import org.threeten.bp.ZonedDateTime

@@ -4,10 +4,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.arsvechakrev.auth.R
-import core.extensions.inflate
 import core.model.other.Country
 import core.recycler.AdapterDelegate
 import core.recycler.DisplayableItem
+import core.util.inflate
 import kotlinx.android.synthetic.main.item_country.view.textCountry
 import kotlinx.android.synthetic.main.item_country.view.textCountryCode
 

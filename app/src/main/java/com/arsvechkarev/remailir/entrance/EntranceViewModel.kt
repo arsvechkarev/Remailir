@@ -15,7 +15,7 @@ import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
 import core.base.BaseViewModel
 import core.model.users.User
-import firebase.Collections.Users
+import firebase.schema.Collections.Users
 import log.Loggable
 import log.log
 import javax.inject.Inject

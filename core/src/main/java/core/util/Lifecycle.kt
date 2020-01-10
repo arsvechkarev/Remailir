@@ -1,4 +1,4 @@
-package core.extensions
+package core.util
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment

@@ -1,4 +1,4 @@
-package core.extensions
+package core.util
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView

@@ -1,17 +1,17 @@
 package com.arsvechkarev.chat.presentation
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.arsvechkarev.chat.presentation.MessagesState.MessagesList
 import com.arsvechkarev.chat.repository.ChatRepository
-import core.base.FireViewModel
+import com.google.firebase.firestore.EventListener
 import core.model.messaging.DialogMessage
 import core.model.users.OtherUser
-import com.google.firebase.firestore.EventListener
 import javax.inject.Inject
 
 class ChatViewModel @Inject constructor(
   private var repository: ChatRepository
-) : FireViewModel() {
+) : ViewModel() {
   
   val messages = MutableLiveData<MessagesState>()
   

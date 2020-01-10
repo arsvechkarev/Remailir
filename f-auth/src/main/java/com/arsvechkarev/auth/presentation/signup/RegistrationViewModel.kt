@@ -7,7 +7,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import core.base.BaseViewModel
 import core.model.users.User
 import core.strings.DEFAULT_IMG_URL
-import firebase.Collections.Users
+import firebase.schema.Collections.Users
 import javax.inject.Inject
 
 class RegistrationViewModel @Inject constructor(

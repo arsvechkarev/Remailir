@@ -7,8 +7,8 @@ import core.model.messaging.MessageThisUser
 import core.model.messaging.TimeDivider
 import core.recycler.DisplayableItem
 import core.strings.FORMAT_TIME_DIVIDER
-import firebase.randomUid
-import firebase.thisUser
+import firebase.utils.randomUid
+import firebase.utils.thisUser
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZonedDateTime
 import org.threeten.bp.format.DateTimeFormatter

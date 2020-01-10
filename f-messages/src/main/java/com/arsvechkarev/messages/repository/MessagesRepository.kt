@@ -6,11 +6,11 @@ import com.google.firebase.firestore.Query.Direction.DESCENDING
 import core.model.messaging.Chat
 import core.model.messaging.DialogMessage
 import core.model.messaging.PartialChat
-import firebase.Collections.Messages
-import firebase.Collections.OneToOneChats
-import firebase.MessageModel.timestamp
-import firebase.getChatIdWith
-import firebase.thisUser
+import firebase.schema.Collections.Messages
+import firebase.schema.Collections.OneToOneChats
+import firebase.schema.MessageModel.timestamp
+import firebase.utils.getChatIdWith
+import firebase.utils.thisUser
 
 class MessagesRepository {
   

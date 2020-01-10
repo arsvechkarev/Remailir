@@ -9,12 +9,12 @@ import com.arsvechkarev.auth.di.DaggerAuthComponent
 import com.arsvechkarev.auth.list.CountryAndLettersAdapter
 import core.base.BaseFragment
 import core.base.entranceActivity
-import core.extensions.gone
-import core.extensions.observe
-import core.extensions.popBackStack
-import core.extensions.viewModelOf
-import core.extensions.visible
 import core.recycler.DisplayableItem
+import core.util.gone
+import core.util.observe
+import core.util.popBackStack
+import core.util.viewModelOf
+import core.util.visible
 import kotlinx.android.synthetic.main.fragment_country_code.progressBarCountries
 import kotlinx.android.synthetic.main.fragment_country_code.recyclerCountries
 import kotlinx.android.synthetic.main.fragment_country_code.theToolbar

@@ -1,8 +1,8 @@
-package firebase
+package firebase.utils
 
-import core.strings.UNDERSCORE
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import core.strings.UNDERSCORE
 import java.util.UUID
 
 fun randomUid(): String = UUID.randomUUID().toString()

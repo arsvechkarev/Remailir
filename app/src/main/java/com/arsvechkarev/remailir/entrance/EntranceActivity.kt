@@ -17,11 +17,11 @@ import com.arsvechkarev.remailir.entrance.PhoneAuthState.UserNotExist
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthProvider
 import core.base.EntranceActivity
-import core.extensions.observe
-import core.extensions.showToast
-import core.extensions.switchFragment
-import core.extensions.viewModelOf
 import core.model.other.Country
+import core.util.observe
+import core.util.showToast
+import core.util.switchFragment
+import core.util.viewModelOf
 import storage.Database
 import java.util.concurrent.TimeUnit.SECONDS
 import javax.inject.Inject
