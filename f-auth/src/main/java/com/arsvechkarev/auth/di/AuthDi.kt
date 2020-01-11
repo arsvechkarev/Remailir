@@ -7,7 +7,7 @@ import com.arsvechkarev.auth.presentation.countrycodes.SearchCountryFragment
 import com.arsvechkarev.auth.presentation.signup.RegistrationFragment
 import com.arsvechkarev.auth.presentation.signup.RegistrationViewModel
 import core.di.CoreModule
-import core.di.FeatureScope
+import core.di.scopes.FeatureScope
 import core.di.viewmodel.ViewModelKey
 import dagger.Binds
 import dagger.Component

@@ -1,10 +1,10 @@
 package com.arsvechkarev.auth.presentation.countrycodes
 
 import androidx.lifecycle.MutableLiveData
-import core.base.BaseViewModel
+import core.base.CoroutinesViewModel
 import core.model.other.Country
 
-class SearchCountryViewModel : BaseViewModel() {
+class SearchCountryViewModel : CoroutinesViewModel() {
   
   val countries = MutableLiveData<MutableList<Country>>()
   

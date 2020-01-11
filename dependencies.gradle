@@ -7,12 +7,6 @@ ext {
   legacySupport_version = '1.0.0'
   constraintLayout_version = '1.1.3'
 
-  dagger_version = '2.24'
-  circleImageView_version = '3.0.1'
-  picasso_version = '2.71828'
-
-  coroutines_version = '1.3.2'
-
   firebaseAnalytics_version = '17.2.0'
   firebaseAuth_version = '19.1.0'
   firebaseStorage_version = '19.1.0'
@@ -20,40 +14,45 @@ ext {
   firebaseFirestore_version = '21.1.1'
 
   imageCropping_version = "2.8.0"
-
+  dagger_version = '2.24'
+  circleImageView_version = '3.0.1'
+  picasso_version = '2.71828'
+  coroutines_version = '1.3.2'
+  snowfallView_version = "1.0.0"
   threeTenAbp_version = "1.2.1"
   libPhoneNumber_version = "8.9.9"
-  snowfallView_version = "1.0.0"
+
   rxJava_version = "2.2.16"
   rxAndroid_version = "2.1.1"
   rxFirebase_version = "1.5.7"
 
   applicationDependencies = [
-      kotlin           : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
-      appCompat        : "androidx.appcompat:appcompat:$appCompat_version",
-      ktx              : "androidx.core:core-ktx:$appCompat_version",
-      materialDesign   : "com.google.android.material:material:$materialDesign_version",
-      lifecycleStreams : "androidx.lifecycle:lifecycle-reactivestreams:$lifecycle_version",
-      legacySupport    : "androidx.legacy:legacy-support-v4:$legacySupport_version",
-      constraintLayout : "androidx.constraintlayout:constraintlayout:$constraintLayout_version",
-      dagger           : "com.google.dagger:dagger:$dagger_version",
-      daggerCompiler   : "com.google.dagger:dagger-compiler:$dagger_version",
-      circleImageView  : "de.hdodenhof:circleimageview:$circleImageView_version",
-      picasso          : "com.squareup.picasso:picasso:$picasso_version",
-      coroutinesCore   : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version",
-      coroutinesAndroid: "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version",
-      firebaseAnalytics: "com.google.firebase:firebase-analytics:$firebaseAnalytics_version",
-      firebaseAuth     : "com.google.firebase:firebase-auth:$firebaseAuth_version",
-      firebaseStorage  : "com.google.firebase:firebase-storage:$firebaseStorage_version",
-      firebaseDatabase : "com.google.firebase:firebase-database:$firebaseDatabase_version",
-      firebaseFirestore: "com.google.firebase:firebase-firestore:$firebaseFirestore_version",
-      threeTenAbp      : "com.jakewharton.threetenabp:threetenabp:$threeTenAbp_version",
-      libPhoneNumber   : "com.googlecode.libphonenumber:libphonenumber:$libPhoneNumber_version",
-      imageCropping    : "com.theartofdev.edmodo:android-image-cropper:$imageCropping_version",
-      snowfallView     : "com.arsvechkarev:snowfallview:$snowfallView_version",
-      rxJava           : "io.reactivex.rxjava2:rxjava:$rxJava_version",
-      rxAndroid        : "io.reactivex.rxjava2:rxandroid:$rxAndroid_version",
-      rxFirebase       : "com.github.FrangSierra:RxFirebase:$rxFirebase_version"
+      kotlin             : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
+      appCompat          : "androidx.appcompat:appcompat:$appCompat_version",
+      ktx                : "androidx.core:core-ktx:$appCompat_version",
+      lifecycleExtensions: "androidx.lifecycle:lifecycle-extensions:$lifecycle_version",
+      lifecycleStreams   : "androidx.lifecycle:lifecycle-reactivestreams:$lifecycle_version",
+      materialDesign     : "com.google.android.material:material:$materialDesign_version",
+      legacySupport      : "androidx.legacy:legacy-support-v4:$legacySupport_version",
+      constraintLayout   : "androidx.constraintlayout:constraintlayout:$constraintLayout_version",
+      firebaseAnalytics  : "com.google.firebase:firebase-analytics:$firebaseAnalytics_version",
+      firebaseAuth       : "com.google.firebase:firebase-auth:$firebaseAuth_version",
+      firebaseStorage    : "com.google.firebase:firebase-storage:$firebaseStorage_version",
+      firebaseDatabase   : "com.google.firebase:firebase-database:$firebaseDatabase_version",
+      firebaseFirestore  : "com.google.firebase:firebase-firestore:$firebaseFirestore_version",
+      imageCropping      : "com.theartofdev.edmodo:android-image-cropper:$imageCropping_version",
+      dagger             : "com.google.dagger:dagger:$dagger_version",
+      daggerCompiler     : "com.google.dagger:dagger-compiler:$dagger_version",
+      circleImageView    : "de.hdodenhof:circleimageview:$circleImageView_version",
+      picasso            : "com.squareup.picasso:picasso:$picasso_version",
+      coroutinesCore     : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version",
+      coroutinesAndroid  : "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version",
+      snowfallView       : "com.arsvechkarev:snowfallview:$snowfallView_version",
+      threeTenAbp        : "com.jakewharton.threetenabp:threetenabp:$threeTenAbp_version",
+      libPhoneNumber     : "com.googlecode.libphonenumber:libphonenumber:$libPhoneNumber_version",
+      rxJava             : "io.reactivex.rxjava2:rxjava:$rxJava_version",
+      rxAndroid          : "io.reactivex.rxjava2:rxandroid:$rxAndroid_version",
+      rxFirebase         : "com.github.FrangSierra:RxFirebase:$rxFirebase_version"
   ]
 
   junit_version = '4.12'

@@ -9,8 +9,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.launch
 
-@Suppress("MemberVisibilityCanBePrivate")
-abstract class BaseViewModel : ViewModel(), CoroutineScope {
+abstract class CoroutinesViewModel : ViewModel(), CoroutineScope {
   
   override val coroutineContext = SupervisorJob() + Dispatchers.Main
   

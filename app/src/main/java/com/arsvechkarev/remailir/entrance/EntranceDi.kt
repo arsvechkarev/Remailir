@@ -2,7 +2,7 @@ package com.arsvechkarev.remailir.entrance
 
 import androidx.lifecycle.ViewModel
 import core.di.CoreModule
-import core.di.FeatureScope
+import core.di.scopes.FeatureScope
 import core.di.viewmodel.ViewModelKey
 import dagger.Binds
 import dagger.Component

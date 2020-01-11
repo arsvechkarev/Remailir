@@ -2,7 +2,7 @@ package com.arsvechkarev.users.di
 
 import com.arsvechkarev.users.presentation.UsersListFragment
 import core.di.CoreModule
-import core.di.FeatureScope
+import core.di.scopes.FeatureScope
 import dagger.Component
 import firebase.di.FirebaseModule
 

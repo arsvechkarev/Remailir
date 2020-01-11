@@ -1,4 +1,4 @@
-package core.di
+package core.di.scopes
 
 import javax.inject.Scope
 

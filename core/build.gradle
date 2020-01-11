@@ -39,6 +39,7 @@ dependencies {
   implementation dependencies.appCompat
   implementation dependencies.materialDesign
   implementation dependencies.constraintLayout
+  implementation dependencies.lifecycleExtensions
   implementation dependencies.snowfallView
 
   implementation dependencies.coroutinesCore
@@ -46,6 +47,7 @@ dependencies {
 
   implementation dependencies.firebaseFirestore
   implementation dependencies.rxJava
+  implementation dependencies.circleImageView
 
   implementation dependencies.dagger
   kapt dependencies.daggerCompiler
