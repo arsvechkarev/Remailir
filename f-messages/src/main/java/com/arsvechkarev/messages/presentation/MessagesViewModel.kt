@@ -1,5 +1,5 @@
 package com.arsvechkarev.messages.presentation
 
-import core.base.BaseViewModel
+import core.base.RxViewModel
 
-class MessagesViewModel : BaseViewModel()
+class MessagesViewModel : RxViewModel()

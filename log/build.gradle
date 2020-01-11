@@ -23,8 +23,8 @@ android {
 }
 
 dependencies {
-  def appDependencies = rootProject.ext.applicationDependencies
+  def dependencies = rootProject.ext.applicationDependencies
 
-  implementation appDependencies.kotlin
-  implementation appDependencies.appCompat
+  implementation dependencies.kotlin
+  implementation dependencies.appCompat
 }

@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import core.base.BaseViewModel
+import core.base.RxViewModel
 import core.model.users.User
 import core.strings.DEFAULT_IMG_URL
 import firebase.schema.Collections.Users
@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 class RegistrationViewModel @Inject constructor(
   private val firebaseFirestore: FirebaseFirestore
-) : BaseViewModel() {
+) : RxViewModel() {
   
   private var userCreationState: MutableLiveData<UserCreationState> = MutableLiveData()
   fun creationState(): LiveData<UserCreationState> = userCreationState

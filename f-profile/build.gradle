@@ -36,7 +36,6 @@ dependencies {
   implementation dependencies.appCompat
   implementation dependencies.ktx
   implementation dependencies.materialDesign
-  implementation dependencies.lifecycleExtensions
   implementation dependencies.legacySupport
   implementation dependencies.constraintLayout
 

@@ -27,11 +27,11 @@ dependencies {
   implementation project(':storage')
   implementation project(':test-common')
 
-  def appDependencies = rootProject.ext.applicationDependencies
+  def dependencies = rootProject.ext.applicationDependencies
   def testDependencies = rootProject.ext.testDependencies
 
-  implementation appDependencies.kotlin
-  implementation appDependencies.appCompat
+  implementation dependencies.kotlin
+  implementation dependencies.appCompat
 
   api testDependencies.kakao
   api testDependencies.espresso

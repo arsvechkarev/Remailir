@@ -13,7 +13,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
-import core.base.BaseViewModel
+import core.base.RxViewModel
 import core.model.users.User
 import firebase.schema.Collections.Users
 import log.Loggable
@@ -23,7 +23,7 @@ import javax.inject.Inject
 class EntranceViewModel @Inject constructor(
   private val firebaseAuth: FirebaseAuth,
   private val firebaseFirestore: FirebaseFirestore
-) : BaseViewModel(), Loggable {
+) : RxViewModel(), Loggable {
   
   private var verificationId: String = ""
   override val logTag = "PhoneAuthorization"

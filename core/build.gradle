@@ -31,23 +31,22 @@ androidExtensions {
 dependencies {
   implementation project(':animation')
 
-  def appDependencies = rootProject.ext.applicationDependencies
+  def dependencies = rootProject.ext.applicationDependencies
 
   api project(':log')
 
-  implementation appDependencies.kotlin
-  implementation appDependencies.appCompat
-  implementation appDependencies.lifecycleExtensions
-  implementation appDependencies.materialDesign
-  implementation appDependencies.constraintLayout
-  implementation appDependencies.snowfallView
+  implementation dependencies.kotlin
+  implementation dependencies.appCompat
+  implementation dependencies.materialDesign
+  implementation dependencies.constraintLayout
+  implementation dependencies.snowfallView
 
-  implementation appDependencies.coroutinesCore
-  implementation appDependencies.coroutinesAndroid
+  implementation dependencies.coroutinesCore
+  implementation dependencies.coroutinesAndroid
 
-  implementation appDependencies.firebaseFirestore
-  implementation appDependencies.rxJava
+  implementation dependencies.firebaseFirestore
+  implementation dependencies.rxJava
 
-  implementation appDependencies.dagger
-  kapt appDependencies.daggerCompiler
+  implementation dependencies.dagger
+  kapt dependencies.daggerCompiler
 }

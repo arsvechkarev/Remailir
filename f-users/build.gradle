@@ -35,7 +35,6 @@ dependencies {
   implementation dependencies.appCompat
   implementation dependencies.ktx
   implementation dependencies.materialDesign
-  implementation dependencies.lifecycleExtensions
   implementation dependencies.legacySupport
   implementation dependencies.constraintLayout
 
@@ -47,6 +46,11 @@ dependencies {
 
   implementation dependencies.firebaseAuth
   implementation dependencies.firebaseFirestore
+
+  implementation dependencies.lifecycleStreams
+  implementation dependencies.rxJava
+  implementation dependencies.rxAndroid
+  implementation dependencies.rxFirebase
 
   implementation dependencies.dagger
   kapt dependencies.daggerCompiler
