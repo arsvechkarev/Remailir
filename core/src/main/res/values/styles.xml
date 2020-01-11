@@ -43,6 +43,11 @@
     <item name="colorMessageOtherUser">@color/dark_colorMessageOtherUser</item>
   </style>
 
+  <style name="AppTheme.Dark.ActionBar">
+    <item name="windowNoTitle">false</item>
+    <item name="windowActionBar">true</item>
+  </style>
+
   <!-- ActionBar -->
 
   <style name="ActionBar" parent="Widget.MaterialComponents.ActionBar.Solid">
@@ -93,8 +98,7 @@
 
   <!-- Dialog -->
 
-  <style name="DialogFullScreen" parent="AppTheme">
-  </style>
+  <style name="DialogFullScreen" parent="AppTheme"></style>
 
   <!-- TextInputLayout -->
 

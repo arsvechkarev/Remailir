@@ -50,6 +50,9 @@ dependencies {
   implementation dependencies.firebaseAuth
   implementation dependencies.firebaseStorage
   implementation dependencies.firebaseFirestore
+  implementation dependencies.rxJava
+  implementation dependencies.rxAndroid
+  implementation dependencies.rxFirebase
 
   implementation dependencies.dagger
   kapt dependencies.daggerCompiler

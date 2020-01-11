@@ -1,11 +1,14 @@
 package com.arsvechkarev.profile.presentation
 
-import android.net.Uri
+import android.graphics.Bitmap
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.arsvechkarev.profile.repositories.ProfileRepository
 import core.RawResult
 import core.model.users.User
+import io.reactivex.Maybe
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class ProfileViewModel @Inject constructor(
@@ -14,6 +17,12 @@ class ProfileViewModel @Inject constructor(
   
   var userDataState = MutableLiveData<Result<User>>()
   var uploadingImageState = MutableLiveData<RawResult>()
+  
+  fun fetchProfileDataRx(): Maybe<User> {
+    return repository.fetchProfileDataRx()
+      .subscribeOn(Schedulers.io())
+      .observeOn(AndroidSchedulers.mainThread())
+  }
   
   fun fetchProfileData() {
     repository.fetchProfileData {
@@ -26,12 +35,11 @@ class ProfileViewModel @Inject constructor(
     }
   }
   
-  fun uploadImage(uri: Uri) {
-    repository.uploadImage(uri) {
+  fun uploadImage(bitmap: Bitmap) {
+    repository.uploadImage(bitmap) {
       onSuccess {
         uploadingImageState.value = RawResult.success()
       }
-      
       onFailure {
         uploadingImageState.value = RawResult.failure(it)
       }

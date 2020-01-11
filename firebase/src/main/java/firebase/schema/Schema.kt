@@ -4,6 +4,10 @@ object Storage {
   const val images = "images"
 }
 
+object ChatModel {
+  const val memberIds = "memberIds"
+}
+
 object MessageModel {
   const val timestamp = "timestamp"
 }

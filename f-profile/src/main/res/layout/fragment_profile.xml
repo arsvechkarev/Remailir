@@ -16,7 +16,7 @@
     app:layout_constraintTop_toTopOf="parent"
     app:the_toolbar_backgroundColor="?theColorPrimary"
     app:the_toolbar_hasBackImage="false"
-    app:the_toolbar_title="@string/app_name"/>
+    app:the_toolbar_title="@string/title_profile"/>
 
   <de.hdodenhof.circleimageview.CircleImageView
     android:id="@+id/imageProfile"
@@ -60,5 +60,16 @@
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/textProfileName"/>
+
+
+  <ProgressBar
+    android:id="@+id/progressBarProfile"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:visibility="gone"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/theToolbar"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,12 +3,18 @@ package com.arsvechkarev.profile.presentation
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.content.Intent.ACTION_PICK
+import android.net.Uri
 import android.provider.MediaStore
 import android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
 import androidx.lifecycle.ViewModelProvider
 import com.arsvechkarev.profile.R
 import com.arsvechkarev.profile.di.DaggerProfileComponent
+import com.arsvechkarev.views.LoadingDialog
 import com.squareup.picasso.Picasso
+import com.theartofdev.edmodo.cropper.CropImage
+import com.theartofdev.edmodo.cropper.CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE
+import com.theartofdev.edmodo.cropper.CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE
+import com.theartofdev.edmodo.cropper.CropImageView
 import core.RawResult
 import core.base.BaseFragment
 import core.model.users.User
@@ -30,7 +36,9 @@ import javax.inject.Inject
 class ProfileFragment : BaseFragment() {
   
   override val layout: Int = R.layout.fragment_profile
+  
   private val permissionDelegate = PermissionDelegate(this)
+  private var loadingDialog: LoadingDialog? = null
   
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -63,12 +71,29 @@ class ProfileFragment : BaseFragment() {
   }
   
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-    if (requestCode == PICK_IMAGE_REQUEST) {
-      if (resultCode == RESULT_OK && data != null && data.data != null) {
-        val uri = data.data!!
-        val bitmap = MediaStore.Images.Media.getBitmap(activity!!.contentResolver, uri)
-        imageProfile.setImageBitmap(bitmap)
-        viewModel.uploadImage(uri)
+    when (requestCode) {
+      PICK_IMAGE_REQUEST -> {
+        if (resultCode == RESULT_OK && data != null && data.data != null) {
+          val uri = data.data!!
+          CropImage.activity(uri)
+            .setGuidelines(CropImageView.Guidelines.ON)
+            .setAspectRatio(1, 1)
+            .setCropShape(CropImageView.CropShape.OVAL)
+            .start(context!!, this)
+        }
+      }
+      CROP_IMAGE_ACTIVITY_REQUEST_CODE -> {
+        val result = CropImage.getActivityResult(data)
+        if (resultCode == RESULT_OK) {
+          val resultUri: Uri = result.uri
+          val bitmap = MediaStore.Images.Media.getBitmap(activity!!.contentResolver, resultUri)
+          imageProfile.setImageBitmap(bitmap)
+          viewModel.uploadImage(bitmap)
+          loadingDialog = LoadingDialog.create("Uploading image")
+          loadingDialog!!.show(childFragmentManager, null)
+        } else if (resultCode == CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+          val error = result.error
+        }
       }
     }
   }
@@ -93,6 +118,7 @@ class ProfileFragment : BaseFragment() {
   private fun handleUpload(rawResult: RawResult) {
     rawResult.apply {
       onSuccess {
+        loadingDialog?.dismiss()
         showToast("Successfully uploaded")
       }
       onFailure {

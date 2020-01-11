@@ -6,44 +6,32 @@ import com.google.firebase.firestore.Query.Direction.DESCENDING
 import core.model.messaging.Chat
 import core.model.messaging.DialogMessage
 import core.model.messaging.PartialChat
+import firebase.RetrieveListener
+import firebase.schema.ChatModel.memberIds
 import firebase.schema.Collections.Messages
 import firebase.schema.Collections.OneToOneChats
 import firebase.schema.MessageModel.timestamp
 import firebase.utils.getChatIdWith
 import firebase.utils.thisUser
 import log.Loggable
+import javax.inject.Inject
 
-class MessagesRepository : Loggable {
+class MessagesRepository @Inject constructor(
+  private val firestore: FirebaseFirestore
+) : Loggable {
   
   override val logTag: String = "MessagesRepository"
   
-  class ListenersHolder<S> {
-    lateinit var successBlock: (S) -> Unit
-  
-    lateinit var failureBlock: (Throwable) -> Unit
-  
-    fun onSuccess(successBlock: (S) -> Unit) {
-      this.successBlock = successBlock
-    }
-  
-    fun onFailure(failureBlock: (Throwable) -> Unit) {
-      this.failureBlock = failureBlock
-    }
-  
-  }
-  
-  fun fetchMessages(block: ListenersHolder<List<Chat>>.() -> Unit) {
-    val holder = ListenersHolder<List<Chat>>().apply(block)
-    FirebaseFirestore.getInstance()
-      .collection(OneToOneChats)
-      .whereArrayContains("memberIds", thisUser.uid)
+  fun fetchMessages(block: RetrieveListener<List<Chat>>.() -> Unit) {
+    val holder = RetrieveListener<List<Chat>>().apply(block)
+    firestore.collection(OneToOneChats)
+      .whereArrayContains(memberIds, thisUser.uid)
       .get()
       .addOnSuccessListener { snapshot ->
         val chats = ArrayList<Chat>()
         val partialChats = snapshot.toObjects(PartialChat::class.java)
         partialChats.forEach { partialChat ->
-          FirebaseFirestore.getInstance()
-            .collection(OneToOneChats)
+          firestore.collection(OneToOneChats)
             .document(getChatIdWith(partialChat.otherUser.id))
             .addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
               if (documentSnapshot!!.exists()) {
@@ -57,7 +45,7 @@ class MessagesRepository : Loggable {
                     val messages = it.toObjects(DialogMessage::class.java)
                     val dialogMessage = if (messages.size > 0) messages[0] else null
                     chats.add(Chat(partialChat.otherUser, dialogMessage))
-                    holder.successBlock(chats)
+                    holder.success(chats)
                   }
               }
             }
