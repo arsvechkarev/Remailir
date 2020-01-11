@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.arsvechkarev.chat.presentation.ChatFragment
 import com.arsvechkarev.messages.R
 import com.arsvechkarev.messages.list.MessagesAdapter
-import com.arsvechkarev.messages.repository.MessagesRepository
 import com.arsvechkarev.users.presentation.UsersListFragment
 import core.base.coreActivity
 import kotlinx.android.synthetic.main.fragment_messages.fabNewChat
@@ -47,13 +46,13 @@ class MessagesFragment : Fragment() {
     recyclerChats.layoutManager = LinearLayoutManager(context!!)
     recyclerChats.adapter = adapter
   
-    MessagesRepository().fetchMessages {
-      onSuccess {
-        adapter.submitList(it)
-      }
-      onFailure {
-      }
-    }
+    //    MessagesRepository().fetchMessages {
+    //      onSuccess {
+    //        adapter.submitList(it)
+    //      }
+    //      onFailure {
+    //      }
+    //    }
     
   }
 }

@@ -46,6 +46,7 @@ dependencies {
   implementation appDependencies.coroutinesAndroid
 
   implementation appDependencies.firebaseFirestore
+  implementation appDependencies.rxJava
 
   implementation appDependencies.dagger
   kapt appDependencies.daggerCompiler

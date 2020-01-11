@@ -1,5 +1,6 @@
 package core.model.users
 
+import android.net.Uri
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 import java.io.Serializable
@@ -18,7 +19,7 @@ data class User(
   }
 }
 
-fun User.withNewImageUrl(newUrl: String) = User(id, phone, name, newUrl)
+fun User.withNewImageUri(newUrl: Uri) = User(id, phone, name, newUrl.toString())
 
 fun User.withNewProfileName(newName: String) = User(newName, phone, name, imageUrl)
 

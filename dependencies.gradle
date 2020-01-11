@@ -30,6 +30,7 @@ ext {
       fragmentKtx        : "androidx.fragment:fragment-ktx:$fragmentKtx_version",
       materialDesign     : "com.google.android.material:material:1.1.0-beta01",
       lifecycleExtensions: "androidx.lifecycle:lifecycle-extensions:$lifecycle_version",
+      lifecycleStreams    : "androidx.lifecycle:lifecycle-reactivestreams:$lifecycle_version",
       viewModelSavedState: "androidx.lifecycle:lifecycle-viewmodel-savedstate:$viewModelSavedState_version",
       legacySupport      : "androidx.legacy:legacy-support-v4:$legacySupport_version",
       constraintLayout   : "androidx.constraintlayout:constraintlayout:$constraintLayout_version",

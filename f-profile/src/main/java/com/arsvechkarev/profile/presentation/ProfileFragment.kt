@@ -50,7 +50,7 @@ class ProfileFragment : BaseFragment() {
       observe(userDataState, ::updateProfile)
       observe(uploadingImageState, ::handleUpload)
     }
-    viewModel.fetchProfileData()
+    viewModel.fetchProfileDataRx()
     imageEdit.setOnClickListener {
       if (permissionDelegate.allowReadExternalStorage) {
         requestForImage()
@@ -88,7 +88,7 @@ class ProfileFragment : BaseFragment() {
           val resultUri: Uri = result.uri
           val bitmap = MediaStore.Images.Media.getBitmap(activity!!.contentResolver, resultUri)
           imageProfile.setImageBitmap(bitmap)
-          viewModel.uploadImage(bitmap)
+          viewModel.uploadImageRx(bitmap)
           loadingDialog = LoadingDialog.create("Uploading image")
           loadingDialog!!.show(childFragmentManager, null)
         } else if (resultCode == CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {

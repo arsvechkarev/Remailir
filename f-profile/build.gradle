@@ -44,12 +44,11 @@ dependencies {
   implementation dependencies.picasso
   implementation dependencies.imageCropping
 
-  implementation dependencies.coroutinesCore
-  implementation dependencies.coroutinesAndroid
-
   implementation dependencies.firebaseAuth
   implementation dependencies.firebaseStorage
   implementation dependencies.firebaseFirestore
+
+  implementation dependencies.lifecycleStreams
   implementation dependencies.rxJava
   implementation dependencies.rxAndroid
   implementation dependencies.rxFirebase
