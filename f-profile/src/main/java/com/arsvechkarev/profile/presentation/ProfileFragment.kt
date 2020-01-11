@@ -103,7 +103,7 @@ class ProfileFragment : BaseFragment() {
   }
   
   private fun updateProfile(result: Result<User>) {
-    result.onSuccess { user ->
+    result.fold({ user ->
       imageEdit.visible()
       if (user.imageUrl == DEFAULT_IMG_URL) {
         imageProfile.setBackgroundResource(R.drawable.image_profile_stub)
@@ -112,7 +112,9 @@ class ProfileFragment : BaseFragment() {
       }
       textProfileName.text = user.name
       textProfilePhone.text = user.phone
-    }
+    }, {
+      showToast("Failed to load user info")
+    })
   }
   
   private fun handleUpload(rawResult: RawResult) {
@@ -122,7 +124,7 @@ class ProfileFragment : BaseFragment() {
         showToast("Successfully uploaded")
       }
       onFailure {
-        showToast("Failure")
+        showToast("Failure while uploading the photo")
         debug(it) { "Exception." }
       }
     }

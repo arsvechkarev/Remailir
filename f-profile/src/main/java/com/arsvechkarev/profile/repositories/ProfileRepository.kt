@@ -24,7 +24,8 @@ class ProfileRepository @Inject constructor(
   
   fun fetchProfileDataRx(): Maybe<User> {
     return RxFirestore.getDocument(firestore.collection(Users).document(thisUser.uid))
-      .map { it.toObject(User::class.java) }
+      .map { it.toObject(User::class.java)!! }
+      .doOnSuccess { user = it }
   }
   
   fun uploadImageRx(bitmap: Bitmap): Completable {
