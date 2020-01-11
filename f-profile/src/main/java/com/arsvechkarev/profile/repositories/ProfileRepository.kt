@@ -3,7 +3,6 @@ package com.arsvechkarev.profile.repositories
 import android.graphics.Bitmap
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.UploadTask
 import core.model.users.User
 import core.model.users.withNewImageUri
 import durdinapps.rxfirebase2.RxFirebaseStorage
@@ -11,8 +10,8 @@ import durdinapps.rxfirebase2.RxFirestore
 import firebase.schema.Collections.Users
 import firebase.utils.getProfilePhotoPath
 import firebase.utils.thisUser
+import io.reactivex.Completable
 import io.reactivex.Maybe
-import io.reactivex.Single
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
@@ -28,21 +27,19 @@ class ProfileRepository @Inject constructor(
       .map { it.toObject(User::class.java) }
   }
   
-  fun uploadImageRx(bitmap: Bitmap): Single<UploadTask.TaskSnapshot> {
+  fun uploadImageRx(bitmap: Bitmap): Completable {
     val child = storage.reference.child(getProfilePhotoPath())
     val outputStream = ByteArrayOutputStream()
     bitmap.compress(Bitmap.CompressFormat.JPEG, 30, outputStream)
     val bytes = outputStream.toByteArray()
     
     return RxFirebaseStorage.putBytes(child, bytes)
-      .doOnSuccess {
-        RxFirebaseStorage.getDownloadUrl(child)
-          .doOnSuccess {
-            RxFirestore.setDocument(
-              firestore.collection(Users).document(thisUser.uid),
-              user.withNewImageUri(it)
-            )
-          }
+      .flatMap { RxFirebaseStorage.getDownloadUrl(child).toSingle() }
+      .flatMapCompletable {
+        RxFirestore.setDocument(
+          firestore.collection(Users).document(thisUser.uid),
+          user.withNewImageUri(it)
+        )
       }
   }
 }
