@@ -50,7 +50,6 @@ ext {
       threeTenAbp        : "com.jakewharton.threetenabp:threetenabp:$threeTenAbp_version",
       libPhoneNumber     : "com.googlecode.libphonenumber:libphonenumber:$libPhoneNumber_version",
       workManager        : "androidx.work:work-runtime:$workManager_version",
-      workManagerRxJava        : "androidx.work:work-rxjava2:$workManager_version",
       rxJava             : "io.reactivex.rxjava2:rxjava:$rxJava_version",
       rxAndroid          : "io.reactivex.rxjava2:rxandroid:$rxAndroid_version",
       rxFirebase         : "com.github.FrangSierra:RxFirebase:$rxFirebase_version"

@@ -1,7 +1,6 @@
 package com.arsvechkarev.profile.repositories
 
 import android.graphics.Bitmap
-import com.google.firebase.storage.FirebaseStorage
 import core.strings.profilePictureFile
 import io.reactivex.Completable
 import io.reactivex.Maybe
@@ -11,7 +10,6 @@ import storage.UploadImageWorker
 import javax.inject.Inject
 
 class ProfileRepository @Inject constructor(
-  private val firebaseStorage: FirebaseStorage,
   private val uploadImageWorker: UploadImageWorker,
   private val profileDiskStorage: ProfileDiskStorage,
   private val profileNetworkRequests: ProfileNetworkRequests
@@ -26,7 +24,8 @@ class ProfileRepository @Inject constructor(
         profileDiskStorage.saveProfileImage(bitmap)
           .subscribe(
             { debug { "image loaded to disk" } },
-            { debug(it) { "nope" } })
+            { debug(it) { "nope" } }
+          )
       }
     
     return Maybe.concat(diskData, networkData)

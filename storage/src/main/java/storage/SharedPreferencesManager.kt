@@ -9,6 +9,14 @@ class SharedPreferencesManager @Inject constructor(context: Context) {
   
   private val prefs = context.getSharedPreferences(SHARED_PREFERENCES_COMMON, MODE_PRIVATE)
   
+  fun isTrue(key: String): Boolean {
+    return prefs.getBoolean(key, false)
+  }
+  
+  fun putBoolean(key: String, value: Boolean) {
+    prefs.edit().putBoolean(key, value).apply()
+  }
+  
   fun putString(key: String, value: String) {
     prefs.edit().putString(key, value).apply()
   }

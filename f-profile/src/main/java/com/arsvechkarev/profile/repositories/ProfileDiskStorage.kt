@@ -2,19 +2,19 @@ package com.arsvechkarev.profile.repositories
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import core.RxJavaSchedulersProvider
 import core.strings.appPicturesPath
 import core.strings.profilePictureFile
 import io.reactivex.Completable
 import io.reactivex.Maybe
 import log.Loggable
 import log.log
+import storage.SharedPreferencesManager
 import java.io.FileOutputStream
 import javax.inject.Inject
 
 
 class ProfileDiskStorage @Inject constructor(
-  private val schedulersProvider: RxJavaSchedulersProvider
+  private val preferencesManager: SharedPreferencesManager
 ) : Loggable {
   
   override val logTag = "ProfileStuff"
@@ -23,21 +23,27 @@ class ProfileDiskStorage @Inject constructor(
     return Maybe.create { emmiter ->
       try {
         if (!profilePictureFile.exists()) {
-          log { "try to search path: $profilePictureFile" }
-          log { "file is not exist, return complete" }
+          log { "File is not exist, return onComplete()" }
           emmiter.onComplete()
-        } else {
+          return@create
+        }
+        if (preferencesManager.isTrue(SAVED_IMAGE_AT_LEAST_ONCE)) {
           val bitmap = BitmapFactory.decodeFile(profilePictureFile.toString())
           if (bitmap == null) {
-            log { "bitmap == null, return complete" }
+            log { "bitmap == null, return onComplete()" }
             emmiter.onComplete()
           } else {
-            log { "found image on disk" }
+            log { "Found image on disk, return onSuccess()" }
             emmiter.onSuccess(bitmap)
           }
+        } else {
+          // User hasn't loaded photo yet, therefore found file might be cache from
+          // previous uploads. In this case return Maybe.onComplete() to indicate that result is
+          // no image actually
+          emmiter.onComplete()
         }
       } catch (e: Exception) {
-        log(e) { "error while loading from disk" }
+        log(e) { "Error while loading from disk" }
         emmiter.onError(e)
       }
     }
@@ -57,11 +63,17 @@ class ProfileDiskStorage @Inject constructor(
       FileOutputStream(pictureFile).use {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 30, it)
       }
-      log { "bitmap is saved to storage" }
+      preferencesManager.putBoolean(SAVED_IMAGE_AT_LEAST_ONCE, true)
+      log { "Bitmap is successfully saved to storage" }
       emitter.onComplete()
     } catch (e: Exception) {
-      log(e) { "error while uploading to disk" }
+      log(e) { "Error while uploading to disk" }
       emitter.onError(e)
     }
+  }
+  
+  companion object {
+    
+    private const val SAVED_IMAGE_AT_LEAST_ONCE = "SAVED_IMAGE_FIRST_TIME"
   }
 }
