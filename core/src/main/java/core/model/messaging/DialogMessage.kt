@@ -8,3 +8,7 @@ data class DialogMessage(
 ) {
   constructor() : this("", "", "", 0)
 }
+
+fun DialogMessage.toChat(partialChat: PartialChat): Chat {
+  return Chat(partialChat.otherUser, this)
+}

@@ -10,7 +10,6 @@ ext {
   firebaseAnalytics_version = '17.2.0'
   firebaseAuth_version = '19.1.0'
   firebaseStorage_version = '19.1.0'
-  firebaseDatabase_version = '19.1.0'
   firebaseFirestore_version = '21.1.1'
 
   imageCropping_version = "2.8.0"
@@ -39,7 +38,6 @@ ext {
       firebaseAnalytics  : "com.google.firebase:firebase-analytics:$firebaseAnalytics_version",
       firebaseAuth       : "com.google.firebase:firebase-auth:$firebaseAuth_version",
       firebaseStorage    : "com.google.firebase:firebase-storage:$firebaseStorage_version",
-      firebaseDatabase   : "com.google.firebase:firebase-database:$firebaseDatabase_version",
       firebaseFirestore  : "com.google.firebase:firebase-firestore:$firebaseFirestore_version",
       imageCropping      : "com.theartofdev.edmodo:android-image-cropper:$imageCropping_version",
       dagger             : "com.google.dagger:dagger:$dagger_version",

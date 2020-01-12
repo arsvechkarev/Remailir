@@ -14,10 +14,11 @@ import com.arsvechkarev.remailir.entrance.PhoneAuthState.Failed
 import com.arsvechkarev.remailir.entrance.PhoneAuthState.OnCodeSent
 import com.arsvechkarev.remailir.entrance.PhoneAuthState.UserAlreadyExists
 import com.arsvechkarev.remailir.entrance.PhoneAuthState.UserNotExist
+import com.arsvechkarev.remailir.entrance.di.DaggerEntranceComponent
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthProvider
 import core.base.EntranceActivity
-import core.di.ContextModule
+import core.di.modules.ContextModule
 import core.model.other.Country
 import core.util.observe
 import core.util.showToast

@@ -11,7 +11,7 @@ import com.arsvechkarev.auth.di.DaggerAuthContextComponent
 import com.arsvechkarev.auth.list.CountryCodesAdapter
 import core.base.BaseFragment
 import core.base.entranceActivity
-import core.di.ContextModule
+import core.di.modules.ContextModule
 import core.model.other.Country
 import core.util.observe
 import core.util.popBackStack

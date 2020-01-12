@@ -32,7 +32,7 @@ dependencies {
 
   implementation project(':f-chat')
   implementation project(':f-users')
-  implementation project(':f-messages')
+  implementation project(':f-chats')
   implementation project(':f-profile')
   implementation project(':f-auth')
 

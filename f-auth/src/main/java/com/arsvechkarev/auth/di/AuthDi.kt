@@ -6,8 +6,8 @@ import com.arsvechkarev.auth.presentation.countrycodes.CountriesViewModel
 import com.arsvechkarev.auth.presentation.countrycodes.SearchCountryFragment
 import com.arsvechkarev.auth.presentation.signup.RegistrationFragment
 import com.arsvechkarev.auth.presentation.signup.RegistrationViewModel
-import core.di.ContextModule
-import core.di.CoreModule
+import core.di.modules.ContextModule
+import core.di.modules.CoreModule
 import core.di.scopes.FeatureScope
 import core.di.viewmodel.ViewModelKey
 import dagger.Binds

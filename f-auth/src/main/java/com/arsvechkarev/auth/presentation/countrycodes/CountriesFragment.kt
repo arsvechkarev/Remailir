@@ -9,7 +9,7 @@ import com.arsvechkarev.auth.di.DaggerAuthContextComponent
 import com.arsvechkarev.auth.list.CountryAndLettersAdapter
 import core.base.BaseFragment
 import core.base.entranceActivity
-import core.di.ContextModule
+import core.di.modules.ContextModule
 import core.recycler.DisplayableItem
 import core.util.gone
 import core.util.observe

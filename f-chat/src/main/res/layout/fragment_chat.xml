@@ -9,7 +9,7 @@
   android:fitsSystemWindows="true"
   android:focusable="true"
   android:background="?theColorBackground"
-  tools:context=".presentation.ChatFragment">
+  tools:context=".presentation.MessagingFragment">
 
   <androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/toolbar"

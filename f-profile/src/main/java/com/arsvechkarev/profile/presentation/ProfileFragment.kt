@@ -16,7 +16,7 @@ import com.theartofdev.edmodo.cropper.CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR
 import com.theartofdev.edmodo.cropper.CropImageView
 import core.MaybeResult
 import core.base.BaseFragment
-import core.di.ContextModule
+import core.di.modules.ContextModule
 import core.util.observe
 import core.util.showToast
 import core.util.viewModelOf

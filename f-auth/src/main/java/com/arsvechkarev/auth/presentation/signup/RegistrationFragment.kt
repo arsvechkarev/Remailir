@@ -11,7 +11,7 @@ import com.arsvechkarev.auth.presentation.signup.UserCreationState.Failed
 import com.arsvechkarev.auth.presentation.signup.UserCreationState.NameOccupied
 import core.base.BaseFragment
 import core.base.entranceActivity
-import core.di.ContextModule
+import core.di.modules.ContextModule
 import core.util.observe
 import core.util.showToast
 import core.util.string

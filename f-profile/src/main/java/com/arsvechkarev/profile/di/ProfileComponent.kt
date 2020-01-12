@@ -1,9 +1,9 @@
 package com.arsvechkarev.profile.di
 
 import com.arsvechkarev.profile.presentation.ProfileFragment
-import core.di.ContextModule
-import core.di.CoreModule
-import core.di.PicassoModule
+import core.di.modules.ContextModule
+import core.di.modules.CoreModule
+import core.di.modules.PicassoModule
 import core.di.scopes.FeatureScope
 import dagger.Component
 import firebase.di.FirebaseModule
