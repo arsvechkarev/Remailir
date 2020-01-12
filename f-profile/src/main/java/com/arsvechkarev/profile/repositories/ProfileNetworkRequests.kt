@@ -1,18 +1,18 @@
 package com.arsvechkarev.profile.repositories
 
 import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
-import com.squareup.picasso.Picasso
-import com.squareup.picasso.Target
+import android.graphics.BitmapFactory
 import core.strings.DEFAULT_IMG_URL
 import io.reactivex.Maybe
 import log.Loggable
 import log.log
+import java.io.InputStream
+import java.net.URL
 import javax.inject.Inject
+import javax.net.ssl.HttpsURLConnection
 
-class ProfileNetworkRequests @Inject constructor(
-  private val picasso: Picasso
-) : Loggable {
+
+class ProfileNetworkRequests @Inject constructor() : Loggable {
   
   override val logTag = "ProfileStuff"
   
@@ -22,20 +22,17 @@ class ProfileNetworkRequests @Inject constructor(
         log { "url is default, return completion" }
         emitter.onComplete()
       } else {
-        log { "loading from url" }
-        picasso.load(imageUrl).into(object : Target {
-          override fun onPrepareLoad(placeHolderDrawable: Drawable?) {}
-          
-          override fun onBitmapFailed(e: Exception, errorDrawable: Drawable?) {
-            log { "failed while loading with picasso" }
-            emitter.onError(e)
-          }
-          
-          override fun onBitmapLoaded(bitmap: Bitmap, from: Picasso.LoadedFrom?) {
-            log { "loaded successfully with picasso" }
-            emitter.onSuccess(bitmap)
-          }
-        })
+        try {
+          log { "loading from url" }
+          val url = URL(imageUrl)
+          val connection: HttpsURLConnection = url.openConnection() as HttpsURLConnection
+          connection.connect()
+          val input: InputStream = connection.inputStream
+          val bitmap = BitmapFactory.decodeStream(input)
+          emitter.onSuccess(bitmap)
+        } catch (e: Throwable) {
+          emitter.onError(e)
+        }
       }
     }
     

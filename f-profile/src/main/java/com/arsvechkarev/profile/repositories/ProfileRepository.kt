@@ -5,7 +5,7 @@ import core.strings.profilePictureFile
 import io.reactivex.Completable
 import io.reactivex.Maybe
 import log.Loggable
-import log.debug
+import log.log
 import storage.UploadImageWorker
 import javax.inject.Inject
 
@@ -23,9 +23,11 @@ class ProfileRepository @Inject constructor(
       .doOnSuccess { bitmap ->
         profileDiskStorage.saveProfileImage(bitmap)
           .subscribe(
-            { debug { "image loaded to disk" } },
-            { debug(it) { "nope" } }
+            { log { "Image was loaded to the disk" } },
+            { log(it) { "Error while loading to disk" } }
           )
+      }.doOnError {
+        log(it) { "Error happened" }
       }
     
     return Maybe.concat(diskData, networkData)

@@ -12,7 +12,6 @@ import com.arsvechkarev.profile.R
 import com.arsvechkarev.profile.di.DaggerProfileComponent
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE
-import com.theartofdev.edmodo.cropper.CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE
 import com.theartofdev.edmodo.cropper.CropImageView
 import core.MaybeResult
 import core.base.BaseFragment
@@ -94,8 +93,6 @@ class ProfileFragment : BaseFragment(), Loggable {
           val bitmap = MediaStore.Images.Media.getBitmap(activity!!.contentResolver, resultUri)
           imageProfile.setImageBitmap(bitmap)
           viewModel.uploadImageRx(bitmap)
-        } else if (resultCode == CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-          val error = result.error
         }
       }
     }
