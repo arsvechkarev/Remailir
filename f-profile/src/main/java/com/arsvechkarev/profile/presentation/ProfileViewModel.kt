@@ -6,41 +6,45 @@ import com.arsvechkarev.profile.repositories.ProfileRepository
 import core.MaybeResult
 import core.RxJavaSchedulersProvider
 import core.base.RxViewModel
-import core.strings.DEFAULT_IMG_URL
-import log.debug
+import log.Loggable
+import log.log
 import javax.inject.Inject
 
 class ProfileViewModel @Inject constructor(
   private val schedulersProvider: RxJavaSchedulersProvider,
   private val repository: ProfileRepository
-) : RxViewModel() {
+) : RxViewModel(), Loggable {
+  
+  override val logTag = "ProfileStuff"
   
   val profileImageState = MutableLiveData<MaybeResult<Bitmap>>()
   
   fun fetchProfileImage(url: String) {
-    if (url == DEFAULT_IMG_URL) {
-      profileImageState.value = MaybeResult.nothing()
-    } else {
-      rxCall {
-        repository.getProfileImage(url)
-          .subscribeOn(schedulersProvider.io)
-          .observeOn(schedulersProvider.mainThread)
-          .subscribe({
-            profileImageState.value = MaybeResult.success(it)
-          }, {
-            profileImageState.value = MaybeResult.failure(it)
-          })
-      }
+    log { "start fetching image" }
+    rxCall {
+      repository.getProfileImage(url)
+        .subscribeOn(schedulersProvider.io)
+        .observeOn(schedulersProvider.mainThread)
+        .subscribe({
+          profileImageState.value = MaybeResult.success(it)
+        }, {
+          profileImageState.value = MaybeResult.failure(it)
+        }, {
+          profileImageState.value = MaybeResult.nothing()
+        })
     }
   }
   
   fun uploadImageRx(uri: String, bitmap: Bitmap) {
+    log { "start uploading image" }
     rxCall {
       repository.uploadImageRx(uri, bitmap)
         .subscribeOn(schedulersProvider.io)
-        .subscribe {
-          debug { "image loaded to disk" }
-        }
+        .subscribe({
+          log { "image loaded to disk" }
+        }, {
+          log(it) { "image hasn't been uploaded to disk" }
+        })
     }
   }
   

@@ -53,14 +53,14 @@ class ProfileFragment : BaseFragment(), Loggable {
     viewModel = viewModelOf(viewModelFactory) {
       observe(profileImageState, ::updateProfileImage)
     }
-    viewModel.fetchProfileImage(AppUser.get().imageUrl)
     setUserInfo()
+    if (permissionDelegate.allowReadAndWriteExternalStorage) {
+      viewModel.fetchProfileImage(AppUser.get().imageUrl)
+    } else {
+      permissionDelegate.requestReadAndWriteExternalStorage()
+    }
     imageEditProfilePhoto.setOnClickListener {
-      if (permissionDelegate.allowReadExternalStorage) {
-        requestForImage()
-      } else {
-        permissionDelegate.requestReadExternalStorage()
-      }
+      startActivityForResult(Intent(ACTION_PICK, EXTERNAL_CONTENT_URI), PICK_IMAGE_REQUEST)
     }
   }
   
@@ -69,8 +69,8 @@ class ProfileFragment : BaseFragment(), Loggable {
     permissions: Array<out String>,
     grantResults: IntArray
   ) {
-    if (permissionDelegate.allowReadExternalStorage) {
-      requestForImage()
+    if (permissionDelegate.allowReadAndWriteExternalStorage) {
+      viewModel.fetchProfileImage(AppUser.get().imageUrl)
     }
   }
   
@@ -99,10 +99,6 @@ class ProfileFragment : BaseFragment(), Loggable {
         }
       }
     }
-  }
-  
-  private fun requestForImage() {
-    startActivityForResult(Intent(ACTION_PICK, EXTERNAL_CONTENT_URI), PICK_IMAGE_REQUEST)
   }
   
   private fun setUserInfo() {

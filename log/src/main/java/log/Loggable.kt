@@ -16,7 +16,7 @@ fun Loggable.log(lazyMessage: () -> Any) {
   }
 }
 
-fun Loggable.log(exception: Exception, lazyMessage: () -> Any) {
+fun Loggable.log(exception: Throwable, lazyMessage: () -> Any) {
   if (Logger.areDebugMessagesAllowed) {
     Log.d(logTag, lazyMessage().toString(), exception)
   }

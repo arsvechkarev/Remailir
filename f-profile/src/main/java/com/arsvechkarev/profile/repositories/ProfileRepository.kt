@@ -14,7 +14,7 @@ class ProfileRepository @Inject constructor(
   private val profileNetworkRequests: ProfileNetworkRequests
 ) : Loggable {
   
-  override val logTag = "ProfileRepository"
+  override val logTag = "ProfileStuffRepository"
   
   private var profileImage: Bitmap? = null
   
@@ -29,7 +29,7 @@ class ProfileRepository @Inject constructor(
         profileDiskStorage.saveProfileImage(it).subscribe({
           debug { "image loaded to disk" }
         }, {
-          // TODO (1/12/2020): handle file exception
+          debug { "nope" }
         })
       }
     
@@ -38,7 +38,7 @@ class ProfileRepository @Inject constructor(
   }
   
   fun uploadImageRx(localPath: String, bitmap: Bitmap): Completable {
-    uploadImageWorker.uploadImage(localPath)
+    //    uploadImageWorker.uploadImage(localPath)
     return profileDiskStorage.saveProfileImage(bitmap)
   }
 }
