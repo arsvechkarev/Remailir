@@ -1,6 +1,8 @@
 package com.arsvechkarev.profile.repositories
 
 import android.graphics.Bitmap
+import com.google.firebase.storage.FirebaseStorage
+import core.strings.profilePictureFile
 import io.reactivex.Completable
 import io.reactivex.Maybe
 import log.Loggable
@@ -9,6 +11,7 @@ import storage.UploadImageWorker
 import javax.inject.Inject
 
 class ProfileRepository @Inject constructor(
+  private val firebaseStorage: FirebaseStorage,
   private val uploadImageWorker: UploadImageWorker,
   private val profileDiskStorage: ProfileDiskStorage,
   private val profileNetworkRequests: ProfileNetworkRequests
@@ -16,29 +19,22 @@ class ProfileRepository @Inject constructor(
   
   override val logTag = "ProfileStuffRepository"
   
-  private var profileImage: Bitmap? = null
-  
   fun getProfileImage(url: String): Maybe<Bitmap> {
-    if (profileImage != null) {
-      return Maybe.just(profileImage!!)
-    }
-    val diskData = profileDiskStorage.getProfileImage().doOnSuccess { profileImage = it }
+    val diskData = profileDiskStorage.getProfileImage()
     val networkData = profileNetworkRequests.loadProfileImage(url)
-      .doOnSuccess {
-        profileImage = it
-        profileDiskStorage.saveProfileImage(it).subscribe({
-          debug { "image loaded to disk" }
-        }, {
-          debug { "nope" }
-        })
+      .doOnSuccess { bitmap ->
+        profileDiskStorage.saveProfileImage(bitmap)
+          .subscribe(
+            { debug { "image loaded to disk" } },
+            { debug(it) { "nope" } })
       }
     
     return Maybe.concat(diskData, networkData)
       .firstElement()
   }
   
-  fun uploadImageRx(localPath: String, bitmap: Bitmap): Completable {
-    //    uploadImageWorker.uploadImage(localPath)
+  fun uploadImageRx(bitmap: Bitmap): Completable {
     return profileDiskStorage.saveProfileImage(bitmap)
+      .andThen { uploadImageWorker.uploadImage(profilePictureFile.path) }
   }
 }

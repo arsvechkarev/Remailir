@@ -93,7 +93,7 @@ class ProfileFragment : BaseFragment(), Loggable {
           log { "uri = $resultUri" }
           val bitmap = MediaStore.Images.Media.getBitmap(activity!!.contentResolver, resultUri)
           imageProfile.setImageBitmap(bitmap)
-          viewModel.uploadImageRx(resultUri.toString(), bitmap)
+          viewModel.uploadImageRx(bitmap)
         } else if (resultCode == CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
           val error = result.error
         }
