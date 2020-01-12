@@ -32,6 +32,7 @@ dependencies {
   implementation dependencies.kotlin
   implementation dependencies.coroutinesCore
   implementation dependencies.workManager
+  implementation dependencies.rxJava
 
   implementation dependencies.firebaseAuth
   implementation dependencies.firebaseFirestore

@@ -1,15 +1,12 @@
 package com.arsvechkarev.profile.repositories
 
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import core.strings.DEFAULT_IMG_URL
 import io.reactivex.Maybe
 import log.Loggable
 import log.log
-import java.io.InputStream
-import java.net.URL
+import storage.RxImageLoader
 import javax.inject.Inject
-import javax.net.ssl.HttpsURLConnection
 
 
 class ProfileNetworkRequests @Inject constructor() : Loggable {
@@ -24,12 +21,8 @@ class ProfileNetworkRequests @Inject constructor() : Loggable {
       } else {
         try {
           log { "loading from url" }
-          val url = URL(imageUrl)
-          val connection: HttpsURLConnection = url.openConnection() as HttpsURLConnection
-          connection.connect()
-          val input: InputStream = connection.inputStream
-          val bitmap = BitmapFactory.decodeStream(input)
-          emitter.onSuccess(bitmap)
+          RxImageLoader.downloadImage(imageUrl)
+            .subscribe { bitmap -> emitter.onSuccess(bitmap) }
         } catch (e: Throwable) {
           emitter.onError(e)
         }

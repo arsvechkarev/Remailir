@@ -36,14 +36,14 @@ class ProfileViewModel @Inject constructor(
   }
   
   fun uploadImageRx(bitmap: Bitmap) {
-    log { "start uploading image" }
+    log { "Start uploading image" }
     rxCall {
       repository.uploadImageRx(bitmap)
         .subscribeOn(schedulersProvider.io)
         .subscribe({
-          log { "image loaded to disk" }
+          log { "Image has been loaded to disk" }
         }, {
-          log(it) { "image hasn't been uploaded to disk" }
+          log(it) { "Image hasn't been uploaded to disk" }
         })
     }
   }

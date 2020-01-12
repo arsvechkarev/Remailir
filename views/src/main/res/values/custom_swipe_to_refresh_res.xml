@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <style name="SwipeToRefreshLayout" parent="Theme.MaterialComponents">
+    <item name="progressLineColor">?theColorAccent</item>
+    <item name="circleBackgroundColor">?theColorPrimary</item>
+  </style>
+
+  <declare-styleable name="CustomSwipeToRefreshLayout">
+    <attr name="progressLineColor" format="color"/>
+    <attr name="circleBackgroundColor" format="color"/>
+  </declare-styleable>
+</resources>

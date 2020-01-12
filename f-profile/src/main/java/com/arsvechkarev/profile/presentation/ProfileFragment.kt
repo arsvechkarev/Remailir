@@ -17,12 +17,15 @@ import core.MaybeResult
 import core.base.BaseFragment
 import core.di.coreComponent
 import core.di.modules.ContextModule
+import core.util.invisible
 import core.util.observe
 import core.util.showToast
 import core.util.viewModelOf
 import core.util.visible
 import kotlinx.android.synthetic.main.fragment_profile.imageEditProfilePhoto
 import kotlinx.android.synthetic.main.fragment_profile.imageProfile
+import kotlinx.android.synthetic.main.fragment_profile.progressBarImageLoading
+import kotlinx.android.synthetic.main.fragment_profile.swipeToRefreshLayoutProfile
 import kotlinx.android.synthetic.main.fragment_profile.textProfileName
 import kotlinx.android.synthetic.main.fragment_profile.textProfilePhone
 import log.Loggable
@@ -52,9 +55,12 @@ class ProfileFragment : BaseFragment(), Loggable {
     viewModel = viewModelOf(viewModelFactory) {
       observe(profileImageState, ::updateProfileImage)
     }
+    swipeToRefreshLayoutProfile.setOnRefreshListener {
+      viewModel.fetchProfileImage(AppUser.get().imageUrl)
+    }
     setUserInfo()
     if (permissionDelegate.allowReadAndWriteExternalStorage) {
-      viewModel.fetchProfileImage(AppUser.get().imageUrl)
+      startImageLoading()
     } else {
       permissionDelegate.requestReadAndWriteExternalStorage()
     }
@@ -69,7 +75,7 @@ class ProfileFragment : BaseFragment(), Loggable {
     grantResults: IntArray
   ) {
     if (permissionDelegate.allowReadAndWriteExternalStorage) {
-      viewModel.fetchProfileImage(AppUser.get().imageUrl)
+      startImageLoading()
     }
   }
   
@@ -98,21 +104,26 @@ class ProfileFragment : BaseFragment(), Loggable {
     }
   }
   
+  private fun startImageLoading() {
+    viewModel.fetchProfileImage(AppUser.get().imageUrl)
+    progressBarImageLoading.visible()
+  }
+  
   private fun setUserInfo() {
     textProfileName.text = AppUser.get().name
     textProfilePhone.text = AppUser.get().phone
   }
   
   private fun updateProfileImage(result: MaybeResult<Bitmap>) {
+    swipeToRefreshLayoutProfile.isRefreshing = false
+    progressBarImageLoading.invisible()
     when {
       result.isSuccess -> {
         imageProfile.setImageBitmap(result.data)
-        imageEditProfilePhoto.visible()
       }
       result.isFailure -> showToast("Failed to load bitmap")
       result.isNothing -> {
         imageProfile.setBackgroundResource(R.drawable.image_profile_stub)
-        imageEditProfilePhoto.visible()
       }
     }
   }
