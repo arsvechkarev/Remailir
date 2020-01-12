@@ -1,10 +1,10 @@
 package core
 
 /**
- * Either [Result] or nothing
+ * Represents success, failure or no result
  */
 @Suppress("UNCHECKED_CAST")
-class MaybeResult<out S>(internal val value: Any?) {
+class MaybeResult<out S> private constructor(private val value: Any?) {
   
   val isNothing = value == null
   
@@ -22,10 +22,9 @@ class MaybeResult<out S>(internal val value: Any?) {
       return result.isSuccess
     }
   
-  
   val data get() = value as S
   
-  val error: Throwable get() = (value as Result<S>).exceptionOrNull()!!
+  val exception: Throwable get() = (value as Result<S>).exceptionOrNull()!!
   
   companion object {
     
@@ -45,4 +44,16 @@ class MaybeResult<out S>(internal val value: Any?) {
     }
   }
   
+}
+
+inline fun <S> MaybeResult<S>.whenSuccess(block: (S) -> Unit) {
+  if (isSuccess) block(data)
+}
+
+inline fun MaybeResult<*>.whenFailure(block: (Throwable) -> Unit) {
+  if (isFailure) block(exception)
+}
+
+inline fun MaybeResult<*>.whenNothing(block: () -> Unit) {
+  if (isNothing) block()
 }

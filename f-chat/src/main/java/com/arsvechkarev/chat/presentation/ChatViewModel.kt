@@ -6,7 +6,7 @@ import com.arsvechkarev.chat.presentation.MessagesState.MessagesList
 import com.arsvechkarev.chat.repository.ChatRepository
 import com.google.firebase.firestore.EventListener
 import core.model.messaging.DialogMessage
-import core.model.users.OtherUser
+import core.model.users.User
 import javax.inject.Inject
 
 class ChatViewModel @Inject constructor(
@@ -15,14 +15,14 @@ class ChatViewModel @Inject constructor(
   
   val messages = MutableLiveData<MessagesState>()
   
-  fun fetchMessagesList(otherUser: OtherUser) {
+  fun fetchMessagesList(otherUser: User) {
     repository.fetchMessages(otherUser, EventListener { snapshot, exception ->
       if (exception != null) return@EventListener
       messages.value = MessagesList(snapshot!!.toObjects(DialogMessage::class.java))
     })
   }
-
-  fun sendMessage(message: String, otherUser: OtherUser) {
+  
+  fun sendMessage(message: String, otherUser: User) {
     repository.sendMessage(message, otherUser, onSuccess = {
     }, onFailure = {
     })

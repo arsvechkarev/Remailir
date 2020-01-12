@@ -7,7 +7,7 @@ import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import core.model.messaging.DialogMessage
-import core.model.users.OtherUser
+import core.model.users.User
 import firebase.schema.Collections
 import firebase.schema.MessageModel
 import firebase.utils.getChatIdWith
@@ -21,7 +21,7 @@ import javax.inject.Inject
 class ChatRepository @Inject constructor() {
   
   fun fetchMessages(
-    otherUser: OtherUser,
+    otherUser: User,
     listener: EventListener<QuerySnapshot>
   ): ListenerRegistration {
     addChatMetadata(otherUser)
@@ -33,7 +33,7 @@ class ChatRepository @Inject constructor() {
   }
   
   
-  fun addChatMetadata(otherUser: OtherUser) {
+  fun addChatMetadata(otherUser: User) {
     val data = hashMapOf(
       "memberIds" to listOf(otherUser.id, thisUser.uid),
       "otherUser" to otherUser
@@ -45,7 +45,7 @@ class ChatRepository @Inject constructor() {
   
   fun sendMessage(
     message: String,
-    otherUser: OtherUser,
+    otherUser: User,
     onSuccess: () -> Unit,
     onFailure: (Throwable) -> Unit
   ) {

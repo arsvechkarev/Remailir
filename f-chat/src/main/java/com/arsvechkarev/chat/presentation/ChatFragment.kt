@@ -13,7 +13,7 @@ import com.arsvechkarev.chat.presentation.MessagesState.MessagesList
 import com.squareup.picasso.Picasso
 import core.base.BaseFragment
 import core.model.messaging.DialogMessage
-import core.model.users.OtherUser
+import core.model.users.User
 import core.strings.DEFAULT_IMG_URL
 import core.util.invisible
 import core.util.observe
@@ -39,7 +39,7 @@ class ChatFragment : BaseFragment() {
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
   private lateinit var viewModel: ChatViewModel
-  private lateinit var otherUser: OtherUser
+  private lateinit var otherUser: User
   
   override val layout: Int = R.layout.fragment_chat
   
@@ -49,7 +49,7 @@ class ChatFragment : BaseFragment() {
     viewModel = viewModelOf(viewModelFactory) {
       observe(messages, ::updateMessagesList)
     }
-    otherUser = arguments!!.getParcelable(FRIEND) as OtherUser
+    otherUser = arguments!!.getParcelable(USER) as User
     prepareView()
     viewModel.fetchMessagesList(otherUser)
     buttonSend.setOnClickListener {
@@ -77,7 +77,7 @@ class ChatFragment : BaseFragment() {
     } else {
       Picasso.get().load(otherUser.imageUrl).into(imageOtherUser)
     }
-    textOtherUserName.text = otherUser.username
+    textOtherUserName.text = otherUser.name
     textOtherUserExtraInfo.text = otherUser.id
   }
   
@@ -98,15 +98,13 @@ class ChatFragment : BaseFragment() {
   }
   
   companion object {
-    
-    const val FRIEND = "FRIEND"
-    
-    fun newInstance(otherUser: OtherUser): ChatFragment {
-      val bundle = Bundle()
-      bundle.putParcelable(FRIEND, otherUser)
-      val fragment = ChatFragment()
-      fragment.arguments = bundle
-      return fragment
+  
+    const val USER = "USER"
+  
+    fun create(user: User) = ChatFragment().apply {
+      arguments = Bundle().apply {
+        putParcelable(USER, user)
+      }
     }
   }
 }

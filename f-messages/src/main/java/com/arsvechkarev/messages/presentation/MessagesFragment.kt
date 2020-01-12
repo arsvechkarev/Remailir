@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.fragment_messages.toolbar
 class MessagesFragment : Fragment() {
   
   private val adapter = MessagesAdapter {
-    coreActivity.goToFragmentFromRoot(ChatFragment.newInstance(it.otherUser), true)
+    coreActivity.goToFragmentFromRoot(ChatFragment.create(it.otherUser), true)
   }
   
   override fun onCreateView(

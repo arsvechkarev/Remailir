@@ -2,25 +2,33 @@ package com.arsvechkarev.users.presentation
 
 import androidx.lifecycle.MutableLiveData
 import com.arsvechkarev.users.repository.UsersRepository
-import core.model.users.OtherUser
-import firebase.FireViewModel
+import core.MaybeResult
+import core.RxJavaSchedulersProvider
+import core.base.RxViewModel
+import core.model.users.User
 import javax.inject.Inject
 
 class UsersViewModel @Inject constructor(
-  private val repository: UsersRepository
-) : FireViewModel<List<OtherUser>>(repository) {
+  private val repository: UsersRepository,
+  private val schedulersProvider: RxJavaSchedulersProvider
+) : RxViewModel() {
   
-  var otherUsers = MutableLiveData<Result<List<OtherUser>>>()
+  var usersListData = MutableLiveData<MaybeResult<List<User>>>()
   
   fun fetchUsers() {
-    repository.fetchUsers {
-      onSuccess {
-        otherUsers.value = Result.success(it)
-      }
-    
-      onFailure {
-        otherUsers.value = Result.failure(it)
-      }
+    rxCall {
+      repository.fetchUsers()
+        .subscribeOn(schedulersProvider.io)
+        .observeOn(schedulersProvider.mainThread)
+        .subscribe({
+          if (it.isEmpty()) {
+            usersListData.value = MaybeResult.nothing()
+          } else {
+            usersListData.value = MaybeResult.success(it)
+          }
+        }, {
+          usersListData.value = MaybeResult.failure(it)
+        })
     }
   }
   

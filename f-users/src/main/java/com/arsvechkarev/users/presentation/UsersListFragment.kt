@@ -11,13 +11,19 @@ import com.arsvechkarev.chat.presentation.ChatFragment
 import com.arsvechkarev.users.R
 import com.arsvechkarev.users.di.DaggerUsersComponent
 import com.arsvechkarev.users.list.UsersListAdapter
+import core.MaybeResult
 import core.base.coreActivity
-import core.model.users.OtherUser
+import core.model.users.User
 import core.util.observe
 import core.util.popBackStack
+import core.util.showToast
 import core.util.viewModelOf
+import core.whenFailure
+import core.whenNothing
+import core.whenSuccess
 import kotlinx.android.synthetic.main.fragment_users.recyclerUsers
 import kotlinx.android.synthetic.main.fragment_users.toolbar
+import log.debug
 import javax.inject.Inject
 
 class UsersListFragment : Fragment() {
@@ -26,11 +32,9 @@ class UsersListFragment : Fragment() {
   lateinit var viewModelFactory: ViewModelProvider.Factory
   private lateinit var usersViewModel: UsersViewModel
   
-  private val adapter: UsersListAdapter by lazy {
-    UsersListAdapter {
-      popBackStack()
-      coreActivity.goToFragmentFromRoot(ChatFragment.newInstance(it), true)
-    }
+  private val adapter = UsersListAdapter {
+    popBackStack()
+    coreActivity.goToFragmentFromRoot(ChatFragment.create(it), true)
   }
   
   override fun onCreateView(
@@ -47,19 +51,22 @@ class UsersListFragment : Fragment() {
       popBackStack()
     }
     usersViewModel = viewModelOf(viewModelFactory) {
-      observe(otherUsers, ::updateList)
+      observe(usersListData, ::updateList)
     }
     recyclerUsers.adapter = adapter
     recyclerUsers.layoutManager = LinearLayoutManager(context)
     usersViewModel.fetchUsers()
   }
   
-  private fun updateList(result: Result<List<OtherUser>>) {
-    result.onFailure {
-    
-    }
-    result.onSuccess {
+  private fun updateList(result: MaybeResult<List<User>>) {
+    result.whenSuccess {
       adapter.submitList(it)
+    }
+    result.whenFailure {
+      debug(it)
+    }
+    result.whenNothing {
+      showToast("No users")
     }
   }
 }

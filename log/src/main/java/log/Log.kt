@@ -18,7 +18,7 @@ inline fun debug(lazyMessage: () -> String?) {
   }
 }
 
-inline fun debug(e: Throwable, lazyMessage: () -> String?) {
+inline fun debug(e: Throwable, lazyMessage: () -> String? = { "" }) {
   if (areDebugMessagesAllowed) {
     MyTimber.d(e, lazyMessage())
   }

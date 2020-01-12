@@ -1,17 +1,17 @@
 package core.model.messaging
 
-import core.model.users.OtherUser
+import core.model.users.User
 import core.recycler.DisplayableItem
 
 data class PartialChat(
   val memberIds: List<String>,
-  val otherUser: OtherUser
+  val otherUser: User
 ) {
-  constructor() : this(listOf(), OtherUser())
+  constructor() : this(listOf(), User())
 }
 
 data class Chat(
-  val otherUser: OtherUser,
+  val otherUser: User,
   val lastMessage: DialogMessage?
 ) : DisplayableItem {
   
