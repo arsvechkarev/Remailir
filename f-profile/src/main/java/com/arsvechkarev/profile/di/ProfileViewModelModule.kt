@@ -1,8 +1,8 @@
 package com.arsvechkarev.profile.di
 
 import androidx.lifecycle.ViewModel
-import core.di.viewmodel.ViewModelKey
 import com.arsvechkarev.profile.presentation.ProfileViewModel
+import core.di.viewmodel.ViewModelKey
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -13,5 +13,5 @@ abstract class ProfileViewModelModule {
   @Binds
   @IntoMap
   @ViewModelKey(ProfileViewModel::class)
-  internal abstract fun postSignUpViewModel(viewModel: ProfileViewModel): ViewModel
+  internal abstract fun postProfileViewModel(viewModel: ProfileViewModel): ViewModel
 }

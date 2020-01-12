@@ -12,8 +12,8 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/f-auth" />
-            <option value="$PROJECT_DIR$/f-chat" />
             <option value="$PROJECT_DIR$/f-chats" />
+            <option value="$PROJECT_DIR$/f-messaging" />
             <option value="$PROJECT_DIR$/f-profile" />
             <option value="$PROJECT_DIR$/f-users" />
             <option value="$PROJECT_DIR$/firebase" />

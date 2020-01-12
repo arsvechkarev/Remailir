@@ -5,12 +5,13 @@ import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.ViewModelProvider
 import com.arsvechakrev.auth.R
-import com.arsvechkarev.auth.di.DaggerAuthContextComponent
+import com.arsvechkarev.auth.di.DaggerAuthComponent
 import com.arsvechkarev.auth.presentation.signup.UserCreationState.Completed
 import com.arsvechkarev.auth.presentation.signup.UserCreationState.Failed
 import com.arsvechkarev.auth.presentation.signup.UserCreationState.NameOccupied
 import core.base.BaseFragment
 import core.base.entranceActivity
+import core.di.coreComponent
 import core.di.modules.ContextModule
 import core.util.observe
 import core.util.showToast
@@ -29,7 +30,8 @@ class RegistrationFragment : BaseFragment() {
   override val layout: Int = R.layout.fragment_registration
   
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-    DaggerAuthContextComponent.builder()
+    DaggerAuthComponent.builder()
+      .coreComponent(coreComponent)
       .contextModule(ContextModule(context!!))
       .build()
       .inject(this)

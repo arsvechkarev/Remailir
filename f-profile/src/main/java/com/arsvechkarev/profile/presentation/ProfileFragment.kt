@@ -16,6 +16,7 @@ import com.theartofdev.edmodo.cropper.CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR
 import com.theartofdev.edmodo.cropper.CropImageView
 import core.MaybeResult
 import core.base.BaseFragment
+import core.di.coreComponent
 import core.di.modules.ContextModule
 import core.util.observe
 import core.util.showToast
@@ -45,6 +46,7 @@ class ProfileFragment : BaseFragment(), Loggable {
   
   override fun onInit() {
     DaggerProfileComponent.builder()
+      .coreComponent(coreComponent)
       .contextModule(ContextModule(context!!))
       .build()
       .inject(this)

@@ -30,7 +30,7 @@ dependencies {
   implementation project(':firebase')
   implementation project(':storage')
 
-  implementation project(':f-chat')
+  implementation project(':f-messaging')
   implementation project(':f-users')
   implementation project(':f-chats')
   implementation project(':f-profile')

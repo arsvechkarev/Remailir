@@ -13,7 +13,7 @@ interface RxJavaSchedulersProvider {
   val io: Scheduler
   
   object DefaultImpl : RxJavaSchedulersProvider {
-    override val mainThread: Scheduler = Schedulers.io()
-    override val io: Scheduler = AndroidSchedulers.mainThread()
+    override val mainThread: Scheduler = AndroidSchedulers.mainThread()
+    override val io: Scheduler = Schedulers.io()
   }
 }

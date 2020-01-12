@@ -3,8 +3,9 @@ package com.arsvechkarev.auth.presentation.countrycodes
 import androidx.lifecycle.MutableLiveData
 import core.base.CoroutinesViewModel
 import core.model.other.Country
+import javax.inject.Inject
 
-class SearchCountryViewModel : CoroutinesViewModel() {
+class SearchCountryViewModel @Inject constructor() : CoroutinesViewModel() {
   
   val countries = MutableLiveData<MutableList<Country>>()
   

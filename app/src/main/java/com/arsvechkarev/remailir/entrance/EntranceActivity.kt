@@ -18,6 +18,7 @@ import com.arsvechkarev.remailir.entrance.di.DaggerEntranceComponent
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthProvider
 import core.base.EntranceActivity
+import core.di.coreComponent
 import core.di.modules.ContextModule
 import core.model.other.Country
 import core.util.observe
@@ -44,6 +45,7 @@ class EntranceActivity : AppCompatActivity(), EntranceActivity {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_entrance)
     DaggerEntranceComponent.builder()
+      .coreComponent(coreComponent)
       .contextModule(ContextModule(this))
       .build()
       .inject(this)
