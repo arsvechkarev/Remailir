@@ -20,15 +20,20 @@ import core.di.ContextModule
 import core.util.observe
 import core.util.showToast
 import core.util.viewModelOf
-import kotlinx.android.synthetic.main.fragment_profile.imageEdit
+import core.util.visible
+import kotlinx.android.synthetic.main.fragment_profile.imageEditProfilePhoto
 import kotlinx.android.synthetic.main.fragment_profile.imageProfile
 import kotlinx.android.synthetic.main.fragment_profile.textProfileName
 import kotlinx.android.synthetic.main.fragment_profile.textProfilePhone
+import log.Loggable
+import log.log
 import storage.AppUser
 import javax.inject.Inject
 
 
-class ProfileFragment : BaseFragment() {
+class ProfileFragment : BaseFragment(), Loggable {
+  
+  override val logTag = "ProfileStuff"
   
   override val layout: Int = R.layout.fragment_profile
   
@@ -48,7 +53,7 @@ class ProfileFragment : BaseFragment() {
     }
     viewModel.fetchProfileImage(AppUser.get().imageUrl)
     setUserInfo()
-    imageEdit.setOnClickListener {
+    imageEditProfilePhoto.setOnClickListener {
       if (permissionDelegate.allowReadExternalStorage) {
         requestForImage()
       } else {
@@ -83,9 +88,10 @@ class ProfileFragment : BaseFragment() {
         val result = CropImage.getActivityResult(data)
         if (resultCode == RESULT_OK) {
           val resultUri: Uri = result.uri
+          log { "uri = $resultUri" }
           val bitmap = MediaStore.Images.Media.getBitmap(activity!!.contentResolver, resultUri)
           imageProfile.setImageBitmap(bitmap)
-          viewModel.uploadImageRx(resultUri.toString())
+          viewModel.uploadImageRx(resultUri.toString(), bitmap)
         } else if (resultCode == CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
           val error = result.error
         }
@@ -104,9 +110,15 @@ class ProfileFragment : BaseFragment() {
   
   private fun updateProfileImage(result: MaybeResult<Bitmap>) {
     when {
-      result.isSuccess -> imageProfile.setImageBitmap(result.data)
+      result.isSuccess -> {
+        imageProfile.setImageBitmap(result.data)
+        imageEditProfilePhoto.visible()
+      }
       result.isFailure -> showToast("Failed to load bitmap")
-      result.isNothing -> imageProfile.setBackgroundResource(R.drawable.image_profile_stub)
+      result.isNothing -> {
+        imageProfile.setBackgroundResource(R.drawable.image_profile_stub)
+        imageEditProfilePhoto.visible()
+      }
     }
   }
   

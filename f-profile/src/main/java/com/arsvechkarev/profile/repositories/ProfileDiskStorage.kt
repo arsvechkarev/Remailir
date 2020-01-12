@@ -2,13 +2,16 @@ package com.arsvechkarev.profile.repositories
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import core.RxJavaSchedulersProvider
 import core.strings.profilePictureFile
 import io.reactivex.Completable
 import io.reactivex.Maybe
 import java.io.FileOutputStream
 import javax.inject.Inject
 
-class ProfileDiskStorage @Inject constructor() {
+class ProfileDiskStorage @Inject constructor(
+  private val schedulersProvider: RxJavaSchedulersProvider
+) {
   
   fun getProfileImage(): Maybe<Bitmap> {
     return Maybe.create { emmiter ->
@@ -29,7 +32,8 @@ class ProfileDiskStorage @Inject constructor() {
     try {
       val file = profilePictureFile
       if (!file.exists()) {
-        file.mkdir()
+        file.parentFile.mkdirs()
+        file.createNewFile()
       }
       FileOutputStream(file).use {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 30, it)

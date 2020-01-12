@@ -32,7 +32,7 @@
     tools:src="@drawable/image_profile_stub"/>
 
   <ImageView
-    android:id="@+id/imageEdit"
+    android:id="@+id/imageEditProfilePhoto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="?selectableItemBackgroundBorderless"
@@ -99,7 +99,7 @@
     android:textColor="?theColorTextSecondary"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/imageEdit"/>
+    app:layout_constraintTop_toBottomOf="@+id/imageEditProfilePhoto"/>
 
   <View
     android:id="@+id/usernameDivider2"

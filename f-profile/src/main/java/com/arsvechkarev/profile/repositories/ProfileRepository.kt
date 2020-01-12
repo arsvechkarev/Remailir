@@ -1,8 +1,10 @@
 package com.arsvechkarev.profile.repositories
 
 import android.graphics.Bitmap
+import io.reactivex.Completable
 import io.reactivex.Maybe
-import storage.AppUser
+import log.Loggable
+import log.debug
 import storage.UploadImageWorker
 import javax.inject.Inject
 
@@ -10,7 +12,9 @@ class ProfileRepository @Inject constructor(
   private val uploadImageWorker: UploadImageWorker,
   private val profileDiskStorage: ProfileDiskStorage,
   private val profileNetworkRequests: ProfileNetworkRequests
-) {
+) : Loggable {
+  
+  override val logTag = "ProfileRepository"
   
   private var profileImage: Bitmap? = null
   
@@ -22,14 +26,19 @@ class ProfileRepository @Inject constructor(
     val networkData = profileNetworkRequests.loadProfileImage(url)
       .doOnSuccess {
         profileImage = it
-        profileDiskStorage.saveProfileImage(it)
+        profileDiskStorage.saveProfileImage(it).subscribe({
+          debug { "image loaded to disk" }
+        }, {
+          // TODO (1/12/2020): handle file exception
+        })
       }
     
     return Maybe.concat(diskData, networkData)
       .firstElement()
   }
   
-  fun uploadImageRx(uri: String) {
-    uploadImageWorker.uploadImage(uri, AppUser.get())
+  fun uploadImageRx(localPath: String, bitmap: Bitmap): Completable {
+    uploadImageWorker.uploadImage(localPath)
+    return profileDiskStorage.saveProfileImage(bitmap)
   }
 }

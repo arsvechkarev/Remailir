@@ -7,6 +7,7 @@ import core.MaybeResult
 import core.RxJavaSchedulersProvider
 import core.base.RxViewModel
 import core.strings.DEFAULT_IMG_URL
+import log.debug
 import javax.inject.Inject
 
 class ProfileViewModel @Inject constructor(
@@ -33,8 +34,14 @@ class ProfileViewModel @Inject constructor(
     }
   }
   
-  fun uploadImageRx(uri: String) {
-    repository.uploadImageRx(uri)
+  fun uploadImageRx(uri: String, bitmap: Bitmap) {
+    rxCall {
+      repository.uploadImageRx(uri, bitmap)
+        .subscribeOn(schedulersProvider.io)
+        .subscribe {
+          debug { "image loaded to disk" }
+        }
+    }
   }
   
 }

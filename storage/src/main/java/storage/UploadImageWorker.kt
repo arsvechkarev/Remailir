@@ -1,9 +1,10 @@
 package storage
 
 import android.content.Context
-import android.net.Uri
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.util.Log
 import androidx.work.Constraints
-import androidx.work.Data
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequest
 import androidx.work.RxWorker
@@ -11,85 +12,117 @@ import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
-import core.model.users.User
-import core.model.users.withNewImageUri
 import firebase.schema.Collections.Users
+import firebase.schema.UserModel.imageUrl
 import firebase.utils.getProfilePhotoPath
 import firebase.utils.thisUser
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import log.Loggable
-import log.log
+import java.io.File
+import java.io.FileOutputStream
 import javax.inject.Inject
 
-class UploadImageWorker @Inject constructor(private val context: Context) {
+private const val imageStorageUrl = "imageStorageUrl"
+private const val imageLocalPath = "imageLocalPath"
+
+class UploadImageWorker @Inject constructor(private val context: Context) : Loggable {
   
-  fun uploadImage(fileUri: String, user: User) {
+  override val logTag = "LoadingStuff"
+  
+  fun uploadImage(filePath: String) {
     val constraints = Constraints.Builder()
       .setRequiredNetworkType(NetworkType.CONNECTED)
       .build()
     
-    val params = Data.Builder().putAll(
-      mapOf(
-        "user_id" to user.id,
-        "user_phone" to user.phone,
-        "user_name" to user.name,
-        "uri" to fileUri
-      )
-    ).build()
+    val imageLocalUrlParams = workersMap(imageLocalPath to filePath)
     
-    val request = OneTimeWorkRequest.Builder(InternalUploadImageWorker::class.java)
-      .setInputData(params)
+    val getLinkWorker = OneTimeWorkRequest.Builder(InternalGetLinkWorker::class.java)
       .setConstraints(constraints)
       .build()
     
-    WorkManager.getInstance(context).enqueue(request)
+    val updateUserWorker = OneTimeWorkRequest.Builder(InternalUpdateUserWorker::class.java)
+      .setConstraints(constraints)
+      .build()
+    
+    val uploadImageWorker = OneTimeWorkRequest.Builder(InternalUploadingImageWorker::class.java)
+      .setConstraints(constraints)
+      .setInputData(imageLocalUrlParams)
+      .build()
+    
+    WorkManager.getInstance(context)
+      .beginWith(getLinkWorker)
+      .then(listOf(updateUserWorker, uploadImageWorker))
+      .enqueue()
   }
   
-  class InternalUploadImageWorker(
+  class InternalGetLinkWorker(
     context: Context,
     workerParameters: WorkerParameters
-  ) : RxWorker(context, workerParameters), Loggable {
+  ) : RxWorker(context, workerParameters) {
     
     override fun createWork(): Single<Result> {
-      val create = Single.create<Result> { emitter ->
-        
-        val userId = inputData.getString("user_id")!!
-        val userPhone = inputData.getString("user_phone")!!
-        val userName = inputData.getString("user_name")!!
-        val imageUri = inputData.getString("uri")!!
-        
-        val fileUri = Uri.parse(imageUri)
-        
-        val partialUser = User(userId, userPhone, userName, "")
-        
-        log { "==========" }
-        log { "got bytes" }
-        
+      return Single.create<Result> { emitter ->
         val storageReference = FirebaseStorage.getInstance().reference.child(getProfilePhotoPath())
-        
-        val task1 = storageReference.putFile(fileUri)
-        log { "start putting bytes" }
-        storageReference.downloadUrl.addOnSuccessListener { uri ->
-          log { "got url" }
-          FirebaseFirestore.getInstance().collection(Users)
-            .document(thisUser.uid)
-            .set(partialUser.withNewImageUri(uri)).addOnSuccessListener {
-              log { "set user" }
-              task1.addOnSuccessListener {
-                log { "task1 completed, all ok" }
-                emitter.onSuccess(Result.success())
-              }.addOnFailureListener {
-                emitter.onError(it)
-              }
-            }
+        storageReference.downloadUrl.addOnSuccessListener {
+          debugg("uri = $it")
+          emitter.onSuccess(Result.success(workersMap(imageStorageUrl to it)))
+        }.addOnFailureListener {
+          emitter.onError(it)
         }
-      }
-      return create.subscribeOn(Schedulers.io())
+      }.subscribeOn(Schedulers.io())
     }
+  }
+  
+  class InternalUpdateUserWorker(
+    context: Context,
+    workerParameters: WorkerParameters
+  ) : RxWorker(context, workerParameters) {
     
-    override val logTag: String
-      get() = "UploadingImage"
+    override fun createWork(): Single<Result> {
+      return Single.create<Result> { emitter ->
+        val newImageUrl = inputData.getString(imageStorageUrl)!!
+        debugg("newImageUrl = $newImageUrl")
     
+        FirebaseFirestore.getInstance().collection(Users)
+          .document(thisUser.uid)
+          .update(imageUrl, newImageUrl).addOnSuccessListener {
+            emitter.onSuccess(Result.success())
+          }.addOnFailureListener {
+            emitter.onError(it)
+          }
+      }.subscribeOn(Schedulers.io())
+    }
+  }
+  
+  class InternalUploadingImageWorker(
+    context: Context,
+    workerParameters: WorkerParameters
+  ) : RxWorker(context, workerParameters) {
+    
+    override fun createWork(): Single<Result> {
+      return Single.create<Result> { emitter ->
+        val localUrl = inputData.getString(imageLocalPath)!!
+        debugg("loc = $localUrl")
+        val bitmap = BitmapFactory.decodeFile(localUrl)
+        
+        val file = File(localUrl)
+        FileOutputStream(file).use {
+          bitmap.compress(Bitmap.CompressFormat.JPEG, 30, it)
+        }
+        FirebaseStorage.getInstance().reference.child(getProfilePhotoPath())
+          .putBytes(file.readBytes())
+          .addOnSuccessListener {
+            debugg("done")
+            emitter.onSuccess(Result.success())
+          }.addOnFailureListener {
+            emitter.onError(it)
+          }
+      }.subscribeOn(Schedulers.io())
+    }
+  }
+  
+  companion object {
+    fun debugg(message: String) = Log.d("LoadingStuff", message)
   }
 }

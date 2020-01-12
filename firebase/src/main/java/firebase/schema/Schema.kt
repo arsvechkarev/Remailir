@@ -2,6 +2,7 @@ package firebase.schema
 
 object Storage {
   const val images = "images"
+  const val imagesProfile = "images"
 }
 
 object ChatModel {
@@ -10,6 +11,11 @@ object ChatModel {
 
 object MessageModel {
   const val timestamp = "timestamp"
+}
+
+object UserModel {
+  const val imageUrl = "imageUrl"
+  const val username = "name"
 }
 
 object Collections {
