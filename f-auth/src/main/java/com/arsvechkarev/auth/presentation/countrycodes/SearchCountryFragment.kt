@@ -7,10 +7,11 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.arsvechakrev.auth.R
-import com.arsvechkarev.auth.di.DaggerAuthComponent
+import com.arsvechkarev.auth.di.DaggerAuthContextComponent
 import com.arsvechkarev.auth.list.CountryCodesAdapter
 import core.base.BaseFragment
 import core.base.entranceActivity
+import core.di.ContextModule
 import core.model.other.Country
 import core.util.observe
 import core.util.popBackStack
@@ -37,7 +38,10 @@ class SearchCountryFragment : BaseFragment() {
   }
   
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-    DaggerAuthComponent.create().inject(this)
+    DaggerAuthContextComponent.builder()
+      .contextModule(ContextModule(context!!))
+      .build()
+      .inject(this)
     viewModel.fetchCountries()
     viewModel.countries.observe(this, ::handleList)
     recyclerCountries.adapter = adapter

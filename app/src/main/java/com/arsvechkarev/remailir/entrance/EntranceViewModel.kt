@@ -18,11 +18,14 @@ import core.model.users.User
 import firebase.schema.Collections.Users
 import log.Loggable
 import log.log
+import storage.AppUser
+import storage.SharedPreferencesManager
 import javax.inject.Inject
 
 class EntranceViewModel @Inject constructor(
   private val firebaseAuth: FirebaseAuth,
-  private val firebaseFirestore: FirebaseFirestore
+  private val firebaseFirestore: FirebaseFirestore,
+  private val sharedPreferencesManager: SharedPreferencesManager
 ) : RxViewModel(), Loggable {
   
   private var verificationId: String = ""
@@ -69,11 +72,12 @@ class EntranceViewModel @Inject constructor(
         .get()
         .addOnCompleteListener { fetchUserTask ->
           if (fetchUserTask.isSuccessful) {
-            val userDb = fetchUserTask.result?.toObject(User::class.java)
-            if (userDb == null) {
+            val userFromDb = fetchUserTask.result?.toObject(User::class.java)
+            if (userFromDb == null) {
               phoneVerificationState.value = UserNotExist
             } else {
-              phoneVerificationState.value = UserAlreadyExists(userDb)
+              AppUser.set(userFromDb, sharedPreferencesManager)
+              phoneVerificationState.value = UserAlreadyExists(userFromDb)
             }
           }
         }.addOnFailureListener {

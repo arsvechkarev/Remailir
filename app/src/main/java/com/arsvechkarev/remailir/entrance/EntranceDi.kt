@@ -1,6 +1,7 @@
 package com.arsvechkarev.remailir.entrance
 
 import androidx.lifecycle.ViewModel
+import core.di.ContextModule
 import core.di.CoreModule
 import core.di.scopes.FeatureScope
 import core.di.viewmodel.ViewModelKey
@@ -10,7 +11,14 @@ import dagger.Module
 import dagger.multibindings.IntoMap
 import firebase.di.FirebaseModule
 
-@Component(modules = [CoreModule::class, FirebaseModule::class, EntranceViewModelModule::class])
+@Component(
+  modules = [
+    CoreModule::class,
+    ContextModule::class,
+    FirebaseModule::class,
+    EntranceViewModelModule::class
+  ]
+)
 @FeatureScope
 interface EntranceComponent {
   

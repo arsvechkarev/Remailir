@@ -17,12 +17,12 @@ import com.arsvechkarev.remailir.entrance.PhoneAuthState.UserNotExist
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthProvider
 import core.base.EntranceActivity
+import core.di.ContextModule
 import core.model.other.Country
 import core.util.observe
 import core.util.showToast
 import core.util.switchFragment
 import core.util.viewModelOf
-import storage.Database
 import java.util.concurrent.TimeUnit.SECONDS
 import javax.inject.Inject
 
@@ -42,7 +42,10 @@ class EntranceActivity : AppCompatActivity(), EntranceActivity {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_entrance)
-    DaggerEntranceComponent.create().inject(this)
+    DaggerEntranceComponent.builder()
+      .contextModule(ContextModule(this))
+      .build()
+      .inject(this)
     viewModel.phoneState().observe(this, ::handleState)
     if (savedInstanceState == null) {
       switchFragment(R.id.rootContainer, PhoneFragment(), false)
@@ -53,7 +56,6 @@ class EntranceActivity : AppCompatActivity(), EntranceActivity {
     when (state) {
       is OnCodeSent -> goToFragment(smsCodeFragment)
       is UserAlreadyExists -> {
-        Database.saveUser(this, state.user.name, state.user.imageUrl)
         goToBase()
       }
       is UserNotExist -> goToFragment(registrationFragment)

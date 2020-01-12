@@ -1,46 +1,35 @@
 package com.arsvechkarev.profile.repositories
 
 import android.graphics.Bitmap
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.storage.FirebaseStorage
-import core.model.users.User
-import core.model.users.withNewImageUri
-import durdinapps.rxfirebase2.RxFirebaseStorage
-import durdinapps.rxfirebase2.RxFirestore
-import firebase.schema.Collections.Users
-import firebase.utils.getProfilePhotoPath
-import firebase.utils.thisUser
-import io.reactivex.Completable
 import io.reactivex.Maybe
-import java.io.ByteArrayOutputStream
+import storage.AppUser
+import storage.UploadImageWorker
 import javax.inject.Inject
 
 class ProfileRepository @Inject constructor(
-  private val firestore: FirebaseFirestore,
-  private val storage: FirebaseStorage
+  private val uploadImageWorker: UploadImageWorker,
+  private val profileDiskStorage: ProfileDiskStorage,
+  private val profileNetworkRequests: ProfileNetworkRequests
 ) {
   
-  private var user: User = User.empty()
+  private var profileImage: Bitmap? = null
   
-  fun fetchProfileDataRx(): Maybe<User> {
-    return RxFirestore.getDocument(firestore.collection(Users).document(thisUser.uid))
-      .map { it.toObject(User::class.java)!! }
-      .doOnSuccess { user = it }
+  fun getProfileImage(url: String): Maybe<Bitmap> {
+    if (profileImage != null) {
+      return Maybe.just(profileImage!!)
+    }
+    val diskData = profileDiskStorage.getProfileImage().doOnSuccess { profileImage = it }
+    val networkData = profileNetworkRequests.loadProfileImage(url)
+      .doOnSuccess {
+        profileImage = it
+        profileDiskStorage.saveProfileImage(it)
+      }
+    
+    return Maybe.concat(diskData, networkData)
+      .firstElement()
   }
   
-  fun uploadImageRx(bitmap: Bitmap): Completable {
-    val child = storage.reference.child(getProfilePhotoPath())
-    val outputStream = ByteArrayOutputStream()
-    bitmap.compress(Bitmap.CompressFormat.JPEG, 30, outputStream)
-    val bytes = outputStream.toByteArray()
-    
-    return RxFirebaseStorage.putBytes(child, bytes)
-      .flatMap { RxFirebaseStorage.getDownloadUrl(child).toSingle() }
-      .flatMapCompletable {
-        RxFirestore.setDocument(
-          firestore.collection(Users).document(thisUser.uid),
-          user.withNewImageUri(it)
-        )
-      }
+  fun uploadImageRx(uri: String) {
+    uploadImageWorker.uploadImage(uri, AppUser.get())
   }
 }

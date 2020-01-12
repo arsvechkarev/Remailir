@@ -25,12 +25,18 @@ android {
 
 dependencies {
   implementation project(':core')
+  implementation project(':firebase')
 
   def dependencies = rootProject.ext.applicationDependencies
 
   implementation dependencies.kotlin
   implementation dependencies.coroutinesCore
+  implementation dependencies.workManager
+  implementation dependencies.workManagerRxJava
+
   implementation dependencies.firebaseAuth
+  implementation dependencies.firebaseFirestore
+  implementation dependencies.firebaseStorage
 
   implementation dependencies.dagger
   kapt dependencies.daggerCompiler

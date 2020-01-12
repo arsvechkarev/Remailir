@@ -5,20 +5,19 @@ import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.ViewModelProvider
 import com.arsvechakrev.auth.R
-import com.arsvechkarev.auth.di.DaggerAuthComponent
+import com.arsvechkarev.auth.di.DaggerAuthContextComponent
 import com.arsvechkarev.auth.presentation.signup.UserCreationState.Completed
 import com.arsvechkarev.auth.presentation.signup.UserCreationState.Failed
 import com.arsvechkarev.auth.presentation.signup.UserCreationState.NameOccupied
 import core.base.BaseFragment
 import core.base.entranceActivity
-import core.strings.DEFAULT_IMG_URL
+import core.di.ContextModule
 import core.util.observe
 import core.util.showToast
 import core.util.string
 import core.util.viewModelOf
 import kotlinx.android.synthetic.main.fragment_registration.buttonSignUp
 import kotlinx.android.synthetic.main.fragment_registration.editTextUsername
-import storage.Database
 import javax.inject.Inject
 
 class RegistrationFragment : BaseFragment() {
@@ -30,7 +29,10 @@ class RegistrationFragment : BaseFragment() {
   override val layout: Int = R.layout.fragment_registration
   
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-    DaggerAuthComponent.create().inject(this)
+    DaggerAuthContextComponent.builder()
+      .contextModule(ContextModule(context!!))
+      .build()
+      .inject(this)
     viewModel.creationState().observe(this, ::handleState)
     handleEditTexts()
     buttonSignUp.setOnClickListener {
@@ -41,7 +43,6 @@ class RegistrationFragment : BaseFragment() {
   private fun handleState(state: UserCreationState) {
     when (state) {
       is Completed -> {
-        Database.saveUser(context!!, editTextUsername.string(), DEFAULT_IMG_URL)
         entranceActivity.goToBase()
       }
       is NameOccupied -> showToast("User with this name already exists")

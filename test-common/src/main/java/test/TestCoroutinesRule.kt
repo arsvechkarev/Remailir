@@ -1,6 +1,6 @@
 package test
 
-import core.DispatcherProvider
+import core.CoroutinesDispatcherProvider
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -15,7 +15,7 @@ class TestCoroutinesRule(
   val testCoroutineDispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
 ) : TestWatcher() {
   
-  val fakeDispatcherProvider = object : DispatcherProvider {
+  val fakeDispatcherProvider = object : CoroutinesDispatcherProvider {
     override val Main: CoroutineDispatcher = testCoroutineDispatcher
     override val IO: CoroutineDispatcher = testCoroutineDispatcher
     override val Default: CoroutineDispatcher = testCoroutineDispatcher

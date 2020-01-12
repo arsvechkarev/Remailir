@@ -3,41 +3,38 @@ package com.arsvechkarev.profile.presentation
 import android.graphics.Bitmap
 import androidx.lifecycle.MutableLiveData
 import com.arsvechkarev.profile.repositories.ProfileRepository
-import core.RawResult
+import core.MaybeResult
+import core.RxJavaSchedulersProvider
 import core.base.RxViewModel
-import core.model.users.User
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import core.strings.DEFAULT_IMG_URL
 import javax.inject.Inject
 
 class ProfileViewModel @Inject constructor(
+  private val schedulersProvider: RxJavaSchedulersProvider,
   private val repository: ProfileRepository
 ) : RxViewModel() {
   
-  val userDataState = MutableLiveData<Result<User>>()
-  val uploadingImageState = MutableLiveData<RawResult>()
+  val profileImageState = MutableLiveData<MaybeResult<Bitmap>>()
   
-  fun fetchProfileDataRx() {
-    rxCall {
-      repository.fetchProfileDataRx()
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe {
-          userDataState.value = Result.success(it)
-        }
+  fun fetchProfileImage(url: String) {
+    if (url == DEFAULT_IMG_URL) {
+      profileImageState.value = MaybeResult.nothing()
+    } else {
+      rxCall {
+        repository.getProfileImage(url)
+          .subscribeOn(schedulersProvider.io)
+          .observeOn(schedulersProvider.mainThread)
+          .subscribe({
+            profileImageState.value = MaybeResult.success(it)
+          }, {
+            profileImageState.value = MaybeResult.failure(it)
+          })
+      }
     }
   }
   
-  fun uploadImageRx(bitmap: Bitmap) {
-    rxCall {
-      repository.uploadImageRx(bitmap)
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(
-          { uploadingImageState.value = RawResult.success() },
-          { uploadingImageState.value = RawResult.failure(it) }
-        )
-    }
+  fun uploadImageRx(uri: String) {
+    repository.uploadImageRx(uri)
   }
   
 }

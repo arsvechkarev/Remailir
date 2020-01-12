@@ -11,7 +11,7 @@ import core.base.BaseActivity
 import core.base.CoreActivity
 import core.util.switchFragment
 import kotlinx.android.synthetic.main.activity_home.bottomNavigationBar
-import storage.Database
+import storage.AppUser
 
 class CoreActivity : BaseActivity(), CoreActivity {
   
@@ -46,7 +46,7 @@ class CoreActivity : BaseActivity(), CoreActivity {
   override fun signOut() {
     coroutine {
       FirebaseAuth.getInstance().signOut()
-      Database.deleteAll(this@CoreActivity)
+      AppUser.clear(this@CoreActivity)
       val intent = Intent(this@CoreActivity, EntranceActivity::class.java)
       startActivity(intent)
     }

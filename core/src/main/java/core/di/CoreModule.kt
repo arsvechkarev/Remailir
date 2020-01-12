@@ -1,23 +1,23 @@
 package core.di
 
 import androidx.lifecycle.ViewModelProvider
-import core.DispatcherProvider
+import core.CoroutinesDispatcherProvider
+import core.RxJavaSchedulersProvider
 import core.di.viewmodel.ViewModelFactory
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 
 @Module
-abstract class CoreModule {
+class CoreModule {
   
-  @Binds
-  abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
+  @Provides
+  fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory = factory
   
-  @Module
-  companion object {
-    
-    @JvmStatic
-    @Provides
-    fun provideDispatchersProvider(): DispatcherProvider = DispatcherProvider.DefaultImpl
-  }
+  @Provides
+  fun provideCoroutinesDispatcherProvider(): CoroutinesDispatcherProvider =
+    CoroutinesDispatcherProvider.DefaultImpl
+  
+  @Provides
+  fun provideRxJavaSchedulersProvider(): RxJavaSchedulersProvider =
+    RxJavaSchedulersProvider.DefaultImpl
 }

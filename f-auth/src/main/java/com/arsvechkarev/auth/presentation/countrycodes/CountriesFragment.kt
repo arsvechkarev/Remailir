@@ -5,10 +5,11 @@ import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.arsvechakrev.auth.R
-import com.arsvechkarev.auth.di.DaggerAuthComponent
+import com.arsvechkarev.auth.di.DaggerAuthContextComponent
 import com.arsvechkarev.auth.list.CountryAndLettersAdapter
 import core.base.BaseFragment
 import core.base.entranceActivity
+import core.di.ContextModule
 import core.recycler.DisplayableItem
 import core.util.gone
 import core.util.observe
@@ -37,7 +38,10 @@ class CountriesFragment : BaseFragment() {
   }
   
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-    DaggerAuthComponent.create().inject(this)
+    DaggerAuthContextComponent.builder()
+      .contextModule(ContextModule(context!!))
+      .build()
+      .inject(this)
     viewModel.fetchCountriesAndCodes()
     progressBarCountries.visible()
     recyclerCountries.adapter = adapter

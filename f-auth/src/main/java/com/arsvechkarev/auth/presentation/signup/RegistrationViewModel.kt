@@ -8,10 +8,13 @@ import core.base.RxViewModel
 import core.model.users.User
 import core.strings.DEFAULT_IMG_URL
 import firebase.schema.Collections.Users
+import storage.AppUser
+import storage.SharedPreferencesManager
 import javax.inject.Inject
 
 class RegistrationViewModel @Inject constructor(
-  private val firebaseFirestore: FirebaseFirestore
+  private val firebaseFirestore: FirebaseFirestore,
+  private val preferencesManager: SharedPreferencesManager
 ) : RxViewModel() {
   
   private var userCreationState: MutableLiveData<UserCreationState> = MutableLiveData()
@@ -32,6 +35,7 @@ class RegistrationViewModel @Inject constructor(
             .document(firebaseUser.uid)
             .set(newUser)
             .addOnCompleteListener {
+              AppUser.set(newUser, preferencesManager)
               userCreationState.value = UserCreationState.Completed
             }.addOnFailureListener { exception ->
               userCreationState.value = UserCreationState.Failed(exception)
