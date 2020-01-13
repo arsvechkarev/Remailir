@@ -8,7 +8,9 @@ abstract class RxViewModel : ViewModel() {
   private val disposables = ArrayList<Disposable>()
   
   protected fun rxCall(block: () -> Disposable) {
-    disposables.add(block())
+    val disposable = block()
+    if (disposable in disposables) disposable.dispose()
+    disposables.add(disposable)
   }
   
   override fun onCleared() {

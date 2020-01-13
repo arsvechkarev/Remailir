@@ -17,8 +17,8 @@ import core.MaybeResult
 import core.base.BaseFragment
 import core.di.coreComponent
 import core.di.modules.ContextModule
-import core.extensions.COLOR_ACCENT
-import core.extensions.COLOR_PRIMARY
+import core.extensions.COLOR_PROGRESS_CIRCLE
+import core.extensions.COLOR_PROGRESS_CIRCLE_BG
 import core.extensions.invisible
 import core.extensions.observe
 import core.extensions.showToast
@@ -49,8 +49,8 @@ class ProfileFragment : BaseFragment(), Loggable {
   private lateinit var viewModel: ProfileViewModel
   
   override fun onInit() {
-    swipeToRefreshLayoutProfile.setColorSchemeColors(COLOR_ACCENT)
-    swipeToRefreshLayoutProfile.setProgressBackgroundColorSchemeColor(COLOR_PRIMARY)
+    swipeToRefreshLayoutProfile.setColorSchemeColors(COLOR_PROGRESS_CIRCLE)
+    swipeToRefreshLayoutProfile.setProgressBackgroundColorSchemeColor(COLOR_PROGRESS_CIRCLE_BG)
     DaggerProfileComponent.builder()
       .coreComponent(coreComponent)
       .contextModule(ContextModule(context!!))

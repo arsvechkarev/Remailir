@@ -22,7 +22,7 @@ class MaybeResult<out S> private constructor(private val value: Any?) {
       return result.isSuccess
     }
   
-  val data get() = (value as Result<S>).getOrNull()!!
+  val data get() = (value as Result<S>).getOrThrow()
   
   val exception: Throwable get() = (value as Result<S>).exceptionOrNull()!!
   

@@ -33,7 +33,7 @@
     app:layout_constraintTop_toBottomOf="@id/theToolbar"/>
 
 
-  <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+  <com.arsvechkarev.views.CustomSwipeRefreshLayout
     android:id="@+id/swipeRefreshUsersLayout"
     android:layout_width="match_parent"
     android:layout_height="0dp"
@@ -47,6 +47,6 @@
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintTop_toBottomOf="@id/theToolbar"/>
 
-  </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+  </com.arsvechkarev.views.CustomSwipeRefreshLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

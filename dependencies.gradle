@@ -31,7 +31,6 @@ ext {
       appCompat          : "androidx.appcompat:appcompat:$appCompat_version",
       ktx                : "androidx.core:core-ktx:$appCompat_version",
       lifecycleExtensions: "androidx.lifecycle:lifecycle-extensions:$lifecycle_version",
-      lifecycleStreams   : "androidx.lifecycle:lifecycle-reactivestreams:$lifecycle_version",
       materialDesign     : "com.google.android.material:material:$materialDesign_version",
       legacySupport      : "androidx.legacy:legacy-support-v4:$legacySupport_version",
       constraintLayout   : "androidx.constraintlayout:constraintlayout:$constraintLayout_version",

@@ -24,4 +24,5 @@
   <attr name="colorMessageThisUser" format="color"/>
   <attr name="colorMessageOtherUser" format="color"/>
 
+  <attr name="colorRefreshProgressBackground" format="color"/>
 </resources>

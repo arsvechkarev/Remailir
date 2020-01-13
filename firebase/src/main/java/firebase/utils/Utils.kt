@@ -1,18 +1,32 @@
 package firebase.utils
 
 import com.google.firebase.auth.FirebaseAuth
+import core.model.users.User
 import core.strings.UNDERSCORE
 import firebase.schema.Storage
 import java.util.UUID
 
 fun randomUid(): String = UUID.randomUUID().toString()
 
-fun calculateChatIdWith(otherUserId: String): String {
-  val thisUserId = FirebaseAuth.getInstance().uid!!
-  return if (otherUserId < thisUserId) {
-    otherUserId + UNDERSCORE + thisUserId
+fun getOtherUser(userOne: User, userTwo: User): User {
+  if (userOne.id == FirebaseAuth.getInstance().uid!!) {
+    return userOne
+  }
+  if (userTwo.id == FirebaseAuth.getInstance().uid) {
+    return userTwo
+  }
+  throw IllegalStateException("Users ids don't match this user id")
+}
+
+
+fun calculateChatIdWith(
+  firstUserId: String,
+  secondUserId: String = FirebaseAuth.getInstance().uid!!
+): String {
+  return if (firstUserId < secondUserId) {
+    firstUserId + UNDERSCORE + secondUserId
   } else {
-    thisUserId + UNDERSCORE + otherUserId
+    secondUserId + UNDERSCORE + firstUserId
   }
 }
 

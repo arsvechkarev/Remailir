@@ -6,14 +6,14 @@ import androidx.fragment.app.Fragment
 import core.R
 
 
-val Fragment.COLOR_ACCENT: Int
+val Fragment.COLOR_PROGRESS_CIRCLE: Int
   get() {
-    return getAttrColor(context!!, intArrayOf(R.attr.theColorAccent))
+    return getAttrColor(context!!, intArrayOf(R.attr.theColorOnSurface))
   }
 
-val Fragment.COLOR_PRIMARY: Int
+val Fragment.COLOR_PROGRESS_CIRCLE_BG: Int
   get() {
-    return getAttrColor(context!!, intArrayOf(R.attr.theColorPrimary))
+    return getAttrColor(context!!, intArrayOf(R.attr.colorRefreshProgressBackground))
   }
 
 fun getAttrColor(context: Context, valuesArray: IntArray): Int {

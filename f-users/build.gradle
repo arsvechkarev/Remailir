@@ -49,7 +49,6 @@ dependencies {
   implementation dependencies.firebaseAuth
   implementation dependencies.firebaseFirestore
 
-  implementation dependencies.lifecycleStreams
   implementation dependencies.rxJava
   implementation dependencies.rxAndroid
   implementation dependencies.rxFirebase

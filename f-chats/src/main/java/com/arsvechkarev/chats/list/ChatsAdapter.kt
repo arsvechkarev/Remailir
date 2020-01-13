@@ -5,11 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.arsvechkarev.chats.R
+import com.squareup.picasso.Picasso
 import core.extensions.gone
 import core.extensions.inflate
 import core.extensions.visible
 import core.model.messaging.Chat
-import core.recycler.DisplayableItem
 import core.strings.DEFAULT_IMG_URL
 import kotlinx.android.synthetic.main.item_chat.view.divider
 import kotlinx.android.synthetic.main.item_chat.view.imageUser
@@ -19,7 +19,7 @@ import storage.AppUser
 
 class ChatsAdapter(
   private val clickListener: (Chat) -> Unit
-) : ListAdapter<Chat, ChatsAdapter.ChatViewHolder>(DisplayableItem.DiffCallBack()) {
+) : ListAdapter<Chat, ChatsAdapter.ChatViewHolder>(Chat.ChatCallback()) {
   
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatViewHolder {
     return ChatViewHolder(parent.inflate(R.layout.item_chat))
@@ -42,6 +42,7 @@ class ChatsAdapter(
       if (chat.otherUser.imageUrl == DEFAULT_IMG_URL) {
         itemView.imageUser.setBackgroundResource(R.drawable.image_profile_stub)
       } else {
+        Picasso.get().load(chat.otherUser.imageUrl).into(itemView.imageUser)
       }
       chat.lastMessage?.let {
         itemView.textLastMessage.text = if (it.fromUserId == AppUser.get().id) {

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
   android:id="@+id/rootContainer"
@@ -11,28 +11,30 @@
   android:gravity="center"
   tools:context=".presentation.ChatsFragment">
 
-  <androidx.constraintlayout.widget.ConstraintLayout
+  <com.arsvechkarev.views.TheToolbar
+    android:id="@+id/theToolbar"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    app:layout_constraintTop_toTopOf="parent"
+    app:the_toolbar_backgroundColor="?theColorPrimary"
+    app:the_toolbar_hasBackImage="false"
+    app:the_toolbar_title="@string/title_messages"/>
 
-    <androidx.appcompat.widget.Toolbar
-      android:id="@+id/toolbar"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:background="?theColorPrimary"
-      android:minHeight="?actionBarSize"
-      app:layout_constraintTop_toTopOf="parent"
-      app:title="@string/title_messages"
-      app:titleTextColor="?theColorTextPrimary" />
+  <com.arsvechkarev.views.CustomSwipeRefreshLayout
+    android:id="@+id/swipeRefreshChatsLayout"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/theToolbar">
 
     <androidx.recyclerview.widget.RecyclerView
       android:id="@+id/recyclerChats"
       android:layout_width="match_parent"
-      android:layout_height="0dp"
+      android:layout_height="match_parent"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintTop_toBottomOf="@id/theToolbar"/>
 
-  </androidx.constraintlayout.widget.ConstraintLayout>
+  </com.arsvechkarev.views.CustomSwipeRefreshLayout>
 
   <com.google.android.material.floatingactionbutton.FloatingActionButton
     android:id="@+id/fabNewChat"
@@ -42,6 +44,9 @@
     android:layout_margin="16dp"
     android:src="@drawable/ic_add"
     app:backgroundTint="?theColorAccent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
     app:tint="?attr/theColorIcon"/>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+

@@ -41,6 +41,9 @@
     <item name="theColorTextInputNotSelected">@color/dark_colorTextInputNotSelected</item>
     <item name="colorMessageThisUser">@color/dark_colorMessageThisUser</item>
     <item name="colorMessageOtherUser">@color/dark_colorMessageOtherUser</item>
+    <item name="colorRefreshProgressBackground">
+      @color/dark_colorRefreshProgressBackground
+    </item>
   </style>
 
   <style name="AppTheme.Dark.ActionBar">

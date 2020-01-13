@@ -2,12 +2,14 @@ package com.arsvechkarev.messaging.di
 
 import com.arsvechkarev.messaging.presentation.MessagingFragment
 import core.di.CoreComponent
+import core.di.modules.ContextModule
 import core.di.modules.ViewModelModule
 import core.di.scopes.FeatureScope
 import dagger.Component
 
 @Component(
   modules = [
+    ContextModule::class,
     ViewModelModule::class,
     MessagingViewModelModule::class
   ],

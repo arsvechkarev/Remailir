@@ -18,7 +18,9 @@ import log.log
 import javax.inject.Inject
 
 
-class MessagingRepository @Inject constructor() : Loggable {
+class MessagingRepository @Inject constructor(
+  private val chatMetadataCreator: ChatMetadataCreator
+) : Loggable {
   
   override val logTag = "Messaging_Repository"
   
@@ -44,18 +46,21 @@ class MessagingRepository @Inject constructor() : Loggable {
   
   fun sendMessage(dialogMessage: DialogMessage): Completable {
     log { "Sending message" }
-    return Completable.create { emmiter ->
-      FirebaseFirestore.getInstance().collection(OneToOneChats)
-        .document(calculateChatIdWith(otherUser.id))
-        .collection(Messages)
-        .add(dialogMessage)
-        .addOnSuccessListener {
-          log { "Sent message successfully" }
-          emmiter.onComplete()
-        }.addOnFailureListener {
-          log(it) { "Error while sending a message" }
-          emmiter.onError(it)
+    return chatMetadataCreator.createChatMetadataIfNeeded(otherUser)
+      .andThen(
+        Completable.create { emmiter ->
+          FirebaseFirestore.getInstance().collection(OneToOneChats)
+            .document(calculateChatIdWith(otherUser.id))
+            .collection(Messages)
+            .add(dialogMessage)
+            .addOnSuccessListener {
+              log { "Sent message successfully" }
+              emmiter.onComplete()
+            }.addOnFailureListener {
+              log(it) { "Error while sending a message" }
+              emmiter.onError(it)
+            }
         }
-    }
+      )
   }
 }

@@ -13,6 +13,7 @@ import com.squareup.picasso.Picasso
 import core.MaybeResult
 import core.base.BaseFragment
 import core.di.coreComponent
+import core.di.modules.ContextModule
 import core.extensions.invisible
 import core.extensions.observe
 import core.extensions.popBackStack
@@ -48,6 +49,7 @@ class MessagingFragment : BaseFragment() {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     DaggerMessagingComponent.builder()
       .coreComponent(coreComponent)
+      .contextModule(ContextModule(context!!))
       .build()
       .inject(this)
     imageBack.setOnClickListener { popBackStack() }

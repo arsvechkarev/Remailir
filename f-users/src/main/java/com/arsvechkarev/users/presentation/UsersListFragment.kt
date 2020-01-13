@@ -13,8 +13,8 @@ import com.arsvechkarev.users.di.DaggerUsersComponent
 import com.arsvechkarev.users.list.UsersListAdapter
 import core.MaybeResult
 import core.base.coreActivity
-import core.extensions.COLOR_ACCENT
-import core.extensions.COLOR_PRIMARY
+import core.extensions.COLOR_PROGRESS_CIRCLE
+import core.extensions.COLOR_PROGRESS_CIRCLE_BG
 import core.extensions.gone
 import core.extensions.observe
 import core.extensions.popBackStack
@@ -39,7 +39,8 @@ class UsersListFragment : Fragment() {
   private lateinit var viewModel: UsersViewModel
   
   private val adapter = UsersListAdapter {
-    viewModel.createChat(it)
+    popBackStack()
+    coreActivity.goToFragmentFromRoot(MessagingFragment.create(it), true)
   }
   
   override fun onCreateView(
@@ -51,15 +52,14 @@ class UsersListFragment : Fragment() {
   }
   
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-    swipeRefreshUsersLayout.setColorSchemeColors(COLOR_ACCENT)
-    swipeRefreshUsersLayout.setProgressBackgroundColorSchemeColor(COLOR_PRIMARY)
+    swipeRefreshUsersLayout.setColorSchemeColors(COLOR_PROGRESS_CIRCLE)
+    swipeRefreshUsersLayout.setProgressBackgroundColorSchemeColor(COLOR_PROGRESS_CIRCLE_BG)
     DaggerUsersComponent.create().inject(this)
     theToolbar.setNavigationOnClickListener {
       popBackStack()
     }
     viewModel = viewModelOf(viewModelFactory) {
       observe(usersListData, ::updateList)
-      observe(chatCreationState, ::handleState)
     }
     swipeRefreshUsersLayout.setOnRefreshListener {
       fetchUsers(showProgressBar = false)
@@ -88,16 +88,6 @@ class UsersListFragment : Fragment() {
     }
     result.whenNothing {
       showToast("No users")
-    }
-  }
-  
-  private fun handleState(result: Result<User>) {
-    result.onSuccess {
-      popBackStack()
-      coreActivity.goToFragmentFromRoot(MessagingFragment.create(it), true)
-    }
-    result.onFailure {
-      showToast("Failed to create chat")
     }
   }
 }

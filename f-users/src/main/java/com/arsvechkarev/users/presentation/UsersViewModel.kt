@@ -15,23 +15,8 @@ class UsersViewModel @Inject constructor(
 ) : RxViewModel() {
   
   private var _usersListData = MutableLiveData<MaybeResult<List<User>>>()
-  private var _chatCreationState = MutableLiveData<Result<User>>()
   
   val usersListData: LiveData<MaybeResult<List<User>>> = _usersListData
-  val chatCreationState: LiveData<Result<User>> = _chatCreationState
-  
-  fun createChat(otherUser: User) {
-    rxCall {
-      repository.createChat(otherUser)
-        .subscribeOn(schedulersProvider.io)
-        .observeOn(schedulersProvider.mainThread)
-        .subscribe({
-          _chatCreationState.value = Result.success(it)
-        }, {
-          _chatCreationState.value = Result.failure(it)
-        })
-    }
-  }
   
   fun fetchUsers() {
     rxCall {

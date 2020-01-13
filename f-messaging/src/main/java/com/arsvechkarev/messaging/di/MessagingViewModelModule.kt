@@ -13,6 +13,6 @@ abstract class MessagingViewModelModule {
   @Binds
   @IntoMap
   @ViewModelKey(MessagingViewModel::class)
-  internal abstract fun postChatViewModel(viewModel: MessagingViewModel): ViewModel
+  internal abstract fun postMessaging(viewModel: MessagingViewModel): ViewModel
   
 }

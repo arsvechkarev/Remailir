@@ -69,6 +69,7 @@ class MessagingViewModel @Inject constructor(
         .subscribeOn(schedulersProvider.io)
         .observeOn(schedulersProvider.mainThread)
         .subscribe({
+          log { "Sent message successfully" }
           _sendingMessageState.value = Success
         }, {
           _sendingMessageState.value = FailedToSent(it, dialogMessage)

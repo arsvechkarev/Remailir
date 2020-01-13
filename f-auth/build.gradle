@@ -45,7 +45,6 @@ dependencies {
 
   implementation dependencies.coroutinesCore
 
-  implementation dependencies.lifecycleStreams
   implementation dependencies.rxJava
   implementation dependencies.rxAndroid
   implementation dependencies.rxFirebase

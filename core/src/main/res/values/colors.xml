@@ -20,4 +20,5 @@
   <color name="dark_colorTextInputSelected">#306599</color>
   <color name="dark_colorTextInputNotSelected">#5C7D9C</color>
 
+  <color name="dark_colorRefreshProgressBackground">#2A4663</color>
 </resources>
