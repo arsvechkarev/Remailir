@@ -7,6 +7,7 @@ object Storage {
 
 object ChatModel {
   const val memberIds = "memberIds"
+  const val otherUser = "otherUser"
 }
 
 object MessageModel {

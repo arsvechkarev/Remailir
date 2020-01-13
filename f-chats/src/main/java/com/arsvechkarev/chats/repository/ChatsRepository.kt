@@ -8,7 +8,7 @@ import firebase.schema.ChatModel.memberIds
 import firebase.schema.Collections.Messages
 import firebase.schema.Collections.OneToOneChats
 import firebase.schema.MessageModel.timestamp
-import firebase.utils.getChatIdWith
+import firebase.utils.calculateChatIdWith
 import firebase.utils.thisUser
 import io.reactivex.Single
 import log.Loggable
@@ -29,7 +29,7 @@ class ChatsRepository @Inject constructor(
           val chats = snapshot.toObjects(Chat::class.java)
           chats.forEach { chat ->
             firestore.collection(OneToOneChats)
-              .document(getChatIdWith(chat.otherUser.id))
+              .document(calculateChatIdWith(chat.otherUser.id))
               .addSnapshotListener { documentSnapshot, _ ->
                 if (documentSnapshot!!.exists()) {
                   documentSnapshot.reference

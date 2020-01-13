@@ -1,24 +1,27 @@
 package com.arsvechkarev.messaging.presentation
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.arsvechkarev.messaging.presentation.MessagingState.MessagingList
 import com.arsvechkarev.messaging.repository.MessagingRepository
 import com.google.firebase.firestore.EventListener
+import core.base.RxViewModel
 import core.model.messaging.DialogMessage
 import core.model.users.User
 import javax.inject.Inject
 
 class MessagingViewModel @Inject constructor(
   private var repository: MessagingRepository
-) : ViewModel() {
+) : RxViewModel() {
   
-  val messages = MutableLiveData<MessagingState>()
+  private val _messages = MutableLiveData<MessagingState>()
+  
+  val messages: LiveData<MessagingState> = _messages
   
   fun fetchMessagesList(otherUser: User) {
     repository.fetchMessages(otherUser, EventListener { snapshot, exception ->
       if (exception != null) return@EventListener
-      messages.value = MessagingList(snapshot!!.toObjects(DialogMessage::class.java))
+      _messages.value = MessagingList(snapshot!!.toObjects(DialogMessage::class.java))
     })
   }
   

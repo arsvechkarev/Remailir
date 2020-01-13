@@ -30,11 +30,10 @@ class UsersListFragment : Fragment() {
   
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
-  private lateinit var usersViewModel: UsersViewModel
+  private lateinit var viewModel: UsersViewModel
   
   private val adapter = UsersListAdapter {
-    popBackStack()
-    coreActivity.goToFragmentFromRoot(MessagingFragment.create(it), true)
+    viewModel.createChat(it)
   }
   
   override fun onCreateView(
@@ -50,12 +49,13 @@ class UsersListFragment : Fragment() {
     toolbar.setNavigationOnClickListener {
       popBackStack()
     }
-    usersViewModel = viewModelOf(viewModelFactory) {
+    viewModel = viewModelOf(viewModelFactory) {
       observe(usersListData, ::updateList)
+      observe(chatCreationState, ::handleState)
     }
     recyclerUsers.adapter = adapter
     recyclerUsers.layoutManager = LinearLayoutManager(context)
-    usersViewModel.fetchUsers()
+    viewModel.fetchUsers()
   }
   
   private fun updateList(result: MaybeResult<List<User>>) {
@@ -67,6 +67,16 @@ class UsersListFragment : Fragment() {
     }
     result.whenNothing {
       showToast("No users")
+    }
+  }
+  
+  private fun handleState(result: Result<User>) {
+    result.onSuccess {
+      popBackStack()
+      coreActivity.goToFragmentFromRoot(MessagingFragment.create(it), true)
+    }
+    result.onFailure {
+      showToast("Failed to create chat")
     }
   }
 }

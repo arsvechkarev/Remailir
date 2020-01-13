@@ -10,7 +10,7 @@ fun randomUid(): String = UUID.randomUUID().toString()
 
 val thisUser: FirebaseUser = FirebaseAuth.getInstance().currentUser!!
 
-fun getChatIdWith(otherUserId: String): String {
+fun calculateChatIdWith(otherUserId: String): String {
   val thisUserId = FirebaseAuth.getInstance().uid!!
   return if (otherUserId < thisUserId) {
     otherUserId + UNDERSCORE + thisUserId

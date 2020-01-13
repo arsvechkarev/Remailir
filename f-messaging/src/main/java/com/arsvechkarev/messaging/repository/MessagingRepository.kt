@@ -10,7 +10,7 @@ import core.model.messaging.DialogMessage
 import core.model.users.User
 import firebase.schema.Collections
 import firebase.schema.MessageModel
-import firebase.utils.getChatIdWith
+import firebase.utils.calculateChatIdWith
 import firebase.utils.thisUser
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneId
@@ -33,13 +33,13 @@ class MessagingRepository @Inject constructor() {
   }
   
   
-  fun addChatMetadata(otherUser: User) {
+  private fun addChatMetadata(otherUser: User) {
     val data = hashMapOf(
       "memberIds" to listOf(otherUser.id, thisUser.uid),
       "otherUser" to otherUser
     )
     FirebaseFirestore.getInstance().collection(Collections.OneToOneChats)
-      .document(getChatIdWith(otherUser.id))
+      .document(calculateChatIdWith(otherUser.id))
       .set(data)
   }
   
@@ -54,7 +54,7 @@ class MessagingRepository @Inject constructor() {
     val time = LocalDateTime.ofEpochSecond(timestamp, 0, ZonedDateTime.now().offset)
     Log.d("SendingMessage", "${time.hour} - ${time.minute} - ${time.second}")
     FirebaseFirestore.getInstance().collection(Collections.OneToOneChats)
-      .document(getChatIdWith(otherUser.id))
+      .document(calculateChatIdWith(otherUser.id))
       .collection(Collections.Messages)
       .add(dialogMessage)
       .addOnSuccessListener { onSuccess() }
