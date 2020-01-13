@@ -1,4 +1,4 @@
-package core.util
+package core.extensions
 
 import android.view.LayoutInflater
 import android.view.View

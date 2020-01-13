@@ -7,9 +7,10 @@ import com.arsvechkarev.chats.presentation.ChatsFragment
 import com.arsvechkarev.profile.presentation.ProfileFragment
 import com.arsvechkarev.remailir.entrance.EntranceActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import core.base.BaseActivity
 import core.base.CoreActivity
-import core.util.switchFragment
+import core.extensions.switchFragment
 import kotlinx.android.synthetic.main.activity_home.bottomNavigationBar
 import storage.AppUser
 
@@ -45,6 +46,7 @@ class CoreActivity : BaseActivity(), CoreActivity {
   
   override fun signOut() {
     coroutine {
+      FirebaseFirestore.getInstance().clearPersistence()
       FirebaseAuth.getInstance().signOut()
       AppUser.clear(this@CoreActivity)
       val intent = Intent(this@CoreActivity, EntranceActivity::class.java)

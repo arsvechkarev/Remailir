@@ -13,11 +13,11 @@ import com.arsvechkarev.users.di.DaggerUsersComponent
 import com.arsvechkarev.users.list.UsersListAdapter
 import core.MaybeResult
 import core.base.coreActivity
+import core.extensions.observe
+import core.extensions.popBackStack
+import core.extensions.showToast
+import core.extensions.viewModelOf
 import core.model.users.User
-import core.util.observe
-import core.util.popBackStack
-import core.util.showToast
-import core.util.viewModelOf
 import core.whenFailure
 import core.whenNothing
 import core.whenSuccess

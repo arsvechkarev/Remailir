@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 abstract class BaseAdapter<T : DisplayableItem>(block: BaseAdapter<T>.() -> Unit = {}) :
   RecyclerView.Adapter<ViewHolder>() {
   
-  var data: MutableList<T> = ArrayList()
+  var data: List<T> = emptyList()
   val delegates = SparseArrayCompat<AdapterDelegate>()
   
   init {
@@ -31,7 +31,7 @@ abstract class BaseAdapter<T : DisplayableItem>(block: BaseAdapter<T>.() -> Unit
     return data.size
   }
   
-  fun submitList(list: MutableList<T>?) {
+  fun submitList(list: List<T>?) {
     data = list ?: ArrayList()
     notifyDataSetChanged()
   }

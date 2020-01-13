@@ -1,63 +1,45 @@
 package com.arsvechkarev.messaging.repository
 
-import android.util.Log
-import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.QuerySnapshot
+import core.extensions.currentTimestamp
 import core.model.messaging.DialogMessage
 import core.model.users.User
+import durdinapps.rxfirebase2.RxFirestore
 import firebase.schema.Collections
+import firebase.schema.Collections.OneToOneChats
 import firebase.schema.MessageModel
 import firebase.utils.calculateChatIdWith
 import firebase.utils.thisUser
-import org.threeten.bp.LocalDateTime
-import org.threeten.bp.ZoneId
-import org.threeten.bp.ZonedDateTime
+import io.reactivex.Maybe
+import log.Loggable
+import storage.AppUser
 import javax.inject.Inject
 
 
-class MessagingRepository @Inject constructor() {
+class MessagingRepository @Inject constructor() : Loggable {
   
-  fun fetchMessages(
-    otherUser: User,
-    listener: EventListener<QuerySnapshot>
-  ): ListenerRegistration {
-    addChatMetadata(otherUser)
-    return FirebaseFirestore.getInstance().collection(Collections.OneToOneChats)
-      .document()
+  override val logTag = "Messaging"
+  
+  private lateinit var otherUser: User
+  
+  fun fetchMessages(otherUser: User): Maybe<List<DialogMessage>> {
+    this.otherUser = otherUser
+    
+    val query = FirebaseFirestore.getInstance().collection(OneToOneChats)
+      .document(calculateChatIdWith(otherUser.id))
       .collection(Collections.Messages)
       .orderBy(MessageModel.timestamp, Query.Direction.ASCENDING)
-      .addSnapshotListener(listener)
+    
+    return RxFirestore.getCollection(query)
+      .map { it.toObjects(DialogMessage::class.java) }
   }
   
-  
-  private fun addChatMetadata(otherUser: User) {
-    val data = hashMapOf(
-      "memberIds" to listOf(otherUser.id, thisUser.uid),
-      "otherUser" to otherUser
-    )
-    FirebaseFirestore.getInstance().collection(Collections.OneToOneChats)
-      .document(calculateChatIdWith(otherUser.id))
-      .set(data)
-  }
-  
-  fun sendMessage(
-    message: String,
-    otherUser: User,
-    onSuccess: () -> Unit,
-    onFailure: (Throwable) -> Unit
-  ) {
-    val timestamp = LocalDateTime.now().atZone(ZoneId.systemDefault()).toEpochSecond()
-    val dialogMessage = DialogMessage(thisUser.uid, otherUser.id, message, timestamp)
-    val time = LocalDateTime.ofEpochSecond(timestamp, 0, ZonedDateTime.now().offset)
-    Log.d("SendingMessage", "${time.hour} - ${time.minute} - ${time.second}")
-    FirebaseFirestore.getInstance().collection(Collections.OneToOneChats)
+  fun sendMessage(message: String) {
+    val dialogMessage = DialogMessage(AppUser.get().id, otherUser.id, message, currentTimestamp())
+    FirebaseFirestore.getInstance().collection(OneToOneChats)
       .document(calculateChatIdWith(otherUser.id))
       .collection(Collections.Messages)
       .add(dialogMessage)
-      .addOnSuccessListener { onSuccess() }
-      .addOnFailureListener(onFailure)
   }
 }

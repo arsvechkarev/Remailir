@@ -5,17 +5,18 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.arsvechkarev.chats.R
+import core.extensions.gone
+import core.extensions.inflate
+import core.extensions.visible
 import core.model.messaging.Chat
 import core.recycler.DisplayableItem
 import core.strings.DEFAULT_IMG_URL
-import core.util.gone
-import core.util.inflate
-import core.util.visible
 import firebase.utils.thisUser
 import kotlinx.android.synthetic.main.item_chat.view.divider
 import kotlinx.android.synthetic.main.item_chat.view.imageUser
 import kotlinx.android.synthetic.main.item_chat.view.textLastMessage
 import kotlinx.android.synthetic.main.item_chat.view.textUsername
+import storage.AppUser
 
 class ChatsAdapter(
   private val clickListener: (Chat) -> Unit
@@ -44,7 +45,7 @@ class ChatsAdapter(
       } else {
       }
       chat.lastMessage?.let {
-        itemView.textLastMessage.text = if (it.fromUserId == thisUser.uid) {
+        itemView.textLastMessage.text = if (it.fromUserId == AppUser.get().id) {
           "You: ${it.text}"
         } else {
           "${chat.otherUser.name}: ${it.text}"

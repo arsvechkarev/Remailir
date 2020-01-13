@@ -11,8 +11,8 @@ import com.arsvechkarev.auth.utils.removeDashes
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import core.base.BaseFragment
 import core.base.entranceActivity
+import core.extensions.hideKeyboard
 import core.model.other.Country
-import core.util.hideKeyboard
 import kotlinx.android.synthetic.main.fragment_phone.buttonNext
 import kotlinx.android.synthetic.main.fragment_phone.editTextPhone
 import kotlinx.android.synthetic.main.fragment_phone.layoutCountryCode

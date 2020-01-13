@@ -22,7 +22,6 @@ import java.io.FileOutputStream
 import java.util.concurrent.CountDownLatch
 import javax.inject.Inject
 
-private const val imageLocalPath = "imageLocalPath"
 
 class UploadImageWorker @Inject constructor(private val context: Context) : Loggable {
   
@@ -61,7 +60,7 @@ class UploadImageWorker @Inject constructor(private val context: Context) : Logg
       val latch = CountDownLatch(1)
       
       val storageReference =
-        FirebaseStorage.getInstance().reference.child(getProfilePhotoPath())
+        FirebaseStorage.getInstance().reference.child(getProfilePhotoPath(AppUser.get().id))
       val localFilePath = inputData.getString(imageLocalPath)!!
       val bitmap = BitmapFactory.decodeFile(localFilePath)
       
@@ -100,11 +99,11 @@ class UploadImageWorker @Inject constructor(private val context: Context) : Logg
     override fun doWork(): Result {
       val latch = CountDownLatch(1)
       log { "start update user" }
-      
-      FirebaseStorage.getInstance().reference.child(getProfilePhotoPath())
+  
+      FirebaseStorage.getInstance().reference.child(getProfilePhotoPath(AppUser.get().id))
         .downloadUrl.addOnSuccessListener { uri ->
         FirebaseFirestore.getInstance().collection(Users)
-          .document(thisUser.uid)
+          .document(AppUser.get().id)
           .update(imageUrl, uri.toString())
           .addOnSuccessListener {
             latch.countDown()
@@ -122,5 +121,9 @@ class UploadImageWorker @Inject constructor(private val context: Context) : Logg
       latch.await()
       return Result.success()
     }
+  }
+  
+  companion object {
+    private const val imageLocalPath = "imageLocalPath"
   }
 }

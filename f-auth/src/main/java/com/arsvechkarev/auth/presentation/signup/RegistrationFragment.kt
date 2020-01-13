@@ -13,10 +13,10 @@ import core.base.BaseFragment
 import core.base.entranceActivity
 import core.di.coreComponent
 import core.di.modules.ContextModule
-import core.util.observe
-import core.util.showToast
-import core.util.string
-import core.util.viewModelOf
+import core.extensions.observe
+import core.extensions.showToast
+import core.extensions.string
+import core.extensions.viewModelOf
 import kotlinx.android.synthetic.main.fragment_registration.buttonSignUp
 import kotlinx.android.synthetic.main.fragment_registration.editTextUsername
 import javax.inject.Inject

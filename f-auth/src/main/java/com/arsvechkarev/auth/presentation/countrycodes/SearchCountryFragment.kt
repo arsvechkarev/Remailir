@@ -13,11 +13,11 @@ import core.base.BaseFragment
 import core.base.entranceActivity
 import core.di.coreComponent
 import core.di.modules.ContextModule
+import core.extensions.observe
+import core.extensions.popBackStack
+import core.extensions.showKeyboard
+import core.extensions.viewModelOf
 import core.model.other.Country
-import core.util.observe
-import core.util.popBackStack
-import core.util.showKeyboard
-import core.util.viewModelOf
 import kotlinx.android.synthetic.main.fragment_country_code_search.recyclerCountries
 import kotlinx.android.synthetic.main.fragment_country_code_search.searchToolbar
 import javax.inject.Inject

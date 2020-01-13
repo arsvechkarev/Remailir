@@ -1,8 +1,8 @@
 package storage
 
 import android.content.Context
+import com.google.firebase.auth.FirebaseAuth
 import core.model.users.User
-import firebase.utils.thisUser
 import log.debug
 
 object AppUser {
@@ -40,6 +40,8 @@ object AppUser {
     val preferencesManager = SharedPreferencesManager(context)
     val username = preferencesManager.getString(KEY_USERNAME)!!
     val imageUrl = preferencesManager.getString(KEY_IMAGE_URL)!!
+  
+    val thisUser = FirebaseAuth.getInstance().currentUser!!
     
     this.user = User(thisUser.uid, thisUser.phoneNumber!!, username, imageUrl)
   }

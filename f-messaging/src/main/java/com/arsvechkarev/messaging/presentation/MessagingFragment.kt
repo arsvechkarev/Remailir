@@ -7,23 +7,21 @@ import androidx.lifecycle.ViewModelProvider
 import com.arsvechkarev.messaging.R
 import com.arsvechkarev.messaging.di.DaggerMessagingComponent
 import com.arsvechkarev.messaging.list.MessagingAdapter
-import com.arsvechkarev.messaging.list.toDisplayableItems
-import com.arsvechkarev.messaging.presentation.MessagingState.Failure
-import com.arsvechkarev.messaging.presentation.MessagingState.MessagingList
 import com.squareup.picasso.Picasso
+import core.MaybeResult
 import core.base.BaseFragment
 import core.di.coreComponent
-import core.model.messaging.DialogMessage
+import core.extensions.invisible
+import core.extensions.observe
+import core.extensions.popBackStack
+import core.extensions.setChatView
+import core.extensions.showToast
+import core.extensions.string
+import core.extensions.viewModelOf
+import core.extensions.visible
 import core.model.users.User
+import core.recycler.DisplayableItem
 import core.strings.DEFAULT_IMG_URL
-import core.util.invisible
-import core.util.observe
-import core.util.popBackStack
-import core.util.setChatView
-import core.util.showToast
-import core.util.string
-import core.util.viewModelOf
-import core.util.visible
 import kotlinx.android.synthetic.main.fragment_chat.buttonSend
 import kotlinx.android.synthetic.main.fragment_chat.editText
 import kotlinx.android.synthetic.main.fragment_chat.imageBack
@@ -51,13 +49,13 @@ class MessagingFragment : BaseFragment() {
       .inject(this)
     imageBack.setOnClickListener { popBackStack() }
     viewModel = viewModelOf(viewModelFactory) {
-      observe(messages, ::updateMessagesList)
+      observe(messages, ::updateList)
     }
     otherUser = arguments!!.getParcelable(USER) as User
     prepareView()
     viewModel.fetchMessagesList(otherUser)
     buttonSend.setOnClickListener {
-      viewModel.sendMessage(editText.string(), otherUser)
+      viewModel.sendMessage(editText.string())
       editText.text.clear()
     }
     recyclerChat.setChatView(chatAdapter)
@@ -85,20 +83,22 @@ class MessagingFragment : BaseFragment() {
     textOtherUserExtraInfo.text = otherUser.id
   }
   
-  private fun updateMessagesList(state: MessagingState) {
-    when (state) {
-      is MessagingList -> {
-        updateList(state.messages)
+  private fun updateList(result: MaybeResult<List<DisplayableItem>>) {
+    when {
+      result.isSuccess -> {
+        recyclerChat.post {
+          chatAdapter.submitList(result.data)
+          recyclerChat.scrollToPosition(chatAdapter.itemCount - 1)
+        }
       }
-      is Failure -> showToast("Houston, we have a problem")
+      result.isNothing -> {
+        showToast("no messages yet")
+      }
+      result.isFailure -> {
+        showToast("something went wrong")
+      }
     }
-  }
-  
-  private fun updateList(messages: List<DialogMessage>) {
-    recyclerChat.post {
-      chatAdapter.submitList(messages.toDisplayableItems())
-      recyclerChat.scrollToPosition(chatAdapter.itemCount - 1)
-    }
+    
   }
   
   companion object {

@@ -17,11 +17,11 @@ import core.MaybeResult
 import core.base.BaseFragment
 import core.di.coreComponent
 import core.di.modules.ContextModule
-import core.util.invisible
-import core.util.observe
-import core.util.showToast
-import core.util.viewModelOf
-import core.util.visible
+import core.extensions.invisible
+import core.extensions.observe
+import core.extensions.showToast
+import core.extensions.viewModelOf
+import core.extensions.visible
 import kotlinx.android.synthetic.main.fragment_profile.imageEditProfilePhoto
 import kotlinx.android.synthetic.main.fragment_profile.imageProfile
 import kotlinx.android.synthetic.main.fragment_profile.progressBarImageLoading

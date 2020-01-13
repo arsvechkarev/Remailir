@@ -4,11 +4,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.arsvechkarev.messaging.R
+import core.extensions.inflate
 import core.model.messaging.MessageThisUser
 import core.recycler.AdapterDelegate
 import core.recycler.DisplayableItem
 import core.strings.FORMAT_MSG_TIME
-import core.util.inflate
 import kotlinx.android.synthetic.main.item_message_this_user.view.textMessage
 import kotlinx.android.synthetic.main.item_message_this_user.view.textTime
 import org.threeten.bp.LocalDateTime

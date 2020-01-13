@@ -6,10 +6,10 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.arsvechkarev.users.R
 import com.squareup.picasso.Picasso
+import core.extensions.inflate
 import core.model.users.User
 import core.recycler.DisplayableItem.DiffCallBack
 import core.strings.DEFAULT_IMG_URL
-import core.util.inflate
 import kotlinx.android.synthetic.main.item_user.view.imageProfile
 import kotlinx.android.synthetic.main.item_user.view.textUsername
 

@@ -27,6 +27,7 @@ android {
 dependencies {
   implementation project(':core')
   implementation project(':firebase')
+  implementation project(':storage')
   implementation project(':f-users')
   implementation project(':f-messaging')
 

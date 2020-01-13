@@ -44,6 +44,8 @@ dependencies {
   implementation dependencies.picasso
   implementation dependencies.circleImageView
 
+  implementation dependencies.threeTenAbp
+
   implementation dependencies.coroutinesCore
   implementation dependencies.coroutinesAndroid
 

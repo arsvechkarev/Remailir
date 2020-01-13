@@ -4,10 +4,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.arsvechkarev.messaging.R
+import core.extensions.inflate
 import core.model.messaging.TimeDivider
 import core.recycler.AdapterDelegate
 import core.recycler.DisplayableItem
-import core.util.inflate
 import kotlinx.android.synthetic.main.item_time_divider.view.textHeader
 
 class TimeDividerAdapterDelegate : AdapterDelegate {

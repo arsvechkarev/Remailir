@@ -12,6 +12,7 @@ import firebase.utils.calculateChatIdWith
 import firebase.utils.thisUser
 import io.reactivex.Single
 import log.Loggable
+import storage.AppUser
 import javax.inject.Inject
 
 class ChatsRepository @Inject constructor(
@@ -23,7 +24,7 @@ class ChatsRepository @Inject constructor(
   fun fetchChats(): Single<List<Chat>> {
     return Single.create { emitter ->
       firestore.collection(OneToOneChats)
-        .whereArrayContains(memberIds, thisUser.uid)
+        .whereArrayContains(memberIds, AppUser.get().id)
         .get()
         .addOnSuccessListener { snapshot ->
           val chats = snapshot.toObjects(Chat::class.java)

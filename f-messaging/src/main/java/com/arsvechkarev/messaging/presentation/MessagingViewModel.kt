@@ -2,33 +2,42 @@ package com.arsvechkarev.messaging.presentation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.arsvechkarev.messaging.presentation.MessagingState.MessagingList
+import com.arsvechkarev.messaging.list.toDisplayableItems
 import com.arsvechkarev.messaging.repository.MessagingRepository
-import com.google.firebase.firestore.EventListener
+import core.MaybeResult
+import core.RxJavaSchedulersProvider
 import core.base.RxViewModel
-import core.model.messaging.DialogMessage
 import core.model.users.User
+import core.recycler.DisplayableItem
 import javax.inject.Inject
 
 class MessagingViewModel @Inject constructor(
-  private var repository: MessagingRepository
+  private val repository: MessagingRepository,
+  private val schedulersProvider: RxJavaSchedulersProvider
 ) : RxViewModel() {
   
-  private val _messages = MutableLiveData<MessagingState>()
+  private val _messages = MutableLiveData<MaybeResult<List<DisplayableItem>>>()
   
-  val messages: LiveData<MessagingState> = _messages
+  val messages: LiveData<MaybeResult<List<DisplayableItem>>> = _messages
   
   fun fetchMessagesList(otherUser: User) {
-    repository.fetchMessages(otherUser, EventListener { snapshot, exception ->
-      if (exception != null) return@EventListener
-      _messages.value = MessagingList(snapshot!!.toObjects(DialogMessage::class.java))
-    })
+    rxCall {
+      repository.fetchMessages(otherUser)
+        .subscribeOn(schedulersProvider.io)
+        .map { it.toDisplayableItems() }
+        .observeOn(schedulersProvider.mainThread)
+        .subscribe({
+          _messages.value = MaybeResult.success(it)
+        }, {
+          _messages.value = MaybeResult.failure(it)
+        }, {
+          _messages.value = MaybeResult.nothing()
+        })
+    }
   }
   
-  fun sendMessage(message: String, otherUser: User) {
-    repository.sendMessage(message, otherUser, onSuccess = {
-    }, onFailure = {
-    })
+  fun sendMessage(message: String) {
+    repository.sendMessage(message)
   }
   
 }
