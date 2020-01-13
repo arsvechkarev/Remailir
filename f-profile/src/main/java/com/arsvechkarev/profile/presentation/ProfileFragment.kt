@@ -17,6 +17,8 @@ import core.MaybeResult
 import core.base.BaseFragment
 import core.di.coreComponent
 import core.di.modules.ContextModule
+import core.extensions.COLOR_ACCENT
+import core.extensions.COLOR_PRIMARY
 import core.extensions.invisible
 import core.extensions.observe
 import core.extensions.showToast
@@ -47,6 +49,8 @@ class ProfileFragment : BaseFragment(), Loggable {
   private lateinit var viewModel: ProfileViewModel
   
   override fun onInit() {
+    swipeToRefreshLayoutProfile.setColorSchemeColors(COLOR_ACCENT)
+    swipeToRefreshLayoutProfile.setProgressBackgroundColorSchemeColor(COLOR_PRIMARY)
     DaggerProfileComponent.builder()
       .coreComponent(coreComponent)
       .contextModule(ContextModule(context!!))
@@ -56,7 +60,7 @@ class ProfileFragment : BaseFragment(), Loggable {
       observe(profileImageState, ::updateProfileImage)
     }
     swipeToRefreshLayoutProfile.setOnRefreshListener {
-      viewModel.fetchProfileImage(AppUser.get().imageUrl)
+      viewModel.fetchImageFromNetwork(AppUser.get().imageUrl)
     }
     setUserInfo()
     if (permissionDelegate.allowReadAndWriteExternalStorage) {
@@ -98,7 +102,7 @@ class ProfileFragment : BaseFragment(), Loggable {
           log { "uri = $resultUri" }
           val bitmap = MediaStore.Images.Media.getBitmap(activity!!.contentResolver, resultUri)
           imageProfile.setImageBitmap(bitmap)
-          viewModel.uploadImageRx(bitmap)
+          viewModel.uploadImage(bitmap)
         }
       }
     }
@@ -121,7 +125,10 @@ class ProfileFragment : BaseFragment(), Loggable {
       result.isSuccess -> {
         imageProfile.setImageBitmap(result.data)
       }
-      result.isFailure -> showToast("Failed to load bitmap")
+      result.isFailure -> {
+        showToast("Network error")
+        imageProfile.setBackgroundResource(R.drawable.image_profile_stub)
+      }
       result.isNothing -> {
         imageProfile.setBackgroundResource(R.drawable.image_profile_stub)
       }

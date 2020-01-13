@@ -10,7 +10,6 @@ import firebase.schema.Collections
 import firebase.schema.Collections.OneToOneChats
 import firebase.schema.MessageModel
 import firebase.utils.calculateChatIdWith
-import firebase.utils.thisUser
 import io.reactivex.Maybe
 import log.Loggable
 import storage.AppUser

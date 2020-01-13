@@ -9,7 +9,6 @@ import firebase.schema.Collections.Messages
 import firebase.schema.Collections.OneToOneChats
 import firebase.schema.MessageModel.timestamp
 import firebase.utils.calculateChatIdWith
-import firebase.utils.thisUser
 import io.reactivex.Single
 import log.Loggable
 import storage.AppUser

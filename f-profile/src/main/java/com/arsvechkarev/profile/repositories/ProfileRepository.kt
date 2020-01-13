@@ -17,9 +17,26 @@ class ProfileRepository @Inject constructor(
   
   override val logTag = "ProfileStuffRepository"
   
+  
+  fun getImageFromNetwork(url: String): Maybe<Bitmap> {
+    return executeNetworkRequest(url)
+  }
+  
   fun getProfileImage(url: String): Maybe<Bitmap> {
     val diskData = profileDiskStorage.getProfileImage()
-    val networkData = profileNetworkRequests.loadProfileImage(url)
+    val networkData = executeNetworkRequest(url)
+    return Maybe.concat(diskData, networkData)
+      .firstElement()
+  }
+  
+  fun uploadImage(bitmap: Bitmap): Completable {
+    return profileDiskStorage.saveProfileImage(bitmap)
+      // Image was saved to internal storage, now we can safely upload it to the server
+      .andThen { uploadImageWorker.uploadImage(profilePictureFile.path) }
+  }
+  
+  private fun executeNetworkRequest(url: String): Maybe<Bitmap> {
+    return profileNetworkRequests.loadProfileImage(url)
       .doOnSuccess { bitmap ->
         profileDiskStorage.saveProfileImage(bitmap)
           .subscribe(
@@ -29,13 +46,5 @@ class ProfileRepository @Inject constructor(
       }.doOnError {
         log(it) { "Error happened" }
       }
-    
-    return Maybe.concat(diskData, networkData)
-      .firstElement()
-  }
-  
-  fun uploadImageRx(bitmap: Bitmap): Completable {
-    return profileDiskStorage.saveProfileImage(bitmap)
-      .andThen { uploadImageWorker.uploadImage(profilePictureFile.path) }
   }
 }

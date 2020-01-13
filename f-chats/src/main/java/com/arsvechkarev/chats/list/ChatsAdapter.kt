@@ -11,7 +11,6 @@ import core.extensions.visible
 import core.model.messaging.Chat
 import core.recycler.DisplayableItem
 import core.strings.DEFAULT_IMG_URL
-import firebase.utils.thisUser
 import kotlinx.android.synthetic.main.item_chat.view.divider
 import kotlinx.android.synthetic.main.item_chat.view.imageUser
 import kotlinx.android.synthetic.main.item_chat.view.textLastMessage

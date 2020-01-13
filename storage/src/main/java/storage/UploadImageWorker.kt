@@ -14,7 +14,6 @@ import com.google.firebase.storage.FirebaseStorage
 import firebase.schema.Collections.Users
 import firebase.schema.UserModel.imageUrl
 import firebase.utils.getProfilePhotoPath
-import firebase.utils.thisUser
 import log.Loggable
 import log.log
 import java.io.File
