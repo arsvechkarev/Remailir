@@ -1,52 +1,38 @@
 package com.arsvechkarev.messaging.list
 
-import android.util.Log
+import core.extensions.date
+import core.extensions.time
+import core.extensions.timeDividerFormat
 import core.model.messaging.DialogMessage
-import core.model.messaging.MessageOtherUser
-import core.model.messaging.MessageThisUser
 import core.model.messaging.TimeDivider
+import core.model.messaging.toOtherUser
+import core.model.messaging.toThisUser
 import core.recycler.DisplayableItem
-import core.strings.FORMAT_TIME_DIVIDER
 import firebase.utils.randomUid
-import org.threeten.bp.LocalDateTime
-import org.threeten.bp.ZonedDateTime
-import org.threeten.bp.format.DateTimeFormatter
+import log.log
 import storage.AppUser
 
 fun List<DialogMessage>.toDisplayableItems(): MutableList<DisplayableItem> {
   val displayMessages = ArrayList<DisplayableItem>()
   for (i in this.indices) {
     val message = this[i]
-    Log.d("Processing", message.toString())
+    log { "========================" }
+    log { "${message.fromUserId} -> ${message.toUserId}: ${message.text}" }
     if (i == 0) {
-      val timeThisMsg =
-        LocalDateTime.ofEpochSecond(message.timestamp, 0, ZonedDateTime.now().offset)
-      val timeDivider = TimeDivider(
-        randomUid(), timeThisMsg.format(DateTimeFormatter.ofPattern(FORMAT_TIME_DIVIDER))
-      )
+      val timeDivider = TimeDivider(randomUid(), message.time.timeDividerFormat())
       displayMessages.add(timeDivider)
     } else {
       if (i != this.size - 1) {
         val nextMessage = this[i + 1]
-        val timeThisMsg =
-          LocalDateTime.ofEpochSecond(message.timestamp, 0, ZonedDateTime.now().offset)
-        val timeNextMsg =
-          LocalDateTime.ofEpochSecond(nextMessage.timestamp, 0, ZonedDateTime.now().offset)
-        if (timeThisMsg.toLocalDate() != timeNextMsg.toLocalDate()) {
-          val timeDivider = TimeDivider(
-            randomUid(), timeThisMsg.format(DateTimeFormatter.ofPattern(FORMAT_TIME_DIVIDER))
-          )
+        if (message.time.date != nextMessage.time.date) {
+          val timeDivider = TimeDivider(randomUid(), message.time.timeDividerFormat())
           displayMessages.add(timeDivider)
         }
       }
     }
     when (AppUser.get().id) {
-      message.fromUserId -> displayMessages.add(
-        MessageThisUser(randomUid(), message.text, message.timestamp)
-      )
-      message.toUserId -> displayMessages.add(
-        MessageOtherUser(randomUid(), message.text, message.timestamp)
-      )
+      message.fromUserId -> displayMessages.add(message.toThisUser())
+      message.toUserId -> displayMessages.add(message.toOtherUser())
     }
   }
   return displayMessages

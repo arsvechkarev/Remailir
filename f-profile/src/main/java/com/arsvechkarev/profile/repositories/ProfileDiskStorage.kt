@@ -38,8 +38,8 @@ class ProfileDiskStorage @Inject constructor(
           }
         } else {
           // User hasn't loaded photo yet, therefore found file might be cache from
-          // previous uploads. In this case return Maybe.onComplete() to indicate that result is
-          // no image actually
+          // previous uploads. In this case return Maybe.onComplete() to indicate that
+          // to get actual profile image user need to make request to the network
           emmiter.onComplete()
         }
       } catch (e: Exception) {

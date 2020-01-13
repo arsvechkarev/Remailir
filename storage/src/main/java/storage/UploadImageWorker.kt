@@ -22,9 +22,7 @@ import java.util.concurrent.CountDownLatch
 import javax.inject.Inject
 
 
-class UploadImageWorker @Inject constructor(private val context: Context) : Loggable {
-  
-  override val logTag = "LoadingStuff"
+class UploadImageWorker @Inject constructor(private val context: Context) {
   
   fun uploadImage(filePath: String) {
     val constraints = Constraints.Builder()
@@ -52,8 +50,8 @@ class UploadImageWorker @Inject constructor(private val context: Context) : Logg
     context: Context,
     workerParameters: WorkerParameters
   ) : Worker(context, workerParameters), Loggable {
-    
-    override val logTag = "Upload_GetLink"
+  
+    override val logTag = "Profile_Upload_GetLink"
     
     override fun doWork(): Result {
       val latch = CountDownLatch(1)
@@ -92,8 +90,8 @@ class UploadImageWorker @Inject constructor(private val context: Context) : Logg
     context: Context,
     workerParameters: WorkerParameters
   ) : Worker(context, workerParameters), Loggable {
-    
-    override val logTag = "Upload_UpdateUser"
+  
+    override val logTag = "Profile_Upload_UpdateUser"
     
     override fun doWork(): Result {
       val latch = CountDownLatch(1)

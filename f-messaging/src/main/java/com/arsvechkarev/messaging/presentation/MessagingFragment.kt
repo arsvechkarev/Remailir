@@ -7,6 +7,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.arsvechkarev.messaging.R
 import com.arsvechkarev.messaging.di.DaggerMessagingComponent
 import com.arsvechkarev.messaging.list.MessagingAdapter
+import com.arsvechkarev.messaging.presentation.MessagingState.FailedToSent
+import com.arsvechkarev.messaging.presentation.MessagingState.Success
 import com.squareup.picasso.Picasso
 import core.MaybeResult
 import core.base.BaseFragment
@@ -29,6 +31,7 @@ import kotlinx.android.synthetic.main.fragment_chat.imageOtherUser
 import kotlinx.android.synthetic.main.fragment_chat.recyclerChat
 import kotlinx.android.synthetic.main.fragment_chat.textOtherUserExtraInfo
 import kotlinx.android.synthetic.main.fragment_chat.textOtherUserName
+import log.log
 import javax.inject.Inject
 
 class MessagingFragment : BaseFragment() {
@@ -49,7 +52,8 @@ class MessagingFragment : BaseFragment() {
       .inject(this)
     imageBack.setOnClickListener { popBackStack() }
     viewModel = viewModelOf(viewModelFactory) {
-      observe(messages, ::updateList)
+      observe(messagesState, ::updateList)
+      observe(sendingMessageState, ::handleState)
     }
     otherUser = arguments!!.getParcelable(USER) as User
     prepareView()
@@ -70,6 +74,18 @@ class MessagingFragment : BaseFragment() {
     editText.doAfterTextChanged {
       if (it.isNullOrBlank()) buttonSend.invisible()
       else buttonSend.visible()
+    }
+  }
+  
+  private fun handleState(state: MessagingState) {
+    when (state) {
+      is Success -> {
+      
+      }
+      is FailedToSent -> {
+        showToast("Failed to sent message")
+        log(state.error) { "Failed to sent message" }
+      }
     }
   }
   

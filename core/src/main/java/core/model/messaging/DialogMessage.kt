@@ -1,5 +1,7 @@
 package core.model.messaging
 
+import core.extensions.randomUid
+
 data class DialogMessage(
   val fromUserId: String,
   val toUserId: String,
@@ -9,6 +11,10 @@ data class DialogMessage(
   constructor() : this("", "", "", 0)
 }
 
-fun DialogMessage.toChat(partialChat: PartialChat): Chat {
-  return Chat(partialChat.otherUser, this)
+fun DialogMessage.toThisUser(): MessageThisUser {
+  return MessageThisUser(randomUid(), text, timestamp)
+}
+
+fun DialogMessage.toOtherUser(): MessageOtherUser {
+  return MessageOtherUser(randomUid(), text, timestamp)
 }

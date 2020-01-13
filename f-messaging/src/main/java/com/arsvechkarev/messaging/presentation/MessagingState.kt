@@ -4,7 +4,7 @@ import core.model.messaging.DialogMessage
 
 sealed class MessagingState {
   
-  class SingleMessage(val message: DialogMessage) : MessagingState()
-  class MessagingList(val messages: List<DialogMessage>) : MessagingState()
-  class Failure(val error: Throwable) : MessagingState()
+  class FailedToSent(val error: Throwable, val message: DialogMessage) : MessagingState()
+  
+  object Success : MessagingState()
 }
