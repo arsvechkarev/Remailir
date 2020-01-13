@@ -6,7 +6,7 @@ import com.arsvechkarev.chats.repository.ChatsRepository
 import core.RxJavaSchedulersProvider
 import core.base.RxViewModel
 import core.model.messaging.Chat
-import log.debug
+import log.log
 import javax.inject.Inject
 
 class ChatsViewModel @Inject constructor(
@@ -26,7 +26,7 @@ class ChatsViewModel @Inject constructor(
         .subscribe({
           _chatsState.value = Result.success(it)
         }, {
-          debug(it) { "Messages fetch failed" }
+          log(it) { "Messages fetch failed" }
           _chatsState.value = Result.failure(it)
         })
     }

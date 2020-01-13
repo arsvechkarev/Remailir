@@ -3,7 +3,7 @@ package storage
 import android.content.Context
 import com.google.firebase.auth.FirebaseAuth
 import core.model.users.User
-import log.debug
+import log.log
 
 object AppUser {
   
@@ -13,7 +13,7 @@ object AppUser {
   private var user: User? = null
   
   fun set(user: User, preferencesManager: SharedPreferencesManager) {
-    debug { "user set" }
+    log { "user set" }
     this.user = user
     preferencesManager.putString(KEY_USERNAME, user.name)
     preferencesManager.putString(KEY_IMAGE_URL, user.imageUrl)

@@ -12,13 +12,13 @@ object Logger {
   
 }
 
-inline fun debug(lazyMessage: () -> String?) {
+inline fun log(lazyMessage: () -> String?) {
   if (areDebugMessagesAllowed) {
     MyTimber.d(lazyMessage())
   }
 }
 
-inline fun debug(e: Throwable, lazyMessage: () -> String? = { "" }) {
+inline fun log(e: Throwable, lazyMessage: () -> String? = { "" }) {
   if (areDebugMessagesAllowed) {
     MyTimber.d(e, lazyMessage())
   }

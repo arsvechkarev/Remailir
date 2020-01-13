@@ -15,7 +15,7 @@ class ProfileRepository @Inject constructor(
   private val profileNetworkRequests: ProfileNetworkRequests
 ) : Loggable {
   
-  override val logTag = "ProfileStuffRepository"
+  override val logTag = "ProfileStuff_Repository"
   
   
   fun getImageFromNetwork(url: String): Maybe<Bitmap> {
@@ -31,7 +31,7 @@ class ProfileRepository @Inject constructor(
   
   fun uploadImage(bitmap: Bitmap): Completable {
     return profileDiskStorage.saveProfileImage(bitmap)
-      // Image was saved to internal storage, now we can safely upload it to the server
+      // Image was saved to internal storage, now we can go ahead and upload it to the server
       .andThen { uploadImageWorker.uploadImage(profilePictureFile.path) }
   }
   
