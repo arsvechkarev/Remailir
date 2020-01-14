@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.arsvechkarev.chats.presentation.ChatsFragment
 import com.arsvechkarev.profile.presentation.ProfileFragment
-import com.arsvechkarev.remailir.entrance.EntranceActivity
+import com.arsvechkarev.remailir.entrance.presentation.EntranceActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import core.base.BaseActivity

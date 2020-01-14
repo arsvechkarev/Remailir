@@ -1,4 +1,4 @@
-package com.arsvechkarev.remailir.entrance
+package com.arsvechkarev.remailir.entrance.presentation
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,11 +10,11 @@ import com.arsvechkarev.auth.presentation.signup.RegistrationFragment
 import com.arsvechkarev.auth.presentation.sms.SmsCodeFragment
 import com.arsvechkarev.remailir.CoreActivity
 import com.arsvechkarev.remailir.R
-import com.arsvechkarev.remailir.entrance.PhoneAuthState.Failed
-import com.arsvechkarev.remailir.entrance.PhoneAuthState.OnCodeSent
-import com.arsvechkarev.remailir.entrance.PhoneAuthState.UserAlreadyExists
-import com.arsvechkarev.remailir.entrance.PhoneAuthState.UserNotExist
 import com.arsvechkarev.remailir.entrance.di.DaggerEntranceComponent
+import com.arsvechkarev.remailir.entrance.presentation.PhoneAuthState.Failed
+import com.arsvechkarev.remailir.entrance.presentation.PhoneAuthState.OnCodeSent
+import com.arsvechkarev.remailir.entrance.presentation.PhoneAuthState.UserAlreadyExists
+import com.arsvechkarev.remailir.entrance.presentation.PhoneAuthState.UserNotExist
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthProvider
 import core.base.EntranceActivity

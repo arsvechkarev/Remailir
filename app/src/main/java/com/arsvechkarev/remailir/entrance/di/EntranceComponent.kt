@@ -1,6 +1,6 @@
 package com.arsvechkarev.remailir.entrance.di
 
-import com.arsvechkarev.remailir.entrance.EntranceActivity
+import com.arsvechkarev.remailir.entrance.presentation.EntranceActivity
 import core.di.CoreComponent
 import core.di.modules.ContextModule
 import core.di.modules.ViewModelModule

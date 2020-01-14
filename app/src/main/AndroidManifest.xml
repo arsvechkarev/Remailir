@@ -36,7 +36,7 @@
       android:windowSoftInputMode="adjustResize"/>
 
     <activity
-      android:name=".entrance.EntranceActivity"
+      android:name=".entrance.presentation.EntranceActivity"
       android:noHistory="true"/>
 
   </application>

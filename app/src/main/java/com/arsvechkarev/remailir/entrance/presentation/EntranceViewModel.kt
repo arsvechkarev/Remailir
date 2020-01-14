@@ -1,13 +1,13 @@
-package com.arsvechkarev.remailir.entrance
+package com.arsvechkarev.remailir.entrance.presentation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.arsvechkarev.remailir.entrance.PhoneAuthState.Cancelled
-import com.arsvechkarev.remailir.entrance.PhoneAuthState.Failed
-import com.arsvechkarev.remailir.entrance.PhoneAuthState.OnCheckedAutomatically
-import com.arsvechkarev.remailir.entrance.PhoneAuthState.OnCodeSent
-import com.arsvechkarev.remailir.entrance.PhoneAuthState.UserAlreadyExists
-import com.arsvechkarev.remailir.entrance.PhoneAuthState.UserNotExist
+import com.arsvechkarev.remailir.entrance.presentation.PhoneAuthState.Cancelled
+import com.arsvechkarev.remailir.entrance.presentation.PhoneAuthState.Failed
+import com.arsvechkarev.remailir.entrance.presentation.PhoneAuthState.OnCheckedAutomatically
+import com.arsvechkarev.remailir.entrance.presentation.PhoneAuthState.OnCodeSent
+import com.arsvechkarev.remailir.entrance.presentation.PhoneAuthState.UserAlreadyExists
+import com.arsvechkarev.remailir.entrance.presentation.PhoneAuthState.UserNotExist
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthCredential
@@ -31,27 +31,27 @@ class EntranceViewModel @Inject constructor(
   private var verificationId: String = ""
   override val logTag = "PhoneAuthorization"
   
-  private var phoneVerificationState: MutableLiveData<PhoneAuthState> = MutableLiveData()
+  private var _phoneVerificationState: MutableLiveData<PhoneAuthState> = MutableLiveData()
   
-  fun phoneState(): LiveData<PhoneAuthState> = phoneVerificationState
+  fun phoneState(): LiveData<PhoneAuthState> = _phoneVerificationState
   
   
   val callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
     
     override fun onVerificationCompleted(credential: PhoneAuthCredential) {
-      phoneVerificationState.value = OnCheckedAutomatically
+      _phoneVerificationState.value = OnCheckedAutomatically
       performMainSignCheck(credential)
       log { "completed, smsCode = ${credential.smsCode}" }
     }
     
     override fun onVerificationFailed(exception: FirebaseException) {
-      phoneVerificationState.value = Failed(exception)
+      _phoneVerificationState.value = Failed(exception)
     }
     
     override fun onCodeSent(p0: String, p1: PhoneAuthProvider.ForceResendingToken) {
       verificationId = p0
-      phoneVerificationState.value = OnCodeSent
       log { "onCodeSent, p0 = $p0" }
+      _phoneVerificationState.value = OnCodeSent
     }
   }
   
@@ -63,7 +63,7 @@ class EntranceViewModel @Inject constructor(
   private fun performMainSignCheck(credential: PhoneAuthCredential) {
     firebaseAuth.signInWithCredential(credential).addOnCompleteListener { signInTask ->
       if (!signInTask.isSuccessful) {
-        phoneVerificationState.value = Failed(signInTask.exception)
+        _phoneVerificationState.value = Failed(signInTask.exception)
         return@addOnCompleteListener
       }
       val user = signInTask.result!!.user!!
@@ -74,19 +74,19 @@ class EntranceViewModel @Inject constructor(
           if (fetchUserTask.isSuccessful) {
             val userFromDb = fetchUserTask.result?.toObject(User::class.java)
             if (userFromDb == null) {
-              phoneVerificationState.value = UserNotExist
+              _phoneVerificationState.value = UserNotExist
             } else {
               AppUser.set(userFromDb, sharedPreferencesManager)
-              phoneVerificationState.value = UserAlreadyExists(userFromDb)
+              _phoneVerificationState.value = UserAlreadyExists(userFromDb)
             }
           }
         }.addOnFailureListener {
-          phoneVerificationState.value = Failed(it)
+          _phoneVerificationState.value = Failed(it)
         }
     }.addOnFailureListener {
-      phoneVerificationState.value = Failed(it)
+      _phoneVerificationState.value = Failed(it)
     }.addOnCanceledListener {
-      phoneVerificationState.value = Cancelled
+      _phoneVerificationState.value = Cancelled
     }
   }
   

@@ -3,7 +3,7 @@ package com.arsvechkarev.remailir
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.arsvechkarev.remailir.entrance.EntranceActivity
+import com.arsvechkarev.remailir.entrance.presentation.EntranceActivity
 import storage.AppUser
 
 class SplashActivity : AppCompatActivity() {

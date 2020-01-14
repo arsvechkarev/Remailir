@@ -4,7 +4,7 @@ import android.os.SystemClock.sleep
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import androidx.test.rule.ActivityTestRule
 import com.agoda.kakao.screen.Screen.Companion.onScreen
-import com.arsvechkarev.remailir.entrance.EntranceActivity
+import com.arsvechkarev.remailir.entrance.presentation.EntranceActivity
 import com.arsvechkarev.remailir.registration.screens.PhoneScreen
 import com.arsvechkarev.remailir.registration.screens.RegistrationScreen
 import com.arsvechkarev.remailir.registration.screens.SmsCodeScreen

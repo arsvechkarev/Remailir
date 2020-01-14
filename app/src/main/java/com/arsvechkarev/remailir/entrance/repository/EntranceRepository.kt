@@ -1,0 +1,3 @@
+package com.arsvechkarev.remailir.entrance.repository
+
+class EntranceRepository
