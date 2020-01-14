@@ -50,7 +50,9 @@ class ChatsRepository @Inject constructor(
                 val messages = snapshot!!.toObjects(DialogMessage::class.java)
                 log { "messages = $messages" }
                 val dialogMessage = if (messages.size > 0) messages[0] else null
-                chats.add(Chat(getOtherUser(pChat.userOne, pChat.userTwo), dialogMessage))
+                val otherUser = getOtherUser(pChat.userOne, pChat.userTwo)
+                log { "otherUser = $otherUser" }
+                chats.add(Chat(otherUser, dialogMessage))
                 log { "chats, ${chats.size} = $chats" }
                 if (!emitter.isCancelled) {
                   emitter.onNext(chats)

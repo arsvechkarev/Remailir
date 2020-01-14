@@ -10,10 +10,10 @@ fun randomUid(): String = UUID.randomUUID().toString()
 
 fun getOtherUser(userOne: User, userTwo: User): User {
   if (userOne.id == FirebaseAuth.getInstance().uid!!) {
-    return userOne
-  }
-  if (userTwo.id == FirebaseAuth.getInstance().uid) {
     return userTwo
+  }
+  if (userTwo.id == FirebaseAuth.getInstance().uid!!) {
+    return userOne
   }
   throw IllegalStateException("Users ids don't match this user id")
 }
