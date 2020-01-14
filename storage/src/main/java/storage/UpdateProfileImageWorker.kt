@@ -25,26 +25,29 @@ import java.util.concurrent.CountDownLatch
 import javax.inject.Inject
 
 
-class UploadImageWorker @Inject constructor(private val context: Context) {
+class UpdateProfileImageWorker @Inject constructor(private val context: Context) {
   
-  fun uploadImage(filePath: String) {
+  fun updateImage(filePath: String) {
     val imageLocalUrlParams = workersMap(imageLocalPath to filePath)
-  
-    val getLinkWorker = networkWorkerOf<InternalGetLinkWorker>(imageLocalUrlParams)
-    val updateOneUsersRequest = networkWorkerOf<InternalUserUpdateWorker>()
-    val chatsUrlUpdateWorker = networkWorkerOf<InternalImageUrlThroughChatsUpdateWorker>()
+    
+    val uploadImageWork = networkWorkerOf<InternalUploadImageWorker>(imageLocalUrlParams)
+    val updateProfileWork = networkWorkerOf<InternalUpdateUserProfileWorker>()
+    val chatsUrlUpdateWork = networkWorkerOf<InternalImageUrlThroughChatsUpdateWorker>()
     
     WorkManager.getInstance(context)
-      .beginWith(getLinkWorker)
-      .then(listOf(updateOneUsersRequest, chatsUrlUpdateWorker))
+      .beginWith(uploadImageWork)
+      .then(listOf(updateProfileWork, chatsUrlUpdateWork))
       .enqueue()
   }
   
-  internal class InternalGetLinkWorker(
+  /**
+   * Uploading image to firebase storage
+   */
+  internal class InternalUploadImageWorker(
     context: Context,
     workerParameters: WorkerParameters
   ) : Worker(context, workerParameters), Loggable {
-  
+    
     override val logTag = "Profile_Upload_GetLink"
     
     override fun doWork(): Result {
@@ -62,17 +65,11 @@ class UploadImageWorker @Inject constructor(private val context: Context) {
       
       storageReference.putBytes(file.readBytes())
         .addOnSuccessListener {
-          storageReference.downloadUrl.addOnSuccessListener { uri ->
-            log { "uri = $uri" }
-            log { "uploaded image" }
-            latch.countDown()
-          }.addOnFailureListener {
-            log { "getting uri error" }
-            latch.countDown()
-          }
+          log { "Image uploaded successfully" }
+          latch.countDown()
         }.addOnFailureListener {
           latch.countDown()
-          log { "updloaded image error" }
+          log { "Uploading image error" }
         }
       
       latch.await()
@@ -80,11 +77,15 @@ class UploadImageWorker @Inject constructor(private val context: Context) {
     }
   }
   
-  internal class InternalUserUpdateWorker(
+  /**
+   * After [InternalUploadImageWorker] completed, we can get download image url and update user
+   * profile with it
+   */
+  internal class InternalUpdateUserProfileWorker(
     context: Context,
     workerParameters: WorkerParameters
   ) : Worker(context, workerParameters), Loggable {
-  
+    
     override val logTag = "Profile_Upload_UpdateUser"
     
     override fun doWork(): Result {
@@ -114,6 +115,10 @@ class UploadImageWorker @Inject constructor(private val context: Context) {
     }
   }
   
+  /**
+   * After [InternalUploadImageWorker] completed, we need to update image url in every chat current
+   * user is participating in
+   */
   class InternalImageUrlThroughChatsUpdateWorker(
     context: Context,
     workerParameters: WorkerParameters
@@ -135,10 +140,8 @@ class UploadImageWorker @Inject constructor(private val context: Context) {
           .addOnSuccessListener { snapshot ->
             snapshot.documents.forEach {
               log { "Chat id = ${it.id}" }
-              val userOneObject =
-                it.get(userOne, User::class.java).also { log { "u1 = $it" } } as User
-              val userTwoObject =
-                it.get(userTwo, User::class.java).also { log { "u2 = $it" } } as User
+              val userOneObject = it.get(userOne, User::class.java) as User
+              val userTwoObject = it.get(userTwo, User::class.java) as User
               log { "user one = $userOneObject" }
               log { "user two = $userTwoObject" }
               FirebaseFirestore.getInstance().collection(OneToOneChats)

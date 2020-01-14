@@ -6,11 +6,11 @@ import io.reactivex.Completable
 import io.reactivex.Maybe
 import log.Loggable
 import log.log
-import storage.UploadImageWorker
+import storage.UpdateProfileImageWorker
 import javax.inject.Inject
 
 class ProfileRepository @Inject constructor(
-  private val uploadImageWorker: UploadImageWorker,
+  private val updateProfileImageWorker: UpdateProfileImageWorker,
   private val profileDiskStorage: ProfileDiskStorage,
   private val profileNetworkRequests: ProfileNetworkRequests
 ) : Loggable {
@@ -32,7 +32,7 @@ class ProfileRepository @Inject constructor(
   fun uploadImage(bitmap: Bitmap): Completable {
     return profileDiskStorage.saveProfileImage(bitmap)
       // Image was saved to internal storage, now we can go ahead and upload it to the server
-      .andThen { uploadImageWorker.uploadImage(profilePictureFile.path) }
+      .andThen { updateProfileImageWorker.updateImage(profilePictureFile.path) }
   }
   
   private fun executeNetworkRequest(url: String): Maybe<Bitmap> {
