@@ -1,11 +1,21 @@
 <resources>
-
   <string name="app_name" translatable="false">Remailir</string>
 
+  <!-- Titles -->
   <string name="title_chats">Messages</string>
-
   <string name="title_select_user">Select a user</string>
   <string name="title_profile">Profile</string>
+  <string name="title_countries">Countries</string>
 
+  <!-- Fragment titles -->
+  <string name="hint_search_countries">Type country name…</string>
+  <string name="hint_enter_username">Username</string>
+  <string name="title_sms_verification">Sms verification</string>
+
+  <!--  Other text -->
+  <string name="text_next">Next</string>
+  <string name="text_sign_up">Sign up</string>
+  <string name="text_enter_phone">Enter your phone number</string>
+  <string name="text_enter_a_code">Enter a code we\'ve\nsent to you</string>
 
 </resources>

@@ -13,7 +13,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:layout_constraintTop_toTopOf="parent"
-    app:the_toolbar_backgroundColor="?theColorPrimary"
     app:the_toolbar_hasBackImage="false"
     app:the_toolbar_title="@string/app_name"/>
 

@@ -20,42 +20,44 @@ class WaveDrawerView @JvmOverloads constructor(
   
   companion object {
     private const val animationDuration = 300L
-    private const val constY = 0f
   }
   
   private val paint = Paint(ANTI_ALIAS_FLAG).apply {
     style = Paint.Style.FILL
   }
+  private var circleY = -1f
   
   private var drawFullCircleAtFirst = false
   private var colorToDraw = -1
   private var colorBackground = -1
   private var defaultRadius = -1f
+  private var circleX = -1f
   
-  var radius = Float.MAX_VALUE
+  private var mode = NORMAL
+  private var radius = Float.MAX_VALUE
     set(value) {
       field = value
       invalidate()
     }
   
-  private var circleX = -1f
-  private var mode = NORMAL
-  
-  fun animate(colorToDraw: Int, colorBackground: Int) {
+  fun animate(colorToDraw: Int, colorBackground: Int, onEnd: () -> Unit) {
     this.colorToDraw = colorToDraw
     this.colorBackground = colorBackground
-    defaultRadius = (height / 2).toFloat()
+    val halfHeight = (height / 2).toFloat()
+    circleY = halfHeight
+    defaultRadius = halfHeight
     radius = defaultRadius
     circleX = width.toFloat()
     paint.color = colorToDraw
     paint.strokeWidth = height.toFloat() * 1.5f
     mode = NORMAL
     invalidate()
-  
+    
     val animator = ObjectAnimator.ofFloat(this, "radius", width.toFloat())
     animator.duration = animationDuration
     animator.doOnEnd {
       setBackgroundColor(colorToDraw)
+      onEnd()
     }
     animator.start()
   }
@@ -77,7 +79,7 @@ class WaveDrawerView @JvmOverloads constructor(
   
   private fun handleNormalAnimation(canvas: Canvas) {
     if (radius <= circleX) {
-      canvas.drawCircle(circleX, constY, radius, paint)
+      canvas.drawCircle(circleX, circleY, radius, paint)
     }
   }
   
@@ -85,10 +87,10 @@ class WaveDrawerView @JvmOverloads constructor(
     if (radius <= circleX) {
       if (drawFullCircleAtFirst) {
         drawFullCircleAtFirst = false
-        canvas.drawCircle(circleX, constY, radius, paint)
+        canvas.drawCircle(circleX, circleY, radius, paint)
         setBackgroundColor(colorBackground)
       }
-      canvas.drawCircle(circleX, constY, radius, paint)
+      canvas.drawCircle(circleX, circleY, radius, paint)
     }
   }
   

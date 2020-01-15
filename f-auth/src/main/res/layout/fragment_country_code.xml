@@ -10,8 +10,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:layout_constraintTop_toTopOf="parent"
-    app:the_toolbar_backgroundColor="?theColorPrimary"
     app:the_toolbar_hasSearch="true"
+    app:the_toolbar_searchTint="@string/hint_search_countries"
     app:the_toolbar_title="@string/title_countries"/>
 
   <ProgressBar

@@ -112,7 +112,6 @@
       android:layout_marginEnd="16dp"
       android:background="?selectableItemBackgroundBorderless"
       android:src="@drawable/ic_send"
-      android:text="send, fucking shit"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintTop_toTopOf="parent"/>

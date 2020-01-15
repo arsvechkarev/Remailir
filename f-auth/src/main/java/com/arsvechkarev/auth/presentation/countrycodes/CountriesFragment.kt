@@ -75,9 +75,10 @@ class CountriesFragment : BaseFragment() {
       viewModel.filter(it)
     }
     theToolbar.onSearchAction {
-      showKeyboard()
-      theToolbar.goToSearchMode(COLOR_ACCENT, COLOR_BACKGROUND)
-      callback.isEnabled = true
+      theToolbar.goToSearchMode(COLOR_ACCENT, COLOR_BACKGROUND) {
+        showKeyboard()
+        callback.isEnabled = true
+      }
     }
   }
   

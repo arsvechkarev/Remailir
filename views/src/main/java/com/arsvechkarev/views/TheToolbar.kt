@@ -48,13 +48,6 @@ class TheToolbar @JvmOverloads constructor(
     viewSwitcher = findViewById(R.id.viewSwitcher)
     
     val typedArray = context.theme.obtainStyledAttributes(attrs, R.styleable.TheToolbar, 0, 0)
-    imageBack.setBackgroundIfNeeded(typedArray, R.styleable.TheToolbar_the_toolbar_imageBackColor)
-    imageSearch.setBackgroundIfNeeded(
-      typedArray,
-      R.styleable.TheToolbar_the_toolbar_imageSearchColor
-    )
-    textTitle.setTextColorIfNeeded(typedArray, R.styleable.TheToolbar_the_toolbar_titleColor)
-    textTitle.setTextSizeIfNeeded(typedArray, R.styleable.TheToolbar_the_toolbar_titleTextSize)
     textTitle.text = typedArray.getString(R.styleable.TheToolbar_the_toolbar_title) ?: ""
     val hasSearch = typedArray.getBoolean(R.styleable.TheToolbar_the_toolbar_hasSearch, false)
     hasBackImage =
@@ -62,13 +55,10 @@ class TheToolbar @JvmOverloads constructor(
     imageSearch.isGone = !hasSearch
     imageBack.isGone = !hasBackImage
     if (hasSearch) {
-      editTextSearch.hint = "Type country name..."
+      editTextSearch.hint =
+        typedArray.getString(R.styleable.TheToolbar_the_toolbar_searchTint) ?: ""
       val animationSlideIn = loadAnimationAnd(android.R.anim.slide_in_left) {
-        doAfterAnimation {
-          if (isInSearchMode) {
-            editTextSearch.requestFocus()
-          }
-        }
+        doAfterAnimation { if (isInSearchMode) editTextSearch.requestFocus() }
       }
       val animationSlideOut = loadAnimation(android.R.anim.slide_out_right)
       viewSwitcher.inAnimation = animationSlideIn
@@ -109,9 +99,9 @@ class TheToolbar @JvmOverloads constructor(
     requestLayout()
   }
   
-  fun goToSearchMode(colorToAppear: Int, colorBackground: Int) {
+  fun goToSearchMode(colorToAppear: Int, colorBackground: Int, onEnd: () -> Unit = {}) {
     isInSearchMode = true
-    waveView.animate(colorToAppear, colorBackground)
+    waveView.animate(colorToAppear, colorBackground, onEnd)
     imageSearch.animateVectorDrawable()
     viewSwitcher.showNext()
   }

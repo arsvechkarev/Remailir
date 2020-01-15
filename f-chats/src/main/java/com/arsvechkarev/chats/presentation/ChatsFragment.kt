@@ -1,10 +1,5 @@
 package com.arsvechkarev.chats.presentation
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.arsvechkarev.chats.R
@@ -13,6 +8,7 @@ import com.arsvechkarev.chats.list.ChatsAdapter
 import com.arsvechkarev.messaging.presentation.MessagingFragment
 import com.arsvechkarev.users.presentation.UsersListFragment
 import core.MaybeResult
+import core.base.BaseFragment
 import core.base.coreActivity
 import core.di.coreComponent
 import core.extensions.observe
@@ -27,24 +23,19 @@ import styles.COLOR_PROGRESS_CIRCLE
 import styles.COLOR_PROGRESS_CIRCLE_BG
 import javax.inject.Inject
 
-class ChatsFragment : Fragment() {
+class ChatsFragment : BaseFragment() {
+  
+  override val layout: Int get() = R.layout.fragment_chat
   
   private val adapter = ChatsAdapter {
     coreActivity.goToFragmentFromRoot(MessagingFragment.create(it.otherUser), true)
   }
-  
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
+  
   private lateinit var viewModel: ChatsViewModel
   
-  override fun onCreateView(
-    inflater: LayoutInflater, container: ViewGroup?,
-    savedInstanceState: Bundle?
-  ): View? {
-    return inflater.inflate(R.layout.fragment_chats, container, false)
-  }
-  
-  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+  override fun onInit() {
     swipeRefreshChatsLayout.setColorSchemeColors(COLOR_PROGRESS_CIRCLE)
     swipeRefreshChatsLayout.setProgressBackgroundColorSchemeColor(COLOR_PROGRESS_CIRCLE_BG)
     DaggerChatsComponent.builder()

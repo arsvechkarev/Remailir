@@ -14,13 +14,9 @@
   <dimen name="toolbar_title_size">@dimen/text_toolbar</dimen>
 
   <declare-styleable name="TheToolbar">
-    <attr name="the_toolbar_backgroundColor" format="color"/>
-    <attr name="the_toolbar_imageBackColor" format="color"/>
-    <attr name="the_toolbar_imageSearchColor" format="color"/>
     <attr name="the_toolbar_title" format="string"/>
-    <attr name="the_toolbar_titleColor" format="color"/>
-    <attr name="the_toolbar_titleTextSize" format="dimension"/>
     <attr name="the_toolbar_hasSearch" format="boolean"/>
+    <attr name="the_toolbar_searchTint" format="string"/>
     <attr name="the_toolbar_hasBackImage" format="boolean"/>
   </declare-styleable>
 
