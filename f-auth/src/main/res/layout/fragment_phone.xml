@@ -90,23 +90,6 @@
 
   </androidx.constraintlayout.widget.ConstraintLayout>
 
-  <com.google.android.material.button.MaterialButton
-    android:id="@+id/buttonNext"
-    style="@style/MaterialButton"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:layout_marginTop="@dimen/bt_next_m_top"
-    android:enabled="false"
-    android:paddingStart="@dimen/bt_next_p_start"
-    android:paddingTop="@dimen/bt_next_p_top"
-    android:paddingEnd="@dimen/bt_next_p_end"
-    android:paddingBottom="@dimen/bt_next_p_bottom"
-    android:text="@string/text_next"
-    app:cornerRadius="@dimen/radius_button_auth"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/layoutPhone"/>
 
   <TextView
     android:id="@+id/textError"
@@ -117,5 +100,31 @@
     app:layout_constraintStart_toStartOf="@+id/layoutPhone"
     app:layout_constraintTop_toBottomOf="@+id/layoutPhone"
     tools:text="Error. Blah blah blah"/>
+
+  <com.google.android.material.button.MaterialButton
+    android:id="@+id/buttonNext"
+    style="@style/MaterialButton"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginTop="@dimen/bt_next_m_top"
+    android:paddingStart="@dimen/bt_next_p_start"
+    android:paddingTop="@dimen/bt_next_p_top"
+    android:paddingEnd="@dimen/bt_next_p_end"
+    android:paddingBottom="@dimen/bt_next_p_bottom"
+    android:text="@string/text_next"
+    app:cornerRadius="@dimen/radius_button_auth"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/layoutPhone"/>
+
+  <ImageView
+    android:id="@+id/imageLoading"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/buttonNext"
+    app:srcCompat="@drawable/avd_anim_loading"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
