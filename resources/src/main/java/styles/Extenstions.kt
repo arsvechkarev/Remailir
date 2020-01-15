@@ -2,34 +2,26 @@ package styles
 
 import android.content.Context
 import android.util.TypedValue
+import androidx.annotation.AttrRes
 import androidx.fragment.app.Fragment
 
 
 val Fragment.COLOR_PRIMARY: Int
-  get() {
-    return getAttrColor(
-      context!!,
-      intArrayOf(R.attr.theColorPrimary)
-    )
-  }
+  get() = getColor(R.attr.theColorPrimary)
+
+val Fragment.COLOR_ACCENT: Int
+  get() = getColor(R.attr.theColorAccent)
 
 val Fragment.COLOR_PROGRESS_CIRCLE: Int
-  get() {
-    return getAttrColor(
-      context!!,
-      intArrayOf(R.attr.theColorOnSurface)
-    )
-  }
+  get() = getColor(R.attr.theColorOnSurface)
 
-val Fragment.COLOR_PROGRESS_CIRCLE_BG: Int
-  get() {
-    return getAttrColor(
-      context!!,
-      intArrayOf(R.attr.colorRefreshProgressBackground)
-    )
-  }
 
-fun getAttrColor(context: Context, valuesArray: IntArray): Int {
+val Fragment.COLOR_PROGRESS_CIRCLE_BG
+  get() = getColor(R.attr.colorRefreshProgressBackground)
+
+internal fun Fragment.getColor(@AttrRes resId: Int) = getAttrColor(context!!, intArrayOf(resId))
+
+internal fun getAttrColor(context: Context, valuesArray: IntArray): Int {
   val typedArray = context.obtainStyledAttributes(TypedValue().data, valuesArray)
   val color = typedArray.getColor(0, -1)
   typedArray.recycle()

@@ -19,8 +19,9 @@ import core.recycler.DisplayableItem
 import kotlinx.android.synthetic.main.fragment_country_code.progressBarCountries
 import kotlinx.android.synthetic.main.fragment_country_code.recyclerCountries
 import kotlinx.android.synthetic.main.fragment_country_code.theToolbar
-import styles.COLOR_PRIMARY
+import styles.COLOR_ACCENT
 import javax.inject.Inject
+
 
 class CountriesFragment : BaseFragment() {
   
@@ -53,7 +54,7 @@ class CountriesFragment : BaseFragment() {
       theToolbar.reverseWave()
     }
     theToolbar.onSearchClick {
-      theToolbar.animateWave(COLOR_PRIMARY)
+      theToolbar.goToSearchMode(COLOR_ACCENT)
       //      entranceActivity.goToFragment(SearchCountryFragment(), true)
     }
   }

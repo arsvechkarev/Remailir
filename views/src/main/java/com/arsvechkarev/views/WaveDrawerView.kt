@@ -1,6 +1,5 @@
 package com.arsvechkarev.views
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
@@ -20,8 +19,8 @@ class WaveDrawerView @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr) {
   
   companion object {
-    
-    private const val frameAmount = 8
+  
+    private const val frameAmount = 20
     private const val DELAY_INVALIDATE_ON_DRAW = 8L
   }
   
@@ -46,9 +45,9 @@ class WaveDrawerView @JvmOverloads constructor(
     paint.color = color
     paint.strokeWidth = height.toFloat() * 1.5f
     startTime = SystemClock.elapsedRealtime()
-    invalidate()
     mode = NORMAL
     isAnimating = true
+    invalidate()
   }
   
   fun reverse() {
@@ -57,7 +56,6 @@ class WaveDrawerView @JvmOverloads constructor(
     invalidate()
   }
   
-  @SuppressLint("DrawAllocation")
   override fun onDraw(canvas: Canvas) {
     if (!isAnimating) return
     paths.forEach { canvas.drawPath(it, paint) }
@@ -90,7 +88,6 @@ class WaveDrawerView @JvmOverloads constructor(
       currentX += dx
     }
   }
-  
   
   private enum class Mode {
     NORMAL, REVERSE

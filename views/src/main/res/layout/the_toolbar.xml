@@ -7,7 +7,7 @@
   <com.arsvechkarev.views.WaveDrawerView
     android:id="@+id/waveView"
     android:layout_width="match_parent"
-    android:layout_height="50dp"/>
+    android:layout_height="0dp"/>
 
   <ImageView
     android:id="@+id/imageBack"
@@ -17,18 +17,32 @@
     android:background="?selectableItemBackgroundBorderless"
     android:clickable="true"
     android:focusable="true"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
     app:srcCompat="@drawable/ic_back"/>
 
-  <TextView
-    android:id="@+id/textTitle"
+  <ViewSwitcher
+    android:id="@+id/viewSwitcher"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/the_toolbar_title_m_start"
-    android:layout_marginTop="@dimen/the_toolbar_title_m_top"
-    android:theme="@style/Toolbar"/>
+    android:layout_marginTop="@dimen/the_toolbar_title_m_top">
+
+    <TextView
+      android:id="@+id/textTitle"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:theme="@style/Toolbar"/>
+
+    <EditText
+      android:id="@+id/editTextSearch"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="@dimen/search_toolbar_title_margin"
+      android:layout_marginEnd="@dimen/search_toolbar_title_margin"
+      android:background="@null"
+      android:maxLines="1"
+      android:textSize="@dimen/text_h3"/>
+
+  </ViewSwitcher>
 
   <ImageView
     android:id="@+id/imageSearch"
@@ -39,10 +53,7 @@
     android:background="?selectableItemBackgroundBorderless"
     android:clickable="true"
     android:focusable="true"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    app:srcCompat="@drawable/ic_search"/>
+    app:srcCompat="@drawable/avd_search_to_close"/>
 
   <View
     android:id="@+id/divider"

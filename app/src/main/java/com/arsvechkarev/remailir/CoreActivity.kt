@@ -2,6 +2,7 @@ package com.arsvechkarev.remailir
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
 import com.arsvechkarev.chats.presentation.ChatsFragment
 import com.arsvechkarev.profile.presentation.ProfileFragment
@@ -21,6 +22,8 @@ class CoreActivity : BaseActivity(), CoreActivity {
   
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
+    window.decorView.systemUiVisibility =
+      (View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
     setContentView(R.layout.activity_home)
     switchFragment(R.id.baseContainer, ChatsFragment())
     bottomNavigationBar.selectedItemId = R.id.itemMessages

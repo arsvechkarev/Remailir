@@ -1,13 +1,15 @@
 package com.arsvechkarev.views
 
 import android.content.Context
-import android.graphics.Color
 import android.util.AttributeSet
 import android.view.View
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.ViewSwitcher
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isGone
+import animation.animateVectorDrawable
 
 
 class TheToolbar @JvmOverloads constructor(
@@ -21,6 +23,8 @@ class TheToolbar @JvmOverloads constructor(
   private val imageSearch: ImageView
   private val divider: View
   private val waveView: WaveDrawerView
+  private val editTextSearch: EditText
+  private val viewSwitcher: ViewSwitcher
   
   private var hasBackImage = true
   
@@ -32,6 +36,8 @@ class TheToolbar @JvmOverloads constructor(
     imageSearch = findViewById(R.id.imageSearch)
     divider = findViewById(R.id.divider)
     waveView = findViewById(R.id.waveView)
+    editTextSearch = findViewById(R.id.editTextSearch)
+    viewSwitcher = findViewById(R.id.viewSwitcher)
     
     val typedArray = context.theme.obtainStyledAttributes(attrs, R.styleable.TheToolbar, 0, 0)
     imageBack.setBackgroundIfNeeded(typedArray, R.styleable.TheToolbar_the_toolbar_imageBackColor)
@@ -53,11 +59,11 @@ class TheToolbar @JvmOverloads constructor(
   
   private fun setConstrains() {
     imageBack.constraints {
-      topToTop = id
-      bottomToBottom = id
+      topToTop = R.id.textTitle
+      bottomToBottom = R.id.textTitle
       startToStart = id
     }
-    textTitle.constraints {
+    viewSwitcher.constraints {
       topToTop = id
       if (hasBackImage) {
         startToEnd = R.id.imageBack
@@ -66,8 +72,8 @@ class TheToolbar @JvmOverloads constructor(
       }
     }
     imageSearch.constraints {
-      topToTop = id
-      bottomToBottom = id
+      topToTop = R.id.textTitle
+      bottomToBottom = R.id.textTitle
       endToEnd = id
     }
     divider.constraints {
@@ -82,12 +88,9 @@ class TheToolbar @JvmOverloads constructor(
     requestLayout()
   }
   
-  fun setTitle(title: CharSequence) {
-    textTitle.text = title
-  }
-  
-  fun animateWave(color: Int) {
-    waveView.animate(Color.GREEN)
+  fun goToSearchMode(color: Int) {
+    waveView.animate(color)
+    imageSearch.animateVectorDrawable()
   }
   
   fun reverseWave() {

@@ -3,7 +3,7 @@
 
   <dimen name="the_toolbar_image_margin">16dp</dimen>
   <dimen name="the_toolbar_title_m_start">24dp</dimen>
-  <dimen name="the_toolbar_title_m_top">12dp</dimen>
+  <dimen name="the_toolbar_title_m_top">28dp</dimen>
   <dimen name="the_toolbar_divider_m_top">12dp</dimen>
   <dimen name="search_toolbar_image_margin">16dp</dimen>
   <dimen name="search_toolbar_title_margin">32dp</dimen>
