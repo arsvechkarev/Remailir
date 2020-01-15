@@ -1,13 +1,13 @@
 package com.arsvechkarev.views
 
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Paint.ANTI_ALIAS_FLAG
-import android.graphics.Path
-import android.os.SystemClock
 import android.util.AttributeSet
 import android.view.View
+import androidx.core.animation.doOnEnd
 import com.arsvechkarev.views.WaveDrawerView.Mode.NORMAL
 import com.arsvechkarev.views.WaveDrawerView.Mode.REVERSE
 
@@ -19,47 +19,56 @@ class WaveDrawerView @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr) {
   
   companion object {
-  
-    private const val dx = 150f
-    private const val DELAY_INVALIDATE_ON_DRAW = 10L
+    private const val animationDuration = 300L
+    private const val constY = 0f
   }
   
-  private var path = Path()
   private val paint = Paint(ANTI_ALIAS_FLAG).apply {
-    style = Paint.Style.STROKE
-    strokeJoin = Paint.Join.ROUND
-    strokeCap = Paint.Cap.ROUND
+    style = Paint.Style.FILL
   }
-  private var startTime = -1L
+  
+  private var drawFullCircleAtFirst = false
   private var colorToDraw = -1
   private var colorBackground = -1
-  private var currentX = 0f
-  private var yPosition = 0f
-  private var isAnimating = false
+  private var defaultRadius = -1f
+  
+  var radius = Float.MAX_VALUE
+    set(value) {
+      field = value
+      invalidate()
+    }
+  
+  private var circleX = -1f
   private var mode = NORMAL
   
   fun animate(colorToDraw: Int, colorBackground: Int) {
     this.colorToDraw = colorToDraw
     this.colorBackground = colorBackground
-    yPosition = (height / 2).toFloat()
-    currentX = width.toFloat()
+    defaultRadius = (height / 2).toFloat()
+    radius = defaultRadius
+    circleX = width.toFloat()
     paint.color = colorToDraw
     paint.strokeWidth = height.toFloat() * 1.5f
-    startTime = SystemClock.elapsedRealtime()
     mode = NORMAL
-    isAnimating = true
     invalidate()
+  
+    val animator = ObjectAnimator.ofFloat(this, "radius", width.toFloat())
+    animator.duration = animationDuration
+    animator.doOnEnd {
+      setBackgroundColor(colorToDraw)
+    }
+    animator.start()
   }
   
   fun reverse() {
-    paint.color = colorBackground
     mode = REVERSE
-    isAnimating = true
-    invalidate()
+    val animator = ObjectAnimator.ofFloat(this, "radius", 0f)
+    animator.duration = animationDuration
+    drawFullCircleAtFirst = true
+    animator.start()
   }
   
   override fun onDraw(canvas: Canvas) {
-    if (!isAnimating) return
     when (mode) {
       NORMAL -> handleNormalAnimation(canvas)
       REVERSE -> handleReverseAnimation(canvas)
@@ -67,33 +76,19 @@ class WaveDrawerView @JvmOverloads constructor(
   }
   
   private fun handleNormalAnimation(canvas: Canvas) {
-    if (currentX >= 0) {
-      path.moveTo(currentX, yPosition)
-      path.lineTo(currentX, yPosition)
-      canvas.drawPath(path, paint)
-      currentX -= dx
-      if (currentX <= 0) {
-        setBackgroundColor(colorToDraw)
-      }
-      postInvalidateDelayed(DELAY_INVALIDATE_ON_DRAW)
-    } else {
-      path.reset()
+    if (radius <= circleX) {
+      canvas.drawCircle(circleX, constY, radius, paint)
     }
   }
   
   private fun handleReverseAnimation(canvas: Canvas) {
-    if (currentX <= width) {
-      path.moveTo(currentX, yPosition)
-      path.lineTo(currentX, yPosition)
-      canvas.drawPath(path, paint)
-      currentX += dx
-      if (currentX >= width) {
+    if (radius <= circleX) {
+      if (drawFullCircleAtFirst) {
+        drawFullCircleAtFirst = false
+        canvas.drawCircle(circleX, constY, radius, paint)
         setBackgroundColor(colorBackground)
       }
-      postInvalidateDelayed(DELAY_INVALIDATE_ON_DRAW)
-    } else {
-      path.reset()
-      path.moveTo(currentX, yPosition)
+      canvas.drawCircle(circleX, constY, radius, paint)
     }
   }
   
