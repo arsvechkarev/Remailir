@@ -9,7 +9,7 @@ class CustomSwipeRefreshLayout @JvmOverloads constructor(
   context: Context,
   attrs: AttributeSet? = null
 ) : SwipeRefreshLayout(context, attrs) {
-  
+  // Todo: custom attrs don't work
   init {
     val typedArray =
       context.theme.obtainStyledAttributes(attrs, R.styleable.SixDigitCodeLayout, 0, 0)
