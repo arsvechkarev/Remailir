@@ -11,12 +11,12 @@ import com.arsvechkarev.chats.R
 import com.arsvechkarev.chats.di.DaggerChatsComponent
 import com.arsvechkarev.chats.list.ChatsAdapter
 import com.arsvechkarev.messaging.presentation.MessagingFragment
+import com.arsvechkarev.styles.COLOR_PROGRESS_CIRCLE
+import com.arsvechkarev.styles.COLOR_PROGRESS_CIRCLE_BG
 import com.arsvechkarev.users.presentation.UsersListFragment
 import core.MaybeResult
 import core.base.coreActivity
 import core.di.coreComponent
-import core.extensions.COLOR_PROGRESS_CIRCLE
-import core.extensions.COLOR_PROGRESS_CIRCLE_BG
 import core.extensions.observe
 import core.extensions.showToast
 import core.extensions.viewModelOf

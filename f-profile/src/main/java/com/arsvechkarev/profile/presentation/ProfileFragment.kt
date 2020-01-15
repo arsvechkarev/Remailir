@@ -10,6 +10,8 @@ import android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
 import androidx.lifecycle.ViewModelProvider
 import com.arsvechkarev.profile.R
 import com.arsvechkarev.profile.di.DaggerProfileComponent
+import com.arsvechkarev.styles.COLOR_PROGRESS_CIRCLE
+import com.arsvechkarev.styles.COLOR_PROGRESS_CIRCLE_BG
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE
 import com.theartofdev.edmodo.cropper.CropImageView
@@ -17,8 +19,6 @@ import core.MaybeResult
 import core.base.BaseFragment
 import core.di.coreComponent
 import core.di.modules.ContextModule
-import core.extensions.COLOR_PROGRESS_CIRCLE
-import core.extensions.COLOR_PROGRESS_CIRCLE_BG
 import core.extensions.invisible
 import core.extensions.observe
 import core.extensions.showToast

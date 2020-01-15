@@ -34,6 +34,7 @@ dependencies {
   def dependencies = rootProject.ext.applicationDependencies
 
   api project(':log')
+  api project(':styles')
 
   implementation dependencies.kotlin
   implementation dependencies.appCompat

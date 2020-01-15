@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <!-- TextAppearance -->
+
+  <style name="Text">
+    <item name="android:textColor">?theColorTextPrimary</item>
+    <item name="android:fontFamily">@font/rubik_medium</item>
+  </style>
+
+  <style name="Text.Bold">
+    <item name="android:fontFamily">@font/rubik_bold</item>
+  </style>
+
+  <style name="Text.PopupMenu">
+    <item name="android:textSize">@dimen/text_h5</item>
+  </style>
+
+</resources>

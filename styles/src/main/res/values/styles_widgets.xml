@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <!-- ActionBar -->
+
+  <style name="Toolbar">
+    <item name="background">?theColorPrimary</item>
+  </style>
+
+
+  <!-- EditText -->
+
+  <style name="EditText" parent="TextAppearance.AppCompat">
+    <item name="android:background">?theColorSurface</item>
+    <item name="android:textColor">?theColorTextPrimary</item>
+    <item name="android:textSize">@dimen/text_h4</item>
+    <item name="android:maxLines">1</item>
+    <item name="android:textCursorDrawable">@drawable/bg_cursor</item>
+  </style>
+
+  <!-- Button -->
+
+  <style name="MaterialButton" parent="Widget.MaterialComponents.TextView">
+    <item name="android:letterSpacing">0.03</item>
+    <item name="android:textAllCaps">false</item>
+    <item name="android:textSize">@dimen/text_h3</item>
+    <item name="android:textStyle">normal</item>
+    <item name="android:backgroundTint">@color/color_button_sign</item>
+  </style>
+
+
+  <!-- Popup menu -->
+
+  <style name="PopupMenu" parent="Widget.MaterialComponents.PopupMenu.Overflow">
+    <item name="textAppearanceLargePopupMenu">@style/Text.PopupMenu</item>
+    <item name="textAppearanceSmallPopupMenu">@style/Text.PopupMenu</item>
+    <item name="android:popupBackground">?theColorSurface</item>
+  </style>
+
+
+  <!-- TextInputLayout -->
+
+  <style name="TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+    <item name="boxStrokeColor">@color/color_text_input</item>
+    <item name="hintTextColor">?theColorTextInputSelected</item>
+  </style>
+
+  <!-- Other -->
+
+  <style name="Snowfall">
+    <item name="amount">150</item>
+    <item name="maxSize">30</item>
+    <item name="maxSpeed">1.0</item>
+    <item name="maxWind">0.1</item>
+  </style>
+
+
+  <style name="CircleImage">
+    <item name="civ_border_width">@dimen/circle_image_border</item>
+    <item name="civ_border_color">?theColorAccent</item>
+  </style>
+
+</resources>

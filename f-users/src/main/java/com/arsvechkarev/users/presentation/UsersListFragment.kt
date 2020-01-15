@@ -8,13 +8,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.arsvechkarev.messaging.presentation.MessagingFragment
+import com.arsvechkarev.styles.COLOR_PROGRESS_CIRCLE
+import com.arsvechkarev.styles.COLOR_PROGRESS_CIRCLE_BG
 import com.arsvechkarev.users.R
 import com.arsvechkarev.users.di.DaggerUsersComponent
 import com.arsvechkarev.users.list.UsersListAdapter
 import core.MaybeResult
 import core.base.coreActivity
-import core.extensions.COLOR_PROGRESS_CIRCLE
-import core.extensions.COLOR_PROGRESS_CIRCLE_BG
 import core.extensions.gone
 import core.extensions.observe
 import core.extensions.popBackStack

@@ -1,19 +1,24 @@
-package core.extensions
+package com.arsvechkarev.styles
 
 import android.content.Context
 import android.util.TypedValue
 import androidx.fragment.app.Fragment
-import core.R
 
 
 val Fragment.COLOR_PROGRESS_CIRCLE: Int
   get() {
-    return getAttrColor(context!!, intArrayOf(R.attr.theColorOnSurface))
+    return getAttrColor(
+      context!!,
+      intArrayOf(R.attr.theColorOnSurface)
+    )
   }
 
 val Fragment.COLOR_PROGRESS_CIRCLE_BG: Int
   get() {
-    return getAttrColor(context!!, intArrayOf(R.attr.colorRefreshProgressBackground))
+    return getAttrColor(
+      context!!,
+      intArrayOf(R.attr.colorRefreshProgressBackground)
+    )
   }
 
 fun getAttrColor(context: Context, valuesArray: IntArray): Int {
