@@ -5,6 +5,14 @@ import android.util.TypedValue
 import androidx.fragment.app.Fragment
 
 
+val Fragment.COLOR_PRIMARY: Int
+  get() {
+    return getAttrColor(
+      context!!,
+      intArrayOf(R.attr.theColorPrimary)
+    )
+  }
+
 val Fragment.COLOR_PROGRESS_CIRCLE: Int
   get() {
     return getAttrColor(

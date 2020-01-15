@@ -13,13 +13,13 @@ import core.di.coreComponent
 import core.di.modules.ContextModule
 import core.extensions.gone
 import core.extensions.observe
-import core.extensions.popBackStack
 import core.extensions.viewModelOf
 import core.extensions.visible
 import core.recycler.DisplayableItem
 import kotlinx.android.synthetic.main.fragment_country_code.progressBarCountries
 import kotlinx.android.synthetic.main.fragment_country_code.recyclerCountries
 import kotlinx.android.synthetic.main.fragment_country_code.theToolbar
+import styles.COLOR_PRIMARY
 import javax.inject.Inject
 
 class CountriesFragment : BaseFragment() {
@@ -49,10 +49,11 @@ class CountriesFragment : BaseFragment() {
     recyclerCountries.adapter = adapter
     recyclerCountries.layoutManager = LinearLayoutManager(context)
     theToolbar.onBackClick {
-      popBackStack()
+      //      popBackStack()
+      theToolbar.reverseWave()
     }
     theToolbar.onSearchClick {
-      theToolbar.animateWave()
+      theToolbar.animateWave(COLOR_PRIMARY)
       //      entranceActivity.goToFragment(SearchCountryFragment(), true)
     }
   }

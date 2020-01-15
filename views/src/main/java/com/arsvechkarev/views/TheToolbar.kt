@@ -1,15 +1,13 @@
 package com.arsvechkarev.views
 
 import android.content.Context
+import android.graphics.Color
 import android.util.AttributeSet
 import android.view.View
-import android.view.ViewAnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isGone
-import core.extensions.visible
-import kotlinx.android.synthetic.main.the_toolbar.view.revealView
 
 
 class TheToolbar @JvmOverloads constructor(
@@ -22,6 +20,7 @@ class TheToolbar @JvmOverloads constructor(
   private val imageBack: ImageView
   private val imageSearch: ImageView
   private val divider: View
+  private val waveView: WaveDrawerView
   
   private var hasBackImage = true
   
@@ -32,6 +31,7 @@ class TheToolbar @JvmOverloads constructor(
     imageBack = findViewById(R.id.imageBack)
     imageSearch = findViewById(R.id.imageSearch)
     divider = findViewById(R.id.divider)
+    waveView = findViewById(R.id.waveView)
     
     val typedArray = context.theme.obtainStyledAttributes(attrs, R.styleable.TheToolbar, 0, 0)
     imageBack.setBackgroundIfNeeded(typedArray, R.styleable.TheToolbar_the_toolbar_imageBackColor)
@@ -75,7 +75,7 @@ class TheToolbar @JvmOverloads constructor(
       startToStart = id
       endToEnd = id
     }
-    revealView.constraints {
+    waveView.constraints {
       topToTop = id
       bottomToBottom = id
     }
@@ -86,17 +86,12 @@ class TheToolbar @JvmOverloads constructor(
     textTitle.text = title
   }
   
-  fun animateWave() {
-    findViewById<View>(R.id.revealView).visible()
-    val animator = ViewAnimationUtils.createCircularReveal(
-      this,
-      width,
-      height / 2,
-      0f,
-      width.toFloat()
-    )
-    
-    animator.start()
+  fun animateWave(color: Int) {
+    waveView.animate(Color.GREEN)
+  }
+  
+  fun reverseWave() {
+    waveView.reverse()
   }
   
   fun onBackClick(block: () -> Unit) {
