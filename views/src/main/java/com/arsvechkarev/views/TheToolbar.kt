@@ -53,14 +53,17 @@ class TheToolbar @JvmOverloads constructor(
       typedArray.getBoolean(R.styleable.TheToolbar_the_toolbar_hasBackImage, true)
     imageSearch.isGone = !hasSearch
     imageBack.isGone = !hasBackImage
+    if (hasSearch) {
+      editTextSearch.hint = "Type country name..."
+    }
     typedArray.recycle()
     setConstrains()
   }
   
   private fun setConstrains() {
     imageBack.constraints {
-      topToTop = R.id.textTitle
-      bottomToBottom = R.id.textTitle
+      topToTop = R.id.viewSwitcher
+      bottomToBottom = R.id.viewSwitcher
       startToStart = id
     }
     viewSwitcher.constraints {
@@ -72,12 +75,12 @@ class TheToolbar @JvmOverloads constructor(
       }
     }
     imageSearch.constraints {
-      topToTop = R.id.textTitle
-      bottomToBottom = R.id.textTitle
+      topToTop = R.id.viewSwitcher
+      bottomToBottom = R.id.viewSwitcher
       endToEnd = id
     }
     divider.constraints {
-      topToBottom = R.id.textTitle
+      topToBottom = R.id.viewSwitcher
       startToStart = id
       endToEnd = id
     }
@@ -91,6 +94,7 @@ class TheToolbar @JvmOverloads constructor(
   fun goToSearchMode(color: Int) {
     waveView.animate(color)
     imageSearch.animateVectorDrawable()
+    viewSwitcher.showNext()
   }
   
   fun reverseWave() {

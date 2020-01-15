@@ -23,21 +23,24 @@
     android:id="@+id/viewSwitcher"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_marginEnd="@dimen/search_toolbar_title_margin"
+    android:inAnimation="@android:anim/slide_in_left"
     android:layout_marginStart="@dimen/the_toolbar_title_m_start"
+    android:outAnimation="@android:anim/slide_out_right"
     android:layout_marginTop="@dimen/the_toolbar_title_m_top">
 
     <TextView
       android:id="@+id/textTitle"
+      android:layout_gravity="center"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:theme="@style/Toolbar"/>
 
     <EditText
       android:id="@+id/editTextSearch"
-      android:layout_width="0dp"
+      android:layout_width="wrap_content"
+      android:layout_gravity="center"
       android:layout_height="wrap_content"
-      android:layout_marginStart="@dimen/search_toolbar_title_margin"
-      android:layout_marginEnd="@dimen/search_toolbar_title_margin"
       android:background="@null"
       android:maxLines="1"
       android:textSize="@dimen/text_h3"/>
