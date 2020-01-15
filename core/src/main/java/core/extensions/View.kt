@@ -7,12 +7,14 @@ import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.core.text.HtmlCompat
 
-fun View.onClick(block: () -> Unit) {
-  setOnClickListener { block() }
+fun View.findImage(@IdRes resId: Int): ImageView {
+  return findViewById(resId)
 }
 
 fun View.visible() {
