@@ -6,8 +6,8 @@ import androidx.annotation.AttrRes
 import androidx.fragment.app.Fragment
 
 
-val Fragment.COLOR_PRIMARY: Int
-  get() = getColor(R.attr.theColorPrimary)
+val Fragment.COLOR_BACKGROUND: Int
+  get() = getColor(R.attr.theColorBackground)
 
 val Fragment.COLOR_ACCENT: Int
   get() = getColor(R.attr.theColorAccent)

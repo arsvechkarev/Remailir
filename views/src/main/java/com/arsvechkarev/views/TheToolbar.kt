@@ -109,15 +109,16 @@ class TheToolbar @JvmOverloads constructor(
     requestLayout()
   }
   
-  fun goToSearchMode(color: Int) {
+  fun goToSearchMode(colorToAppear: Int, colorBackground: Int) {
     isInSearchMode = true
-    waveView.animate(color)
+    waveView.animate(colorToAppear, colorBackground)
     imageSearch.animateVectorDrawable()
     viewSwitcher.showNext()
   }
   
   fun goToNormalMode() {
     isInSearchMode = false
+    viewSwitcher.showPrevious()
     waveView.reverse()
   }
   

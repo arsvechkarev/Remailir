@@ -24,6 +24,7 @@ import kotlinx.android.synthetic.main.fragment_country_code.progressBarCountries
 import kotlinx.android.synthetic.main.fragment_country_code.recyclerCountries
 import kotlinx.android.synthetic.main.fragment_country_code.theToolbar
 import styles.COLOR_ACCENT
+import styles.COLOR_BACKGROUND
 import javax.inject.Inject
 
 
@@ -75,7 +76,7 @@ class CountriesFragment : BaseFragment() {
     }
     theToolbar.onSearchAction {
       showKeyboard()
-      theToolbar.goToSearchMode(COLOR_ACCENT)
+      theToolbar.goToSearchMode(COLOR_ACCENT, COLOR_BACKGROUND)
       callback.isEnabled = true
     }
   }

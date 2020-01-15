@@ -20,29 +20,30 @@ class WaveDrawerView @JvmOverloads constructor(
   
   companion object {
   
-    private const val frameAmount = 20
-    private const val DELAY_INVALIDATE_ON_DRAW = 8L
+    private const val dx = 150f
+    private const val DELAY_INVALIDATE_ON_DRAW = 10L
   }
   
   private var path = Path()
-  private val paths = ArrayList<Path>()
   private val paint = Paint(ANTI_ALIAS_FLAG).apply {
     style = Paint.Style.STROKE
     strokeJoin = Paint.Join.ROUND
     strokeCap = Paint.Cap.ROUND
   }
   private var startTime = -1L
-  private var dx = 0f
+  private var colorToDraw = -1
+  private var colorBackground = -1
   private var currentX = 0f
   private var yPosition = 0f
   private var isAnimating = false
   private var mode = NORMAL
   
-  fun animate(color: Int) {
-    this.dx = (width / frameAmount).toFloat()
+  fun animate(colorToDraw: Int, colorBackground: Int) {
+    this.colorToDraw = colorToDraw
+    this.colorBackground = colorBackground
     yPosition = (height / 2).toFloat()
     currentX = width.toFloat()
-    paint.color = color
+    paint.color = colorToDraw
     paint.strokeWidth = height.toFloat() * 1.5f
     startTime = SystemClock.elapsedRealtime()
     mode = NORMAL
@@ -51,6 +52,7 @@ class WaveDrawerView @JvmOverloads constructor(
   }
   
   fun reverse() {
+    paint.color = colorBackground
     mode = REVERSE
     isAnimating = true
     invalidate()
@@ -58,34 +60,40 @@ class WaveDrawerView @JvmOverloads constructor(
   
   override fun onDraw(canvas: Canvas) {
     if (!isAnimating) return
-    paths.forEach { canvas.drawPath(it, paint) }
     when (mode) {
-      NORMAL -> handleNormalAnimation()
-      REVERSE -> handleReverseAnimation()
+      NORMAL -> handleNormalAnimation(canvas)
+      REVERSE -> handleReverseAnimation(canvas)
     }
   }
   
-  private fun handleNormalAnimation() {
+  private fun handleNormalAnimation(canvas: Canvas) {
     if (currentX >= 0) {
-      path = Path()
-      paths.add(path)
       path.moveTo(currentX, yPosition)
       path.lineTo(currentX, yPosition)
+      canvas.drawPath(path, paint)
       currentX -= dx
+      if (currentX <= 0) {
+        setBackgroundColor(colorToDraw)
+      }
       postInvalidateDelayed(DELAY_INVALIDATE_ON_DRAW)
+    } else {
+      path.reset()
     }
   }
   
-  private fun handleReverseAnimation() {
-    if (currentX < width) {
-      if (paths.isNotEmpty()) {
-        paths.remove(paths.last())
-        postInvalidateDelayed(DELAY_INVALIDATE_ON_DRAW)
+  private fun handleReverseAnimation(canvas: Canvas) {
+    if (currentX <= width) {
+      path.moveTo(currentX, yPosition)
+      path.lineTo(currentX, yPosition)
+      canvas.drawPath(path, paint)
+      currentX += dx
+      if (currentX >= width) {
+        setBackgroundColor(colorBackground)
       }
+      postInvalidateDelayed(DELAY_INVALIDATE_ON_DRAW)
     } else {
       path.reset()
       path.moveTo(currentX, yPosition)
-      currentX += dx
     }
   }
   
