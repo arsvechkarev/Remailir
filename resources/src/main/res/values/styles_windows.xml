@@ -50,4 +50,9 @@
     <item name="windowActionBar">true</item>
   </style>
 
+  <style name="LoadingDialogAnimation">
+    <item name="android:windowEnterAnimation">@anim/loading_dialog_open</item>
+    <item name="android:windowExitAnimation">@anim/loading_dialog_close</item>
+  </style>
+
 </resources>

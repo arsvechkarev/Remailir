@@ -8,8 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.arsvechkarev.messaging.presentation.MessagingFragment
-import com.arsvechkarev.styles.COLOR_PROGRESS_CIRCLE
-import com.arsvechkarev.styles.COLOR_PROGRESS_CIRCLE_BG
 import com.arsvechkarev.users.R
 import com.arsvechkarev.users.di.DaggerUsersComponent
 import com.arsvechkarev.users.list.UsersListAdapter
@@ -30,6 +28,8 @@ import kotlinx.android.synthetic.main.fragment_users.recyclerUsers
 import kotlinx.android.synthetic.main.fragment_users.swipeRefreshUsersLayout
 import kotlinx.android.synthetic.main.fragment_users.theToolbar
 import log.log
+import styles.COLOR_PROGRESS_CIRCLE
+import styles.COLOR_PROGRESS_CIRCLE_BG
 import javax.inject.Inject
 
 class UsersListFragment : Fragment() {

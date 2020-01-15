@@ -4,10 +4,17 @@
   xmlns:tools="http://schemas.android.com/tools"
   tools:ignore="ContentDescription">
 
+  <View
+    android:id="@+id/revealView"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:background="@android:color/holo_green_light"
+    android:visibility="invisible"/>
+
   <ImageView
     android:id="@+id/imageBack"
-    android:layout_width="@dimen/image_default_size"
-    android:layout_height="@dimen/image_default_size"
+    android:layout_width="@dimen/size_icon"
+    android:layout_height="@dimen/size_icon"
     android:layout_marginStart="@dimen/the_toolbar_image_margin"
     android:background="?selectableItemBackgroundBorderless"
     android:clickable="true"
@@ -21,15 +28,14 @@
     android:id="@+id/textTitle"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/the_toolbar_title_margin"
-    android:fontFamily="sans-serif-medium"
-    android:textSize="@dimen/toolbar_title_size"
-    app:fontFamily="sans-serif-medium"/>
+    android:layout_marginStart="@dimen/the_toolbar_title_m_start"
+    android:layout_marginTop="@dimen/the_toolbar_title_m_top"
+    android:theme="@style/Toolbar"/>
 
   <ImageView
     android:id="@+id/imageSearch"
-    android:layout_width="@dimen/image_default_size"
-    android:layout_height="@dimen/image_default_size"
+    android:layout_width="@dimen/size_icon"
+    android:layout_height="@dimen/size_icon"
     android:layout_marginStart="@dimen/the_toolbar_image_margin"
     android:layout_marginEnd="@dimen/the_toolbar_image_margin"
     android:background="?selectableItemBackgroundBorderless"
@@ -39,5 +45,12 @@
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintTop_toTopOf="parent"
     app:srcCompat="@drawable/ic_search"/>
+
+  <View
+    android:id="@+id/divider"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/height_divider"
+    android:layout_marginTop="@dimen/the_toolbar_divider_m_top"
+    android:background="?theColorDivider"/>
 
 </merge>

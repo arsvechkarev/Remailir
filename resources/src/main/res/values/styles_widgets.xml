@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <!-- ActionBar -->
+
+  <style name="Toolbar">
+    <item name="android:textAppearance">@style/Text.Bold</item>
+    <item name="android:textSize">@dimen/text_toolbar</item>
+  </style>
+
+  <!-- Button -->
+
+  <style name="MaterialButton" parent="Widget.MaterialComponents.TextView">
+    <item name="android:letterSpacing">0.03</item>
+    <item name="android:textAllCaps">false</item>
+    <item name="android:textSize">@dimen/text_h3</item>
+    <item name="android:textStyle">normal</item>
+  </style>
+
+
+  <!-- Popup menu -->
+
+  <style name="PopupMenu" parent="Widget.MaterialComponents.PopupMenu.Overflow">
+    <item name="textAppearanceLargePopupMenu">@style/Text.PopupMenu</item>
+    <item name="textAppearanceSmallPopupMenu">@style/Text.PopupMenu</item>
+    <item name="android:popupBackground">?theColorSurface</item>
+  </style>
+
+  <style name="SwipeToRefreshLayout" parent="Theme.MaterialComponents">
+    <item name="progressLineColor">?theColorAccent</item>
+    <item name="circleBackgroundColor">?theColorPrimary</item>
+  </style>
+
+
+</resources>

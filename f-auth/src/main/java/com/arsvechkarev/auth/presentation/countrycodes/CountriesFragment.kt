@@ -52,7 +52,8 @@ class CountriesFragment : BaseFragment() {
       popBackStack()
     }
     theToolbar.onSearchClick {
-      entranceActivity.goToFragment(SearchCountryFragment(), true)
+      theToolbar.animateWave()
+      //      entranceActivity.goToFragment(SearchCountryFragment(), true)
     }
   }
   

@@ -1,4 +1,4 @@
-package com.arsvechkarev.styles
+package styles
 
 import android.content.Context
 import android.util.TypedValue

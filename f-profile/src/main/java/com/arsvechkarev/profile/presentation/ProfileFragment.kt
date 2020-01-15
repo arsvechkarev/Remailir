@@ -10,8 +10,6 @@ import android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
 import androidx.lifecycle.ViewModelProvider
 import com.arsvechkarev.profile.R
 import com.arsvechkarev.profile.di.DaggerProfileComponent
-import com.arsvechkarev.styles.COLOR_PROGRESS_CIRCLE
-import com.arsvechkarev.styles.COLOR_PROGRESS_CIRCLE_BG
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE
 import com.theartofdev.edmodo.cropper.CropImageView
@@ -33,6 +31,8 @@ import kotlinx.android.synthetic.main.fragment_profile.textProfilePhone
 import log.Loggable
 import log.log
 import storage.AppUser
+import styles.COLOR_PROGRESS_CIRCLE
+import styles.COLOR_PROGRESS_CIRCLE_BG
 import javax.inject.Inject
 
 

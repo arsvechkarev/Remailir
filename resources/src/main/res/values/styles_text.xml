@@ -10,10 +10,23 @@
 
   <style name="Text.Bold">
     <item name="android:fontFamily">@font/rubik_bold</item>
+    <item name="android:letterSpacing">0.02</item>
   </style>
 
   <style name="Text.PopupMenu">
     <item name="android:textSize">@dimen/text_h5</item>
   </style>
+
+
+  <!-- EditText -->
+
+  <style name="EditText" parent="TextAppearance.AppCompat">
+    <item name="android:background">?theColorSurface</item>
+    <item name="android:textColor">?theColorTextPrimary</item>
+    <item name="android:textSize">@dimen/text_h4</item>
+    <item name="android:maxLines">1</item>
+    <item name="android:textCursorDrawable">@drawable/bg_cursor</item>
+  </style>
+
 
 </resources>

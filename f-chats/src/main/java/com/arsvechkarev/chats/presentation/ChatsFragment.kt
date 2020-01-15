@@ -11,8 +11,6 @@ import com.arsvechkarev.chats.R
 import com.arsvechkarev.chats.di.DaggerChatsComponent
 import com.arsvechkarev.chats.list.ChatsAdapter
 import com.arsvechkarev.messaging.presentation.MessagingFragment
-import com.arsvechkarev.styles.COLOR_PROGRESS_CIRCLE
-import com.arsvechkarev.styles.COLOR_PROGRESS_CIRCLE_BG
 import com.arsvechkarev.users.presentation.UsersListFragment
 import core.MaybeResult
 import core.base.coreActivity
@@ -25,6 +23,8 @@ import kotlinx.android.synthetic.main.fragment_chats.fabNewChat
 import kotlinx.android.synthetic.main.fragment_chats.recyclerChats
 import kotlinx.android.synthetic.main.fragment_chats.swipeRefreshChatsLayout
 import log.log
+import styles.COLOR_PROGRESS_CIRCLE
+import styles.COLOR_PROGRESS_CIRCLE_BG
 import javax.inject.Inject
 
 class ChatsFragment : Fragment() {

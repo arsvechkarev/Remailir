@@ -42,6 +42,7 @@ fun View.constraints(block: ConstraintLayout.LayoutParams.() -> Unit) {
   (this.layoutParams as ConstraintLayout.LayoutParams).apply(block)
 }
 
+
 fun View.getAttributeValue(resId: Int): Int {
   val typedArray = context.obtainStyledAttributes(TypedValue().data, intArrayOf(resId))
   val value = typedArray.getDimensionPixelSize(0, -1)

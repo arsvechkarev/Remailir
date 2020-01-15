@@ -1,1 +1,1 @@
-include ':app', ':core', ':storage', ':firebase', ':f-profile', ':f-users', ':f-messaging', ':f-chats', ':animation', ':log', ':f-auth', ':views', ':styles', 'test-common', 'test-ui', 'test-unit'
+include ':app', ':core', ':storage', ':firebase', ':f-profile', ':f-users', ':f-messaging', ':f-chats', ':animation', ':log', ':f-auth', ':views', ':resources', 'test-common', 'test-ui', 'test-unit'

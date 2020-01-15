@@ -9,8 +9,8 @@
 
   <ImageView
     android:id="@+id/imageView"
-    android:layout_width="@dimen/logo_size"
-    android:layout_height="@dimen/logo_size"
+    android:layout_width="@dimen/size_logo"
+    android:layout_height="@dimen/size_logo"
     android:layout_gravity="center"
     android:src="@drawable/image_msg"
     app:layout_constraintBottom_toTopOf="@+id/guideline"

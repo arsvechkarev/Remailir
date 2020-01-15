@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <dimen name="the_toolbar_image_margin">16dp</dimen>
+  <dimen name="the_toolbar_title_m_start">24dp</dimen>
+  <dimen name="the_toolbar_title_m_top">12dp</dimen>
+  <dimen name="the_toolbar_divider_m_top">12dp</dimen>
+  <dimen name="search_toolbar_image_margin">16dp</dimen>
+  <dimen name="search_toolbar_title_margin">32dp</dimen>
+  <dimen name="text_sms_code_size">28sp</dimen>
+  <dimen name="underscore_width">24dp</dimen>
+  <dimen name="underscore_height">3dp</dimen>
+  <dimen name="digit_margin">16dp</dimen>
+  <dimen name="toolbar_title_size">@dimen/text_toolbar</dimen>
+
+  <declare-styleable name="TheToolbar">
+    <attr name="the_toolbar_backgroundColor" format="color"/>
+    <attr name="the_toolbar_imageBackColor" format="color"/>
+    <attr name="the_toolbar_imageSearchColor" format="color"/>
+    <attr name="the_toolbar_title" format="string"/>
+    <attr name="the_toolbar_titleColor" format="color"/>
+    <attr name="the_toolbar_titleTextSize" format="dimension"/>
+    <attr name="the_toolbar_hasSearch" format="boolean"/>
+    <attr name="the_toolbar_hasBackImage" format="boolean"/>
+  </declare-styleable>
+
+  <declare-styleable name="SearchToolbar">
+    <attr name="search_toolbar_backgroundColor" format="color"/>
+    <attr name="search_toolbar_imageBackColor" format="color"/>
+    <attr name="search_toolbar_imageCrossColor" format="color"/>
+    <attr name="search_toolbar_editTextHint" format="string"/>
+  </declare-styleable>
+
+  <declare-styleable name="CustomSwipeToRefreshLayout">
+    <attr name="progressLineColor" format="color"/>
+    <attr name="circleBackgroundColor" format="color"/>
+  </declare-styleable>
+
+  <style name="TextSmsCodeDigit" parent="TextAppearance.MaterialComponents.Headline4">
+    <item name="android:textSize">@dimen/text_sms_code_size</item>
+  </style>
+
+  <declare-styleable name="SixDigitCodeLayout">
+    <attr name="digitsTextColor" format="color"/>
+    <attr name="underscoresColor" format="color"/>
+  </declare-styleable>
+
+</resources>

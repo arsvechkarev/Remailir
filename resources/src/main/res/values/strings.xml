@@ -1,8 +1,11 @@
 <resources>
+
   <string name="app_name" translatable="false">Remailir</string>
-  <string name="title_sign_up">Sign up</string>
-  <string name="title_sign_in">Sign in</string>
-  <string name="title_messages">Messages</string>
+
+  <string name="title_chats">Messages</string>
+
   <string name="title_select_user">Select a user</string>
   <string name="title_profile">Profile</string>
+
+
 </resources>

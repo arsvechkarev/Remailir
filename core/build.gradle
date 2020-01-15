@@ -29,12 +29,11 @@ androidExtensions {
 }
 
 dependencies {
-  implementation project(':animation')
-
   def dependencies = rootProject.ext.applicationDependencies
 
+  api project(':animation')
   api project(':log')
-  api project(':styles')
+  api project(':resources')
 
   implementation dependencies.kotlin
   implementation dependencies.appCompat
