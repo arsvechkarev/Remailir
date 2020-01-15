@@ -1,7 +1,6 @@
 package com.arsvechkarev.auth.di
 
 import com.arsvechkarev.auth.presentation.countrycodes.CountriesFragment
-import com.arsvechkarev.auth.presentation.countrycodes.SearchCountryFragment
 import com.arsvechkarev.auth.presentation.signup.RegistrationFragment
 import core.di.CoreComponent
 import core.di.modules.ContextModule
@@ -21,6 +20,5 @@ import dagger.Component
 interface AuthComponent {
   
   fun inject(fragment: CountriesFragment)
-  fun inject(fragment: SearchCountryFragment)
   fun inject(fragment: RegistrationFragment)
 }

@@ -10,7 +10,7 @@
 
   <style name="Text.Bold">
     <item name="android:fontFamily">@font/rubik_bold</item>
-    <item name="android:letterSpacing">0.02</item>
+    <item name="android:letterSpacing">0.03</item>
   </style>
 
   <style name="Text.PopupMenu">

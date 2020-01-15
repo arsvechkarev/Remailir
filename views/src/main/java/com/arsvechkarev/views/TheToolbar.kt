@@ -122,7 +122,10 @@ class TheToolbar @JvmOverloads constructor(
   }
   
   fun onBackClick(block: () -> Unit) {
-    imageBack.setOnClickListener { block() }
+    imageBack.setOnClickListener {
+      if (isInSearchMode) editTextSearch.clearFocus()
+      block()
+    }
   }
   
   fun onSearchAction(block: () -> Unit) {

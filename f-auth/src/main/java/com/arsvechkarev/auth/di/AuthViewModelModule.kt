@@ -2,7 +2,6 @@ package com.arsvechkarev.auth.di
 
 import androidx.lifecycle.ViewModel
 import com.arsvechkarev.auth.presentation.countrycodes.CountriesViewModel
-import com.arsvechkarev.auth.presentation.countrycodes.SearchCountryViewModel
 import com.arsvechkarev.auth.presentation.signup.RegistrationViewModel
 import core.di.viewmodel.ViewModelKey
 import dagger.Binds
@@ -21,10 +20,5 @@ abstract class AuthViewModelModule {
   @IntoMap
   @ViewModelKey(CountriesViewModel::class)
   internal abstract fun postCountriesViewModel(viewModel: CountriesViewModel): ViewModel
-  
-  @Binds
-  @IntoMap
-  @ViewModelKey(SearchCountryViewModel::class)
-  internal abstract fun postSearchCountryViewModel(viewModel: SearchCountryViewModel): ViewModel
   
 }

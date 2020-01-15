@@ -1,15 +1,13 @@
 package com.arsvechkarev.auth.presentation.phone
 
 import android.os.Bundle
-import android.os.Handler
 import android.telephony.PhoneNumberFormattingTextWatcher
 import android.text.Editable
 import android.view.View
-import androidx.core.os.postDelayed
 import com.arsvechakrev.auth.R
 import com.arsvechkarev.auth.presentation.countrycodes.CountriesFragment
+import com.arsvechkarev.auth.utils.phoneNumber
 import com.arsvechkarev.auth.utils.removeDashes
-import com.arsvechkarev.views.LoadingDialog
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import core.base.BaseFragment
 import core.base.entranceActivity
@@ -25,7 +23,6 @@ import java.util.Locale
 class PhoneFragment : BaseFragment() {
   
   override val layout: Int = R.layout.fragment_phone
-  private val loadingDialog = LoadingDialog()
   
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     val country = arguments?.getParcelable(COUNTRY) as? Country
@@ -38,12 +35,8 @@ class PhoneFragment : BaseFragment() {
         "+${PhoneNumberUtil.getInstance().getCountryCodeForRegion(Locale.getDefault().country)}"
     }
     buttonNext.setOnClickListener {
-      //            val phoneNumber = textCountryCode.text.toString() + editTextPhone.phoneNumber()
-      //            entranceActivity.onPhoneEntered(phoneNumber)
-      loadingDialog.show(childFragmentManager, null)
-      Handler().postDelayed(6000) {
-        loadingDialog.dismiss()
-      }
+      val phoneNumber = textCountryCode.text.toString() + editTextPhone.phoneNumber()
+      entranceActivity.onPhoneEntered(phoneNumber)
     }
     layoutCountryCode.setOnClickListener {
       hideKeyboard(editTextPhone)
