@@ -6,6 +6,7 @@ ext {
   materialDesign_version = '1.1.0-beta01'
   legacySupport_version = '1.0.0'
   constraintLayout_version = '1.1.3'
+  dynamicanimation_version = '1.0.0'
 
   firebaseAnalytics_version = '17.2.0'
   firebaseAuth_version = '19.1.0'
@@ -34,6 +35,7 @@ ext {
       materialDesign     : "com.google.android.material:material:$materialDesign_version",
       legacySupport      : "androidx.legacy:legacy-support-v4:$legacySupport_version",
       constraintLayout   : "androidx.constraintlayout:constraintlayout:$constraintLayout_version",
+      springAnimations   : "androidx.dynamicanimation:dynamicanimation:$dynamicanimation_version",
       firebaseAnalytics  : "com.google.firebase:firebase-analytics:$firebaseAnalytics_version",
       firebaseAuth       : "com.google.firebase:firebase-auth:$firebaseAuth_version",
       firebaseStorage    : "com.google.firebase:firebase-storage:$firebaseStorage_version",

@@ -29,4 +29,6 @@ dependencies {
   implementation dependencies.appCompat
   implementation dependencies.ktx
   implementation dependencies.materialDesign
+
+  implementation dependencies.springAnimations
 }

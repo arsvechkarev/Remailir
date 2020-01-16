@@ -17,9 +17,9 @@ import core.extensions.observe
 import core.extensions.showToast
 import core.extensions.viewModelOf
 import core.model.messaging.Chat
-import kotlinx.android.synthetic.main.fragment_chats.fabNewChat
-import kotlinx.android.synthetic.main.fragment_chats.recyclerChats
-import kotlinx.android.synthetic.main.fragment_chats.swipeRefreshChatsLayout
+import kotlinx.android.synthetic.main.fragment_all_chats.fabNewChat
+import kotlinx.android.synthetic.main.fragment_all_chats.recyclerChats
+import kotlinx.android.synthetic.main.fragment_all_chats.swipeRefreshChatsLayout
 import log.log
 import styles.COLOR_PROGRESS_CIRCLE
 import styles.COLOR_PROGRESS_CIRCLE_BG
@@ -27,7 +27,7 @@ import javax.inject.Inject
 
 class ChatsFragment : BaseFragment() {
   
-  override val layout = R.layout.fragment_chats
+  override val layout = R.layout.fragment_all_chats
   
   private val adapter = ChatsAdapter {
     coreActivity.goToFragmentFromRoot(MessagingFragment.create(it.otherUser), true)

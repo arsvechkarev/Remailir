@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.arsvechakrev.auth.R
 import com.arsvechkarev.auth.di.DaggerAuthComponent
 import com.arsvechkarev.auth.list.CountryAndLettersAdapter
+import com.arsvechkarev.views.SpringItemAnimator
 import core.base.BaseFragment
 import core.base.entranceActivity
 import core.di.coreComponent
@@ -20,9 +21,9 @@ import core.extensions.showKeyboard
 import core.extensions.viewModelOf
 import core.extensions.visible
 import core.recycler.DisplayableItem
-import kotlinx.android.synthetic.main.fragment_country_code.progressBarCountries
-import kotlinx.android.synthetic.main.fragment_country_code.recyclerCountries
-import kotlinx.android.synthetic.main.fragment_country_code.theToolbar
+import kotlinx.android.synthetic.main.fragment_countries.progressBarCountries
+import kotlinx.android.synthetic.main.fragment_countries.recyclerCountries
+import kotlinx.android.synthetic.main.fragment_countries.theToolbar
 import styles.COLOR_ACCENT
 import styles.COLOR_BACKGROUND
 import javax.inject.Inject
@@ -39,7 +40,7 @@ class CountriesFragment : BaseFragment() {
     }
   }
   
-  override val layout: Int = R.layout.fragment_country_code
+  override val layout: Int = R.layout.fragment_countries
   
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -62,6 +63,7 @@ class CountriesFragment : BaseFragment() {
     viewModel.fetchCountriesAndCodes()
     progressBarCountries.visible()
     recyclerCountries.setupWith(adapter)
+    recyclerCountries.itemAnimator = SpringItemAnimator()
     requireActivity().onBackPressedDispatcher.addCallback(this, callback)
     callback.isEnabled = false
     setupToolbar()

@@ -35,4 +35,6 @@ dependencies {
   implementation dependencies.materialDesign
   implementation dependencies.legacySupport
   implementation dependencies.constraintLayout
+  implementation dependencies.springAnimations
+
 }
