@@ -20,12 +20,17 @@
 
   <!-- EditText -->
 
-  <style name="EditText" parent="TextAppearance.AppCompat">
-    <item name="android:background">?theColorSurface</item>
+  <style name="EditText">
+    <item name="android:textAppearance">@style/Text</item>
     <item name="android:textColor">?theColorTextPrimary</item>
-    <item name="android:textSize">@dimen/text_h4</item>
+    <item name="android:textSize">@dimen/text_h3</item>
     <item name="android:maxLines">1</item>
     <item name="android:textCursorDrawable">@drawable/bg_cursor</item>
+  </style>
+
+  <style name="EditText.SearchCountries">
+    <item name="android:textSize">@dimen/text_h2</item>
+    <item name="android:textCursorDrawable">@drawable/bg_cursor_search</item>
   </style>
 
 

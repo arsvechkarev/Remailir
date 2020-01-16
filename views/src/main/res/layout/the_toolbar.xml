@@ -33,18 +33,16 @@
       android:id="@+id/textTitle"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_gravity="center"
       android:theme="@style/Toolbar"/>
 
     <EditText
       android:id="@+id/editTextSearch"
+      style="@style/EditText.SearchCountries"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_gravity="center"
+      android:layout_gravity="center_vertical"
       android:background="@null"
-      android:maxLines="1"
-      android:textCursorDrawable="@drawable/bg_cursor_search"
-      android:textSize="@dimen/text_h3"/>
+      android:maxLines="1"/>
 
   </ViewSwitcher>
 
