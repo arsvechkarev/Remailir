@@ -8,7 +8,7 @@ import core.recycler.DisplayableItem.DiffCallBack
 
 abstract class BaseListAdapter : ListAdapter<DisplayableItem, ViewHolder>(DiffCallBack()) {
   
-  var data: MutableList<DisplayableItem> = ArrayList()
+  var data: List<DisplayableItem> = ArrayList()
   val delegates = SparseArrayCompat<AdapterDelegate>()
   
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -23,7 +23,7 @@ abstract class BaseListAdapter : ListAdapter<DisplayableItem, ViewHolder>(DiffCa
     return data[position].type
   }
   
-  override fun submitList(list: MutableList<DisplayableItem>?) {
+  override fun submitList(list: List<DisplayableItem>?) {
     data = list ?: ArrayList()
     super.submitList(list)
   }
