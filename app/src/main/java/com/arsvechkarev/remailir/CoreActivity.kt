@@ -6,7 +6,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import com.arsvechkarev.chats.presentation.ChatsFragment
 import com.arsvechkarev.profile.presentation.ProfileFragment
-import com.arsvechkarev.remailir.entrance.presentation.EntranceActivity
+import com.arsvechkarev.remailir.entrance.presentation.ActualEntranceActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import core.base.BaseActivity
@@ -52,7 +52,7 @@ class CoreActivity : BaseActivity(), CoreActivity {
       FirebaseFirestore.getInstance().clearPersistence()
       FirebaseAuth.getInstance().signOut()
       AppUser.clear(this@CoreActivity)
-      val intent = Intent(this@CoreActivity, EntranceActivity::class.java)
+      val intent = Intent(this@CoreActivity, ActualEntranceActivity::class.java)
       startActivity(intent)
     }
   }

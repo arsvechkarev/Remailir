@@ -29,7 +29,7 @@ import core.model.other.Country
 import java.util.concurrent.TimeUnit.SECONDS
 import javax.inject.Inject
 
-class EntranceActivity : AppCompatActivity(), EntranceActivity {
+class ActualEntranceActivity : AppCompatActivity(), EntranceActivity {
   
   private val smsCodeFragment = SmsCodeFragment()
   private val registrationFragment = RegistrationFragment()

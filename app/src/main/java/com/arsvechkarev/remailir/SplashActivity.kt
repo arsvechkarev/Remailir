@@ -3,7 +3,7 @@ package com.arsvechkarev.remailir
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.arsvechkarev.remailir.entrance.presentation.EntranceActivity
+import com.arsvechkarev.remailir.entrance.presentation.ActualEntranceActivity
 import storage.AppUser
 
 class SplashActivity : AppCompatActivity() {
@@ -14,7 +14,7 @@ class SplashActivity : AppCompatActivity() {
       AppUser.retrieve(this)
       startActivity(Intent(this, CoreActivity::class.java))
     } else {
-      startActivity(Intent(this, EntranceActivity::class.java))
+      startActivity(Intent(this, ActualEntranceActivity::class.java))
     }
   }
 }

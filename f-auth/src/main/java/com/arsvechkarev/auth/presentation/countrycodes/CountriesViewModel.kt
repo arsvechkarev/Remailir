@@ -13,7 +13,15 @@ class CountriesViewModel @Inject constructor() : CoroutinesViewModel() {
   val countriesAndCodes = MutableLiveData<List<DisplayableItem>>()
   private var fullList: List<DisplayableItem> = ArrayList()
   
+  var currentState: State = State.Default
+    private set
+  
+  fun updateState(state: State) {
+    currentState = state
+  }
+  
   fun fetchCountriesAndCodes() {
+    currentState = State.Default
     coroutine {
       if (fullList.isEmpty()) {
         fullList = getCountriesAndCodes()
@@ -35,4 +43,8 @@ class CountriesViewModel @Inject constructor() : CoroutinesViewModel() {
     }
   }
   
+  sealed class State {
+    object Default : State()
+    class Searching(val currentText: String) : State()
+  }
 }

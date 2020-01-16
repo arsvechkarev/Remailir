@@ -1,6 +1,6 @@
 package com.arsvechkarev.remailir.entrance.di
 
-import com.arsvechkarev.remailir.entrance.presentation.EntranceActivity
+import com.arsvechkarev.remailir.entrance.presentation.ActualEntranceActivity
 import core.di.CoreComponent
 import core.di.modules.ContextModule
 import core.di.modules.ViewModelModule
@@ -18,5 +18,5 @@ import dagger.Component
 @FeatureScope
 interface EntranceComponent {
   
-  fun inject(fragment: EntranceActivity)
+  fun inject(fragment: ActualEntranceActivity)
 }

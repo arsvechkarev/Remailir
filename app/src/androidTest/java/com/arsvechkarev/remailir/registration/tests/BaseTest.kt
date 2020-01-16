@@ -4,7 +4,7 @@ import android.os.SystemClock.sleep
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import androidx.test.rule.ActivityTestRule
 import com.agoda.kakao.screen.Screen.Companion.onScreen
-import com.arsvechkarev.remailir.entrance.presentation.EntranceActivity
+import com.arsvechkarev.remailir.entrance.presentation.ActualEntranceActivity
 import com.arsvechkarev.remailir.registration.screens.PhoneScreen
 import com.arsvechkarev.remailir.registration.screens.RegistrationScreen
 import com.arsvechkarev.remailir.registration.screens.SmsCodeScreen
@@ -19,7 +19,7 @@ import org.junit.runners.MethodSorters
 class BaseTest {
   
   @get:Rule
-  val rule = ActivityTestRule(EntranceActivity::class.java)
+  val rule = ActivityTestRule(ActualEntranceActivity::class.java)
   
   @Test
   fun test1_Creating_new_account() {

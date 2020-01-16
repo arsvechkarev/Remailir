@@ -30,6 +30,7 @@ class WaveDrawerView @JvmOverloads constructor(
   }
   private var circleY = -1f
   
+  private var drawRightAway = false
   private var drawFullCircleAtFirst = false
   private var colorToDraw = -1
   private var colorBackground = -1
@@ -43,16 +44,14 @@ class WaveDrawerView @JvmOverloads constructor(
       invalidate()
     }
   
+  fun drawRightAway(colorToDraw: Int, colorBackground: Int) {
+    setup(colorToDraw, colorBackground)
+    drawRightAway = true
+    invalidate()
+  }
+  
   fun animate(colorToDraw: Int, colorBackground: Int, onEnd: () -> Unit) {
-    this.colorToDraw = colorToDraw
-    this.colorBackground = colorBackground
-    val halfHeight = (height / 2).toFloat()
-    circleY = halfHeight
-    defaultRadius = halfHeight
-    radius = defaultRadius
-    circleX = width.toFloat()
-    paint.color = colorToDraw
-    mode = NORMAL
+    setup(colorToDraw, colorBackground)
     invalidate()
     
     val animator = ObjectAnimator.ofFloat(this, "radius", width.toFloat())
@@ -62,6 +61,18 @@ class WaveDrawerView @JvmOverloads constructor(
       onEnd()
     }
     animator.start()
+  }
+  
+  private fun setup(colorToDraw: Int, colorBackground: Int) {
+    this.colorToDraw = colorToDraw
+    this.colorBackground = colorBackground
+    val halfHeight = (height / 2).toFloat()
+    circleY = halfHeight
+    defaultRadius = halfHeight
+    radius = defaultRadius
+    circleX = width.toFloat()
+    paint.color = colorToDraw
+    mode = NORMAL
   }
   
   fun reverse() {
@@ -80,6 +91,10 @@ class WaveDrawerView @JvmOverloads constructor(
   }
   
   private fun handleNormalAnimation(canvas: Canvas) {
+    if (drawRightAway) {
+      canvas.drawCircle(0f, 0f, width.toFloat() + width / 6, paint)
+      drawRightAway = false
+    }
     if (radius <= circleX) {
       canvas.drawCircle(circleX, circleY, radius, paint)
     }

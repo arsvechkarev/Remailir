@@ -97,14 +97,26 @@ class TheToolbar @JvmOverloads constructor(
     requestLayout()
   }
   
-  fun goToSearchMode(colorToAppear: Int, colorBackground: Int, onEnd: () -> Unit = {}) {
+  fun goToSearchMode(
+    colorToAppear: Int,
+    colorBackground: Int,
+    animate: Boolean = true,
+    onEnd: () -> Unit = {}
+  ) {
     isInSearchMode = true
-    imageBack.rotateOnce()
-    waveView.animate(colorToAppear, colorBackground, onEnd)
-    imageSearch.setImageResource(R.drawable.avd_search_to_close)
-    imageSearch.animateVectorDrawable()
-    setupViewSwitcher()
-    viewSwitcher.showNext()
+    if (animate) {
+      imageBack.rotateOnce()
+      waveView.animate(colorToAppear, colorBackground, onEnd)
+      imageSearch.setImageResource(R.drawable.avd_search_to_close)
+      imageSearch.animateVectorDrawable()
+      setupViewSwitcher()
+      viewSwitcher.showNext()
+    } else {
+      viewSwitcher.reset()
+      viewSwitcher.showNext()
+      imageSearch.setImageResource(R.drawable.ic_search)
+      waveView.drawRightAway(colorToAppear, colorBackground)
+    }
   }
   
   fun goToNormalMode() {

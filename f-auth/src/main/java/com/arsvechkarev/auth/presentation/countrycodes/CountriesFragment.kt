@@ -7,6 +7,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.arsvechakrev.auth.R
 import com.arsvechkarev.auth.di.DaggerAuthComponent
 import com.arsvechkarev.auth.list.CountryAndLettersAdapter
+import com.arsvechkarev.auth.presentation.countrycodes.CountriesViewModel.State.Default
+import com.arsvechkarev.auth.presentation.countrycodes.CountriesViewModel.State.Searching
 import com.arsvechkarev.views.SpringItemAnimator
 import core.base.BaseFragment
 import core.base.entranceActivity
@@ -24,6 +26,7 @@ import core.recycler.DisplayableItem
 import kotlinx.android.synthetic.main.fragment_countries.progressBarCountries
 import kotlinx.android.synthetic.main.fragment_countries.recyclerCountries
 import kotlinx.android.synthetic.main.fragment_countries.theToolbar
+import log.log
 import styles.COLOR_ACCENT
 import styles.COLOR_BACKGROUND
 import javax.inject.Inject
@@ -61,13 +64,26 @@ class CountriesFragment : BaseFragment() {
       .contextModule(ContextModule(context!!))
       .build()
       .inject(this)
+    setupToolbar()
+    handleState(viewModel.currentState)
     viewModel.fetchCountriesAndCodes()
     progressBarCountries.visible()
     recyclerCountries.setupWith(adapter)
     recyclerCountries.itemAnimator = SpringItemAnimator()
     requireActivity().onBackPressedDispatcher.addCallback(this, callback)
     callback.isEnabled = false
-    setupToolbar()
+  }
+  
+  private fun handleState(state: CountriesViewModel.State) {
+    log { "state = $state" }
+    when (state) {
+      is Default -> viewModel.fetchCountriesAndCodes()
+      is Searching -> {
+        log { "isSearching" }
+        theToolbar.goToSearchMode(COLOR_ACCENT, COLOR_BACKGROUND, animate = false)
+        viewModel.filter(state.currentText)
+      }
+    }
   }
   
   private fun setupToolbar() {
@@ -77,13 +93,15 @@ class CountriesFragment : BaseFragment() {
       popBackStack()
     }
     theToolbar.onSearchTextChanged {
+      log { "onSearchChanged, it = '$it'" }
       viewModel.filter(it)
     }
     theToolbar.onSearchAction {
-      theToolbar.goToSearchMode(COLOR_ACCENT, COLOR_BACKGROUND) {
+      viewModel.updateState(Searching(""))
+      theToolbar.goToSearchMode(COLOR_ACCENT, COLOR_BACKGROUND, onEnd = {
         showKeyboard()
         callback.isEnabled = true
-      }
+      })
     }
   }
   
