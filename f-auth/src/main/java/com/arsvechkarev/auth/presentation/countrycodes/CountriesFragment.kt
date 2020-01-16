@@ -67,18 +67,11 @@ class CountriesFragment : BaseFragment() {
     setupToolbar()
   }
   
-  override fun onResume() {
-    super.onResume()
-    theToolbar.onResume()
-  }
-  
   private fun setupToolbar() {
     theToolbar.onBackClick {
       theToolbar.exitSearchIfNeeded()
-      //      Handler().postDelayed(1000) {
       hideKeyboard(theToolbar.editTextSearch)
       popBackStack()
-      //      }
     }
     theToolbar.onSearchTextChanged {
       viewModel.filter(it)

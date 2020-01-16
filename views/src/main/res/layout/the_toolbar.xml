@@ -56,7 +56,8 @@
     android:layout_marginEnd="@dimen/the_toolbar_image_margin"
     android:background="?selectableItemBackgroundBorderless"
     android:clickable="true"
-    android:focusable="true"/>
+    android:focusable="true"
+    android:src="@drawable/ic_search"/>
 
   <View
     android:id="@+id/divider"

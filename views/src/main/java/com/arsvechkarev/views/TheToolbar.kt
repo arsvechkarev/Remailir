@@ -3,11 +3,11 @@ package com.arsvechkarev.views
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
-import android.view.animation.Animation
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.ViewSwitcher
+import androidx.annotation.AnimRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isGone
 import androidx.core.widget.doAfterTextChanged
@@ -60,19 +60,10 @@ class TheToolbar @JvmOverloads constructor(
     if (hasSearch) {
       editTextSearch.hint =
         typedArray.getString(R.styleable.TheToolbar_the_toolbar_searchTint) ?: ""
-      setViewSwitcherAnimations()
+      setupViewSwitcher()
     }
     typedArray.recycle()
     setConstrains()
-  }
-  
-  /**
-   * Workaround to issue when image search sometimes gets [R.drawable.avd_close_to_search] source
-   * (for unknown reason). Therefore we setting correct image programmatically at runtime to make
-   * sure that everything is OK
-   */
-  fun onResume() {
-    imageSearch.setImageResource(R.drawable.avd_search_to_close)
   }
   
   private fun setConstrains() {
@@ -112,7 +103,7 @@ class TheToolbar @JvmOverloads constructor(
     waveView.animate(colorToAppear, colorBackground, onEnd)
     imageSearch.setImageResource(R.drawable.avd_search_to_close)
     imageSearch.animateVectorDrawable()
-    setViewSwitcherAnimations()
+    setupViewSwitcher()
     viewSwitcher.showNext()
   }
   
@@ -122,7 +113,7 @@ class TheToolbar @JvmOverloads constructor(
     imageSearch.setImageResource(R.drawable.avd_close_to_search)
     imageSearch.animateVectorDrawable()
     viewSwitcher.reset()
-    setViewSwitcherAnimations(reversed = true)
+    setupViewSwitcher(reversed = true)
     viewSwitcher.showNext()
     waveView.reverse()
   }
@@ -150,20 +141,19 @@ class TheToolbar @JvmOverloads constructor(
     }
   }
   
-  private fun setViewSwitcherAnimations(reversed: Boolean = false) {
-    val animationSlideIn: Animation
-    val animationSlideOut: Animation
+  private fun setupViewSwitcher(reversed: Boolean = false) {
     if (!reversed) {
-      animationSlideIn = loadAnimationAnd(R.anim.slide_in_from_right) {
-        doAfterAnimation { if (isInSearchMode) editTextSearch.requestFocus() }
-      }
-      animationSlideOut = loadAnimation(R.anim.slide_out_to_left)
+      setupViewSwitcherAnimations(R.anim.slide_in_from_right, R.anim.slide_out_to_left)
     } else {
-      animationSlideIn = loadAnimationAnd(android.R.anim.slide_in_left) {
-        doAfterAnimation { if (isInSearchMode) editTextSearch.requestFocus() }
-      }
-      animationSlideOut = loadAnimation(android.R.anim.slide_out_right)
+      setupViewSwitcherAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
     }
+  }
+  
+  private fun setupViewSwitcherAnimations(@AnimRes slideInRes: Int, @AnimRes slideOutRes: Int) {
+    val animationSlideIn = loadAnimationAnd(slideInRes) {
+      doAfterAnimation { if (isInSearchMode) editTextSearch.requestFocus() }
+    }
+    val animationSlideOut = loadAnimation(slideOutRes)
     viewSwitcher.inAnimation = animationSlideIn
     viewSwitcher.outAnimation = animationSlideOut
   }
