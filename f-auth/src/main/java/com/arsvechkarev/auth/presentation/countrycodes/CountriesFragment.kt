@@ -35,6 +35,7 @@ class CountriesFragment : BaseFragment() {
     override fun handleOnBackPressed() {
       if (theToolbar.isInSearchMode) {
         theToolbar.goToNormalMode()
+        viewModel.fetchCountriesAndCodes()
         isEnabled = false
       }
     }

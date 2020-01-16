@@ -15,7 +15,9 @@ class CountriesViewModel @Inject constructor() : CoroutinesViewModel() {
   
   fun fetchCountriesAndCodes() {
     coroutine {
-      fullList = getCountriesAndCodes()
+      if (fullList.isEmpty()) {
+        fullList = getCountriesAndCodes()
+      }
       countriesAndCodes.value = fullList
     }
   }
