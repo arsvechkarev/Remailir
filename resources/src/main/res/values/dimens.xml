@@ -16,5 +16,6 @@
   <dimen name="size_circle_image_border">2dp</dimen>
 
   <dimen name="height_divider">1dp</dimen>
+  <dimen name="width_text_cursor">2dp</dimen>
 
 </resources>

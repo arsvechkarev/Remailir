@@ -62,7 +62,8 @@ class CountriesFragment : BaseFragment() {
     viewModel.fetchCountriesAndCodes()
     progressBarCountries.visible()
     recyclerCountries.setupWith(adapter)
-    requireActivity().onBackPressedDispatcher.addCallback(callback)
+    requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+    callback.isEnabled = false
     setupToolbar()
   }
   

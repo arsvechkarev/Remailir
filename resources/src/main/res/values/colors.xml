@@ -16,6 +16,7 @@
 
   <color name="dark_colorItemSelected">#FFFFFF</color>
   <color name="dark_colorItemNotSelected">#647688</color>
+  <color name="dark_colorEditTextSearchCursor">#D86894</color>
 
   <color name="dark_colorTextInputSelected">#306599</color>
   <color name="dark_colorTextInputNotSelected">#5C7D9C</color>

@@ -34,6 +34,7 @@
     <item name="theColorTextOther">@color/dark_colorTextOther</item>
     <item name="theColorItemSelected">@color/dark_colorItemSelected</item>
     <item name="theColorItemNotSelected">@color/dark_colorItemNotSelected</item>
+    <item name="colorEditTextSearchCursor">@color/dark_colorEditTextSearchCursor</item>
     <item name="theColorIcon">@color/dark_colorItemSelected</item>
     <item name="theColorDivider">@color/dark_colorDivider</item>
     <item name="theColorTextInputSelected">@color/dark_colorTextInputSelected</item>

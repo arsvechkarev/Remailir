@@ -3,6 +3,7 @@ package com.arsvechkarev.views
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
+import android.view.animation.Animation
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
@@ -57,12 +58,7 @@ class TheToolbar @JvmOverloads constructor(
     if (hasSearch) {
       editTextSearch.hint =
         typedArray.getString(R.styleable.TheToolbar_the_toolbar_searchTint) ?: ""
-      val animationSlideIn = loadAnimationAnd(android.R.anim.slide_in_left) {
-        doAfterAnimation { if (isInSearchMode) editTextSearch.requestFocus() }
-      }
-      val animationSlideOut = loadAnimation(android.R.anim.slide_out_right)
-      viewSwitcher.inAnimation = animationSlideIn
-      viewSwitcher.outAnimation = animationSlideOut
+      setViewSwitcherAnimations()
     }
     typedArray.recycle()
     setConstrains()
@@ -103,12 +99,14 @@ class TheToolbar @JvmOverloads constructor(
     isInSearchMode = true
     waveView.animate(colorToAppear, colorBackground, onEnd)
     imageSearch.animateVectorDrawable()
+    setViewSwitcherAnimations()
     viewSwitcher.showNext()
   }
   
   fun goToNormalMode() {
     isInSearchMode = false
-    viewSwitcher.showPrevious()
+    setViewSwitcherAnimations(reversed = false)
+    viewSwitcher.showNext()
     waveView.reverse()
   }
   
@@ -133,5 +131,24 @@ class TheToolbar @JvmOverloads constructor(
     editTextSearch.doAfterTextChanged {
       block(it.toString())
     }
+  }
+  
+  //TODO (1/16/2020): set reverse animations
+  private fun setViewSwitcherAnimations(reversed: Boolean = false) {
+    val animationSlideIn: Animation
+    val animationSlideOut: Animation
+    if (!reversed) {
+      animationSlideIn = loadAnimationAnd(R.anim.slide_in_from_right) {
+        doAfterAnimation { if (isInSearchMode) editTextSearch.requestFocus() }
+      }
+      animationSlideOut = loadAnimation(R.anim.slide_out_to_left)
+    } else {
+      animationSlideIn = loadAnimationAnd(android.R.anim.slide_out_right) {
+        doAfterAnimation { if (isInSearchMode) editTextSearch.requestFocus() }
+      }
+      animationSlideOut = loadAnimation(android.R.anim.slide_in_left)
+    }
+    viewSwitcher.inAnimation = animationSlideIn
+    viewSwitcher.outAnimation = animationSlideOut
   }
 }
