@@ -11,8 +11,7 @@ import android.widget.ViewSwitcher
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isGone
 import androidx.core.widget.doAfterTextChanged
-import animation.VectorAnimationMode.SEARCH_AND_CLOSE
-import animation.animateAndThen
+import animation.animateVectorDrawable
 import animation.doAfterAnimation
 import animation.loadAnimation
 import animation.loadAnimationAnd
@@ -66,6 +65,15 @@ class TheToolbar @JvmOverloads constructor(
     setConstrains()
   }
   
+  /**
+   * Workaround to issue when image search sometimes gets [R.drawable.avd_close_to_search] source
+   * (for unknown reason). Therefore we setting correct image programmatically at runtime to make
+   * sure that everything is OK
+   */
+  fun onResume() {
+    imageSearch.setImageResource(R.drawable.avd_search_to_close)
+  }
+  
   private fun setConstrains() {
     imageBack.constraints {
       topToTop = R.id.viewSwitcher
@@ -101,9 +109,8 @@ class TheToolbar @JvmOverloads constructor(
     isInSearchMode = true
     imageBack.rotateOnce()
     waveView.animate(colorToAppear, colorBackground, onEnd)
-    imageSearch.animateAndThen(SEARCH_AND_CLOSE) {
-      imageSearch.setImageResource(R.drawable.avd_close_to_search)
-    }
+    imageSearch.setImageResource(R.drawable.avd_search_to_close)
+    imageSearch.animateVectorDrawable()
     setViewSwitcherAnimations()
     viewSwitcher.showNext()
   }
@@ -111,11 +118,10 @@ class TheToolbar @JvmOverloads constructor(
   fun goToNormalMode() {
     isInSearchMode = false
     imageBack.rotateOnce()
+    imageSearch.setImageResource(R.drawable.avd_close_to_search)
+    imageSearch.animateVectorDrawable()
     viewSwitcher.reset()
     setViewSwitcherAnimations(reversed = true)
-    imageSearch.animateAndThen(SEARCH_AND_CLOSE) {
-      imageSearch.setImageResource(R.drawable.avd_search_to_close)
-    }
     viewSwitcher.showNext()
     waveView.reverse()
   }

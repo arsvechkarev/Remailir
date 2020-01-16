@@ -2,7 +2,6 @@
   xmlns:aapt="http://schemas.android.com/aapt">
   <aapt:attr name="android:drawable">
     <vector
-      android:name="vector"
       android:width="@dimen/size_icon"
       android:height="@dimen/size_icon"
       android:tint="?theColorIcon"

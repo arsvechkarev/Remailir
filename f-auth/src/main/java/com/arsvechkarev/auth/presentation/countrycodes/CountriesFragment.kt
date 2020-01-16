@@ -67,6 +67,11 @@ class CountriesFragment : BaseFragment() {
     setupToolbar()
   }
   
+  override fun onResume() {
+    super.onResume()
+    theToolbar.onResume()
+  }
+  
   private fun setupToolbar() {
     theToolbar.onBackClick {
       hideKeyboard(theToolbar.editTextSearch)

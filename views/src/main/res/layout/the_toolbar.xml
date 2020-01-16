@@ -57,7 +57,7 @@
     android:background="?selectableItemBackgroundBorderless"
     android:clickable="true"
     android:focusable="true"
-    app:srcCompat="@drawable/avd_search_to_close"/>
+    android:src="@drawable/avd_search_to_close"/>
 
   <View
     android:id="@+id/divider"

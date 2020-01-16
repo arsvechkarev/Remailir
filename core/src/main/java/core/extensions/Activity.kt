@@ -19,7 +19,7 @@ fun AppCompatActivity.switchFragment(
       R.anim.fragment_pop_enter1,
       R.anim.fragment_exit1
     )
-    .replace(containerIdRes, fragment, Fragment::class.java.simpleName)
+    .replace(containerIdRes, fragment)
   if (addToBackStack) transaction.addToBackStack(null)
   transaction.commit()
 }
