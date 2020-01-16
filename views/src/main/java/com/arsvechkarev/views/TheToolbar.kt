@@ -11,10 +11,12 @@ import android.widget.ViewSwitcher
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isGone
 import androidx.core.widget.doAfterTextChanged
-import animation.animateVectorDrawable
+import animation.VectorAnimationMode.SEARCH_AND_CLOSE
+import animation.animateAndThen
 import animation.doAfterAnimation
 import animation.loadAnimation
 import animation.loadAnimationAnd
+import animation.rotateOnce
 
 
 class TheToolbar @JvmOverloads constructor(
@@ -97,15 +99,23 @@ class TheToolbar @JvmOverloads constructor(
   
   fun goToSearchMode(colorToAppear: Int, colorBackground: Int, onEnd: () -> Unit = {}) {
     isInSearchMode = true
+    imageBack.rotateOnce()
     waveView.animate(colorToAppear, colorBackground, onEnd)
-    imageSearch.animateVectorDrawable()
+    imageSearch.animateAndThen(SEARCH_AND_CLOSE) {
+      imageSearch.setImageResource(R.drawable.avd_close_to_search)
+    }
     setViewSwitcherAnimations()
     viewSwitcher.showNext()
   }
   
   fun goToNormalMode() {
     isInSearchMode = false
-    setViewSwitcherAnimations(reversed = false)
+    imageBack.rotateOnce()
+    viewSwitcher.reset()
+    setViewSwitcherAnimations(reversed = true)
+    imageSearch.animateAndThen(SEARCH_AND_CLOSE) {
+      imageSearch.setImageResource(R.drawable.avd_search_to_close)
+    }
     viewSwitcher.showNext()
     waveView.reverse()
   }
@@ -143,10 +153,10 @@ class TheToolbar @JvmOverloads constructor(
       }
       animationSlideOut = loadAnimation(R.anim.slide_out_to_left)
     } else {
-      animationSlideIn = loadAnimationAnd(android.R.anim.slide_out_right) {
+      animationSlideIn = loadAnimationAnd(android.R.anim.slide_in_left) {
         doAfterAnimation { if (isInSearchMode) editTextSearch.requestFocus() }
       }
-      animationSlideOut = loadAnimation(android.R.anim.slide_in_left)
+      animationSlideOut = loadAnimation(android.R.anim.slide_out_right)
     }
     viewSwitcher.inAnimation = animationSlideIn
     viewSwitcher.outAnimation = animationSlideOut

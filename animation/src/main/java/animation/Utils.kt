@@ -2,12 +2,25 @@ package animation
 
 import android.animation.Animator
 import android.animation.AnimatorInflater
+import android.animation.TimeInterpolator
 import android.view.View
+import android.view.ViewPropertyAnimator
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.annotation.AnimRes
 import androidx.annotation.AnimatorRes
 import androidx.fragment.app.Fragment
+
+
+fun ViewPropertyAnimator.duration(duration: Long): ViewPropertyAnimator {
+  this.duration = duration
+  return this
+}
+
+fun ViewPropertyAnimator.interpolator(interpolator: TimeInterpolator): ViewPropertyAnimator {
+  this.interpolator = interpolator
+  return this
+}
 
 fun Fragment.loadAnimator(@AnimatorRes resId: Int): Animator {
   return AnimatorInflater.loadAnimator(requireContext(), resId)

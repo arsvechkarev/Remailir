@@ -3,9 +3,10 @@
   <aapt:attr name="android:drawable">
     <vector
       android:name="searchtoclose"
-      android:width="24dp"
-      android:height="24dp"
+      android:width="@dimen/size_icon"
+      android:height="@dimen/size_icon"
       android:tint="?theColorIcon"
+      android:strokeWidth="@dimen/vector_stroke_width"
       android:viewportWidth="24"
       android:viewportHeight="24">
       <group android:name="oval_container">

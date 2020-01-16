@@ -12,6 +12,9 @@ import com.arsvechkarev.views.WaveDrawerView.Mode.NORMAL
 import com.arsvechkarev.views.WaveDrawerView.Mode.REVERSE
 
 
+/**
+ * Shows wave effect from right to bottom and vice versa with specified colors
+ */
 class WaveDrawerView @JvmOverloads constructor(
   context: Context,
   attrs: AttributeSet? = null,
@@ -49,7 +52,6 @@ class WaveDrawerView @JvmOverloads constructor(
     radius = defaultRadius
     circleX = width.toFloat()
     paint.color = colorToDraw
-    paint.strokeWidth = height.toFloat() * 1.5f
     mode = NORMAL
     invalidate()
     
