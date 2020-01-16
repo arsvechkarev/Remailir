@@ -1,5 +1,6 @@
 package animation
 
-const val VECTOR_SMALL_ANIMATION = 400L
-
+const val VECTOR_SHORT_DURATION = 400L
 const val VECTOR_DEFAULT_DURATION = 1000L
+
+const val FADE_DEFAULT_DURATION = 400L

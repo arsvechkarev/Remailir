@@ -1,15 +1,12 @@
 package animation
 
 import android.animation.Animator
-import android.animation.AnimatorInflater
 import android.animation.TimeInterpolator
 import android.view.View
 import android.view.ViewPropertyAnimator
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.annotation.AnimRes
-import androidx.annotation.AnimatorRes
-import androidx.fragment.app.Fragment
 
 
 fun ViewPropertyAnimator.duration(duration: Long): ViewPropertyAnimator {
@@ -22,21 +19,32 @@ fun ViewPropertyAnimator.interpolator(interpolator: TimeInterpolator): ViewPrope
   return this
 }
 
-fun Fragment.loadAnimator(@AnimatorRes resId: Int): Animator {
-  return AnimatorInflater.loadAnimator(requireContext(), resId)
-}
-
 fun View.loadAnimation(@AnimRes resId: Int): Animation {
   return AnimationUtils.loadAnimation(context, resId)
 }
 
-fun View.loadAnimationAnd(@AnimRes resId: Int, block: Animation.() -> Unit): Animation {
+inline fun View.loadAnimationAnd(@AnimRes resId: Int, block: Animation.() -> Unit): Animation {
   val animation = AnimationUtils.loadAnimation(context, resId)
   animation.apply(block)
   return animation
 }
 
-fun Animation.doAfterAnimation(block: Animation.() -> Unit) {
+inline fun ViewPropertyAnimator.onEnd(crossinline block: () -> Unit): ViewPropertyAnimator {
+  setListener(object : Animator.AnimatorListener {
+    
+    override fun onAnimationEnd(animation: Animator) {
+      block()
+    }
+    
+    override fun onAnimationCancel(animation: Animator?) {}
+    override fun onAnimationRepeat(animation: Animator) {}
+    override fun onAnimationStart(animation: Animator?) {}
+  })
+  return this
+}
+
+
+inline fun Animation.doAfterAnimation(crossinline block: Animation.() -> Unit) {
   this.setAnimationListener(object : Animation.AnimationListener {
     override fun onAnimationRepeat(animation: Animation?) {
     }

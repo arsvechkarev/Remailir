@@ -1,5 +1,7 @@
 package com.arsvechkarev.chats.presentation
 
+import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.arsvechkarev.chats.R
@@ -25,7 +27,7 @@ import javax.inject.Inject
 
 class ChatsFragment : BaseFragment() {
   
-  override val layout: Int get() = R.layout.fragment_chat
+  override val layout = R.layout.fragment_chats
   
   private val adapter = ChatsAdapter {
     coreActivity.goToFragmentFromRoot(MessagingFragment.create(it.otherUser), true)
@@ -35,7 +37,7 @@ class ChatsFragment : BaseFragment() {
   
   private lateinit var viewModel: ChatsViewModel
   
-  override fun onInit() {
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     swipeRefreshChatsLayout.setColorSchemeColors(COLOR_PROGRESS_CIRCLE)
     swipeRefreshChatsLayout.setProgressBackgroundColorSchemeColor(COLOR_PROGRESS_CIRCLE_BG)
     DaggerChatsComponent.builder()

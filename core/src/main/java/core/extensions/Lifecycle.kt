@@ -36,5 +36,9 @@ inline fun <reified T : ViewModel> FragmentActivity.viewModelOf(
   return viewModel
 }
 
-fun <T : Any, L : LiveData<T>> LifecycleOwner.observe(liveData: L, block: (T) -> Unit) =
-  liveData.observe(this, Observer(block))
+inline fun <T : Any, L : LiveData<T>> LifecycleOwner.observe(
+  liveData: L,
+  crossinline block: (T) -> Unit
+) {
+  liveData.observe(this, Observer { block(it) })
+}

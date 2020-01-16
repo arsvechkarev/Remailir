@@ -16,6 +16,7 @@ import animation.doAfterAnimation
 import animation.loadAnimation
 import animation.loadAnimationAnd
 import animation.rotateOnce
+import animation.scaleDown
 
 
 class TheToolbar @JvmOverloads constructor(
@@ -149,7 +150,6 @@ class TheToolbar @JvmOverloads constructor(
     }
   }
   
-  //TODO (1/16/2020): set reverse animations
   private fun setViewSwitcherAnimations(reversed: Boolean = false) {
     val animationSlideIn: Animation
     val animationSlideOut: Animation
@@ -166,5 +166,18 @@ class TheToolbar @JvmOverloads constructor(
     }
     viewSwitcher.inAnimation = animationSlideIn
     viewSwitcher.outAnimation = animationSlideOut
+  }
+  
+  /**
+   * Add this scale down animation and setting [R.drawable.ic_search] afterwards to prevent weird
+   * bug happening when user clicks to back button too fast or clicking back image from search mode
+   * and then while next creating of the view [imageBack] has "cross" icon while should have "search"
+   */
+  fun exitSearchIfNeeded() {
+    if (isInSearchMode) {
+      imageSearch.scaleDown {
+        imageSearch.setImageResource(R.drawable.ic_search)
+      }
+    }
   }
 }

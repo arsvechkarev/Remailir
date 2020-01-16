@@ -19,7 +19,7 @@
     app:the_toolbar_hasBackImage="false"
     app:the_toolbar_title="@string/title_chats"/>
 
-  <com.arsvechkarev.views.CustomSwipeRefreshLayout
+  <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
     android:id="@+id/swipeRefreshChatsLayout"
     android:layout_width="match_parent"
     android:layout_height="0dp"
@@ -33,7 +33,7 @@
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintTop_toBottomOf="@id/theToolbar"/>
 
-  </com.arsvechkarev.views.CustomSwipeRefreshLayout>
+  </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
   <com.google.android.material.floatingactionbutton.FloatingActionButton
     android:id="@+id/fabNewChat"

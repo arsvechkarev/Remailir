@@ -5,11 +5,26 @@ import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.ImageView
 
+fun View.fadeOut() {
+  this.animate()
+    .alpha(0f)
+    .duration(FADE_DEFAULT_DURATION)
+    .start()
+}
+
+inline fun View.scaleDown(crossinline onEndBlock: () -> Unit = {}) {
+  this.animate()
+    .scaleX(0f)
+    .scaleY(0f)
+    .onEnd(onEndBlock)
+    .duration(FADE_DEFAULT_DURATION)
+    .start()
+}
 
 fun View.rotateOnce() {
   this.animate()
     .rotationBy(360f)
-    .duration(VECTOR_SMALL_ANIMATION)
+    .duration(VECTOR_SHORT_DURATION)
     .interpolator(AccelerateDecelerateInterpolator())
     .start()
 }
