@@ -64,7 +64,7 @@ class WaveDrawerView @JvmOverloads constructor(
   
   fun reverse() {
     mode = REVERSE
-    val animator = ObjectAnimator.ofFloat(this, "radius", 0f)
+    val animator = ObjectAnimator.ofFloat(this, "radius", width.toFloat(), 0f)
     animator.duration = animationDuration
     drawFullCircleAtFirst = true
     animator.start()
