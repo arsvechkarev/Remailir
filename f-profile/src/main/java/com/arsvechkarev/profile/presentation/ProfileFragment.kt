@@ -5,8 +5,10 @@ import android.content.Intent
 import android.content.Intent.ACTION_PICK
 import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import com.arsvechkarev.profile.R
 import com.arsvechkarev.profile.di.DaggerProfileComponent
@@ -47,9 +49,8 @@ class ProfileFragment : BaseFragment(), Loggable {
   lateinit var viewModelFactory: ViewModelProvider.Factory
   private lateinit var viewModel: ProfileViewModel
   
-  override fun onInit() {
-    swipeToRefreshLayoutProfile.setColorSchemeColors(COLOR_PROGRESS_CIRCLE)
-    swipeToRefreshLayoutProfile.setProgressBackgroundColorSchemeColor(COLOR_PROGRESS_CIRCLE_BG)
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
     DaggerProfileComponent.builder()
       .coreComponent(coreComponent)
       .build()
@@ -57,6 +58,11 @@ class ProfileFragment : BaseFragment(), Loggable {
     viewModel = viewModelOf(viewModelFactory) {
       observe(profileImageState, ::updateProfileImage)
     }
+  }
+  
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    swipeToRefreshLayoutProfile.setColorSchemeColors(COLOR_PROGRESS_CIRCLE)
+    swipeToRefreshLayoutProfile.setProgressBackgroundColorSchemeColor(COLOR_PROGRESS_CIRCLE_BG)
     swipeToRefreshLayoutProfile.setOnRefreshListener {
       viewModel.fetchImageFromNetwork(AppUser.get().imageUrl)
     }

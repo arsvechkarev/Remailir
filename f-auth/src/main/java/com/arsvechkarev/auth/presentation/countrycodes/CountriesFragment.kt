@@ -26,8 +26,6 @@ import kotlinx.android.synthetic.main.fragment_countries.progressBarCountries
 import kotlinx.android.synthetic.main.fragment_countries.recyclerCountries
 import kotlinx.android.synthetic.main.fragment_countries.theToolbar
 import log.log
-import styles.COLOR_ACCENT
-import styles.COLOR_BACKGROUND
 import javax.inject.Inject
 
 
@@ -37,7 +35,7 @@ class CountriesFragment : BaseFragment() {
     override fun handleOnBackPressed() {
       if (theToolbar.isInSearchMode) {
         theToolbar.goToNormalMode()
-        viewModel.fetchCountriesAndCodes()
+        viewModel.fetchAll()
         isEnabled = false
       }
     }
@@ -57,46 +55,57 @@ class CountriesFragment : BaseFragment() {
     entranceActivity.onCountrySelected(it)
   }
   
-  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
     DaggerAuthComponent.builder()
       .coreComponent(coreComponent)
       .build()
       .inject(this)
-    setupToolbar()
-    handleState(viewModel.currentState)
-    viewModel.fetchCountriesAndCodes()
-    progressBarCountries.visible()
-    recyclerCountries.setupWith(adapter)
-    recyclerCountries.itemAnimator = SpringItemAnimator()
     requireActivity().onBackPressedDispatcher.addCallback(this, callback)
     callback.isEnabled = false
   }
   
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    setupToolbar()
+    handleState(viewModel.currentState)
+    progressBarCountries.visible()
+    recyclerCountries.setupWith(adapter)
+    recyclerCountries.itemAnimator = SpringItemAnimator()
+  }
+  
+  override fun onResume() {
+    super.onResume()
+    log { "on resume" }
+    if (theToolbar.isInSearchMode) {
+      theToolbar.editTextSearch.requestFocus()
+      showKeyboard()
+    }
+  }
+  
   private fun handleState(state: CountriesViewModel.State) {
-    log { "state = $state" }
+    log { "  ===============  " }
+    log { "state = ${state.javaClass.simpleName}" }
     when (state) {
-      is Default -> viewModel.fetchCountriesAndCodes()
+      is Default -> viewModel.fetchAll()
       is Searching -> {
-        log { "isSearching" }
-        theToolbar.goToSearchMode(COLOR_ACCENT, COLOR_BACKGROUND, animate = false)
-        viewModel.filter(state.currentText)
+        theToolbar.goToSearchMode()
+        viewModel.searchCountries(state.currentText)
       }
     }
   }
   
   private fun setupToolbar() {
+    theToolbar.attachLifecycle(this)
+    theToolbar.setTextWatcher {
+      viewModel.searchCountries(it)
+    }
     theToolbar.onBackClick {
-      theToolbar.exitSearchIfNeeded()
       hideKeyboard(theToolbar.editTextSearch)
       popBackStack()
     }
-    theToolbar.onSearchTextChanged {
-      log { "onSearchChanged, it = '$it'" }
-      viewModel.filter(it)
-    }
     theToolbar.onSearchAction {
-      viewModel.updateState(Searching(""))
-      theToolbar.goToSearchMode(COLOR_ACCENT, COLOR_BACKGROUND, onEnd = {
+      viewModel.currentState = Searching()
+      theToolbar.goToSearchMode(onEnd = {
         showKeyboard()
         callback.isEnabled = true
       })

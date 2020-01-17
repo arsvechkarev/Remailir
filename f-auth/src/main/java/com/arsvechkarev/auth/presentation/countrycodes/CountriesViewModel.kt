@@ -3,37 +3,33 @@ package com.arsvechkarev.auth.presentation.countrycodes
 import androidx.lifecycle.MutableLiveData
 import com.arsvechkarev.auth.presentation.countrycodes.CountriesAndCodesRepository.getCountries
 import com.arsvechkarev.auth.presentation.countrycodes.CountriesAndCodesRepository.getCountriesAndCodes
+import com.arsvechkarev.auth.presentation.countrycodes.CountriesViewModel.State.Default
+import com.arsvechkarev.auth.presentation.countrycodes.CountriesViewModel.State.Searching
 import core.base.CoroutinesViewModel
 import core.model.other.Country
 import core.recycler.DisplayableItem
+import log.log
 import javax.inject.Inject
 
 class CountriesViewModel @Inject constructor() : CoroutinesViewModel() {
   
   val countriesAndCodes = MutableLiveData<List<DisplayableItem>>()
-  private var fullList: List<DisplayableItem> = ArrayList()
   
-  var currentState: State = State.Default
-    private set
+  var currentState: State = Default
   
-  fun updateState(state: State) {
-    currentState = state
-  }
-  
-  fun fetchCountriesAndCodes() {
-    currentState = State.Default
+  fun fetchAll() {
+    currentState = Default
     coroutine {
-      if (fullList.isEmpty()) {
-        fullList = getCountriesAndCodes()
-      }
-      countriesAndCodes.value = fullList
+      countriesAndCodes.value = getCountriesAndCodes()
     }
   }
   
-  fun filter(text: String) {
+  fun searchCountries(text: String) {
+    currentState = Searching(text)
+    log { "== vm searching, text = '$text' ==" }
     coroutine {
       if (text.isBlank()) {
-        countriesAndCodes.value = fullList
+        countriesAndCodes.value = getCountriesAndCodes()
       } else {
         val filtered: List<Country>? = getCountries().filter {
           it.name.startsWith(text, ignoreCase = true)
@@ -45,6 +41,6 @@ class CountriesViewModel @Inject constructor() : CoroutinesViewModel() {
   
   sealed class State {
     object Default : State()
-    class Searching(val currentText: String) : State()
+    class Searching(val currentText: String = "") : State()
   }
 }

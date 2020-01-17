@@ -43,7 +43,7 @@ class RegistrationFragment : BaseFragment() {
   private fun handleState(state: UserCreationState) {
     when (state) {
       is Completed -> {
-        entranceActivity.goToBase()
+        entranceActivity.goToCore()
       }
       is NameOccupied -> showToast("User with this name already exists")
       is Failed -> showToast("Something went wrong")

@@ -6,6 +6,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.arsvechkarev.auth.presentation.countrycodes.CountriesFragment
 import com.arsvechkarev.auth.presentation.phone.PhoneFragment
 import com.arsvechkarev.auth.presentation.signup.RegistrationFragment
 import com.arsvechkarev.auth.presentation.sms.SmsCodeFragment
@@ -60,7 +61,7 @@ class ActualEntranceActivity : AppCompatActivity(), EntranceActivity {
     when (state) {
       is OnCodeSent -> goToFragment(smsCodeFragment)
       is UserAlreadyExists -> {
-        goToBase()
+        goToCore()
       }
       is UserNotExist -> goToFragment(registrationFragment)
       is Failed -> {
@@ -71,9 +72,10 @@ class ActualEntranceActivity : AppCompatActivity(), EntranceActivity {
     }
   }
   
-  override fun goToBase() {
+  override fun goToCore() {
     val intent = Intent(this, CoreActivity::class.java)
     startActivity(intent)
+    finish()
   }
   
   override fun onCountrySelected(country: Country) {
@@ -96,8 +98,8 @@ class ActualEntranceActivity : AppCompatActivity(), EntranceActivity {
     viewModel.checkCode(code)
   }
   
-  override fun goToFragment(fragment: Fragment, addToBackStack: Boolean) {
-    switchFragment(R.id.rootContainer, fragment, addToBackStack)
+  override fun goToCountriesList() {
+    switchFragment(R.id.rootContainer, CountriesFragment(), true)
   }
   
 }

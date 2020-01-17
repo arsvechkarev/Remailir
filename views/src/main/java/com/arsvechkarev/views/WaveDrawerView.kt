@@ -22,7 +22,8 @@ class WaveDrawerView @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr) {
   
   companion object {
-    private const val animationDuration = 300L
+    private const val DURATION_DEFAULT = 300L
+    private const val DURATION_SHORT = 50L
   }
   
   private val paint = Paint(ANTI_ALIAS_FLAG).apply {
@@ -44,26 +45,12 @@ class WaveDrawerView @JvmOverloads constructor(
       invalidate()
     }
   
-  fun drawRightAway(colorToDraw: Int, colorBackground: Int) {
-    setup(colorToDraw, colorBackground)
-    drawRightAway = true
-    invalidate()
-  }
-  
-  fun animate(colorToDraw: Int, colorBackground: Int, onEnd: () -> Unit) {
-    setup(colorToDraw, colorBackground)
-    invalidate()
-    
-    val animator = ObjectAnimator.ofFloat(this, "radius", width.toFloat())
-    animator.duration = animationDuration
-    animator.doOnEnd {
-      setBackgroundColor(colorToDraw)
-      onEnd()
-    }
-    animator.start()
-  }
-  
-  private fun setup(colorToDraw: Int, colorBackground: Int) {
+  fun animate(
+    colorToDraw: Int,
+    colorBackground: Int,
+    quickly: Boolean = false,
+    onEnd: () -> Unit
+  ) {
     this.colorToDraw = colorToDraw
     this.colorBackground = colorBackground
     val halfHeight = (height / 2).toFloat()
@@ -73,12 +60,21 @@ class WaveDrawerView @JvmOverloads constructor(
     circleX = width.toFloat()
     paint.color = colorToDraw
     mode = NORMAL
+    invalidate()
+    
+    val animator = ObjectAnimator.ofFloat(this, "radius", width.toFloat())
+    animator.duration = if (quickly) DURATION_SHORT else DURATION_DEFAULT
+    animator.doOnEnd {
+      setBackgroundColor(colorToDraw)
+      onEnd()
+    }
+    animator.start()
   }
   
   fun reverse() {
     mode = REVERSE
     val animator = ObjectAnimator.ofFloat(this, "radius", width.toFloat(), 0f)
-    animator.duration = animationDuration
+    animator.duration = DURATION_DEFAULT
     drawFullCircleAtFirst = true
     animator.start()
   }

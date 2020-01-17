@@ -24,6 +24,23 @@ fun AppCompatActivity.switchFragment(
   transaction.commit()
 }
 
+fun AppCompatActivity.goToFragment(
+  @IdRes containerIdRes: Int,
+  fragment: Fragment,
+  addToBackStack: Boolean = false
+) {
+  val transaction = supportFragmentManager.beginTransaction()
+    .setCustomAnimations(
+      R.anim.fragment_enter1,
+      R.anim.fragment_exit1,
+      R.anim.fragment_pop_enter1,
+      R.anim.fragment_exit1
+    )
+    .replace(containerIdRes, fragment)
+  if (addToBackStack) transaction.addToBackStack(null)
+  transaction.commit()
+}
+
 fun Context.showToast(text: CharSequence) {
   Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
 }

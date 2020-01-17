@@ -5,7 +5,7 @@ import core.model.other.Country
 
 interface EntranceActivity {
   
-  fun goToBase()
+  fun goToCore()
   
   fun onCountrySelected(country: Country)
   
@@ -13,7 +13,7 @@ interface EntranceActivity {
   
   fun onCheckCode(code: String)
   
-  fun goToFragment(fragment: Fragment, addToBackStack: Boolean)
+  fun goToCountriesList()
 }
 
 val Fragment.entranceActivity: EntranceActivity
