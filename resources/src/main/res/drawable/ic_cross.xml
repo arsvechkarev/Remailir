@@ -1,10 +1,22 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
   android:width="@dimen/size_icon"
   android:height="@dimen/size_icon"
+  android:tint="?theColorIcon"
   android:viewportWidth="24.0"
   android:viewportHeight="24.0">
   <path
-    android:fillColor="?theColorIcon"
-    android:strokeWidth="@dimen/vector_stroke_width"
-    android:pathData="M19,6.41L17.59,5 12,10.59 6.41,5 5,6.41 10.59,12 5,17.59 6.41,19 12,13.41 17.59,19 19,17.59 13.41,12z"/>
+    android:name="ne_stem"
+    android:pathData="M 18 6 L 6 18"
+    android:strokeWidth="2.5"
+    android:strokeColor="?theColorIcon"
+    android:strokeLineCap="round"
+    android:strokeLineJoin="round"/>
+  <path
+    android:name="nw_stem"
+    android:pathData="M 6 6 L 20 20"
+    android:strokeWidth="2.5"
+    android:strokeColor="?theColorIcon"
+    android:strokeLineCap="round"
+    android:strokeLineJoin="round"
+    android:trimPathEnd="0.86"/>
 </vector>

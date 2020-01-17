@@ -27,4 +27,9 @@ abstract class BaseListAdapter : ListAdapter<DisplayableItem, ViewHolder>(DiffCa
     data = list ?: ArrayList()
     super.submitList(list)
   }
+  
+  override fun submitList(list: List<DisplayableItem>?, commitCallback: Runnable?) {
+    data = list ?: ArrayList()
+    super.submitList(list, commitCallback)
+  }
 }

@@ -24,6 +24,7 @@ import animation.loadAnimation
 import animation.loadAnimationAnd
 import animation.rotateOnce
 import animation.scaleDown
+import log.log
 import styles.COLOR_ACCENT
 import styles.COLOR_BACKGROUND
 
@@ -134,12 +135,15 @@ class TheToolbar @JvmOverloads constructor(
     setupViewSwitcher()
     
     if (animate) {
+      log { "animating" }
       imageBack.rotateOnce()
       waveView.animate(COLOR_ACCENT, COLOR_BACKGROUND, onEnd = onEnd)
       imageSearch.setImageResource(R.drawable.avd_search_to_close)
       imageSearch.animateVectorDrawable()
       viewSwitcher.showNext()
     } else {
+      viewSwitcher.showNext()
+      imageSearch.setImageResource(R.drawable.ic_cross)
       waveView.animate(COLOR_ACCENT, COLOR_BACKGROUND, quickly = true, onEnd = onEnd)
     }
   }

@@ -13,6 +13,7 @@ class CountriesListScreen : Screen<CountriesListScreen>() {
   
   val imageBack = KImageView { withId(R.id.imageBack) }
   val imageSearch = KImageView { withId(R.id.imageSearch) }
+  val textTitle = KTextView { withId(R.id.textTitle) }
   
   val recyclerCountries = KRecyclerView(
     builder = { withId(R.id.recyclerCountries) },

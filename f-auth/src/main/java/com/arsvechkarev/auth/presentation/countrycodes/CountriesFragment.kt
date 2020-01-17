@@ -7,8 +7,11 @@ import androidx.lifecycle.ViewModelProvider
 import com.arsvechakrev.auth.R
 import com.arsvechkarev.auth.di.DaggerAuthComponent
 import com.arsvechkarev.auth.list.CountryAndLettersAdapter
-import com.arsvechkarev.auth.presentation.countrycodes.CountriesViewModel.State.Default
-import com.arsvechkarev.auth.presentation.countrycodes.CountriesViewModel.State.Searching
+import com.arsvechkarev.auth.presentation.countrycodes.CountriesViewModel.SearchState
+import com.arsvechkarev.auth.presentation.countrycodes.CountriesViewModel.SearchState.FullList
+import com.arsvechkarev.auth.presentation.countrycodes.CountriesViewModel.SearchState.SearchResultsList
+import com.arsvechkarev.auth.presentation.countrycodes.CountriesViewModel.ViewState.Default
+import com.arsvechkarev.auth.presentation.countrycodes.CountriesViewModel.ViewState.Searching
 import com.arsvechkarev.views.SpringItemAnimator
 import core.base.BaseFragment
 import core.base.entranceActivity
@@ -21,7 +24,6 @@ import core.extensions.setupWith
 import core.extensions.showKeyboard
 import core.extensions.viewModelOf
 import core.extensions.visible
-import core.recycler.DisplayableItem
 import kotlinx.android.synthetic.main.fragment_countries.progressBarCountries
 import kotlinx.android.synthetic.main.fragment_countries.recyclerCountries
 import kotlinx.android.synthetic.main.fragment_countries.theToolbar
@@ -81,11 +83,11 @@ class CountriesFragment : BaseFragment() {
     }
   }
   
-  private fun handleInitialStateState(state: CountriesViewModel.State) {
+  private fun handleInitialStateState(state: CountriesViewModel.ViewState) {
     when (state) {
       is Default -> viewModel.fetchAll()
       is Searching -> {
-        theToolbar.goToSearchMode()
+        theToolbar.goToSearchMode(animate = false)
         viewModel.searchCountries(state.currentText)
       }
     }
@@ -109,8 +111,13 @@ class CountriesFragment : BaseFragment() {
     }
   }
   
-  private fun handleList(countries: List<DisplayableItem>) {
-    adapter.submitList(countries)
+  private fun handleList(state: SearchState) {
+    when (state) {
+      is FullList -> adapter.submitList(state.list) {
+        recyclerCountries.post { recyclerCountries.scrollToPosition(0) }
+      }
+      is SearchResultsList -> adapter.submitList(state.list)
+    }
     progressBarCountries.gone()
   }
 }

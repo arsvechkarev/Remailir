@@ -8,10 +8,10 @@
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
   <application
+    android:name=".RemailirApp"
     android:allowBackup="true"
     android:icon="@mipmap/ic_launcher"
     android:label="@string/app_name"
-    android:name=".RemailirApp"
     android:roundIcon="@mipmap/ic_launcher"
     android:supportsRtl="true"
     android:theme="@style/AppTheme.Dark">
@@ -22,11 +22,12 @@
 
     <activity
       android:name=".SplashActivity"
-      android:theme="@style/SplashTheme"
-      android:noHistory="true">
+      android:noHistory="true"
+      android:theme="@style/SplashTheme">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
         <action android:name="android.intent.action.VIEW"/>
+
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
     </activity>
@@ -35,7 +36,9 @@
       android:name=".CoreActivity"
       android:windowSoftInputMode="adjustResize"/>
 
-    <activity android:name=".entrance.presentation.ActualEntranceActivity"/>
+    <activity
+      android:name=".entrance.presentation.ActualEntranceActivity"
+      android:windowSoftInputMode="adjustResize"/>
 
   </application>
 
