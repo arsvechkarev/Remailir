@@ -8,8 +8,6 @@ import com.arsvechakrev.auth.R
 import com.arsvechkarev.auth.di.DaggerAuthComponent
 import com.arsvechkarev.auth.list.CountryAndLettersAdapter
 import com.arsvechkarev.auth.presentation.countrycodes.CountriesViewModel.SearchState
-import com.arsvechkarev.auth.presentation.countrycodes.CountriesViewModel.SearchState.FullList
-import com.arsvechkarev.auth.presentation.countrycodes.CountriesViewModel.SearchState.SearchResultsList
 import com.arsvechkarev.auth.presentation.countrycodes.CountriesViewModel.ViewState.Default
 import com.arsvechkarev.auth.presentation.countrycodes.CountriesViewModel.ViewState.Searching
 import com.arsvechkarev.views.SpringItemAnimator
@@ -112,12 +110,7 @@ class CountriesFragment : BaseFragment() {
   }
   
   private fun handleList(state: SearchState) {
-    when (state) {
-      is FullList -> adapter.submitList(state.list) {
-        recyclerCountries.post { recyclerCountries.scrollToPosition(0) }
-      }
-      is SearchResultsList -> adapter.submitList(state.list)
-    }
+    adapter.submitList(state.list)
     progressBarCountries.gone()
   }
 }
