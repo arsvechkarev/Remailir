@@ -13,11 +13,8 @@ val View.COLOR_BACKGROUND: Int
 val View.COLOR_ACCENT: Int
   get() = getColor(R.attr.theColorAccent, context)
 
-val Fragment.COLOR_BACKGROUND: Int
-  get() = getColor(R.attr.theColorBackground, requireContext())
-
-val Fragment.COLOR_ACCENT: Int
-  get() = getColor(R.attr.theColorAccent, requireContext())
+val Fragment.COLOR_PROGRESS_CIRCLE: Int
+  get() = getColor(R.attr.theColorOnSurface, requireContext())
 
 val Fragment.COLOR_PROGRESS_CIRCLE_BG
   get() = getColor(R.attr.colorRefreshProgressBackground, requireContext())

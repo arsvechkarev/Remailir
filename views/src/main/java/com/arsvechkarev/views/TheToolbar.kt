@@ -27,7 +27,9 @@ import animation.scaleDown
 import styles.COLOR_ACCENT
 import styles.COLOR_BACKGROUND
 
-
+/**
+ * Enhanced toolbar with support of back image, search and animations
+ */
 class TheToolbar @JvmOverloads constructor(
   context: Context,
   attrs: AttributeSet? = null,

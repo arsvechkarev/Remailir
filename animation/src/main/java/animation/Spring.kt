@@ -67,8 +67,8 @@ class MultiSpringEndListener(
 }
 
 fun listenForAllSpringsEnd(
-  onEnd: (Boolean) -> Unit,
-  vararg springs: SpringAnimation
+  vararg springs: SpringAnimation,
+  onEnd: (Boolean) -> Unit
 ) = MultiSpringEndListener(onEnd, *springs)
 
 /**

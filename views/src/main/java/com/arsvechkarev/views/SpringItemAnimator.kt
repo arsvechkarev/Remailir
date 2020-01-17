@@ -42,18 +42,16 @@ class SpringItemAnimator : DefaultItemAnimator() {
           stiffness = 100f,
           damping = SpringForce.DAMPING_RATIO_NO_BOUNCY
         )
-        
-        listenForAllSpringsEnd(
-          { cancelled ->
-            if (!cancelled) {
-              dispatchAddFinished(holder)
-              dispatchFinishedWhenDone()
-            } else {
-              clearAnimatedValues(holder.itemView)
-            }
-          },
-          tySpring, aSpring
-        )
+  
+        listenForAllSpringsEnd(tySpring, aSpring) { isCancelled ->
+          if (!isCancelled) {
+            dispatchAddFinished(holder)
+            dispatchFinishedWhenDone()
+          } else {
+            clearAnimatedValues(holder.itemView)
+          }
+        }
+  
         dispatchAddStarting(holder)
         aSpring.animateToFinalPosition(1f)
         tySpring.animateToFinalPosition(0f)

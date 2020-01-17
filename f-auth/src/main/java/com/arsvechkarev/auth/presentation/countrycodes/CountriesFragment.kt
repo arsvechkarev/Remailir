@@ -25,13 +25,13 @@ import core.recycler.DisplayableItem
 import kotlinx.android.synthetic.main.fragment_countries.progressBarCountries
 import kotlinx.android.synthetic.main.fragment_countries.recyclerCountries
 import kotlinx.android.synthetic.main.fragment_countries.theToolbar
-import log.log
 import javax.inject.Inject
 
 
 class CountriesFragment : BaseFragment() {
   
   private val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
+  
     override fun handleOnBackPressed() {
       if (theToolbar.isInSearchMode) {
         theToolbar.goToNormalMode()
@@ -67,7 +67,7 @@ class CountriesFragment : BaseFragment() {
   
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     setupToolbar()
-    handleState(viewModel.currentState)
+    handleInitialStateState(viewModel.currentState)
     progressBarCountries.visible()
     recyclerCountries.setupWith(adapter)
     recyclerCountries.itemAnimator = SpringItemAnimator()
@@ -75,16 +75,13 @@ class CountriesFragment : BaseFragment() {
   
   override fun onResume() {
     super.onResume()
-    log { "on resume" }
     if (theToolbar.isInSearchMode) {
       theToolbar.editTextSearch.requestFocus()
       showKeyboard()
     }
   }
   
-  private fun handleState(state: CountriesViewModel.State) {
-    log { "  ===============  " }
-    log { "state = ${state.javaClass.simpleName}" }
+  private fun handleInitialStateState(state: CountriesViewModel.State) {
     when (state) {
       is Default -> viewModel.fetchAll()
       is Searching -> {
