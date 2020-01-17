@@ -1,5 +1,8 @@
 package core
 
+/**
+ * Either empty result (success) or error
+ */
 class RawResult(val exception: Throwable? = null) {
   
   companion object {
