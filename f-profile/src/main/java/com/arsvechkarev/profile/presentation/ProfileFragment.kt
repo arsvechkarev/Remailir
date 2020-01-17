@@ -16,7 +16,6 @@ import com.theartofdev.edmodo.cropper.CropImageView
 import core.MaybeResult
 import core.base.BaseFragment
 import core.di.coreComponent
-import core.di.modules.ContextModule
 import core.extensions.invisible
 import core.extensions.observe
 import core.extensions.showToast
@@ -53,7 +52,6 @@ class ProfileFragment : BaseFragment(), Loggable {
     swipeToRefreshLayoutProfile.setProgressBackgroundColorSchemeColor(COLOR_PROGRESS_CIRCLE_BG)
     DaggerProfileComponent.builder()
       .coreComponent(coreComponent)
-      .contextModule(ContextModule(context!!))
       .build()
       .inject(this)
     viewModel = viewModelOf(viewModelFactory) {

@@ -5,6 +5,7 @@ import com.jakewharton.threetenabp.AndroidThreeTen
 import core.di.CoreComponent
 import core.di.CoreComponentProvider
 import core.di.DaggerCoreComponent
+import core.di.modules.CoreModule
 import log.Logger
 
 class RemailirApp : Application(), CoreComponentProvider {
@@ -16,5 +17,7 @@ class RemailirApp : Application(), CoreComponentProvider {
   }
   
   override val coreComponent: CoreComponent
-    get() = DaggerCoreComponent.create()
+    get() = DaggerCoreComponent.builder()
+      .coreModule(CoreModule(applicationContext))
+      .build()
 }

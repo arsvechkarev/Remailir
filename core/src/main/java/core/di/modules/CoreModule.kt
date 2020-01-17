@@ -1,5 +1,6 @@
 package core.di.modules
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import core.CoroutinesDispatcherProvider
@@ -10,7 +11,10 @@ import dagger.Provides
 import javax.inject.Provider
 
 @Module
-class CoreModule {
+class CoreModule(private val context: Context) {
+  
+  @Provides
+  fun provideContext() = context
   
   @Provides
   fun bindViewModelFactory(creators: Map<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>)

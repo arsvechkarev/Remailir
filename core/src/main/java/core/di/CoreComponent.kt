@@ -1,5 +1,6 @@
 package core.di
 
+import android.content.Context
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
@@ -20,6 +21,7 @@ import javax.inject.Singleton
 @Singleton
 interface CoreComponent {
   
+  fun context(): Context
   fun schedulersProvider(): RxJavaSchedulersProvider
   fun dispatchersProvider(): CoroutinesDispatcherProvider
   

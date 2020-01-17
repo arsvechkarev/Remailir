@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-  <style name="TextViewCode">
-    <item name="android:layout_margin">4dp</item>
-    <item name="android:textSize">@dimen/text_h2</item>
-    <item name="android:textColor">?theColorTextSecondary</item>
-  </style>
-</resources>

@@ -12,7 +12,6 @@ import com.arsvechkarev.auth.presentation.signup.UserCreationState.NameOccupied
 import core.base.BaseFragment
 import core.base.entranceActivity
 import core.di.coreComponent
-import core.di.modules.ContextModule
 import core.extensions.observe
 import core.extensions.showToast
 import core.extensions.string
@@ -32,7 +31,6 @@ class RegistrationFragment : BaseFragment() {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     DaggerAuthComponent.builder()
       .coreComponent(coreComponent)
-      .contextModule(ContextModule(context!!))
       .build()
       .inject(this)
     viewModel.creationState().observe(this, ::handleState)

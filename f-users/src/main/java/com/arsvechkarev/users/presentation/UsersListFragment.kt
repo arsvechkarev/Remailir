@@ -13,6 +13,7 @@ import com.arsvechkarev.users.di.DaggerUsersComponent
 import com.arsvechkarev.users.list.UsersListAdapter
 import core.MaybeResult
 import core.base.coreActivity
+import core.di.coreComponent
 import core.extensions.gone
 import core.extensions.observe
 import core.extensions.popBackStack
@@ -54,7 +55,10 @@ class UsersListFragment : Fragment() {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     swipeRefreshUsersLayout.setColorSchemeColors(COLOR_PROGRESS_CIRCLE)
     swipeRefreshUsersLayout.setProgressBackgroundColorSchemeColor(COLOR_PROGRESS_CIRCLE_BG)
-    DaggerUsersComponent.create().inject(this)
+    DaggerUsersComponent.builder()
+      .coreComponent(coreComponent)
+      .build()
+      .inject(this)
     theToolbar.setNavigationOnClickListener {
       popBackStack()
     }

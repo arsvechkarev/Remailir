@@ -100,7 +100,7 @@
     app:layout_constraintTop_toBottomOf="@+id/layoutPhone"
     tools:text="Error. Blah blah blah"/>
 
-  <com.google.android.material.button.MaterialButton
+  <Button
     android:id="@+id/buttonNext"
     style="@style/MaterialButton"
     android:layout_width="wrap_content"

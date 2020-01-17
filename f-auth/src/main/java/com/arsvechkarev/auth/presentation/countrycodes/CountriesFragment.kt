@@ -13,7 +13,6 @@ import com.arsvechkarev.views.SpringItemAnimator
 import core.base.BaseFragment
 import core.base.entranceActivity
 import core.di.coreComponent
-import core.di.modules.ContextModule
 import core.extensions.gone
 import core.extensions.hideKeyboard
 import core.extensions.observe
@@ -61,7 +60,6 @@ class CountriesFragment : BaseFragment() {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     DaggerAuthComponent.builder()
       .coreComponent(coreComponent)
-      .contextModule(ContextModule(context!!))
       .build()
       .inject(this)
     setupToolbar()

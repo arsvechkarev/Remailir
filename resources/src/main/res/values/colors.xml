@@ -18,8 +18,8 @@
   <color name="dark_colorItemNotSelected">#647688</color>
   <color name="dark_colorEditTextSearchCursor">#D86894</color>
 
-  <color name="dark_colorTextInputSelected">#306599</color>
-  <color name="dark_colorTextInputNotSelected">#5C7D9C</color>
+  <color name="dark_colorButtonEnabled">#306599</color>
+  <color name="dark_colorButtonDisabled">#5C7D9C</color>
 
   <color name="dark_colorRefreshProgressBackground">#2A4663</color>
 </resources>

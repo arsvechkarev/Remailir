@@ -37,8 +37,8 @@
     <item name="colorEditTextSearchCursor">@color/dark_colorEditTextSearchCursor</item>
     <item name="theColorIcon">@color/dark_colorItemSelected</item>
     <item name="theColorDivider">@color/dark_colorDivider</item>
-    <item name="theColorTextInputSelected">@color/dark_colorTextInputSelected</item>
-    <item name="theColorTextInputNotSelected">@color/dark_colorTextInputNotSelected</item>
+    <item name="theColorButtonEnabled">@color/dark_colorButtonEnabled</item>
+    <item name="theColorButtonDisabled">@color/dark_colorButtonDisabled</item>
     <item name="colorMessageThisUser">@color/dark_colorMessageThisUser</item>
     <item name="colorMessageOtherUser">@color/dark_colorMessageOtherUser</item>
     <item name="colorRefreshProgressBackground">

@@ -20,7 +20,6 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthProvider
 import core.base.EntranceActivity
 import core.di.coreComponent
-import core.di.modules.ContextModule
 import core.extensions.observe
 import core.extensions.showToast
 import core.extensions.switchFragment
@@ -49,7 +48,6 @@ class ActualEntranceActivity : AppCompatActivity(), EntranceActivity {
     setContentView(R.layout.activity_entrance)
     DaggerEntranceComponent.builder()
       .coreComponent(coreComponent)
-      .contextModule(ContextModule(this))
       .build()
       .inject(this)
     viewModel.phoneState().observe(this, ::handleState)

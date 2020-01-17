@@ -19,8 +19,8 @@
   <attr name="theColorDivider" format="color"/>
   <attr name="colorEditTextSearchCursor" format="color"/>
 
-  <attr name="theColorTextInputSelected" format="color"/>
-  <attr name="theColorTextInputNotSelected" format="color"/>
+  <attr name="theColorButtonEnabled" format="color"/>
+  <attr name="theColorButtonDisabled" format="color"/>
 
   <attr name="colorMessageThisUser" format="color"/>
   <attr name="colorMessageOtherUser" format="color"/>
