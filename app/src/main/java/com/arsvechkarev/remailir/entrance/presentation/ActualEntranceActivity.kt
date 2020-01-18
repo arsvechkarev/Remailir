@@ -26,6 +26,7 @@ import core.extensions.showToast
 import core.extensions.switchFragment
 import core.extensions.viewModelOf
 import core.model.other.Country
+import log.log
 import java.util.concurrent.TimeUnit.SECONDS
 import javax.inject.Inject
 
@@ -52,18 +53,26 @@ class ActualEntranceActivity : AppCompatActivity(), EntranceActivity {
       .inject(this)
     viewModel.phoneState().observe(this, ::handleState)
     if (savedInstanceState == null) {
-      switchFragment(R.id.rootContainer, PhoneFragment(), false)
+      switchFragment(R.id.rootContainer, PhoneFragment(), addToBackStack = false, animate = false)
     }
   }
   
   private fun handleState(state: PhoneAuthState) {
     when (state) {
-      is OnCodeSent -> goToFragment(SmsCodeFragment())
+      is OnCodeSent -> {
+        log { "on code sent" }
+        goToFragment(SmsCodeFragment())
+      }
       is UserAlreadyExists -> {
+        log { "on user already exists" }
         goToCore()
       }
-      is UserNotExist -> goToFragment(registrationFragment)
+      is UserNotExist -> {
+        log { "on user not exist" }
+        goToFragment(registrationFragment)
+      }
       is Failed -> {
+        log(state.exception) { "failed" }
         if (state.exception is FirebaseAuthInvalidCredentialsException) {
           showToast("Code is invalid")
         }

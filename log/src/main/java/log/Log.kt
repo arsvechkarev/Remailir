@@ -18,7 +18,7 @@ inline fun log(lazyMessage: () -> String?) {
   }
 }
 
-inline fun log(e: Throwable, lazyMessage: () -> String? = { "" }) {
+inline fun log(e: Throwable?, lazyMessage: () -> String? = { "" }) {
   if (areDebugMessagesAllowed) {
     MyTimber.d(e, lazyMessage())
   }

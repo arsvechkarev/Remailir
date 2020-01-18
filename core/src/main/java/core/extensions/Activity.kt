@@ -10,16 +10,19 @@ import core.R
 fun AppCompatActivity.switchFragment(
   @IdRes containerIdRes: Int,
   fragment: Fragment,
-  addToBackStack: Boolean = false
+  addToBackStack: Boolean = false,
+  animate: Boolean = true
 ) {
   val transaction = supportFragmentManager.beginTransaction()
-    .setCustomAnimations(
-      R.anim.fragment_enter1,
-      R.anim.fragment_exit1,
-      R.anim.fragment_pop_enter1,
-      R.anim.fragment_exit1
+  if (animate) {
+    transaction.setCustomAnimations(
+      R.anim.transition_fragment_enter1,
+      R.anim.transition_fragment_exit1,
+      R.anim.transition_fragment_pop_enter1,
+      R.anim.transition_fragment_pop_exit1
     )
-    .replace(containerIdRes, fragment)
+  }
+  transaction.replace(containerIdRes, fragment)
   if (addToBackStack) transaction.addToBackStack(null)
   transaction.commit()
 }
@@ -31,10 +34,10 @@ fun AppCompatActivity.goToFragment(
 ) {
   val transaction = supportFragmentManager.beginTransaction()
     .setCustomAnimations(
-      R.anim.fragment_enter1,
-      R.anim.fragment_exit1,
-      R.anim.fragment_pop_enter1,
-      R.anim.fragment_exit1
+      R.anim.transition_fragment_enter1,
+      R.anim.transition_fragment_exit1,
+      R.anim.transition_fragment_pop_enter1,
+      R.anim.transition_fragment_exit1
     )
     .replace(containerIdRes, fragment)
   if (addToBackStack) transaction.addToBackStack(null)

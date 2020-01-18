@@ -7,9 +7,9 @@
     android:fromYScale="1.0"
     android:interpolator="@android:anim/accelerate_decelerate_interpolator"
     android:pivotX="50%"
-    android:pivotY="20%"
-    android:toXScale="0.6"
-    android:toYScale="0.6"/>
+    android:pivotY="50%"
+    android:toXScale="0.9"
+    android:toYScale="0.9"/>
   <alpha
     android:duration="@integer/fragment_transition"
     android:fromAlpha="1.0"
