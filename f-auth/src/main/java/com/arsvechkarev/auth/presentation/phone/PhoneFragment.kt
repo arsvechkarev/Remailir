@@ -1,9 +1,8 @@
 package com.arsvechkarev.auth.presentation.phone
 
 import android.os.Bundle
-import android.telephony.PhoneNumberFormattingTextWatcher
-import android.text.Editable
 import android.view.View
+import androidx.core.widget.doAfterTextChanged
 import com.arsvechakrev.auth.R
 import com.arsvechkarev.auth.utils.phoneNumber
 import com.arsvechkarev.auth.utils.removeDashes
@@ -25,12 +24,13 @@ class PhoneFragment : BaseFragment() {
   
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     val country = arguments?.getParcelable(COUNTRY) as? Country
+    editTextPhone.doAfterTextChanged {
+      buttonNext.isEnabled = it.removeDashes().length >= 10
+    }
     if (country != null) {
-      setTextWatcher(country.letters)
       textCountryCode.text =
         getString(R.string.format_country_phone_prefix, country.code.toString())
     } else {
-      setTextWatcher(Locale.getDefault().country)
       val region =
         PhoneNumberUtil.getInstance().getCountryCodeForRegion(Locale.getDefault().country)
       textCountryCode.text = getString(R.string.format_country_phone_prefix, region.toString())
@@ -43,15 +43,6 @@ class PhoneFragment : BaseFragment() {
       hideKeyboard(editTextPhone)
       entranceActivity.goToCountriesList()
     }
-  }
-  
-  private fun setTextWatcher(countryLetters: String) {
-    editTextPhone.addTextChangedListener(object : PhoneNumberFormattingTextWatcher(countryLetters) {
-      override fun afterTextChanged(s: Editable) {
-        super.afterTextChanged(s)
-        buttonNext.isEnabled = s.removeDashes().length >= 10
-      }
-    })
   }
   
   companion object {
