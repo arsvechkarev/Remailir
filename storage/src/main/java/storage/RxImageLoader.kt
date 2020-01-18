@@ -2,6 +2,7 @@ package storage
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import core.exception.BitmapIsNullException
 import io.reactivex.Single
 import java.io.InputStream
 import java.net.URL
@@ -16,7 +17,11 @@ object RxImageLoader {
         connection.connect()
         val input: InputStream = connection.inputStream
         val bitmap = BitmapFactory.decodeStream(input)
-        emitter.onSuccess(bitmap)
+        if (bitmap == null) {
+          emitter.onError(BitmapIsNullException())
+        } else {
+          emitter.onSuccess(bitmap)
+        }
       } catch (e: Throwable) {
         emitter.onError(e)
       }

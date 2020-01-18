@@ -20,6 +20,7 @@ import log.Loggable
 import log.log
 import storage.AppUser
 import storage.SharedPreferencesManager
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class EntranceViewModel @Inject constructor(
@@ -28,13 +29,26 @@ class EntranceViewModel @Inject constructor(
   private val sharedPreferencesManager: SharedPreferencesManager
 ) : RxViewModel(), Loggable {
   
+  override val logTag = "EntranceViewModel"
+  
   private var verificationId: String = ""
-  override val logTag = "PhoneAuthorization"
+  private var enteredPhoneNumber: String = ""
   
   private var _phoneVerificationState: MutableLiveData<PhoneAuthState> = MutableLiveData()
   
   fun phoneState(): LiveData<PhoneAuthState> = _phoneVerificationState
   
+  
+  fun verifyPhone(phoneNumber: String, activity: ActualEntranceActivity) {
+    enteredPhoneNumber = phoneNumber
+    PhoneAuthProvider.getInstance()
+      .verifyPhoneNumber(phoneNumber, 60, TimeUnit.SECONDS, activity, callbacks)
+  }
+  
+  fun checkCode(code: String) {
+    val credential = PhoneAuthProvider.getCredential(verificationId, code)
+    performMainSignCheck(credential)
+  }
   
   val callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
     
@@ -53,11 +67,6 @@ class EntranceViewModel @Inject constructor(
       log { "onCodeSent, p0 = $p0" }
       _phoneVerificationState.value = OnCodeSent
     }
-  }
-  
-  fun checkCode(code: String) {
-    val credential = PhoneAuthProvider.getCredential(verificationId, code)
-    performMainSignCheck(credential)
   }
   
   private fun performMainSignCheck(credential: PhoneAuthCredential) {

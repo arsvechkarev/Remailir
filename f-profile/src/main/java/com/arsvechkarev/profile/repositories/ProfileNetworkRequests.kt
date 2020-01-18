@@ -22,7 +22,11 @@ class ProfileNetworkRequests @Inject constructor() : Loggable {
         try {
           log { "loading from url" }
           RxImageLoader.downloadImage(imageUrl)
-            .subscribe { bitmap -> emitter.onSuccess(bitmap) }
+            .subscribe({ bitmap ->
+              emitter.onSuccess(bitmap)
+            }, {
+              log(it) { "An error occured" }
+            })
         } catch (e: Throwable) {
           emitter.onError(e)
         }

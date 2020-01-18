@@ -29,6 +29,7 @@ dependencies {
   implementation project(':core')
   implementation project(':firebase')
   implementation project(':storage')
+  implementation project(':views')
 
   implementation project(':f-messaging')
   implementation project(':f-users')

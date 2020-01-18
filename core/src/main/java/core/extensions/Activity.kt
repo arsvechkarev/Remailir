@@ -5,9 +5,10 @@ import android.widget.Toast
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import core.R
 
-fun AppCompatActivity.switchFragment(
+fun AppCompatActivity.switchToFragment(
   @IdRes containerIdRes: Int,
   fragment: Fragment,
   addToBackStack: Boolean = false,
@@ -25,6 +26,10 @@ fun AppCompatActivity.switchFragment(
   transaction.replace(containerIdRes, fragment)
   if (addToBackStack) transaction.addToBackStack(null)
   transaction.commit()
+}
+
+fun AppCompatActivity.transaction(block: FragmentTransaction.() -> Unit) {
+  supportFragmentManager.beginTransaction().apply(block).commit()
 }
 
 fun AppCompatActivity.goToFragment(

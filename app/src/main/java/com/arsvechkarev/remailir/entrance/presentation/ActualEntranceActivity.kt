@@ -17,21 +17,22 @@ import com.arsvechkarev.remailir.entrance.presentation.PhoneAuthState.Failed
 import com.arsvechkarev.remailir.entrance.presentation.PhoneAuthState.OnCodeSent
 import com.arsvechkarev.remailir.entrance.presentation.PhoneAuthState.UserAlreadyExists
 import com.arsvechkarev.remailir.entrance.presentation.PhoneAuthState.UserNotExist
+import com.arsvechkarev.views.dialogs.LoadingDialog
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthProvider
 import core.base.EntranceActivity
 import core.di.coreComponent
 import core.extensions.observe
 import core.extensions.showToast
-import core.extensions.switchFragment
+import core.extensions.switchToFragment
 import core.extensions.viewModelOf
 import core.model.other.Country
 import log.log
-import java.util.concurrent.TimeUnit.SECONDS
 import javax.inject.Inject
 
 class ActualEntranceActivity : AppCompatActivity(), EntranceActivity {
   
+  private val loadingDialog = LoadingDialog()
   private val registrationFragment = RegistrationFragment()
   
   @Inject
@@ -53,7 +54,7 @@ class ActualEntranceActivity : AppCompatActivity(), EntranceActivity {
       .inject(this)
     viewModel.phoneState().observe(this, ::handleState)
     if (savedInstanceState == null) {
-      switchFragment(R.id.rootContainer, PhoneFragment(), addToBackStack = false, animate = false)
+      switchToFragment(R.id.rootContainer, PhoneFragment(), addToBackStack = false, animate = false)
     }
   }
   
@@ -61,6 +62,7 @@ class ActualEntranceActivity : AppCompatActivity(), EntranceActivity {
     when (state) {
       is OnCodeSent -> {
         log { "on code sent" }
+        loadingDialog.dismiss()
         goToFragment(SmsCodeFragment())
       }
       is UserAlreadyExists -> {
@@ -94,11 +96,12 @@ class ActualEntranceActivity : AppCompatActivity(), EntranceActivity {
   }
   
   private fun goToFragment(fragment: Fragment) {
-    switchFragment(R.id.rootContainer, fragment)
+    switchToFragment(R.id.rootContainer, fragment)
   }
   
   override fun onPhoneEntered(phoneNumber: String) {
-    phoneAuthProvider.verifyPhoneNumber(phoneNumber, 60, SECONDS, this, viewModel.callbacks)
+    loadingDialog.show(supportFragmentManager, null)
+    viewModel.verifyPhone(phoneNumber, this)
   }
   
   override fun onCheckCode(code: String) {
@@ -106,7 +109,7 @@ class ActualEntranceActivity : AppCompatActivity(), EntranceActivity {
   }
   
   override fun goToCountriesList() {
-    switchFragment(R.id.rootContainer, CountriesFragment(), true)
+    switchToFragment(R.id.rootContainer, CountriesFragment(), true)
   }
   
 }

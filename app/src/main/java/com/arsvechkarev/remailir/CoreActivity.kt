@@ -11,26 +11,45 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import core.base.BaseActivity
 import core.base.CoreActivity
-import core.extensions.switchFragment
+import core.extensions.switchToFragment
+import core.extensions.transaction
 import kotlinx.android.synthetic.main.activity_home.bottomNavigationBar
 import storage.AppUser
 
 class CoreActivity : BaseActivity(), CoreActivity {
   
-  private val messagesFragment = ChatsFragment()
+  private val chatsFragment = ChatsFragment()
   private val profileFragment = ProfileFragment()
+  
+  private var activeFragment: Fragment = chatsFragment
   
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     window.decorView.systemUiVisibility =
       (View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
     setContentView(R.layout.activity_home)
-    switchFragment(R.id.baseContainer, ChatsFragment())
-    bottomNavigationBar.selectedItemId = R.id.itemMessages
+    transaction {
+      add(R.id.baseContainer, profileFragment)
+      hide(profileFragment)
+      add(R.id.baseContainer, chatsFragment)
+    }
+    bottomNavigationBar.selectedItemId = R.id.itemChats
     bottomNavigationBar.setOnNavigationItemSelectedListener {
       when (it.itemId) {
-        R.id.itemMessages -> switchFragment(R.id.baseContainer, messagesFragment)
-        R.id.itemProfile -> switchFragment(R.id.baseContainer, profileFragment)
+        R.id.itemChats -> {
+          transaction {
+            hide(activeFragment)
+            show(chatsFragment)
+          }
+          activeFragment = chatsFragment
+        }
+        R.id.itemProfile -> {
+          transaction {
+            hide(activeFragment)
+            show(profileFragment)
+          }
+          activeFragment = profileFragment
+        }
       }
       return@setOnNavigationItemSelectedListener true
     }
@@ -44,7 +63,7 @@ class CoreActivity : BaseActivity(), CoreActivity {
   }
   
   override fun goToFragmentFromRoot(fragment: Fragment, addToBackStack: Boolean) {
-    switchFragment(android.R.id.content, fragment, addToBackStack)
+    switchToFragment(android.R.id.content, fragment, addToBackStack)
   }
   
   override fun signOut() {

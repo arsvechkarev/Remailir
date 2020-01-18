@@ -1,14 +1,13 @@
-package com.arsvechkarev.views
+package com.arsvechkarev.views.dialogs
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import animation.animateVectorDrawable
-import core.extensions.findImage
+import com.arsvechkarev.views.R
 
-class LoadingDialog : DialogFragment() {
+class ConfirmationDialog : DialogFragment() {
   
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -21,12 +20,8 @@ class LoadingDialog : DialogFragment() {
     savedInstanceState: Bundle?
   ): View? {
     dialog?.window?.setBackgroundDrawableResource(R.drawable.bg_rounded_corners_dialog)
-    dialog?.window?.attributes?.windowAnimations = R.style.LoadingDialogAnimation
-    return inflater.inflate(R.layout.loading_dialog, container, false)
+    return inflater.inflate(R.layout.dialog_confirmation, container, false)
   }
   
-  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-    val imageHourglass = view.findImage(R.id.imageHourglass)
-    imageHourglass.animateVectorDrawable()
-  }
+  
 }

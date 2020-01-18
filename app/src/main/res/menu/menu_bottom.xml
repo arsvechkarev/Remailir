@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
   <item
-    android:id="@+id/itemMessages"
+    android:id="@+id/itemChats"
     android:icon="@drawable/ic_messages"
     android:title="What's"/>
 

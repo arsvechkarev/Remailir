@@ -5,9 +5,15 @@
   android:padding="24dp">
 
   <ImageView
+    android:layout_width="@dimen/size_loading_img"
+    android:layout_height="@dimen/size_loading_img"
+    android:src="@drawable/ic_loading"
+    android:tint="?theColorAccentSecondary"/>
+
+  <ImageView
     android:id="@+id/imageHourglass"
-    android:layout_width="80dp"
-    android:layout_height="80dp"
+    android:layout_width="@dimen/size_loading_img"
+    android:layout_height="@dimen/size_loading_img"
     android:scaleType="fitXY"
     android:src="@drawable/avd_loading_hourglass"/>
 

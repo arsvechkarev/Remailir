@@ -18,4 +18,6 @@
   <dimen name="height_divider">1dp</dimen>
   <dimen name="width_text_cursor">2dp</dimen>
 
+  <dimen name="size_loading_img">80dp</dimen>
+
 </resources>
