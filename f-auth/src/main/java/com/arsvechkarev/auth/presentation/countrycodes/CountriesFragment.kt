@@ -100,13 +100,17 @@ class CountriesFragment : BaseFragment() {
       hideKeyboard(theToolbar.editTextSearch)
       popBackStack()
     }
-    theToolbar.onSearchAction {
+    theToolbar.onSearchAction(onSearch = {
       viewModel.currentState = Searching()
       theToolbar.goToSearchMode(onEnd = {
         showKeyboard()
         callback.isEnabled = true
       })
-    }
+    }, fromSearch = {
+      hideKeyboard(theToolbar.editTextSearch)
+      viewModel.currentState = Default
+      callback.isEnabled = false
+    })
   }
   
   private fun handleList(state: SearchState) {

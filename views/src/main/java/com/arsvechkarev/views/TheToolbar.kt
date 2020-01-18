@@ -168,12 +168,13 @@ class TheToolbar @JvmOverloads constructor(
     }
   }
   
-  fun onSearchAction(block: () -> Unit) {
+  fun onSearchAction(onSearch: () -> Unit, fromSearch: () -> Unit) {
     imageSearch.setOnClickListener {
       if (isInSearchMode) {
-        editTextSearch.text.clear()
+        fromSearch()
+        goToNormalMode()
       } else {
-        block()
+        onSearch()
       }
     }
   }
