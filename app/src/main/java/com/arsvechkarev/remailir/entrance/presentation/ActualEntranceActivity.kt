@@ -82,7 +82,7 @@ class ActualEntranceActivity : AppCompatActivity(), EntranceActivity {
     repeat(supportFragmentManager.backStackEntryCount) {
       supportFragmentManager.popBackStack()
     }
-    goToFragment(PhoneFragment.instance(country))
+    goToFragment(PhoneFragment.create(country))
   }
   
   private fun goToFragment(fragment: Fragment) {

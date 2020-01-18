@@ -18,4 +18,6 @@
   <string name="text_enter_phone">Enter your phone number</string>
   <string name="text_enter_a_code">Enter a code we\'ve\nsent to you</string>
 
+  <string name="format_country_phone_prefix">+%s</string>
+
 </resources>

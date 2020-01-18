@@ -8,6 +8,7 @@ import core.base.RxViewModel
 import core.model.users.User
 import core.strings.DEFAULT_IMG_URL
 import firebase.schema.Collections.Users
+import firebase.schema.UserModel
 import storage.AppUser
 import storage.SharedPreferencesManager
 import javax.inject.Inject
@@ -24,7 +25,7 @@ class RegistrationViewModel @Inject constructor(
     val firebaseUser = FirebaseAuth.getInstance().currentUser!!
     val newUser = User(firebaseUser.uid, firebaseUser.phoneNumber!!, username, DEFAULT_IMG_URL)
     firebaseFirestore.collection(Users)
-      .whereEqualTo("name", username)
+      .whereEqualTo(UserModel.username, username)
       .get()
       .addOnCompleteListener {
         val foundUsers = it.result?.toObjects(User::class.java)
