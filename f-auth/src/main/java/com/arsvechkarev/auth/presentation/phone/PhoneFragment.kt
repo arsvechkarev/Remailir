@@ -24,9 +24,6 @@ class PhoneFragment : BaseFragment() {
   
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     val country = arguments?.getParcelable(COUNTRY) as? Country
-    editTextPhone.doAfterTextChanged {
-      buttonNext.isEnabled = it.removeDashes().length >= 10
-    }
     if (country != null) {
       textCountryCode.text =
         getString(R.string.format_country_phone_prefix, country.code.toString())
@@ -34,6 +31,9 @@ class PhoneFragment : BaseFragment() {
       val region =
         PhoneNumberUtil.getInstance().getCountryCodeForRegion(Locale.getDefault().country)
       textCountryCode.text = getString(R.string.format_country_phone_prefix, region.toString())
+    }
+    editTextPhone.doAfterTextChanged {
+      buttonNext.isEnabled = it.removeDashes().length >= 10
     }
     buttonNext.setOnClickListener {
       val phoneNumber = textCountryCode.text.toString() + editTextPhone.phoneNumber()
@@ -50,7 +50,7 @@ class PhoneFragment : BaseFragment() {
     private const val COUNTRY = "COUNTRY"
   
     fun create(country: Country) = PhoneFragment().apply {
-      Bundle().apply {
+      arguments = Bundle().apply {
         putParcelable(COUNTRY, country)
       }
     }

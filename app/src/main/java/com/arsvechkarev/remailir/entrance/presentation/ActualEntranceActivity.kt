@@ -31,7 +31,6 @@ import javax.inject.Inject
 
 class ActualEntranceActivity : AppCompatActivity(), EntranceActivity {
   
-  private val smsCodeFragment = SmsCodeFragment()
   private val registrationFragment = RegistrationFragment()
   
   @Inject
@@ -59,7 +58,7 @@ class ActualEntranceActivity : AppCompatActivity(), EntranceActivity {
   
   private fun handleState(state: PhoneAuthState) {
     when (state) {
-      is OnCodeSent -> goToFragment(smsCodeFragment)
+      is OnCodeSent -> goToFragment(SmsCodeFragment())
       is UserAlreadyExists -> {
         goToCore()
       }
@@ -90,7 +89,6 @@ class ActualEntranceActivity : AppCompatActivity(), EntranceActivity {
   }
   
   override fun onPhoneEntered(phoneNumber: String) {
-    switchFragment(R.id.rootContainer, SmsCodeFragment(), true)
     phoneAuthProvider.verifyPhoneNumber(phoneNumber, 60, SECONDS, this, viewModel.callbacks)
   }
   
