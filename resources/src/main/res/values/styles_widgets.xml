@@ -10,10 +10,7 @@
 
   <!-- Button -->
 
-  <style name="MaterialButton" parent="Widget.MaterialComponents.TextView">
-    <item name="android:background">@drawable/color_button_login</item>
-    <item name="android:textAllCaps">false</item>
-    <item name="android:textSize">@dimen/text_h3</item>
+  <style name="MaterialButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
     <item name="android:textAppearance">@style/Text.Bold</item>
   </style>
 

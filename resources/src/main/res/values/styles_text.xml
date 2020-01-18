@@ -4,11 +4,13 @@
   <!-- TextAppearance -->
 
   <style name="Text">
+    <item name="android:textSize">@dimen/text_h4</item>
     <item name="android:textColor">?theColorTextPrimary</item>
     <item name="android:fontFamily">@font/rubik_medium</item>
   </style>
 
   <style name="Text.Bold">
+    <item name="android:textSize">@dimen/text_h3</item>
     <item name="android:fontFamily">@font/rubik_bold</item>
     <item name="android:letterSpacing">0.03</item>
   </style>

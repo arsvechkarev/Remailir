@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
-  android:layout_width="match_parent"
   android:id="@+id/rootContainer"
+  android:layout_width="match_parent"
   android:layout_height="match_parent">
 
   <FrameLayout
@@ -14,12 +14,18 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"/>
 
+  <View
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/height_divider"
+    android:background="?theColorDivider"
+    app:layout_constraintBottom_toTopOf="@id/bottomNavigationBar"/>
+
   <com.google.android.material.bottomnavigation.BottomNavigationView
     android:id="@+id/bottomNavigationBar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?theColorPrimary"
-    app:itemBackground="?theColorPrimary"
+    android:background="?theColorBackground"
+    app:itemBackground="?theColorBackground"
     app:itemIconTint="@drawable/bottom_nav_bar_bg"
     app:itemTextColor="@drawable/bottom_nav_bar_bg"
     app:labelVisibilityMode="unlabeled"
