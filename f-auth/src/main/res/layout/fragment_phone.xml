@@ -102,18 +102,13 @@
 
   <Button
     android:id="@+id/buttonNext"
+    style="@style/Button"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:layout_marginTop="@dimen/bt_next_m_top"
+    android:layout_marginTop="@dimen/bt_default_m_top"
     android:enabled="false"
-    android:paddingStart="@dimen/bt_next_p_start"
-    android:paddingTop="@dimen/bt_next_p_top"
-    android:paddingEnd="@dimen/bt_next_p_end"
-    android:paddingBottom="@dimen/bt_next_p_bottom"
     android:text="@string/text_next"
-    app:backgroundTint="@color/color_button_login"
-    app:cornerRadius="@dimen/radius_button_auth"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/layoutPhone"/>

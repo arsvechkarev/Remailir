@@ -14,6 +14,16 @@
     <item name="android:textAppearance">@style/Text.Bold</item>
   </style>
 
+  <style name="Button">
+    <item name="cornerRadius">@dimen/radius_button_default</item>
+    <item name="backgroundTint">@color/color_button_default</item>
+    <item name="android:paddingStart">@dimen/bt_default_p_start</item>
+    <item name="android:paddingTop">@dimen/bt_default_p_top</item>
+    <item name="android:paddingEnd">@dimen/bt_default_p_end</item>
+    <item name="android:paddingBottom">@dimen/bt_default_p_bottom</item>
+    <item name="android:textAppearance">@style/Text.Bold</item>
+  </style>
+
 
   <!-- Popup menu -->
 

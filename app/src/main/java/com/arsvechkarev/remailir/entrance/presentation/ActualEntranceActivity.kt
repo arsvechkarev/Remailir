@@ -39,11 +39,7 @@ class ActualEntranceActivity : AppCompatActivity(), EntranceActivity {
   @Inject
   lateinit var phoneAuthProvider: PhoneAuthProvider
   
-  private val viewModel by lazy {
-    viewModelOf<EntranceViewModel>(viewModelFactory) {
-      observe(phoneState(), ::handleState)
-    }
-  }
+  private lateinit var viewModel: EntranceViewModel
   
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -54,6 +50,9 @@ class ActualEntranceActivity : AppCompatActivity(), EntranceActivity {
       .coreComponent(coreComponent)
       .build()
       .inject(this)
+    viewModel = viewModelOf(viewModelFactory) {
+      observe(phoneState(), ::handleState)
+    }
     if (savedInstanceState == null) {
       switchToFragment(R.id.rootContainer, PhoneFragment(), addToBackStack = false, animate = false)
     }
@@ -105,6 +104,7 @@ class ActualEntranceActivity : AppCompatActivity(), EntranceActivity {
   }
   
   override fun goToCountriesList() {
+    viewModel.setPending()
     switchToFragment(R.id.rootContainer, CountriesFragment(), true)
   }
   

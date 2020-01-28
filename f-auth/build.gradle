@@ -39,6 +39,7 @@ dependencies {
   implementation dependencies.legacySupport
   implementation dependencies.constraintLayout
   implementation dependencies.libPhoneNumber
+  implementation dependencies.lifecycleExtensions
 
   implementation dependencies.firebaseAuth
   implementation dependencies.firebaseFirestore

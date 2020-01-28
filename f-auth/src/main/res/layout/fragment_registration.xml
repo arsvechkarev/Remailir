@@ -57,7 +57,7 @@
     android:paddingBottom="@dimen/bt_sign_up_p_bottom"
     android:text="@string/text_sign_up"
     android:theme="@style/MaterialButton"
-    app:cornerRadius="@dimen/radius_button_auth"
+    app:cornerRadius="@dimen/radius_button_default"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/editTextUsername"/>

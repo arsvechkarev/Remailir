@@ -2,6 +2,7 @@ package com.arsvechkarev.auth.presentation.sms
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.arsvechakrev.auth.R
 import com.arsvechkarev.auth.common.EntranceViewModel
@@ -9,7 +10,6 @@ import com.arsvechkarev.auth.common.PhoneAuthState
 import com.arsvechkarev.auth.common.PhoneAuthState.Failed
 import com.arsvechkarev.auth.di.DaggerAuthComponent
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
-import core.base.BaseFragment
 import core.base.entranceActivity
 import core.di.coreComponent
 import core.extensions.observe
@@ -22,9 +22,7 @@ import kotlinx.android.synthetic.main.fragment_sms_code.textError
 import kotlinx.android.synthetic.main.fragment_sms_code.theToolbar
 import javax.inject.Inject
 
-class SmsCodeFragment : BaseFragment() {
-  
-  override val layout: Int = R.layout.fragment_sms_code
+class SmsCodeFragment : Fragment(R.layout.fragment_sms_code) {
   
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory

@@ -1,13 +1,16 @@
 package com.arsvechkarev.auth.common
 
-import core.model.users.User
-
 sealed class PhoneAuthState {
+  
+  /**
+   * Used to clear [Failed] state so that fragments don't show error state anymore
+   */
+  object Pending : PhoneAuthState()
   
   /**
    * When user account is found and we can safely proceed
    */
-  class UserAlreadyExists(val user: User) : PhoneAuthState()
+  object UserAlreadyExists : PhoneAuthState()
   
   /**
    * User is not exist, redirect to registration

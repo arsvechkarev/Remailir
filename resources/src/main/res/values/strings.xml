@@ -24,4 +24,5 @@
   <!-- Errors -->
   <string name="error_invalid_sms_code">Invalid code</string>
   <string name="error_invalid_phone_number">Invalid phone number</string>
+  <string name="text_retry">Retry</string>
 </resources>

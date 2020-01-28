@@ -49,6 +49,7 @@ class SixDigitCodeLayout @JvmOverloads constructor(
     private var lastLength: Int = 0
     
     override fun afterTextChanged(s: Editable) {
+      if (s.isEmpty()) return
       afterTextChanged(s.toString())
       if (lastLength > s.length) {
         currentPosition--

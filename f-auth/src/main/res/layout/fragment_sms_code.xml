@@ -43,6 +43,27 @@
       android:textColor="?colorError"
       tools:text="Error. Blah blah blah"/>
 
+    <TextView
+      android:id="@+id/textTimeoutTimer"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="@dimen/text_error_sms_m_top"
+      android:textColor="?theColorTextSecondary"
+      android:textSize="@dimen/text_h3"
+      tools:text="Error. Blah blah blah"/>
+
+    <Button
+      android:id="@+id/buttonRetry"
+      style="@style/Button"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="@dimen/bt_default_m_top"
+      android:enabled="false"
+      android:text="@string/text_retry"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/layoutPhone"/>
+
   </LinearLayout>
 
 
