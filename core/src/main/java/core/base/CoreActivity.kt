@@ -4,9 +4,10 @@ import androidx.fragment.app.Fragment
 
 interface CoreActivity {
   
-  fun goToFragmentFromRoot(
+  fun goToFragment(
     fragment: Fragment,
-    addToBackStack: Boolean = false
+    addToBackStack: Boolean = false,
+    animate: Boolean = false
   )
   
   fun signOut()

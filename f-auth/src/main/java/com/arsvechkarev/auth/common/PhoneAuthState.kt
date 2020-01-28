@@ -1,4 +1,4 @@
-package com.arsvechkarev.remailir.entrance.presentation
+package com.arsvechkarev.auth.common
 
 import core.model.users.User
 

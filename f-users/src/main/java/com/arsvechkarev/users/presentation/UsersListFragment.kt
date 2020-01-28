@@ -41,7 +41,7 @@ class UsersListFragment : Fragment() {
   
   private val adapter = UsersListAdapter {
     popBackStack()
-    coreActivity.goToFragmentFromRoot(MessagingFragment.create(it), true)
+    coreActivity.goToFragment(MessagingFragment.create(it), addToBackStack = true, animate = false)
   }
   
   override fun onCreateView(

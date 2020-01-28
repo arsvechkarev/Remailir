@@ -62,8 +62,8 @@ class CoreActivity : BaseActivity(), CoreActivity {
     }
   }
   
-  override fun goToFragmentFromRoot(fragment: Fragment, addToBackStack: Boolean) {
-    switchToFragment(android.R.id.content, fragment, addToBackStack)
+  override fun goToFragment(fragment: Fragment, addToBackStack: Boolean, animate: Boolean) {
+    switchToFragment(android.R.id.content, fragment, addToBackStack, animate)
   }
   
   override fun signOut() {

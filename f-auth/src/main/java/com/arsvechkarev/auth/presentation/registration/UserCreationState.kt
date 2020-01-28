@@ -1,4 +1,4 @@
-package com.arsvechkarev.auth.presentation.signup
+package com.arsvechkarev.auth.presentation.registration
 
 sealed class UserCreationState {
   

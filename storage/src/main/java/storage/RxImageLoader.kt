@@ -18,12 +18,18 @@ object RxImageLoader {
         val input: InputStream = connection.inputStream
         val bitmap = BitmapFactory.decodeStream(input)
         if (bitmap == null) {
-          emitter.onError(BitmapIsNullException())
+          if (!emitter.isDisposed) {
+            emitter.onError(BitmapIsNullException())
+          }
         } else {
-          emitter.onSuccess(bitmap)
+          if (!emitter.isDisposed) {
+            emitter.onSuccess(bitmap)
+          }
         }
       } catch (e: Throwable) {
-        emitter.onError(e)
+        if (!emitter.isDisposed) {
+          emitter.onError(e)
+        }
       }
     }
   }

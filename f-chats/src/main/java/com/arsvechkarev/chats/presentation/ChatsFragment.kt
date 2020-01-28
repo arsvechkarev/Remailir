@@ -30,7 +30,7 @@ class ChatsFragment : BaseFragment() {
   override val layout = R.layout.fragment_all_chats
   
   private val adapter = ChatsAdapter {
-    coreActivity.goToFragmentFromRoot(MessagingFragment.create(it.otherUser), true)
+    coreActivity.goToFragment(MessagingFragment.create(it.otherUser), true)
   }
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -52,7 +52,7 @@ class ChatsFragment : BaseFragment() {
       viewModel.fetchMessages()
     }
     fabNewChat.setOnClickListener {
-      coreActivity.goToFragmentFromRoot(UsersListFragment(), true)
+      coreActivity.goToFragment(UsersListFragment(), true)
     }
     recyclerChats.layoutManager = LinearLayoutManager(context!!)
     recyclerChats.adapter = adapter

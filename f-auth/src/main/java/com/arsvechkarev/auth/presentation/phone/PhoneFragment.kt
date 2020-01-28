@@ -3,24 +3,56 @@ package com.arsvechkarev.auth.presentation.phone
 import android.os.Bundle
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
+import androidx.lifecycle.ViewModelProvider
 import com.arsvechakrev.auth.R
+import com.arsvechkarev.auth.common.EntranceViewModel
+import com.arsvechkarev.auth.common.PhoneAuthState
+import com.arsvechkarev.auth.common.PhoneAuthState.Failed
+import com.arsvechkarev.auth.common.PhoneAuthState.OnCodeSent
+import com.arsvechkarev.auth.di.DaggerAuthComponent
 import com.arsvechkarev.auth.utils.phoneNumber
 import com.arsvechkarev.auth.utils.removeDashes
+import com.arsvechkarev.views.dialogs.LoadingDialog
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import core.base.BaseFragment
 import core.base.entranceActivity
+import core.di.coreComponent
 import core.extensions.hideKeyboard
+import core.extensions.observe
+import core.extensions.viewModelOf
 import core.model.other.Country
+import core.strings.ERROR_INVALID_PHONE_NUMBER
 import kotlinx.android.synthetic.main.fragment_phone.buttonNext
 import kotlinx.android.synthetic.main.fragment_phone.editTextPhone
 import kotlinx.android.synthetic.main.fragment_phone.layoutCountryCode
 import kotlinx.android.synthetic.main.fragment_phone.textCountryCode
+import kotlinx.android.synthetic.main.fragment_sms_code.textError
 import java.util.Locale
+import javax.inject.Inject
 
 
 class PhoneFragment : BaseFragment() {
   
   override val layout: Int = R.layout.fragment_phone
+  
+  private var loadingDialog: LoadingDialog? = LoadingDialog()
+  
+  @Inject
+  lateinit var viewModelFactory: ViewModelProvider.Factory
+  private lateinit var entranceViewModel: EntranceViewModel
+  
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    DaggerAuthComponent.builder()
+      .coreComponent(coreComponent)
+      .build()
+      .inject(this)
+    entranceViewModel = requireActivity().viewModelOf(viewModelFactory) {
+      observe(phoneState(), ::handleState)
+    }
+    
+  }
   
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     val country = arguments?.getParcelable(COUNTRY) as? Country
@@ -33,16 +65,41 @@ class PhoneFragment : BaseFragment() {
       textCountryCode.text = getString(R.string.format_country_phone_prefix, region.toString())
     }
     editTextPhone.doAfterTextChanged {
+      textError.text = ""
       buttonNext.isEnabled = it.removeDashes().length >= 10
     }
     buttonNext.setOnClickListener {
       val phoneNumber = textCountryCode.text.toString() + editTextPhone.phoneNumber()
       entranceActivity.onPhoneEntered(phoneNumber)
+      loadingDialog?.show(requireActivity().supportFragmentManager, null)
     }
     layoutCountryCode.setOnClickListener {
       hideKeyboard(editTextPhone)
       entranceActivity.goToCountriesList()
     }
+  }
+  
+  
+  private fun handleState(state: PhoneAuthState) {
+    when (state) {
+      is OnCodeSent -> {
+        loadingDialog?.dismiss()
+      }
+      is Failed -> {
+        loadingDialog?.dismiss()
+        if (state.exception is FirebaseAuthInvalidCredentialsException
+          && state.exception.errorCode == ERROR_INVALID_PHONE_NUMBER
+        ) {
+          textError.text = getString(R.string.error_invalid_phone_number)
+        }
+      }
+    }
+  }
+  
+  
+  override fun onDestroy() {
+    super.onDestroy()
+    loadingDialog = null
   }
   
   companion object {

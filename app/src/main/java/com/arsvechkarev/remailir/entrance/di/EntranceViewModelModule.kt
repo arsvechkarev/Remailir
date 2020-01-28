@@ -1,7 +1,7 @@
 package com.arsvechkarev.remailir.entrance.di
 
 import androidx.lifecycle.ViewModel
-import com.arsvechkarev.remailir.entrance.presentation.EntranceViewModel
+import com.arsvechkarev.auth.common.EntranceViewModel
 import core.di.viewmodel.ViewModelKey
 import dagger.Binds
 import dagger.Module

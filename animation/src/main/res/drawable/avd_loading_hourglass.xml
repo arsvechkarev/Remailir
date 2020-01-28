@@ -4,13 +4,13 @@
     <vector
       android:width="@dimen/size_icon"
       android:height="@dimen/size_icon"
-      android:tint="?theColorIcon"
       android:viewportWidth="24"
       android:viewportHeight="24">
       <path
         android:name="path"
         android:pathData="M 12.1 12.1 L 7 7.5 L 7 3 L 17 3 L 17 7.5 L 7 17 L 7 21 L 17 21 L 17 16.5 Z"
-        android:strokeWidth="2"
+        android:strokeWidth="@dimen/vector_stroke_width"
+        android:strokeColor="#306599"
         android:strokeLineCap="round"
         android:strokeLineJoin="round"/>
     </vector>
@@ -19,7 +19,7 @@
     <aapt:attr name="android:animation">
       <set>
         <objectAnimator
-          android:duration="1500"
+          android:duration="1000"
           android:interpolator="@android:anim/accelerate_interpolator"
           android:propertyName="trimPathStart"
           android:repeatCount="infinite"
@@ -28,7 +28,7 @@
           android:valueTo="0"
           android:valueType="floatType"/>
         <objectAnimator
-          android:duration="1500"
+          android:duration="1000"
           android:interpolator="@android:anim/decelerate_interpolator"
           android:propertyName="trimPathEnd"
           android:repeatCount="infinite"
@@ -38,7 +38,7 @@
           android:valueTo="0"
           android:valueType="floatType"/>
         <objectAnimator
-          android:duration="3000"
+          android:duration="2000"
           android:interpolator="@android:anim/accelerate_decelerate_interpolator"
           android:propertyName="trimPathOffset"
           android:repeatCount="infinite"

@@ -1,4 +1,4 @@
-package com.arsvechkarev.auth.presentation.signup
+package com.arsvechkarev.auth.presentation.registration
 
 import android.os.Bundle
 import android.view.View
@@ -6,9 +6,9 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.ViewModelProvider
 import com.arsvechakrev.auth.R
 import com.arsvechkarev.auth.di.DaggerAuthComponent
-import com.arsvechkarev.auth.presentation.signup.UserCreationState.Completed
-import com.arsvechkarev.auth.presentation.signup.UserCreationState.Failed
-import com.arsvechkarev.auth.presentation.signup.UserCreationState.NameOccupied
+import com.arsvechkarev.auth.presentation.registration.UserCreationState.Completed
+import com.arsvechkarev.auth.presentation.registration.UserCreationState.Failed
+import com.arsvechkarev.auth.presentation.registration.UserCreationState.NameOccupied
 import core.base.BaseFragment
 import core.base.entranceActivity
 import core.di.coreComponent
@@ -28,13 +28,19 @@ class RegistrationFragment : BaseFragment() {
   
   override val layout: Int = R.layout.fragment_registration
   
-  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
     DaggerAuthComponent.builder()
       .coreComponent(coreComponent)
       .build()
       .inject(this)
     viewModel.creationState().observe(this, ::handleState)
-    handleEditTexts()
+  }
+  
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    editTextUsername.doAfterTextChanged {
+      buttonSignUp.isEnabled = it?.toString()?.isNotBlank() == true
+    }
     buttonSignUp.setOnClickListener {
       viewModel.createUser(editTextUsername.string())
     }
@@ -50,9 +56,4 @@ class RegistrationFragment : BaseFragment() {
     }
   }
   
-  private fun handleEditTexts() {
-    editTextUsername.doAfterTextChanged {
-      buttonSignUp.isEnabled = it?.toString()?.isNotBlank() == true
-    }
-  }
 }

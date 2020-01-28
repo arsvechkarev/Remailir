@@ -4,7 +4,7 @@ package core
  * Represents success, failure or no result
  */
 @Suppress("UNCHECKED_CAST")
-class MaybeResult<out S> private constructor(private val value: Any?) {
+class MaybeResult<S> private constructor(private val value: Any?) {
   
   val isNothing = value == null
   

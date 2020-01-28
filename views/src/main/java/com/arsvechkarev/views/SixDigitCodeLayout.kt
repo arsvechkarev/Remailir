@@ -17,6 +17,7 @@ class SixDigitCodeLayout @JvmOverloads constructor(
 ) : LinearLayout(context, attrs, defStyleAttr) {
   
   private var blockOnDone: (String) -> Unit = {}
+  private var afterTextChanged: (String) -> Unit = {}
   private var code = StringBuilder()
   private var currentPosition = 0
   
@@ -48,6 +49,7 @@ class SixDigitCodeLayout @JvmOverloads constructor(
     private var lastLength: Int = 0
     
     override fun afterTextChanged(s: Editable) {
+      afterTextChanged(s.toString())
       if (lastLength > s.length) {
         currentPosition--
         code.delete(code.length - 1, code.length)
@@ -82,12 +84,12 @@ class SixDigitCodeLayout @JvmOverloads constructor(
     hiddenEditText.addTextChangedListener(customTextWatcher)
   }
   
-  fun start() {
-    requestFocus()
+  fun afterTextChanged(afterTextChanged: (String) -> Unit) {
+    this.afterTextChanged = afterTextChanged
   }
   
-  fun requestEditTextFocus() {
-    hiddenEditText.requestFocus()
+  fun start() {
+    requestFocus()
   }
   
   fun enable() {

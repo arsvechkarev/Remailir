@@ -37,7 +37,6 @@ fun getCountriesList(): MutableList<Country> {
     val code = phoneNumberUtil.getCountryCodeForRegion(it)
     if (code != 0) {
       val country = Country(locale.displayName, it, code)
-      println(countries)
       countries.add(country)
     }
   }

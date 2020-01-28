@@ -1,21 +1,22 @@
-package com.arsvechkarev.remailir.entrance.presentation
+package com.arsvechkarev.auth.common
 
+import android.app.Activity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.arsvechkarev.remailir.entrance.presentation.PhoneAuthState.Cancelled
-import com.arsvechkarev.remailir.entrance.presentation.PhoneAuthState.Failed
-import com.arsvechkarev.remailir.entrance.presentation.PhoneAuthState.OnCheckedAutomatically
-import com.arsvechkarev.remailir.entrance.presentation.PhoneAuthState.OnCodeSent
-import com.arsvechkarev.remailir.entrance.presentation.PhoneAuthState.UserAlreadyExists
-import com.arsvechkarev.remailir.entrance.presentation.PhoneAuthState.UserNotExist
+import com.arsvechkarev.auth.common.PhoneAuthState.Cancelled
+import com.arsvechkarev.auth.common.PhoneAuthState.Failed
+import com.arsvechkarev.auth.common.PhoneAuthState.OnCodeSent
+import com.arsvechkarev.auth.common.PhoneAuthState.UserAlreadyExists
+import com.arsvechkarev.auth.common.PhoneAuthState.UserNotExist
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
-import core.base.RxViewModel
+import core.base.CoroutinesViewModel
 import core.model.users.User
 import firebase.schema.Collections.Users
+import kotlinx.coroutines.delay
 import log.Loggable
 import log.log
 import storage.AppUser
@@ -27,7 +28,11 @@ class EntranceViewModel @Inject constructor(
   private val firebaseAuth: FirebaseAuth,
   private val firebaseFirestore: FirebaseFirestore,
   private val sharedPreferencesManager: SharedPreferencesManager
-) : RxViewModel(), Loggable {
+) : CoroutinesViewModel(), Loggable {
+  
+  companion object {
+    private const val DELAY_DURATION = 700L
+  }
   
   override val logTag = "EntranceViewModel"
   
@@ -39,7 +44,7 @@ class EntranceViewModel @Inject constructor(
   fun phoneState(): LiveData<PhoneAuthState> = _phoneVerificationState
   
   
-  fun verifyPhone(phoneNumber: String, activity: ActualEntranceActivity) {
+  fun verifyPhone(phoneNumber: String, activity: Activity) {
     enteredPhoneNumber = phoneNumber
     PhoneAuthProvider.getInstance()
       .verifyPhoneNumber(phoneNumber, 60, TimeUnit.SECONDS, activity, callbacks)
@@ -50,10 +55,10 @@ class EntranceViewModel @Inject constructor(
     performMainSignCheck(credential)
   }
   
-  val callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+  private val callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
     
     override fun onVerificationCompleted(credential: PhoneAuthCredential) {
-      _phoneVerificationState.value = OnCheckedAutomatically
+      _phoneVerificationState.value = PhoneAuthState.OnCheckedAutomatically
       performMainSignCheck(credential)
       log { "completed, smsCode = ${credential.smsCode}" }
     }
@@ -62,10 +67,14 @@ class EntranceViewModel @Inject constructor(
       _phoneVerificationState.value = Failed(exception)
     }
     
-    override fun onCodeSent(p0: String, p1: PhoneAuthProvider.ForceResendingToken) {
-      verificationId = p0
-      log { "onCodeSent, p0 = $p0" }
-      _phoneVerificationState.value = OnCodeSent
+    override fun onCodeSent(verificationId: String, token: PhoneAuthProvider.ForceResendingToken) {
+      this@EntranceViewModel.verificationId = verificationId
+      log { "onCodeSent, p0 = $verificationId" }
+      
+      coroutine {
+        delay(DELAY_DURATION)
+        _phoneVerificationState.value = OnCodeSent
+      }
     }
   }
   

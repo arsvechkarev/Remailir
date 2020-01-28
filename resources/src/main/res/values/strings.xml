@@ -18,6 +18,10 @@
   <string name="text_enter_phone">Enter your phone number</string>
   <string name="text_enter_a_code">Enter a code we\'ve\nsent to you</string>
 
+  <!-- Formats -->
   <string name="format_country_phone_prefix">+%s</string>
 
+  <!-- Errors -->
+  <string name="error_invalid_sms_code">Invalid code</string>
+  <string name="error_invalid_phone_number">Invalid phone number</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.arsvechkarev.auth.presentation.signup
+package com.arsvechkarev.auth.presentation.registration
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
