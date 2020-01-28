@@ -58,4 +58,10 @@
     <item name="android:windowExitAnimation">@anim/loading_dialog_close</item>
   </style>
 
+  <style name="FragmentBackground">
+    <item name="android:background">@drawable/window_bg</item>
+    <item name="android:clickable">true</item>
+    <item name="android:focusable">true</item>
+  </style>
+
 </resources>

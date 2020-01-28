@@ -23,6 +23,7 @@
 
   <color name="dark_colorRefreshProgressBackground">#2A4663</color>
 
+  <!-- TODO: lookup color in color picker -->
   <color name="dark_colorGradientBgStart">#0D1217</color>
   <color name="dark_colorGradientBgEnd">#0D0217</color>
 </resources>
