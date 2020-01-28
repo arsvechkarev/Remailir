@@ -24,7 +24,7 @@ class RegistrationFragment : BaseFragment() {
   
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
-  private val viewModel by lazy { viewModelOf<RegistrationViewModel>(viewModelFactory) }
+  private lateinit var viewModel: RegistrationViewModel
   
   override val layout: Int = R.layout.fragment_registration
   
@@ -34,7 +34,9 @@ class RegistrationFragment : BaseFragment() {
       .coreComponent(coreComponent)
       .build()
       .inject(this)
-    viewModel.creationState().observe(this, ::handleState)
+    viewModel = viewModelOf(viewModelFactory) {
+      observe(creationState(), ::handleState)
+    }
   }
   
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

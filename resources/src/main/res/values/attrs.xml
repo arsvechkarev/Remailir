@@ -26,4 +26,7 @@
   <attr name="colorMessageOtherUser" format="color"/>
 
   <attr name="colorRefreshProgressBackground" format="color"/>
+
+  <attr name="colorGradientBgStart" format="color"/>
+  <attr name="colorGradientBgEnd" format="color"/>
 </resources>

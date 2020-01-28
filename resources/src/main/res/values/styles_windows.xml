@@ -8,7 +8,7 @@
     <item name="android:statusBarColor">@android:color/transparent</item>
     <item name="windowNoTitle">true</item>
     <item name="windowActionBar">false</item>
-    <item name="android:windowBackground">?theColorBackground</item>
+    <item name="android:windowBackground">@drawable/window_bg</item>
     <item name="colorPrimary">?theColorPrimary</item>
     <item name="colorPrimaryDark">?theColorPrimary</item>
     <item name="colorOnPrimary">?theColorOnPrimary</item>
@@ -44,6 +44,8 @@
     <item name="colorRefreshProgressBackground">
       @color/dark_colorRefreshProgressBackground
     </item>
+    <item name="colorGradientBgStart">@color/dark_colorGradientBgStart</item>
+    <item name="colorGradientBgEnd">@color/dark_colorGradientBgEnd</item>
   </style>
 
   <style name="AppTheme.Dark.ActionBar">

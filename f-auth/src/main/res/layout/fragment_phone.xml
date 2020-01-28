@@ -5,7 +5,8 @@
   android:id="@+id/rootLayoutPhoneFragment"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  android:background="?theColorBackground"
+  android:clickable="true"
+  android:focusable="true"
   tools:ignore="ContentDescription">
 
   <com.arsvechkarev.views.TheToolbar
