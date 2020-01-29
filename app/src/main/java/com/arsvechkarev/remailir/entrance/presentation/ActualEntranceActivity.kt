@@ -93,6 +93,7 @@ class ActualEntranceActivity : AppCompatActivity(), EntranceActivity {
   
   private fun goToFragment(fragment: Fragment) {
     switchToFragment(R.id.rootContainer, fragment)
+    viewModel.setPending()
   }
   
   override fun onPhoneEntered(phoneNumber: String) {

@@ -22,18 +22,14 @@ inline fun <reified T : ViewModel> Fragment.viewModelOf(
   factory: ViewModelProvider.Factory,
   block: T.() -> Unit = {}
 ): T {
-  val viewModel = ViewModelProviders.of(this, factory)[T::class.java]
-  viewModel.block()
-  return viewModel
+  return ViewModelProviders.of(this, factory)[T::class.java].apply(block)
 }
 
 inline fun <reified T : ViewModel> FragmentActivity.viewModelOf(
   factory: ViewModelProvider.Factory,
   block: T.() -> Unit = {}
 ): T {
-  val viewModel = ViewModelProviders.of(this, factory)[T::class.java]
-  viewModel.block()
-  return viewModel
+  return ViewModelProviders.of(this, factory)[T::class.java].apply(block)
 }
 
 inline fun <T : Any, L : LiveData<T>> LifecycleOwner.observe(

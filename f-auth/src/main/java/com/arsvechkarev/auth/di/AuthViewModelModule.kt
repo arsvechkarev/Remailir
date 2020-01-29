@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.arsvechkarev.auth.common.EntranceViewModel
 import com.arsvechkarev.auth.presentation.countrycodes.CountriesViewModel
 import com.arsvechkarev.auth.presentation.registration.RegistrationViewModel
+import com.arsvechkarev.auth.presentation.sms.SmsTimerViewModel
 import core.di.viewmodel.ViewModelKey
 import dagger.Binds
 import dagger.Module
@@ -26,5 +27,10 @@ abstract class AuthViewModelModule {
   @IntoMap
   @ViewModelKey(CountriesViewModel::class)
   internal abstract fun postCountriesViewModel(viewModel: CountriesViewModel): ViewModel
+  
+  @Binds
+  @IntoMap
+  @ViewModelKey(SmsTimerViewModel::class)
+  internal abstract fun postSmsTimerViewModel(viewModel: SmsTimerViewModel): ViewModel
   
 }

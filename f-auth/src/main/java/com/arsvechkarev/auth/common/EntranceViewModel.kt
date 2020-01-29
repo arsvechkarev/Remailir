@@ -10,6 +10,7 @@ import com.google.firebase.FirebaseException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
 import core.base.CoroutinesViewModel
+import core.strings.SMS_TIMEOUT_SECONDS
 import kotlinx.coroutines.delay
 import log.Loggable
 import log.log
@@ -22,7 +23,6 @@ class EntranceViewModel @Inject constructor(
   
   companion object {
     private const val FAKE_DELAY = 500L
-    const val SMS_TIMEOUT_SECONDS = 60L
   }
   
   override val logTag = "EntranceViewModel"

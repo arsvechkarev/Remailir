@@ -27,6 +27,8 @@ ext {
   rxAndroid_version = "2.1.1"
   rxFirebase_version = "1.5.7"
 
+  timerx_version = "1.0.0"
+
   applicationDependencies = [
       kotlin             : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
       appCompat          : "androidx.appcompat:appcompat:$appCompat_version",
@@ -53,7 +55,8 @@ ext {
       workManager        : "androidx.work:work-runtime:$workManager_version",
       rxJava             : "io.reactivex.rxjava2:rxjava:$rxJava_version",
       rxAndroid          : "io.reactivex.rxjava2:rxandroid:$rxAndroid_version",
-      rxFirebase         : "com.github.FrangSierra:RxFirebase:$rxFirebase_version"
+      rxFirebase         : "com.github.FrangSierra:RxFirebase:$rxFirebase_version",
+      timerx             : "com.arsvechkarev:timerx:$timerx_version"
   ]
 
   junit_version = '4.12'
