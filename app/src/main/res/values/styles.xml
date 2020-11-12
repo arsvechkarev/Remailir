@@ -1,7 +1,0 @@
-<resources>
-
-  <style name="SplashTheme" parent="AppTheme.Dark">
-    <item name="android:windowBackground">@drawable/splash_screen_bg</item>
-  </style>
-
-</resources>

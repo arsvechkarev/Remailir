@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-  <item>
-    <shape android:shape="rectangle">
-      <corners android:bottomLeftRadius="@dimen/radius_edit_text_auth" android:topLeftRadius="@dimen/radius_edit_text_auth"/>
-      <stroke android:width="@dimen/stroke_edit_text_auth" android:color="?theColorAccentSecondary"/>
-    </shape>
-  </item>
-</selector>
