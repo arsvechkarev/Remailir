@@ -7,4 +7,6 @@
   <dimen name="text_h1">24sp</dimen>
   <dimen name="text_h0">30sp</dimen>
   <dimen name="text_header">36sp</dimen>
+
+  <dimen name="icon_default_size">24dp</dimen>
 </resources>

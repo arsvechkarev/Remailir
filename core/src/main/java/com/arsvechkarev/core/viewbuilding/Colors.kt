@@ -6,7 +6,7 @@ import com.arsvechkarev.viewdsl.getAttrColor
 
 object Colors {
   
-  private val colors = IntArray(23) { 0 }
+  private val colors = IntArray(24) { 0 }
   
   val Background get() = colors[0]
   val Surface get() = colors[1]
@@ -28,9 +28,10 @@ object Colors {
   val ErrorGradientStart get() = colors[17]
   val ErrorGradientEnd get() = colors[18]
   val Disabled get() = colors[19]
-  val Border get() = colors[20]
-  val Share get() = colors[21]
-  val SourceCode get() = colors[22]
+  val Divider get() = colors[20]
+  val Border get() = colors[21]
+  val Share get() = colors[22]
+  val SourceCode get() = colors[23]
   
   fun init(context: Context) {
     colors[0] = context.getAttrColor(R.attr.colorBackground)
@@ -53,8 +54,9 @@ object Colors {
     colors[17] = context.getAttrColor(R.attr.colorErrorGradientStart)
     colors[18] = context.getAttrColor(R.attr.colorErrorGradientEnd)
     colors[19] = context.getAttrColor(R.attr.colorDisabled)
-    colors[20] = context.getAttrColor(R.attr.colorBorder)
-    colors[21] = context.getAttrColor(R.attr.colorShare)
-    colors[22] = context.getAttrColor(R.attr.colorSourceCode)
+    colors[20] = context.getAttrColor(R.attr.colorDivider)
+    colors[21] = context.getAttrColor(R.attr.colorBorder)
+    colors[22] = context.getAttrColor(R.attr.colorShare)
+    colors[23] = context.getAttrColor(R.attr.colorSourceCode)
   }
 }

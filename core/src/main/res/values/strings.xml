@@ -2,6 +2,8 @@
 <resources>
   <string name="app_name">Remailir</string>
 
+  <string name="title_chats">Chats</string>
+
   <string name="text_sign_in">Sign in</string>
   <string name="text_enter_your_email">Enter your email and you will receive link to sign in to the app</string>
   <string name="text_open_email_app">Open email app</string>

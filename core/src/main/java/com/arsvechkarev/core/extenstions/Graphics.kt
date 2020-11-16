@@ -1,15 +1,26 @@
 package com.arsvechkarev.core.extenstions
 
 import android.graphics.Canvas
+import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.RectF
 import android.text.TextPaint
+import android.widget.TextView
 import androidx.annotation.ColorInt
 import kotlin.math.pow
 import kotlin.math.roundToInt
 
 val TEMP_RECT = Rect()
 val TEMP_RECT_F = RectF()
+val TEMP_PAINT = TextPaint(Paint.ANTI_ALIAS_FLAG)
+
+fun TextView.textHeight(): Int {
+  val testText = "A"
+  TEMP_PAINT.typeface = typeface
+  TEMP_PAINT.textSize = textSize
+  TEMP_PAINT.getTextBounds(testText, 0, testText.length, TEMP_RECT)
+  return TEMP_RECT.height()
+}
 
 fun TextPaint.getTextHeight(text: String = "A"): Int {
   TEMP_RECT.setEmpty()

@@ -3,18 +3,19 @@ package com.arsvechkarev.registration.presentation
 import android.content.Intent
 import android.view.Gravity
 import android.widget.EditText
-import android.widget.FrameLayout
-import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.TextView
 import com.arsvechkarev.core.extenstions.getRegistrationMessageRes
 import com.arsvechkarev.core.extenstions.ifNotNull
 import com.arsvechkarev.core.extenstions.moxyPresenter
 import com.arsvechkarev.core.navigation.Screen
 import com.arsvechkarev.core.viewbuilding.Colors
-import com.arsvechkarev.core.viewbuilding.Dimens
+import com.arsvechkarev.core.viewbuilding.Dimens.CheckmarkHeight
+import com.arsvechkarev.core.viewbuilding.Dimens.CheckmarkWidth
+import com.arsvechkarev.core.viewbuilding.Dimens.ErrorLayoutImageSize
+import com.arsvechkarev.core.viewbuilding.Dimens.ErrorLayoutTextPadding
+import com.arsvechkarev.core.viewbuilding.Dimens.ProgressBarSizeBig
 import com.arsvechkarev.core.viewbuilding.Fonts
-import com.arsvechkarev.core.viewbuilding.Styles
+import com.arsvechkarev.core.viewbuilding.Styles.BoldTextView
 import com.arsvechkarev.core.viewbuilding.Styles.ClickableButton
 import com.arsvechkarev.core.viewbuilding.TextSizes
 import com.arsvechkarev.registration.R
@@ -30,7 +31,6 @@ import com.arsvechkarev.viewdsl.Size.Companion.MatchParent
 import com.arsvechkarev.viewdsl.Size.Companion.WrapContent
 import com.arsvechkarev.viewdsl.animateInvisible
 import com.arsvechkarev.viewdsl.animateVisible
-import com.arsvechkarev.viewdsl.backgroundColor
 import com.arsvechkarev.viewdsl.font
 import com.arsvechkarev.viewdsl.gravity
 import com.arsvechkarev.viewdsl.image
@@ -53,22 +53,20 @@ import timber.log.Timber
 
 class RegistrationScreen : Screen(), RegistrationView {
   
-  @Suppress("RemoveExplicitTypeArguments")
   override fun buildLayout() = withViewBuilder {
-    FrameLayout(MatchParent, MatchParent) {
-      backgroundColor(Colors.Background)
-      child<LinearLayout>(MatchParent, WrapContent) {
+    RootFrameLayout(MatchParent, MatchParent) {
+      LinearLayout(MatchParent, WrapContent) {
         tag(LayoutMain)
         layoutGravity(Gravity.CENTER)
         orientation(LinearLayout.VERTICAL)
-        child<TextView>(WrapContent, WrapContent) {
+        TextView(WrapContent, WrapContent) {
           layoutGravity(Gravity.CENTER)
           margins(top = MarginTop)
           textSize(TextSizes.Header)
           text(R.string.title_log_in)
           font(Fonts.SegoeUiBold)
         }
-        child<TextView>(MatchParent, WrapContent) {
+        TextView(MatchParent, WrapContent) {
           gravity(Gravity.CENTER)
           margins(start = MarginHorizontal, end = MarginHorizontal, top = MarginTop)
           textSize(TextSizes.H4)
@@ -85,7 +83,7 @@ class RegistrationScreen : Screen(), RegistrationView {
           isEnabled = false
           setHint(R.string.hint_edit_text_email)
         }
-        child<TextView>(WrapContent, WrapContent) {
+        TextView(WrapContent, WrapContent) {
           tag(TextEmailError)
           invisible()
           gravity(Gravity.CENTER)
@@ -94,7 +92,7 @@ class RegistrationScreen : Screen(), RegistrationView {
           textSize(TextSizes.H4)
           font(Fonts.SegoeUi)
         }
-        child<TextView>(MatchParent, WrapContent) {
+        TextView(MatchParent, WrapContent) {
           tag(TextLinkWasSent)
           invisible()
           gravity(Gravity.CENTER)
@@ -103,7 +101,7 @@ class RegistrationScreen : Screen(), RegistrationView {
           text(R.string.error_email_sent)
           font(Fonts.SegoeUi)
         }
-        child<TextView>(MatchParent, WrapContent) {
+        TextView(MatchParent, WrapContent) {
           tag(TextTimer)
           invisible()
           textColor(Colors.TextSecondary)
@@ -112,7 +110,7 @@ class RegistrationScreen : Screen(), RegistrationView {
           textSize(TextSizes.H4)
           font(Fonts.SegoeUi)
         }
-        child<TextView>(WrapContent, WrapContent, style = ClickableButton()) {
+        TextView(WrapContent, WrapContent, style = ClickableButton()) {
           tag(TextOpenEmailApp)
           invisible()
           layoutGravity(Gravity.CENTER)
@@ -125,51 +123,51 @@ class RegistrationScreen : Screen(), RegistrationView {
           }
         }
       }
-      child<LinearLayout>(MatchParent, WrapContent) {
+      LinearLayout(MatchParent, WrapContent) {
         tag(LayoutLoading)
         invisible()
         orientation(LinearLayout.VERTICAL)
         layoutGravity(Gravity.CENTER)
         gravity(Gravity.CENTER)
-        child<TextView>(WrapContent, WrapContent, style = Styles.BoldTextView) {
+        TextView(WrapContent, WrapContent, style = BoldTextView) {
           tag(TextVerifyingLink)
           text(R.string.text_verifying_link)
           padding(24.dp)
           textSize(TextSizes.H1)
         }
-        child<FrameLayout>(WrapContent, WrapContent) {
-          child<CheckmarkView>(Dimens.CheckmarkWidth, Dimens.CheckmarkHeight) {
+        FrameLayout(WrapContent, WrapContent) {
+          child<CheckmarkView>(CheckmarkWidth, CheckmarkHeight) {
             invisible()
             tag(Checkmark)
           }
           addView(ProgressBar(context, Colors.Accent, ProgressBar.Thickness.THICK).apply {
             tag(ProgressBarTag)
-            size(Dimens.ProgressBarSizeBig, Dimens.ProgressBarSizeBig)
+            size(ProgressBarSizeBig, ProgressBarSizeBig)
           })
         }
       }
-      child<LinearLayout>(MatchParent, MatchParent) {
+      LinearLayout(MatchParent, MatchParent) {
         tag(LayoutError)
         invisible()
         gravity(Gravity.CENTER)
         layoutGravity(Gravity.CENTER)
         orientation(LinearLayout.VERTICAL)
-        child<ImageView>(Dimens.ErrorLayoutImageSize, Dimens.ErrorLayoutImageSize) {
+        ImageView(ErrorLayoutImageSize, ErrorLayoutImageSize) {
           image(R.drawable.image_unknown_error)
-          margins(bottom = Dimens.ErrorLayoutTextPadding)
+          margins(bottom = ErrorLayoutTextPadding)
         }
-        child<TextView>(WrapContent, WrapContent, style = Styles.BoldTextView) {
+        TextView(WrapContent, WrapContent, style = BoldTextView) {
           tag(TextError)
           gravity(Gravity.CENTER)
           paddings(
-            start = Dimens.ErrorLayoutTextPadding,
-            end = Dimens.ErrorLayoutTextPadding,
-            bottom = Dimens.ErrorLayoutTextPadding
+            start = ErrorLayoutTextPadding,
+            end = ErrorLayoutTextPadding,
+            bottom = ErrorLayoutTextPadding
           )
           textSize(TextSizes.H2)
           text(R.string.error_email_link_expired)
         }
-        child<TextView>(WrapContent, WrapContent, style = ClickableButton(
+        TextView(WrapContent, WrapContent, style = ClickableButton(
           colorStart = Colors.ErrorGradientStart,
           colorEnd = Colors.ErrorGradientEnd,
         )) {

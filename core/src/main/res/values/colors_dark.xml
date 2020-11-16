@@ -19,7 +19,8 @@
   <color name="dark_message_other_user">#292929</color>
   <color name="dark_error_gradient_start">#E64545</color>
   <color name="dark_error_gradient_end">#FF997C</color>
-  <color name="dark_disabled">#AFAFAF</color>
+  <color name="dark_disabled">@color/dark_divider</color>
+  <color name="dark_divider">#AFAFAF</color>
   <color name="dark_border">#6F6F6F</color>
   <color name="dark_share">#8900D8</color>
   <color name="dark_source_code">#08B08F</color>

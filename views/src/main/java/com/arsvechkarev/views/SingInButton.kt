@@ -18,6 +18,7 @@ import com.arsvechkarev.core.viewbuilding.Fonts
 import com.arsvechkarev.core.viewbuilding.TextSizes
 import com.arsvechkarev.viewdsl.Ints.dp
 import com.arsvechkarev.viewdsl.Size.Companion.WrapContent
+import com.arsvechkarev.viewdsl.addView
 import com.arsvechkarev.viewdsl.animateInvisible
 import com.arsvechkarev.viewdsl.animateVisible
 import com.arsvechkarev.viewdsl.background
@@ -29,7 +30,6 @@ import com.arsvechkarev.viewdsl.paddingVertical
 import com.arsvechkarev.viewdsl.size
 import com.arsvechkarev.viewdsl.text
 import com.arsvechkarev.viewdsl.textSize
-import com.arsvechkarev.viewdsl.withViewBuilder
 
 class SingInButton(context: Context) : FrameLayout(context) {
   
@@ -37,20 +37,20 @@ class SingInButton(context: Context) : FrameLayout(context) {
   private val progressBar get() = getChildAt(1)
   
   init {
-    addView(withViewBuilder {
+    addView {
       TextView(WrapContent, WrapContent) {
         gravity(Gravity.CENTER)
         font(Fonts.SegoeUiBold)
         textSize(TextSizes.H3)
         text(R.string.text_sign_in)
       }
-    })
-    addView(withViewBuilder {
+    }
+    addView {
       ProgressBar(context, TextPrimary, ProgressBar.Thickness.THICK).apply {
         size(32.dp, 32.dp)
         invisible()
       }
-    })
+    }
     paddingVertical(6.dp)
     val stateListDrawable = StateListDrawable()
     val enabled = createEnabledDrawable(60.dp)

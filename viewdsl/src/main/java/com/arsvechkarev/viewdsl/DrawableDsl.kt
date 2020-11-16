@@ -6,8 +6,10 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.RippleDrawable
 import android.graphics.drawable.ShapeDrawable
+import android.graphics.drawable.shapes.OvalShape
 import android.graphics.drawable.shapes.RectShape
 import android.graphics.drawable.shapes.RoundRectShape
+import android.graphics.drawable.shapes.Shape
 import android.view.View
 
 fun View.backgroundRoundRect(cornerRadius: Int, color: Int) {
@@ -67,14 +69,21 @@ fun View.rippleBackground(
   background(RippleDrawable(ColorStateList.valueOf(rippleColor), backgroundDrawable, maskRect))
 }
 
+fun View.circleRippleBackground(rippleColor: Int) {
+  addRippleBackground(OvalShape(), rippleColor)
+}
+
 fun View.rippleBackground(rippleColor: Int) {
-  val rectShape = RectShape()
+  addRippleBackground(RectShape(), rippleColor)
+}
+
+private fun View.addRippleBackground(shape: Shape, rippleColor: Int) {
   val background = ShapeDrawable().apply {
-    shape = rectShape
+    this.shape = shape
     paint.color = Color.TRANSPARENT
   }
   val mask = ShapeDrawable().apply {
-    shape = rectShape
+    this.shape = shape
     paint.color = rippleColor
   }
   isClickable = true
