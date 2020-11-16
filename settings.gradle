@@ -1,2 +1,8 @@
 rootProject.name = "Remailir"
 include ':app'
+include ':core'
+include ':viewdsl'
+include ':storage'
+include ':views'
+include ':f-registration'
+include ':f-chats'

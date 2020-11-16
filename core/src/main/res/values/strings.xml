@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name">Remailir</string>
+
+  <string name="text_sign_in">Sign in</string>
+  <string name="text_enter_your_email">Enter your email and you will receive link to sign in to the app</string>
+  <string name="text_open_email_app">Open email app</string>
+  <string name="text_verifying_link">Verifying link…</string>
+  <string name="text_successfully_verified">Successfully verified!</string>
+  <string name="title_log_in">Log in</string>
+  <string name="text_retry">Try again</string>
+  <string name="text_resend_link">Resend link</string>
+  <string name="text_retry_short">RETRY</string>
+
+  <string name="number_resend_link">Resend link in %1$s</string>
+  <string name="hint_edit_text_email">Email</string>
+
+  <string name="error_email_sent">Email verification link was sent</string>
+  <string name="error_no_connection">Whoops! No internet connection available</string>
+  <string name="error_timeout">Connection is too slow. Try again later</string>
+  <string name="error_unknown">Oops! Something went wrong. Try again later</string>
+  <string name="error_no_connection_short">No internet connection</string>
+  <string name="error_timeout_short">Connection is too slow</string>
+  <string name="error_unknown_short">An error occurred</string>
+  <string name="error_email_is_empty">Email is empty</string>
+  <string name="error_email_is_incorrect">Email is incorrect</string>
+  <string name="error_email_link_expired">Email link has expired</string>
+  <string name="error_while_checking_link">An error occurred while checking link</string>
+</resources>

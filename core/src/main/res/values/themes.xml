@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <style name="AppTheme" parent="Theme.AppCompat">
+    <item name="colorPrimary">?colorBackground</item>
+    <item name="android:textViewStyle">@style/TextStyle</item>
+    <item name="android:statusBarColor">@android:color/transparent</item>
+    <item name="android:windowBackground">?colorBackground</item>
+  </style>
+
+  <style name="AppTheme.Dark">
+    <item name="colorBackground">@color/dark_background</item>
+    <item name="colorSurface">@color/dark_surface</item>
+    <item name="colorDialog">@color/dark_dialog</item>
+    <item name="colorIcon">@color/dark_icon</item>
+    <item name="colorRipple">@color/dark_ripple</item>
+    <item name="colorAccent">@color/dark_accent</item>
+    <item name="colorAccentLight">@color/dark_accent_light</item>
+    <item name="colorOnAccent">@color/dark_on_accent</item>
+    <item name="colorSuccess">@color/dark_success</item>
+    <item name="colorError">@color/dark_error</item>
+    <item name="colorErrorRipple">@color/dark_error_ripple</item>
+    <item name="colorTextPrimary">@color/dark_text_primary</item>
+    <item name="colorTextSecondary">@color/dark_text_secondary</item>
+    <item name="colorUserIconPrimary">@color/dark_user_icon_primary</item>
+    <item name="colorUserIconSecondary">@color/dark_user_icon_secondary</item>
+    <item name="colorMessageThisUser">@color/dark_message_this_user</item>
+    <item name="colorMessageOtherUser">@color/dark_message_other_user</item>
+    <item name="colorErrorGradientStart">@color/dark_error_gradient_start</item>
+    <item name="colorErrorGradientEnd">@color/dark_error_gradient_end</item>
+    <item name="colorDisabled">@color/dark_disabled</item>
+    <item name="colorBorder">@color/dark_border</item>
+    <item name="colorShare">@color/dark_share</item>
+    <item name="colorSourceCode">@color/dark_source_code</item>
+  </style>
+
+  <style name="TextStyle" parent="@style/TextAppearance.AppCompat">
+    <item name="fontFamily">@font/segoe_ui_bold</item>
+    <item name="android:textColor">?colorTextPrimary</item>
+  </style>
+</resources>

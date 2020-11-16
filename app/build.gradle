@@ -1,25 +1,26 @@
 plugins {
   id 'com.android.application'
   id 'kotlin-android'
+  id 'kotlin-android-extensions'
+  id 'kotlin-kapt'
+  id 'com.google.gms.google-services'
 }
 
 android {
-  compileSdkVersion 30
-
+  def configs = rootProject.ext
+  compileSdkVersion configs.compileSdkVersion
   defaultConfig {
-    applicationId "com.arsvechkarev.remailir"
-    minSdkVersion 21
-    targetSdkVersion 30
-    versionCode 1
-    versionName "1.0"
-
-    testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    applicationId configs.applicationId
+    minSdkVersion configs.minSdkVersion
+    targetSdkVersion configs.targetSdkVersion
+    versionCode configs.versionCode
+    versionName configs.versionName
+    testInstrumentationRunner configs.testInstrumentationRunner
   }
-
   buildTypes {
     release {
-      minifyEnabled false
-      proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+      minifyEnabled configs.minifyEnabled
+      proguardFiles(getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro')
     }
   }
   compileOptions {
@@ -27,18 +28,33 @@ android {
     targetCompatibility JavaVersion.VERSION_1_8
   }
   kotlinOptions {
-    jvmTarget = '1.8'
+    jvmTarget = "1.8"
   }
 }
 
 dependencies {
+  implementation project(':core')
+  implementation project(':views')
+  implementation project(':f-registration')
+  implementation project(':f-chats')
 
-  implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-  implementation 'androidx.core:core-ktx:1.3.2'
-  implementation 'androidx.appcompat:appcompat:1.2.0'
-  implementation 'com.google.android.material:material:1.2.1'
-  implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-  testImplementation 'junit:junit:4.+'
-  androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-  androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+  debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.2'
+
+  def dependencies = rootProject.ext.applicationDependencies
+  implementation platform(dependencies.firebasePlatform)
+  implementation dependencies.kotlin
+  implementation dependencies.appCompat
+  implementation dependencies.constraintLayout
+  implementation dependencies.coordinatorLayout
+  implementation dependencies.threeTenAbp
+  implementation dependencies.coroutinesCore
+  implementation dependencies.firebaseAuth
+
+  implementation dependencies.moxy
+  implementation dependencies.moxyAndroidx
+  kapt dependencies.moxyCompiler
+
+  def testDependencies = rootProject.ext.testDependencies
+  testImplementation testDependencies.junit
+  testImplementation testDependencies.mockk
 }

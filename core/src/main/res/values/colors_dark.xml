@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <color name="dark_background">#000000</color>
+  <color name="dark_surface">#383838</color>
+  <color name="dark_dialog">#1D242D</color>
+  <color name="dark_icon">#FFFFFF</color>
+  <color name="dark_ripple">#C6FFFFFF</color>
+  <color name="dark_accent">#2C5D9F</color>
+  <color name="dark_accent_light">#3A85EB</color>
+  <color name="dark_on_accent">#133868</color>
+  <color name="dark_success">#29B500</color>
+  <color name="dark_error">#C63120</color>
+  <color name="dark_error_ripple">#70E64545</color>
+  <color name="dark_text_primary">#FFFFFF</color>
+  <color name="dark_text_secondary">#C6C6C6</color>
+  <color name="dark_user_icon_primary">#265798</color>
+  <color name="dark_user_icon_secondary">#939393</color>
+  <color name="dark_message_this_user">#0B3063</color>
+  <color name="dark_message_other_user">#292929</color>
+  <color name="dark_error_gradient_start">#E64545</color>
+  <color name="dark_error_gradient_end">#FF997C</color>
+  <color name="dark_disabled">#AFAFAF</color>
+  <color name="dark_border">#6F6F6F</color>
+  <color name="dark_share">#8900D8</color>
+  <color name="dark_source_code">#08B08F</color>
+</resources>
