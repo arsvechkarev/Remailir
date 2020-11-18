@@ -9,6 +9,10 @@ fun ViewGroup.addViews(vararg views: View) {
   views.forEach { addView(it) }
 }
 
+fun ViewGroup.addView(block: () -> View) {
+  addView(block())
+}
+
 val ViewGroup.children: Iterable<View>
   get() = object : Iterable<View> {
     override fun iterator(): Iterator<View> {

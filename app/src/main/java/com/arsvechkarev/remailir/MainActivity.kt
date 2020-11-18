@@ -1,5 +1,6 @@
 package com.arsvechkarev.remailir
 
+import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.provider.Settings.System
@@ -7,11 +8,11 @@ import android.provider.Settings.System.ACCELEROMETER_ROTATION
 import android.view.View
 import com.arsvechkarev.chats.presentation.ChatsScreen
 import com.arsvechkarev.core.BaseActivity
-import com.arsvechkarev.core.auth.FirebaseAuthenticator
 import com.arsvechkarev.core.navigation.Navigator
 import com.arsvechkarev.core.navigation.NavigatorView
 import com.arsvechkarev.core.navigation.Options
 import com.arsvechkarev.core.viewbuilding.Colors
+import com.arsvechkarev.firebase.auth.FirebaseAuthenticator
 import com.arsvechkarev.registration.presentation.RegistrationScreen
 import com.arsvechkarev.viewdsl.Densities
 import com.arsvechkarev.viewdsl.Size.Companion.MatchParent
@@ -56,6 +57,12 @@ class MainActivity : BaseActivity(), Navigator {
       ChatsScreen::class,
       options = Options(clearAllOtherScreens = true)
     )
+  }
+  
+  override fun openEmailApp() {
+    val intent = Intent(Intent.ACTION_MAIN)
+    intent.addCategory(Intent.CATEGORY_APP_EMAIL)
+    startActivity(intent)
   }
   
   override fun onBackPressed() {

@@ -1,8 +1,10 @@
 package com.arsvechkarev.core.navigation
 
+import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
@@ -75,6 +77,11 @@ abstract class Screen : MvpDelegateHolder {
   open fun onOrientationBecameLandscape() = Unit
   
   open fun onRelease() = Unit
+  
+  fun hideKeyboard() {
+    val imm = contextNonNull.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+    imm.hideSoftInputFromWindow(viewNonNull.windowToken, 0)
+  }
   
   fun withViewBuilder(builder: ViewBuilder.() -> View): View {
     return contextNonNull.withViewBuilder(builder)

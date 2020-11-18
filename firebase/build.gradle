@@ -18,7 +18,7 @@ android {
 }
 
 dependencies {
-  api project(':viewdsl')
+  implementation project(':core')
 
   def dependencies = rootProject.ext.applicationDependencies
 
@@ -27,14 +27,10 @@ dependencies {
   implementation platform(dependencies.firebasePlatform)
   implementation dependencies.kotlin
   implementation dependencies.appCompat
-  implementation dependencies.moxy
-  implementation dependencies.moxyAndroidx
-  implementation dependencies.coordinatorLayout
-  implementation dependencies.recyclerView
   implementation dependencies.coroutinesCore
   implementation dependencies.coroutinesAndroid
-  implementation dependencies.glide
   implementation dependencies.threeTenAbp
   implementation dependencies.firebaseAuth
   implementation dependencies.firebaseDatabase
+  implementation dependencies.firebaseFirestore
 }

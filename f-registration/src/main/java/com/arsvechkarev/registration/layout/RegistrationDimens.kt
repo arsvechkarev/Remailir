@@ -1,4 +1,4 @@
-package com.arsvechkarev.registration.presentation
+package com.arsvechkarev.registration.layout
 
 import com.arsvechkarev.viewdsl.Ints.dp
 
@@ -9,6 +9,5 @@ object RegistrationDimens {
   val MarginBottom = 20.dp
   val MarginHorizontal = 24.dp
   val MarginHorizontalBig = 32.dp
-  
   val EditTextPadding = 12.dp
 }

@@ -21,6 +21,8 @@ ext {
       threeTenAbp       : "com.jakewharton.threetenabp:threetenabp:1.2.4",
       firebasePlatform  : "com.google.firebase:firebase-bom:25.12.0",
       firebaseAuth      : "com.google.firebase:firebase-auth",
+      firebaseDatabase  : "com.google.firebase:firebase-database",
+      firebaseFirestore : "com.google.firebase:firebase-firestore",
       googleServicesAuth: "com.google.android.gms:play-services-auth:19.0.0",
       timerx            : "com.arsvechkarev:timerx:2.3.2",
   ]

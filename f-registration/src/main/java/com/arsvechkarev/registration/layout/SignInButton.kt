@@ -1,4 +1,4 @@
-package com.arsvechkarev.views
+package com.arsvechkarev.registration.layout
 
 import android.content.Context
 import android.content.res.ColorStateList
@@ -12,6 +12,7 @@ import android.util.StateSet
 import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
+import android.widget.TextView
 import com.arsvechkarev.core.viewbuilding.Colors
 import com.arsvechkarev.core.viewbuilding.Colors.TextPrimary
 import com.arsvechkarev.core.viewbuilding.Fonts
@@ -28,21 +29,22 @@ import com.arsvechkarev.viewdsl.invisible
 import com.arsvechkarev.viewdsl.layoutGravity
 import com.arsvechkarev.viewdsl.paddingVertical
 import com.arsvechkarev.viewdsl.size
-import com.arsvechkarev.viewdsl.text
 import com.arsvechkarev.viewdsl.textSize
+import com.arsvechkarev.views.ProgressBar
 
-class SingInButton(context: Context) : FrameLayout(context) {
+class SignInButton(context: Context) : FrameLayout(context) {
   
-  private val textView get() = getChildAt(0)
+  val title get() = getChildAt(0) as TextView
+  
   private val progressBar get() = getChildAt(1)
   
   init {
     addView {
-      TextView(WrapContent, WrapContent) {
+      TextView(context).apply {
+        size(WrapContent, WrapContent)
         gravity(Gravity.CENTER)
         font(Fonts.SegoeUiBold)
         textSize(TextSizes.H3)
-        text(R.string.text_sign_in)
       }
     }
     addView {
@@ -67,12 +69,12 @@ class SingInButton(context: Context) : FrameLayout(context) {
   }
   
   fun showProgress() {
-    textView.animateInvisible()
+    title.animateInvisible()
     progressBar.animateVisible()
   }
   
   fun hideProgress() {
-    textView.animateVisible()
+    title.animateVisible()
     progressBar.animateInvisible()
   }
   

@@ -6,4 +6,6 @@ package com.arsvechkarev.core.navigation
 interface Navigator {
   
   fun switchToMainScreen()
+  
+  fun openEmailApp()
 }

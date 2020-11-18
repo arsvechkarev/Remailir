@@ -18,8 +18,8 @@ infix fun MotionEvent.happenedIn(view: View): Boolean {
 }
 
 fun View.heightWithMargins(): Int {
-  val params = layoutParams as ViewGroup.MarginLayoutParams
-  return measuredHeight + params.topMargin + params.bottomMargin
+  val params = layoutParams as? ViewGroup.MarginLayoutParams
+  return measuredHeight + (params?.topMargin ?: 0) + (params?.bottomMargin ?: 0)
 }
 
 fun EditText.onTextChanged(block: (String) -> Unit) {

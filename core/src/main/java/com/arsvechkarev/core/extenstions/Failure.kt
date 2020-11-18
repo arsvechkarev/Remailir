@@ -17,6 +17,6 @@ fun Throwable.getRegistrationMessageRes() = when (this) {
   is TimeoutException -> R.string.error_timeout_short
   is UnknownHostException -> R.string.error_no_connection_short
   is FirebaseNetworkException -> R.string.error_no_connection_short
-  is FirebaseAuthInvalidCredentialsException -> R.string.error_email_is_incorrect
+  is FirebaseAuthInvalidCredentialsException -> R.string.error_email_is_invalid
   else -> R.string.error_unknown_short
 }

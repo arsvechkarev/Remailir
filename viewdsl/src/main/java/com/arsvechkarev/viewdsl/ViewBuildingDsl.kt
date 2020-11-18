@@ -20,7 +20,7 @@ inline fun <reified T : View> Context.withViewBuilder(builder: ViewBuilder.() ->
   return builder(viewBuilder)
 }
 
-fun <T : View> ViewGroup.addView(builder: ViewBuilder.() -> T) {
+inline fun View.withViewBuilder(builder: ViewBuilder.() -> Unit) {
   val viewBuilder = ViewBuilder(context)
   builder(viewBuilder)
 }

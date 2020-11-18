@@ -1,4 +1,4 @@
-package com.arsvechkarev.core.auth
+package com.arsvechkarev.firebase.auth
 
 import com.google.firebase.auth.ActionCodeSettings
 

@@ -14,6 +14,19 @@ import androidx.annotation.DrawableRes
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 
+fun View.layoutAroundPoint(x: Int, y: Int) {
+  layout(
+    x - measuredWidth / 2,
+    y - measuredHeight / 2,
+    x + measuredWidth / 2,
+    y + measuredHeight / 2
+  )
+}
+
+fun View.layoutLeftTop(left: Int, top: Int) {
+  layout(left, top, left + measuredWidth, top + measuredHeight)
+}
+
 fun View.visible() {
   visibility = View.VISIBLE
 }
@@ -64,6 +77,14 @@ fun View.layoutGravity(gravity: Int) {
         "parent ${this.parent as View}")
   }
 }
+
+val View.marginStart get() = (layoutParams as? MarginLayoutParams)?.marginStart ?: 0
+
+val View.marginTop get() = (layoutParams as? MarginLayoutParams)?.topMargin ?: 0
+
+val View.marginEnd get() = (layoutParams as? MarginLayoutParams)?.marginEnd ?: 0
+
+val View.marginBottom get() = (layoutParams as? MarginLayoutParams)?.bottomMargin ?: 0
 
 fun View.margin(value: Int) {
   margins(value, value, value, value)

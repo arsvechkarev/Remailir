@@ -4,6 +4,7 @@ import com.arsvechkarev.viewdsl.Ints.dp
 
 object Dimens {
   
+  val IconLogoSize get() = 100.dp
   val DividerHeight get() = 1.dp
   val DividerMargin get() = 12.dp
   val ToolbarMargin get() = 16.dp

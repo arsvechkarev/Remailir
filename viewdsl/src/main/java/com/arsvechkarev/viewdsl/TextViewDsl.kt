@@ -3,7 +3,10 @@
 package com.arsvechkarev.viewdsl
 
 import android.graphics.Typeface
+import android.text.InputFilter
+import android.text.InputFilter.LengthFilter
 import android.util.TypedValue
+import android.widget.EditText
 import android.widget.TextView
 import androidx.annotation.DimenRes
 import androidx.annotation.DrawableRes
@@ -60,4 +63,10 @@ inline fun TextView.font(font: Typeface) {
 
 inline fun TextView.gravity(gravity: Int) {
   this.gravity = gravity
+}
+
+inline fun EditText.setMaxLength(max: Int) {
+  val filterArray = arrayOfNulls<InputFilter>(1)
+  filterArray[0] = LengthFilter(max)
+  filters = filterArray
 }

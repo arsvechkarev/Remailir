@@ -14,11 +14,10 @@ val TEMP_RECT = Rect()
 val TEMP_RECT_F = RectF()
 val TEMP_PAINT = TextPaint(Paint.ANTI_ALIAS_FLAG)
 
-fun TextView.textHeight(): Int {
-  val testText = "A"
+fun TextView.textHeight(text: String): Int {
   TEMP_PAINT.typeface = typeface
   TEMP_PAINT.textSize = textSize
-  TEMP_PAINT.getTextBounds(testText, 0, testText.length, TEMP_RECT)
+  TEMP_PAINT.getTextBounds(text, 0, text.length, TEMP_RECT)
   return TEMP_RECT.height()
 }
 

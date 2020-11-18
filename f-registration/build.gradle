@@ -21,16 +21,15 @@ android {
 dependencies {
   implementation project(":core")
   implementation project(":views")
+  implementation project(":firebase")
 
   def dependencies = rootProject.ext.applicationDependencies
-  implementation platform(dependencies.firebasePlatform)
   implementation dependencies.kotlin
   implementation dependencies.appCompat
   implementation dependencies.coordinatorLayout
   implementation dependencies.recyclerView
   implementation dependencies.coroutinesCore
   implementation dependencies.firebaseAuth
-  implementation dependencies.googleServicesAuth
   implementation dependencies.timerx
 
   implementation dependencies.moxy

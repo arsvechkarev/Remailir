@@ -1,37 +1,37 @@
 package com.arsvechkarev.views
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.graphics.drawable.AnimatedVectorDrawable
-import android.util.AttributeSet
 import android.view.View
-import android.widget.FrameLayout
+import androidx.core.content.ContextCompat
 import com.arsvechkarev.viewdsl.startIfNotRunning
 import com.arsvechkarev.viewdsl.stopIfRunning
 import com.arsvechkarev.views.ProgressBar.Thickness.NORMAL
 import com.arsvechkarev.views.ProgressBar.Thickness.THICK
-import com.arsvechkarev.core.viewbuilding.Colors.Accent
 
+@SuppressLint("ViewConstructor")
 class ProgressBar(
   context: Context,
   color: Int,
   thickness: Thickness,
-) : FrameLayout(context) {
+) : View(context) {
   
   private val drawable get() = background as AnimatedVectorDrawable
   
-  constructor(context: Context) : this(context, Accent, NORMAL)
-  
-  constructor(context: Context, attrs: AttributeSet) : this(context, Accent, NORMAL)
-  
   init {
     background = when (thickness) {
-      NORMAL -> context.getDrawable(R.drawable.progress_anim_normal)!!
-      THICK -> context.getDrawable(R.drawable.progress_anim_thick)!!
+      NORMAL -> ContextCompat.getDrawable(context, R.drawable.progress_anim_normal)!!
+      THICK -> ContextCompat.getDrawable(context, R.drawable.progress_anim_thick)!!
     }.apply {
       colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP)
     }
+  }
+  
+  override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+    drawable.setBounds(0, 0, w, h)
   }
   
   override fun onVisibilityChanged(changedView: View, visibility: Int) {

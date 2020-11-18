@@ -9,17 +9,19 @@ interface RegistrationView : MvpView {
   
   fun showInitialState()
   
+  fun showEnterUserNameLayout()
+  
   fun animateToInitialState()
   
   fun showLoading()
   
   fun showVerifyingLink()
   
-  fun showSuccessFullyVerified()
+  fun showSuccessfullyVerified()
   
-  fun showEmailIsCorrect()
+  fun showSignedIn()
   
-  fun showEmailIsIncorrect(messageResId: Int)
+  fun showTextIsIncorrect(messageResId: Int)
   
   fun showNoEmailSaved()
   

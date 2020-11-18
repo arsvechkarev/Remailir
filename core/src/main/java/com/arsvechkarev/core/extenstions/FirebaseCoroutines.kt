@@ -1,9 +1,28 @@
 package com.arsvechkarev.core.extenstions
 
 import com.google.android.gms.tasks.Task
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.cancellation.CancellationException
 import kotlin.coroutines.resumeWithException
+
+suspend fun DatabaseReference.waitForSingleValueEvent(): DataSnapshot {
+  return suspendCancellableCoroutine {
+    addListenerForSingleValueEvent(object : ValueEventListener {
+  
+      override fun onDataChange(snapshot: DataSnapshot) {
+        it.resumeWith(Result.success(snapshot))
+      }
+  
+      override fun onCancelled(error: DatabaseError) {
+        it.resumeWith(Result.failure(error.toException()))
+      }
+    })
+  }
+}
 
 suspend fun <T> Task<T>.await(): T? {
   if (isComplete) {

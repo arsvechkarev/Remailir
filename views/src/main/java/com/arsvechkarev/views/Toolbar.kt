@@ -1,6 +1,7 @@
 package com.arsvechkarev.views
 
 import android.content.Context
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
@@ -29,6 +30,12 @@ class Toolbar(context: Context) : ViewGroup(context) {
   val imageBack get() = getChildAt(1) as ImageView
   val divider get() = getChildAt(2)
   
+  var takeIntoAccountStatusBar = true
+    set(value) {
+      field = value
+      requestLayout()
+    }
+  
   var showBackImage = true
     set(value) {
       field = value
@@ -37,18 +44,21 @@ class Toolbar(context: Context) : ViewGroup(context) {
   
   init {
     addView {
-      TextView(MatchParent, WrapContent, style = BoldTextView) {
+      TextView(context).apply(BoldTextView).apply {
+        size(MatchParent, WrapContent)
         textSize(TextSizes.H0)
       }
     }
     addView {
-      ImageView(ToolbarImageSize, ToolbarImageSize) {
+      ImageView(context).apply {
+        size(ToolbarImageSize, ToolbarImageSize)
         circleRippleBackground(Colors.Ripple)
         image(R.drawable.ic_back)
       }
     }
     addView {
-      View(MatchParent, Size.IntSize(DividerHeight)) {
+      View(context).apply {
+        size(MatchParent, Size.IntSize(DividerHeight))
         backgroundColor(Colors.Divider)
       }
     }
@@ -57,7 +67,7 @@ class Toolbar(context: Context) : ViewGroup(context) {
   override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
     title.measure(widthMeasureSpec, heightMeasureSpec)
     imageBack.measure(exactly(ToolbarImageSize), exactly(ToolbarImageSize))
-    val height = context.statusBarHeight + ToolbarMargin * 2 +
+    val height = statusBarHeight() + ToolbarMargin * 2 +
         DividerHeight + title.measuredHeight
     setMeasuredDimension(
       resolveSize(widthMeasureSpec.size, widthMeasureSpec),
@@ -67,13 +77,13 @@ class Toolbar(context: Context) : ViewGroup(context) {
   
   override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
     if (showBackImage) {
-      val imageBackTop = height / 2 - ToolbarImageSize / 2 + context.statusBarHeight / 2
+      val imageBackTop = height / 2 - ToolbarImageSize / 2 + statusBarHeight() / 2
       imageBack.layout(
         ToolbarMargin, imageBackTop,
         ToolbarMargin + ToolbarImageSize, imageBackTop + ToolbarImageSize
       )
     }
-    val titleTop = context.statusBarHeight + ToolbarMargin
+    val titleTop = statusBarHeight() + ToolbarMargin
     val titleLeft = imageBack.right + ToolbarMargin
     title.layout(
       titleLeft, titleTop,
@@ -82,5 +92,9 @@ class Toolbar(context: Context) : ViewGroup(context) {
     divider.layout(
       DividerMargin, height - DividerHeight,
       width - DividerMargin, height)
+  }
+  
+  private fun statusBarHeight(): Int {
+    return if (takeIntoAccountStatusBar) context.statusBarHeight else 0
   }
 }

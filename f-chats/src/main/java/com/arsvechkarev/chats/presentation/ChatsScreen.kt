@@ -16,6 +16,7 @@ import com.arsvechkarev.viewdsl.text
 import com.arsvechkarev.viewdsl.textColor
 import com.arsvechkarev.viewdsl.textSize
 import com.arsvechkarev.views.Toolbar
+import com.google.firebase.auth.FirebaseAuth
 
 class ChatsScreen : Screen() {
   
@@ -28,7 +29,9 @@ class ChatsScreen : Screen() {
       child<TextView>(MatchParent, WrapContent) {
         layoutGravity(Gravity.CENTER)
         gravity(Gravity.CENTER)
-        text("Chats are there")
+        val email = FirebaseAuth.getInstance().currentUser!!.email
+        val username = FirebaseAuth.getInstance().currentUser!!.displayName
+        text("$email\n$username")
         textSize(TextSizes.H0)
         textColor(Colors.TextPrimary)
         font(Fonts.SegoeUiBold)
