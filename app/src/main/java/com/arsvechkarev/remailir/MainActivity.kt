@@ -27,7 +27,6 @@ class MainActivity : BaseActivity(), Navigator {
   private val mainActivityLayout
     get() = withViewBuilder {
       NavigatorView(context).apply {
-        fitsSystemWindows = true
         tag(Navigator)
         size(MatchParent, MatchParent)
       }
@@ -41,7 +40,6 @@ class MainActivity : BaseActivity(), Navigator {
     window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
         or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
     if (FirebaseAuthenticator.isUserLoggedIn()) {
-      navigator.fitsSystemWindows = false
       navigator.navigate(ChatsScreen::class)
     } else {
       navigator.navigate(RegistrationScreen::class)
@@ -52,7 +50,6 @@ class MainActivity : BaseActivity(), Navigator {
     if (System.getInt(contentResolver, ACCELEROMETER_ROTATION, 0) == 1) {
       requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR
     }
-    navigator.fitsSystemWindows = false
     navigator.navigate(
       ChatsScreen::class,
       options = Options(clearAllOtherScreens = true)

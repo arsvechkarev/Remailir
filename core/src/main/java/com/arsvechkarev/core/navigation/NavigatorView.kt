@@ -5,11 +5,13 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.view.WindowInsets
 import android.widget.FrameLayout
 import com.arsvechkarev.core.extenstions.ifNotNull
 import com.arsvechkarev.viewdsl.gone
 import com.arsvechkarev.viewdsl.visible
 import kotlin.reflect.KClass
+
 
 class NavigatorView(context: Context) : FrameLayout(context) {
   
@@ -18,6 +20,10 @@ class NavigatorView(context: Context) : FrameLayout(context) {
   private var _currentScreen: Screen? = null
   
   val currentScreen: Screen? get() = _currentScreen
+  
+  init {
+    fitsSystemWindows = true
+  }
   
   fun navigate(
     screenClass: KClass<out Screen>,
@@ -98,6 +104,11 @@ class NavigatorView(context: Context) : FrameLayout(context) {
   override fun onConfigurationChanged(newConfig: Configuration) {
     super.onConfigurationChanged(newConfig)
     _currentScreen.ifNotNull { checkForOrientation(it, newConfig) }
+  }
+  
+  override fun onApplyWindowInsets(insets: WindowInsets): WindowInsets {
+    return super.onApplyWindowInsets(insets.replaceSystemWindowInsets(0, 0, 0,
+      insets.systemWindowInsetBottom))
   }
   
   private fun checkForOrientation(screen: Screen, config: Configuration) {

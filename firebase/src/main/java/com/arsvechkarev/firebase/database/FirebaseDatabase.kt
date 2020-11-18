@@ -31,12 +31,9 @@ class FirebaseDatabase(
           .await()
     }
     val savingEmail = updateUserDataAsync(username, Schema.email, email)
-    val savingFriendRequestsFromMe = updateUserDataAsync(username,
-      friend_requests_from_me, arrayListOf(""))
-    val savingFriendRequestsToMe = updateUserDataAsync(username,
-      friend_requests_to_me, arrayListOf(""))
-    val savingFriends = updateUserDataAsync(username,
-      friends, arrayListOf(""))
+    val savingFriendRequestsFromMe = updateUserDataAsync(username, friend_requests_from_me, "")
+    val savingFriendRequestsToMe = updateUserDataAsync(username, friend_requests_to_me, "")
+    val savingFriends = updateUserDataAsync(username, friends, "")
     savingList.await()
     savingEmail.await()
     savingFriendRequestsFromMe.await()
