@@ -3,6 +3,7 @@ package com.arsvechkarev.registration.layout
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.Gravity
+import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.EditText
@@ -35,6 +36,7 @@ import com.arsvechkarev.viewdsl.addView
 import com.arsvechkarev.viewdsl.children
 import com.arsvechkarev.viewdsl.exactly
 import com.arsvechkarev.viewdsl.font
+import com.arsvechkarev.viewdsl.gone
 import com.arsvechkarev.viewdsl.gravity
 import com.arsvechkarev.viewdsl.image
 import com.arsvechkarev.viewdsl.invisible
@@ -53,6 +55,7 @@ import com.arsvechkarev.viewdsl.text
 import com.arsvechkarev.viewdsl.textColor
 import com.arsvechkarev.viewdsl.textSize
 import com.arsvechkarev.viewdsl.unspecified
+import com.arsvechkarev.viewdsl.visible
 import com.arsvechkarev.viewdsl.withViewBuilder
 import com.arsvechkarev.views.CheckmarkView
 import com.arsvechkarev.views.ProgressBar
@@ -226,9 +229,11 @@ class SignInLayout(context: Context) : ViewGroup(context) {
     }
     val top = height / 2 - mainViewsHeight / 2
     val iconBottom = if (distToBottom > buttonHeight) {
+      iconLogo.visible()
       iconLogo.layoutAroundPoint(width / 2, top + iconLogo.measuredHeight / 2)
       iconLogo.bottom
     } else {
+      iconLogo.gone()
       top
     }
     textDescription.layoutLeftTop(textDescription.marginStart,
@@ -255,6 +260,9 @@ class SignInLayout(context: Context) : ViewGroup(context) {
         textTimer.heightWithMargins() +
         buttonOpenEmail.heightWithMargins()
     val top = height / 2 - mainViewsHeight / 2
+    if (editText.visibility == View.VISIBLE) {
+      iconLogo.visible()
+    }
     iconLogo.layoutAroundPoint(width / 2, top + iconLogo.measuredHeight / 2)
     textDescription.layoutLeftTop(textDescription.marginStart,
       iconLogo.bottom + textDescription.marginTop)

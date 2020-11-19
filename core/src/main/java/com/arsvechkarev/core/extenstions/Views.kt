@@ -10,7 +10,10 @@ import android.widget.EditText
 operator fun View.contains(event: MotionEvent): Boolean {
   val x = event.x
   val y = event.y
-  return x >= left && y >= top && x <= right && y <= bottom
+  return x >= left + translationX
+      && y >= top + translationY
+      && x <= right + translationX
+      && y <= bottom + translationY
 }
 
 infix fun MotionEvent.happenedIn(view: View): Boolean {

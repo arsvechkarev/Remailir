@@ -1,10 +1,13 @@
 package com.arsvechkarev.core.viewbuilding
 
 import android.content.Context
+import android.graphics.Color
 import com.arsvechkarev.core.R
 import com.arsvechkarev.viewdsl.getAttrColor
 
 object Colors {
+  
+  const val Transparent = Color.TRANSPARENT
   
   private val colors = IntArray(24) { 0 }
   
