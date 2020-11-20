@@ -2,102 +2,108 @@ package com.arsvechkarev.core.navigation
 
 import android.content.Context
 import android.content.res.Configuration
-import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.WindowInsets
 import android.widget.FrameLayout
 import com.arsvechkarev.core.extenstions.ifNotNull
-import com.arsvechkarev.viewdsl.gone
-import com.arsvechkarev.viewdsl.visible
+import com.arsvechkarev.viewdsl.DURATION_SHORT
+import com.arsvechkarev.viewdsl.animateGone
+import com.arsvechkarev.viewdsl.animateSlideFromRight
+import com.arsvechkarev.viewdsl.animateSlideToRight
+import com.arsvechkarev.viewdsl.animateVisible
+import com.arsvechkarev.viewdsl.children
+import com.arsvechkarev.viewdsl.invisible
 import kotlin.reflect.KClass
 
 
 class NavigatorView(context: Context) : FrameLayout(context) {
   
-  private val screenClassesToScreens = LinkedHashMap<String, Screen>()
+  private val screenClassesToScreens = HashMap<String, Screen>()
   private val screens = ArrayList<Screen>()
   private var _currentScreen: Screen? = null
-  
-  val currentScreen: Screen? get() = _currentScreen
   
   init {
     fitsSystemWindows = true
   }
   
-  fun navigate(
-    screenClass: KClass<out Screen>,
-    arguments: Bundle? = null,
-    options: Options = Options()
-  ) {
-    if (_currentScreen != null && _currentScreen!!::class == screenClass) {
+  /**
+   * Navigates to screen [screenClass] with given [options]
+   */
+  fun navigate(screenClass: KClass<out Screen>, options: Options = Options()) {
+    if (_currentScreen != null && _currentScreen!!::class.java.name == screenClass.java.name) {
       return
     }
     if (options.clearAllOtherScreens) {
-      removeAllViews()
+      children.forEach { child -> performRemoveView(child) }
     }
-    val screen = screenClassesToScreens[screenClass::class.java.name] ?: run {
+    val screen = screenClassesToScreens[screenClass.java.name] ?: run {
       val constructor = screenClass.java.getConstructor()
       val instance = constructor.newInstance()
       val className = instance::class.java.name
       screenClassesToScreens[className] = instance
-      instance._context = context
-      instance._arguments = arguments
+      instance.metadata._context = context
+      instance.metadata._arguments = options.arguments
+      instance.metadata.removeOnExit = options.removeOnExit
       instance
     }
     val view = screen.view ?: run {
       val builtView = screen.buildLayout()
-      screen._view = builtView
+      screen.metadata._view = builtView
       builtView.tag = screen::class.java.name
       builtView
     }
+    view.invisible() // Make view invisible so that we can animate it later
+    _currentScreen.ifNotNull { hideScreen(it, animateSlideToRight = false) }
+    screens.add(screen)
     if (view.isAttachedToWindow) {
-      _currentScreen.ifNotNull { hideScreen(it) }
-      _currentScreen?.view?.gone()
-      showScreen(screen)
-      _currentScreen = screen
+      showScreen(screen, animateSlideFromRight = true)
     } else {
       addView(view, MATCH_PARENT, MATCH_PARENT)
-      _currentScreen = screen
-      screens.add(screen)
+      screen.onInitDelegate()
+      if (screen.metadata._arguments == null) {
+        screen.onInit()
+      } else {
+        screen.onInit(screen.metadata._arguments!!)
+      }
+      showScreen(screen, animateSlideFromRight = true)
     }
+    println("kkk nav = ${screens.size}, $childCount")
+    _currentScreen = screen
   }
   
-  fun handleBackStack(): Boolean {
+  /**
+   * Returns true if there are screens in the stack or screen handled back press
+   */
+  fun handleGoBack(): Boolean {
     if (screens.isEmpty()) return false
-    val last = screens.last()
+    val lastScreen = screens.last()
+    if (lastScreen.onBackPressed()) {
+      return true
+    }
     if (screens.size == 1) {
+      releaseScreen(_currentScreen!!)
       _currentScreen = null
       return false
     }
-    hideScreen(last)
-    _currentScreen = screens[screens.size - 2]
-    _currentScreen!!.viewNonNull.visibility = View.VISIBLE
-    return true
-  }
-  
-  override fun onViewAdded(child: View) {
-    val screen = screenClassesToScreens.getValue(child.tag as String)
-    screen.onInitDelegate()
-    if (screen._arguments == null) {
-      screen.onInit()
-    } else {
-      screen.onInit(screen._arguments!!)
+    hideScreen(lastScreen, animateSlideToRight = true)
+    if (lastScreen.metadata.removeOnExit) {
+      lastScreen.view.ifNotNull { view ->
+        view.apply(screenHidingAnimation)
+        postDelayed({ performRemoveView(view) }, (ANIMATION_DURATION * 1.2f).toLong())
+      }
     }
-    showScreen(screen)
-  }
-  
-  override fun onViewRemoved(child: View) {
-    val screen = screenClassesToScreens.getValue(child.tag as String)
-    releaseScreen(screen)
+    screens.removeLast()
+    _currentScreen = screens.last()
+    showScreen(_currentScreen!!, animateSlideFromRight = false)
+    println("kkk rm = ${screens.size}, $childCount")
+    return true
   }
   
   override fun onDetachedFromWindow() {
     super.onDetachedFromWindow()
-    val values = screenClassesToScreens.values
-    for (v in values) {
-      releaseScreen(v)
-    }
+    screenClassesToScreens.values.forEach { releaseScreen(it) }
+    screens.clear()
     screenClassesToScreens.clear()
   }
   
@@ -119,25 +125,60 @@ class NavigatorView(context: Context) : FrameLayout(context) {
     }
   }
   
-  private fun showScreen(screen: Screen) {
-    screen.viewNonNull.visible()
+  private fun showScreen(screen: Screen, animateSlideFromRight: Boolean) {
+    if (animateSlideFromRight) {
+      screen.viewNonNull.apply(newScreenAppearanceAnimation)
+    } else {
+      screen.viewNonNull.apply(screenReappearanceAnimation)
+    }
     screen.onAppearedOnScreenDelegate()
     screen.onAppearedOnScreen()
     checkForOrientation(screen, context.resources.configuration)
   }
   
-  private fun hideScreen(screen: Screen) {
+  private fun hideScreen(screen: Screen, animateSlideToRight: Boolean) {
     screen.onRelease()
-    screen.onReleaseDelegate()
-    screen.viewNonNull.visibility = View.GONE
+    screen.onDetachDelegate()
+    if (animateSlideToRight) {
+      screen.viewNonNull.apply(screenHidingAnimation)
+    } else {
+      screen.viewNonNull.apply(oldScreenHidingAnimation)
+    }
+  }
+  
+  private fun performRemoveView(child: View) {
+    removeView(child)
+    val screen = screenClassesToScreens.getValue(child.tag as String)
+    releaseScreen(screen)
   }
   
   private fun releaseScreen(screen: Screen) {
     screen.onRelease()
-    screen._context = null
-    screen._view = null
+    screen.metadata._context = null
+    screen.metadata._view = null
     screen.onDestroyDelegate()
     screens.remove(screen)
     screenClassesToScreens.remove(screen::class.java.name)
+  }
+  
+  companion object {
+    
+    private const val ANIMATION_DURATION = DURATION_SHORT
+    
+    private val newScreenAppearanceAnimation: View.() -> Unit = {
+      animateSlideFromRight(duration = ANIMATION_DURATION)
+    }
+    
+    private val screenReappearanceAnimation: View.() -> Unit = {
+      animateVisible(duration = ANIMATION_DURATION)
+    }
+    
+    private val screenHidingAnimation: View.() -> Unit = {
+      animateSlideToRight(duration = ANIMATION_DURATION)
+    }
+    
+    private val oldScreenHidingAnimation: View.() -> Unit = {
+      animateGone(duration = ANIMATION_DURATION)
+    }
   }
 }

@@ -4,6 +4,7 @@
 
   <string name="title_registration">Registration</string>
   <string name="title_chats">Chats</string>
+  <string name="title_friends">Friends</string>
 
   <string name="text_sign_in">Sign in</string>
   <string name="text_continue">Continue</string>

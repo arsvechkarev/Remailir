@@ -10,10 +10,11 @@ import com.arsvechkarev.core.viewbuilding.Fonts
 import com.arsvechkarev.core.viewbuilding.TextSizes
 import com.arsvechkarev.viewdsl.Size.Companion.MatchParent
 import com.arsvechkarev.viewdsl.Size.Companion.WrapContent
+import com.arsvechkarev.viewdsl.defaultTag
 import com.arsvechkarev.viewdsl.font
 import com.arsvechkarev.viewdsl.gravity
 import com.arsvechkarev.viewdsl.layoutGravity
-import com.arsvechkarev.viewdsl.size
+import com.arsvechkarev.viewdsl.onClick
 import com.arsvechkarev.viewdsl.text
 import com.arsvechkarev.viewdsl.textColor
 import com.arsvechkarev.viewdsl.textSize
@@ -41,11 +42,23 @@ class ChatsScreen : Screen() {
         textColor(Colors.TextPrimary)
         font(Fonts.SegoeUiBold)
       }
-      val menuView = MenuView(context).apply {
-        size(WrapContent, WrapContent)
+      child<MenuView>(WrapContent, WrapContent) {
+        defaultTag()
+        layoutGravity(Gravity.BOTTOM or Gravity.RIGHT)
+        firstMenuItem.onClick { closeMenu(); navigator.goToFriendsScreen() }
+        secondMenuItem.onClick { closeMenu(); navigator.goToSearchScreen() }
+        thirdMenuItem.onClick { closeMenu(); navigator.goToSettingsScreen() }
+        fourthMenuItem.onClick { closeMenu(); navigator.goToSavedMessagesScreen() }
       }
-      addView(menuView)
-      menuView.layoutGravity(Gravity.BOTTOM or Gravity.RIGHT)
     }
+  }
+  
+  override fun onBackPressed(): Boolean {
+    val menuView = viewAs<MenuView>()
+    if (menuView.isOpened) {
+      menuView.closeMenu()
+      return true
+    }
+    return false
   }
 }

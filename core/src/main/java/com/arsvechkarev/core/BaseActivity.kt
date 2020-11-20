@@ -9,7 +9,8 @@ import moxy.MvpAppCompatActivity
 
 abstract class BaseActivity : MvpAppCompatActivity() {
   
-  private val viewsCache = HashMap<String, View>()
+  @PublishedApi
+  internal val viewsCache = HashMap<String, View>()
   
   @Suppress("UNCHECKED_CAST")
   fun view(tag: String): View {
@@ -20,7 +21,9 @@ abstract class BaseActivity : MvpAppCompatActivity() {
   }
   
   @Suppress("UNCHECKED_CAST")
-  fun <T : View> viewAs(tag: String) = view(tag) as T
+  inline fun <reified T : View> viewAs(tag: String = T::class.java.name): T {
+    return view(tag) as T
+  }
   
   fun imageView(tag: String) = viewAs<ImageView>(tag)
   

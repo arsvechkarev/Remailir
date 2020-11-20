@@ -63,18 +63,12 @@ fun <T : View> T.size(
 }
 
 fun View.layoutGravity(gravity: Int) {
-  when (parent as View) {
-    is FrameLayout -> {
-      (layoutParams as FrameLayout.LayoutParams).gravity = gravity
-    }
-    is LinearLayout -> {
-      (layoutParams as LinearLayout.LayoutParams).gravity = gravity
-    }
-    is CoordinatorLayout -> {
-      (layoutParams as CoordinatorLayout.LayoutParams).gravity = gravity
-    }
+  when (val params = layoutParams) {
+    is FrameLayout.LayoutParams -> params.gravity = gravity
+    is LinearLayout.LayoutParams -> params.gravity = gravity
+    is CoordinatorLayout.LayoutParams -> params.gravity = gravity
     else -> throw IllegalStateException("Unable to set gravity to " +
-        "parent ${this.parent as View}")
+        "layout params ${params.javaClass.name}")
   }
 }
 
@@ -192,6 +186,10 @@ fun View.onClick(block: () -> Unit) {
 
 fun View.tag(tag: String) {
   this.tag = tag
+}
+
+fun <T : View> T.defaultTag() {
+  this.tag = javaClass.name
 }
 
 fun View.id(idRes: Int) {

@@ -1,7 +1,6 @@
 package com.arsvechkarev.core.navigation
 
 import android.app.Activity
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -19,18 +18,18 @@ import moxy.MvpDelegateHolder
 @Suppress("PropertyName")
 abstract class Screen : MvpDelegateHolder {
   
-  private val viewsCache = HashMap<String, View>()
+  @PublishedApi
+  internal val viewsCache = HashMap<String, View>()
+  
   private var _mvpDelegate: MvpDelegate<out Screen>? = null
   
-  internal var _arguments: Bundle? = null
-  internal var _view: View? = null
-  internal var _context: Context? = null
+  internal val metadata = ScreenMetadata()
   
-  val view get() = _view
+  val view get() = metadata._view
   
-  val context get() = _context
+  val context get() = metadata._context
   
-  val viewNonNull get() = view!!
+  val viewNonNull: View get() = view!!
   
   val contextNonNull get() = context!!
   
@@ -55,7 +54,7 @@ abstract class Screen : MvpDelegateHolder {
     mvpDelegate.onAttach()
   }
   
-  internal fun onReleaseDelegate() {
+  internal fun onDetachDelegate() {
     mvpDelegate.onSaveInstanceState()
     mvpDelegate.onDetach()
   }
@@ -63,6 +62,8 @@ abstract class Screen : MvpDelegateHolder {
   internal fun onDestroyDelegate() {
     mvpDelegate.onDestroy()
   }
+  
+  open fun onBackPressed(): Boolean = false
   
   open fun onInit() = Unit
   
@@ -100,11 +101,8 @@ abstract class Screen : MvpDelegateHolder {
   }
   
   @Suppress("UNCHECKED_CAST")
-  fun <T : View> viewAs(tag: String): T {
-    if (viewsCache[tag] == null) {
-      viewsCache[tag] = viewNonNull.childView(tag) as T
-    }
-    return viewsCache.getValue(tag) as T
+  inline fun <reified T : View> viewAs(tag: String = T::class.java.name): T {
+    return view(tag) as T
   }
   
   fun imageView(tag: String) = viewAs<ImageView>(tag)

@@ -66,6 +66,8 @@ class MenuView(context: Context) : ViewGroup(context) {
   val thirdMenuItem get() = getChildAt(3) as MenuItemView
   val fourthMenuItem get() = getChildAt(4) as MenuItemView
   
+  val isOpened get() = opened
+  
   init {
     clipToPadding = false
     addView(OpenCloseView(context, (crossBaseSize * 0.75f).i))
@@ -76,6 +78,24 @@ class MenuView(context: Context) : ViewGroup(context) {
     addView(buildMenuItem(R.drawable.ic_search, R.string.text_search))
     addView(buildMenuItem(R.drawable.ic_settings, R.string.text_settings))
     addView(buildMenuItem(R.drawable.ic_saved_messages, R.string.text_saved_messages))
+  }
+  
+  fun openMenu() {
+    if (opened) return
+    opened = true
+    openCloseView.animateToCross()
+    coefficientAnimator.cancelIfRunning()
+    coefficientAnimator.setFloatValues(animCoefficient, 1f)
+    coefficientAnimator.start()
+  }
+  
+  fun closeMenu() {
+    if (!opened) return
+    opened = false
+    openCloseView.animateToPlus()
+    coefficientAnimator.cancelIfRunning()
+    coefficientAnimator.setFloatValues(animCoefficient, 0f)
+    coefficientAnimator.start()
   }
   
   override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -181,7 +201,6 @@ class MenuView(context: Context) : ViewGroup(context) {
         if (wasDownEventInView && dst < scaledTouchSlop) {
           wasDownEventInView = false
           if (opened) closeMenu() else openMenu()
-          opened = !opened
         }
       }
     }
@@ -203,19 +222,5 @@ class MenuView(context: Context) : ViewGroup(context) {
     secondMenuItem.apply(block)
     thirdMenuItem.apply(block)
     fourthMenuItem.apply(block)
-  }
-  
-  private fun openMenu() {
-    openCloseView.animateToCross()
-    coefficientAnimator.cancelIfRunning()
-    coefficientAnimator.setFloatValues(animCoefficient, 1f)
-    coefficientAnimator.start()
-  }
-  
-  private fun closeMenu() {
-    openCloseView.animateToPlus()
-    coefficientAnimator.cancelIfRunning()
-    coefficientAnimator.setFloatValues(animCoefficient, 0f)
-    coefficientAnimator.start()
   }
 }

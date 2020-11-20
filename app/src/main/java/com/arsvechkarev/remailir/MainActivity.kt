@@ -13,21 +13,24 @@ import com.arsvechkarev.core.navigation.NavigatorView
 import com.arsvechkarev.core.navigation.Options
 import com.arsvechkarev.core.viewbuilding.Colors
 import com.arsvechkarev.firebase.auth.FirebaseAuthenticator
+import com.arsvechkarev.friends.presentation.FriendsScreen
+import com.arsvechkarev.friends.presentation.FriendsScreen2
+import com.arsvechkarev.friends.presentation.FriendsScreen3
 import com.arsvechkarev.registration.presentation.RegistrationScreen
 import com.arsvechkarev.viewdsl.Densities
 import com.arsvechkarev.viewdsl.Size.Companion.MatchParent
+import com.arsvechkarev.viewdsl.defaultTag
 import com.arsvechkarev.viewdsl.size
-import com.arsvechkarev.viewdsl.tag
 import com.arsvechkarev.viewdsl.withViewBuilder
 
 class MainActivity : BaseActivity(), Navigator {
   
-  private val navigator get() = viewAs<NavigatorView>(Navigator)
+  private val navigator get() = viewAs<NavigatorView>()
   
   private val mainActivityLayout
     get() = withViewBuilder {
       NavigatorView(context).apply {
-        tag(Navigator)
+        defaultTag()
         size(MatchParent, MatchParent)
       }
     }
@@ -62,14 +65,30 @@ class MainActivity : BaseActivity(), Navigator {
     startActivity(intent)
   }
   
-  override fun onBackPressed() {
-    if (!navigator.handleBackStack()) {
-      super.onBackPressed()
-    }
+  override fun goToFriendsScreen() {
+    navigator.navigate(FriendsScreen::class)
   }
   
-  companion object {
-    
-    private const val Navigator = "Navigator"
+  override fun goToFriendsScreen2() {
+    navigator.navigate(FriendsScreen2::class)
+  }
+  
+  override fun goToFriendsScreen3() {
+    navigator.navigate(FriendsScreen3::class)
+  }
+  
+  override fun goToSearchScreen() {
+  }
+  
+  override fun goToSettingsScreen() {
+  }
+  
+  override fun goToSavedMessagesScreen() {
+  }
+  
+  override fun onBackPressed() {
+    if (!navigator.handleGoBack()) {
+      super.onBackPressed()
+    }
   }
 }
