@@ -90,20 +90,27 @@ fun View.animateGone(andThen: () -> Unit = {}, duration: Long = DURATION_DEFAULT
 }
 
 fun View.animateSlideFromRight(duration: Long = DURATION_SHORT) {
+  val width = context.resources.displayMetrics.widthPixels
+  val height = context.resources.displayMetrics.heightPixels
   alpha = 0f
-  translationX = 200f
+  translationX = minOf(width, height) / 8f
   visible()
   animate().alpha(1f)
       .translationX(0f)
       .setDuration(duration)
+      .withLayer()
       .setInterpolator(AccelerateDecelerateInterpolator)
       .start()
 }
 
 fun View.animateSlideToRight(duration: Long = DURATION_SHORT) {
+  val width = context.resources.displayMetrics.widthPixels
+  val height = context.resources.displayMetrics.heightPixels
+  val dx = minOf(width, height) / 8f
   animate().alpha(0f)
-      .translationX(200f)
+      .translationX(dx)
       .setDuration(duration)
+      .withLayer()
       .setInterpolator(AccelerateDecelerateInterpolator)
       .withEndAction {
         gone()

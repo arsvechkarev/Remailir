@@ -108,13 +108,13 @@ class SettingsScreen : Screen(), SettingsView {
           backgroundRoundRect(8.dp, Colors.Dialog)
           TextView(WrapContent, WrapContent, style = BoldTextView) {
             paddingHorizontal(24.dp)
+            margins(bottom = 32.dp)
             text("Logging out")
             textSize(TextSizes.H3)
           }
           addView {
             ProgressBar(context, Colors.AccentLight, THICK).apply {
               size(ProgressBarSize, ProgressBarSize)
-              margins(top = 32.dp, bottom = 16.dp)
             }
           }
         }

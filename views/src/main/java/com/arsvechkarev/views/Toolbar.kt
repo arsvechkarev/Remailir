@@ -12,7 +12,7 @@ import com.arsvechkarev.core.viewbuilding.Dimens.ToolbarImageSize
 import com.arsvechkarev.core.viewbuilding.Dimens.ToolbarMargin
 import com.arsvechkarev.core.viewbuilding.Styles.BoldTextView
 import com.arsvechkarev.core.viewbuilding.TextSizes
-import com.arsvechkarev.viewdsl.Size
+import com.arsvechkarev.viewdsl.Ints.dp
 import com.arsvechkarev.viewdsl.Size.Companion.MatchParent
 import com.arsvechkarev.viewdsl.Size.Companion.WrapContent
 import com.arsvechkarev.viewdsl.Size.IntSize
@@ -22,6 +22,7 @@ import com.arsvechkarev.viewdsl.circleRippleBackground
 import com.arsvechkarev.viewdsl.exactly
 import com.arsvechkarev.viewdsl.image
 import com.arsvechkarev.viewdsl.onClick
+import com.arsvechkarev.viewdsl.padding
 import com.arsvechkarev.viewdsl.size
 import com.arsvechkarev.viewdsl.statusBarHeight
 import com.arsvechkarev.viewdsl.text
@@ -54,6 +55,7 @@ class Toolbar(context: Context) : ViewGroup(context) {
     }
     addView {
       ImageView(context).apply {
+        padding(8.dp)
         size(ToolbarImageSize, ToolbarImageSize)
         circleRippleBackground(Colors.Ripple)
         image(R.drawable.ic_back)
@@ -77,7 +79,8 @@ class Toolbar(context: Context) : ViewGroup(context) {
   
   override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
     title.measure(widthMeasureSpec, heightMeasureSpec)
-    imageBack.measure(exactly(ToolbarImageSize), exactly(ToolbarImageSize))
+    val imageSize = ToolbarImageSize + imageBack.paddingTop + imageBack.paddingBottom
+    imageBack.measure(exactly(imageSize), exactly(imageSize))
     val height = statusBarHeight() + ToolbarMargin * 2 +
         DividerHeight + title.measuredHeight
     setMeasuredDimension(
@@ -88,10 +91,12 @@ class Toolbar(context: Context) : ViewGroup(context) {
   
   override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
     if (showBackImage) {
-      val imageBackTop = height / 2 - ToolbarImageSize / 2 + statusBarHeight() / 2
+      val imageSize = ToolbarImageSize + imageBack.paddingTop + imageBack.paddingBottom
+      val imageBackTop = height / 2 - imageSize / 2 + statusBarHeight() / 2
+      val left = ToolbarMargin / 2
       imageBack.layout(
-        ToolbarMargin, imageBackTop,
-        ToolbarMargin + ToolbarImageSize, imageBackTop + ToolbarImageSize
+        left, imageBackTop,
+        left + imageSize, imageBackTop + imageSize
       )
     }
     val titleTop = statusBarHeight() + ToolbarMargin

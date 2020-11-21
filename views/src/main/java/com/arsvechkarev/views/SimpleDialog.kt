@@ -6,25 +6,29 @@ import android.graphics.Color
 import android.view.Gravity
 import android.view.MotionEvent
 import android.view.MotionEvent.ACTION_DOWN
-import android.view.MotionEvent.ACTION_MOVE
 import android.view.MotionEvent.ACTION_UP
 import android.view.View
+import android.view.ViewConfiguration
 import android.widget.FrameLayout
 import androidx.core.graphics.ColorUtils
 import com.arsvechkarev.core.extenstions.happenedIn
 import com.arsvechkarev.core.viewbuilding.Colors
 import com.arsvechkarev.viewdsl.AccelerateDecelerateInterpolator
-import com.arsvechkarev.viewdsl.DURATION_MEDIUM
+import com.arsvechkarev.viewdsl.DURATION_DEFAULT
 import com.arsvechkarev.viewdsl.DURATION_SHORT
 import com.arsvechkarev.viewdsl.OvershootInterpolator
 import com.arsvechkarev.viewdsl.cancelIfRunning
 import com.arsvechkarev.viewdsl.gone
+import com.arsvechkarev.viewdsl.invisible
 import com.arsvechkarev.viewdsl.layoutGravity
 import com.arsvechkarev.viewdsl.visible
+import kotlin.math.abs
+import kotlin.math.hypot
 
 class SimpleDialog(context: Context) : FrameLayout(context) {
   
-  private var wasNoMoveEvent = false
+  private var latestX = 0f
+  private var latestY = 0f
   private var currentShadowFraction = 0f
   private val dialogView get() = getChildAt(0)
   private val shadowAnimator = ValueAnimator().apply {
@@ -44,7 +48,7 @@ class SimpleDialog(context: Context) : FrameLayout(context) {
     private set
   
   init {
-    gone()
+    invisible()
   }
   
   override fun onViewAdded(child: View) {
@@ -69,7 +73,7 @@ class SimpleDialog(context: Context) : FrameLayout(context) {
           .scaleY(1f)
           .alpha(1f)
           .setDuration(DURATION_SHORT)
-          .setInterpolator(OvershootInterpolator)
+          .setInterpolator(AccelerateDecelerateInterpolator)
           .start()
     }
   }
@@ -86,7 +90,7 @@ class SimpleDialog(context: Context) : FrameLayout(context) {
           .alpha(0f)
           .scaleX(SCALE_FACTOR)
           .scaleY(SCALE_FACTOR)
-          .setDuration((DURATION_SHORT * 0.8).toLong())
+          .setDuration(DURATION_SHORT)
           .setInterpolator(AccelerateDecelerateInterpolator)
           .withEndAction(::gone)
           .start()
@@ -101,20 +105,22 @@ class SimpleDialog(context: Context) : FrameLayout(context) {
   override fun onTouchEvent(event: MotionEvent): Boolean {
     when (event.action) {
       ACTION_DOWN -> {
-        wasNoMoveEvent = true
-        return true
-      }
-      ACTION_MOVE -> {
-        wasNoMoveEvent = false
-      }
-      ACTION_UP -> {
-        if (wasNoMoveEvent && !(event happenedIn dialogView)) {
-          hide()
+        if (!(event happenedIn dialogView)) {
+          latestX = event.x
+          latestY = event.y
           return true
         }
       }
+      ACTION_UP -> {
+        val dx = abs(event.x - latestX)
+        val dy = abs(event.y - latestY)
+        val scaledTouchSlop = ViewConfiguration.get(context).scaledTouchSlop
+        if (hypot(dx, dy) < scaledTouchSlop) {
+          hide()
+        }
+      }
     }
-    return false
+    return super.onTouchEvent(event)
   }
   
   companion object {
