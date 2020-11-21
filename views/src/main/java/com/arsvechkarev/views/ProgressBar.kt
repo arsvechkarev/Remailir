@@ -1,6 +1,5 @@
 package com.arsvechkarev.views
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
@@ -12,7 +11,6 @@ import com.arsvechkarev.viewdsl.stopIfRunning
 import com.arsvechkarev.views.ProgressBar.Thickness.NORMAL
 import com.arsvechkarev.views.ProgressBar.Thickness.THICK
 
-@SuppressLint("ViewConstructor")
 class ProgressBar(
   context: Context,
   color: Int,

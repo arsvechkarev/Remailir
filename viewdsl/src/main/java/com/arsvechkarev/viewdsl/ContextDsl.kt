@@ -2,12 +2,15 @@ package com.arsvechkarev.viewdsl
 
 import android.content.Context
 import android.content.res.Configuration
+import android.graphics.drawable.Drawable
 import android.text.TextUtils
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
+import androidx.annotation.DrawableRes
+import androidx.core.content.ContextCompat
 import java.util.Locale
 
 fun dimen(dimenRes: Int) = ContextHolder.context.resources.getDimension(dimenRes)
@@ -35,6 +38,10 @@ fun Context.getAttrColor(@AttrRes resId: Int): Int {
   val resolved = theme.resolveAttribute(resId, typedValue, true)
   require(resolved) { "Attribute cannot be resolved" }
   return typedValue.data
+}
+
+fun Context.retrieveDrawable(@DrawableRes resId: Int): Drawable {
+  return ContextCompat.getDrawable(this, resId)!!
 }
 
 fun Context.createLayoutParams(

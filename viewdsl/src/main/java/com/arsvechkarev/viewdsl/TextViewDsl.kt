@@ -18,10 +18,10 @@ fun TextView.drawables(
   @DrawableRes end: Int = 0,
   @DrawableRes bottom: Int = 0
 ) {
-  val drawableStart = if (start != 0) context.getDrawable(start) else null
-  val drawableTop = if (top != 0) context.getDrawable(top) else null
-  val drawableEnd = if (end != 0) context.getDrawable(end) else null
-  val drawableBottom = if (bottom != 0) context.getDrawable(bottom) else null
+  val drawableStart = if (start != 0) context.retrieveDrawable(start) else null
+  val drawableTop = if (top != 0) context.retrieveDrawable(top) else null
+  val drawableEnd = if (end != 0) context.retrieveDrawable(end) else null
+  val drawableBottom = if (bottom != 0) context.retrieveDrawable(bottom) else null
   if (isLayoutLeftToRight) {
     setCompoundDrawablesWithIntrinsicBounds(drawableStart, drawableTop, drawableEnd, drawableBottom)
   } else {

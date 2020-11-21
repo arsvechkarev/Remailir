@@ -17,6 +17,7 @@ import com.arsvechkarev.friends.presentation.FriendsScreen
 import com.arsvechkarev.friends.presentation.FriendsScreen2
 import com.arsvechkarev.friends.presentation.FriendsScreen3
 import com.arsvechkarev.registration.presentation.RegistrationScreen
+import com.arsvechkarev.settings.presentation.SettingsScreen
 import com.arsvechkarev.viewdsl.Densities
 import com.arsvechkarev.viewdsl.Size.Companion.MatchParent
 import com.arsvechkarev.viewdsl.defaultTag
@@ -59,10 +60,8 @@ class MainActivity : BaseActivity(), Navigator {
     )
   }
   
-  override fun openEmailApp() {
-    val intent = Intent(Intent.ACTION_MAIN)
-    intent.addCategory(Intent.CATEGORY_APP_EMAIL)
-    startActivity(intent)
+  override fun onBackPress() {
+    onBackPressed()
   }
   
   override fun goToFriendsScreen() {
@@ -81,14 +80,25 @@ class MainActivity : BaseActivity(), Navigator {
   }
   
   override fun goToSettingsScreen() {
+    navigator.navigate(SettingsScreen::class)
   }
   
   override fun goToSavedMessagesScreen() {
+  }
+  
+  override fun openEmailApp() {
+    val intent = Intent(Intent.ACTION_MAIN)
+    intent.addCategory(Intent.CATEGORY_APP_EMAIL)
+    startActivity(intent)
   }
   
   override fun onBackPressed() {
     if (!navigator.handleGoBack()) {
       super.onBackPressed()
     }
+  }
+  
+  override fun signOut() {
+    navigator.navigate(RegistrationScreen::class, Options(clearAllOtherScreens = true))
   }
 }

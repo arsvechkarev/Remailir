@@ -15,13 +15,16 @@ import com.arsvechkarev.core.viewbuilding.TextSizes
 import com.arsvechkarev.viewdsl.Size
 import com.arsvechkarev.viewdsl.Size.Companion.MatchParent
 import com.arsvechkarev.viewdsl.Size.Companion.WrapContent
+import com.arsvechkarev.viewdsl.Size.IntSize
 import com.arsvechkarev.viewdsl.addView
 import com.arsvechkarev.viewdsl.backgroundColor
 import com.arsvechkarev.viewdsl.circleRippleBackground
 import com.arsvechkarev.viewdsl.exactly
 import com.arsvechkarev.viewdsl.image
+import com.arsvechkarev.viewdsl.onClick
 import com.arsvechkarev.viewdsl.size
 import com.arsvechkarev.viewdsl.statusBarHeight
+import com.arsvechkarev.viewdsl.text
 import com.arsvechkarev.viewdsl.textSize
 
 class Toolbar(context: Context) : ViewGroup(context) {
@@ -46,7 +49,7 @@ class Toolbar(context: Context) : ViewGroup(context) {
     addView {
       TextView(context).apply(BoldTextView).apply {
         size(MatchParent, WrapContent)
-        textSize(TextSizes.H0)
+        textSize(TextSizes.H1)
       }
     }
     addView {
@@ -58,10 +61,18 @@ class Toolbar(context: Context) : ViewGroup(context) {
     }
     addView {
       View(context).apply {
-        size(MatchParent, Size.IntSize(DividerHeight))
+        size(MatchParent, IntSize(DividerHeight))
         backgroundColor(Colors.Divider)
       }
     }
+  }
+  
+  fun onBackClick(block: () -> Unit) {
+    imageBack.onClick(block)
+  }
+  
+  fun title(titleRes: Int) {
+    title.text(titleRes)
   }
   
   override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {

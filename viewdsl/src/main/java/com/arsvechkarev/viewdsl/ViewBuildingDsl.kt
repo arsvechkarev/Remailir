@@ -6,8 +6,10 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ScrollView
 import android.widget.TextView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import com.arsvechkarev.viewdsl.Size.Companion.MatchParent
 import com.arsvechkarev.viewdsl.Size.Companion.WrapContent
 import com.arsvechkarev.viewdsl.Size.IntSize
 import android.view.ViewGroup.LayoutParams as ViewGroupLayoutParams
@@ -29,12 +31,23 @@ class ViewBuilder(val context: Context) {
   
   val StatusBarHeight get() = context.statusBarHeight
   
-  fun Any.RootLinearLayout(
-    width: Size = WrapContent,
-    height: Size = WrapContent,
+  fun Any.RootVerticalLayout(
+    width: Size = MatchParent,
+    height: Size = MatchParent,
     style: LinearLayout.() -> Unit = {},
     block: LinearLayout.() -> Unit = {}
-  ) = LinearLayout(context).size(width, height).apply(style).apply(block)
+  ) = LinearLayout(context).size(width, height).apply(style).apply(block).apply {
+    orientation(LinearLayout.VERTICAL)
+  }
+  
+  fun Any.RootScrollableVerticalLayout(
+    width: Size = MatchParent,
+    height: Size = MatchParent,
+    style: LinearLayout.() -> Unit = {},
+    block: LinearLayout.() -> Unit = {}
+  ) = ScrollView(context).size(width, height).apply {
+    VerticalLayout(MatchParent, WrapContent, style, block)
+  }
   
   fun Any.RootFrameLayout(
     width: Size = WrapContent,
@@ -138,16 +151,34 @@ class ViewBuilder(val context: Context) {
     else -> child<FrameLayout, ViewGroupLayoutParams>(width, height, style, block)
   }
   
-  inline fun ViewGroup.LinearLayout(
+  inline fun ViewGroup.VerticalLayout(
     width: Size,
     height: Size,
     style: LinearLayout.() -> Unit = {},
     block: LinearLayout.() -> Unit,
-  ) = when (this) {
-    is FrameLayout -> child<LinearLayout, FrameLayoutParams>(width, height, style, block)
-    is LinearLayout -> child<LinearLayout, LinearLayoutParams>(width, height, style, block)
-    is CoordinatorLayout -> child<LinearLayout, CoordLayoutParams>(width, height, style, block)
-    else -> child<LinearLayout, ViewGroupLayoutParams>(width, height, style, block)
+  ): LinearLayout {
+    val layout = when (this) {
+      is FrameLayout -> child<LinearLayout, FrameLayoutParams>(width, height, style, block)
+      is LinearLayout -> child<LinearLayout, LinearLayoutParams>(width, height, style, block)
+      is CoordinatorLayout -> child<LinearLayout, CoordLayoutParams>(width, height, style, block)
+      else -> child<LinearLayout, ViewGroupLayoutParams>(width, height, style, block)
+    }
+    return layout.apply { orientation(LinearLayout.VERTICAL) }
+  }
+  
+  inline fun ViewGroup.HorizontalLayout(
+    width: Size,
+    height: Size,
+    style: LinearLayout.() -> Unit = {},
+    block: LinearLayout.() -> Unit,
+  ): LinearLayout {
+    val layout = when (this) {
+      is FrameLayout -> child<LinearLayout, FrameLayoutParams>(width, height, style, block)
+      is LinearLayout -> child<LinearLayout, LinearLayoutParams>(width, height, style, block)
+      is CoordinatorLayout -> child<LinearLayout, CoordLayoutParams>(width, height, style, block)
+      else -> child<LinearLayout, ViewGroupLayoutParams>(width, height, style, block)
+    }
+    return layout.apply { orientation(LinearLayout.HORIZONTAL) }
   }
   
   inline fun <reified T : View, reified P : ViewGroupLayoutParams> ViewGroup.child(

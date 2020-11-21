@@ -9,9 +9,9 @@ import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
 import com.arsvechkarev.core.extenstions.Paint
-import com.arsvechkarev.core.extenstions.retrieveDrawable
 import com.arsvechkarev.core.viewbuilding.Colors
 import com.arsvechkarev.viewdsl.layoutGravity
+import com.arsvechkarev.viewdsl.retrieveDrawable
 import com.arsvechkarev.viewdsl.size
 import com.arsvechkarev.views.R
 

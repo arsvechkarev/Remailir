@@ -10,10 +10,10 @@ import com.arsvechkarev.core.extenstions.TextPaint
 import com.arsvechkarev.core.extenstions.f
 import com.arsvechkarev.core.extenstions.getTextHeight
 import com.arsvechkarev.core.extenstions.i
-import com.arsvechkarev.core.extenstions.retrieveDrawable
 import com.arsvechkarev.core.viewbuilding.Colors
 import com.arsvechkarev.core.viewbuilding.Fonts
 import com.arsvechkarev.viewdsl.Ints.dp
+import com.arsvechkarev.viewdsl.retrieveDrawable
 import com.arsvechkarev.viewdsl.rippleBackground
 
 class MenuItemView(

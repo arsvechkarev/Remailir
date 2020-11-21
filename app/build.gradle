@@ -39,6 +39,7 @@ dependencies {
   implementation project(':f-registration')
   implementation project(':f-chats')
   implementation project(':f-friends')
+  implementation project(':f-settings')
 
   debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.2'
 

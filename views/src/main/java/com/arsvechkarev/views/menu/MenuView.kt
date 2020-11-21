@@ -99,8 +99,6 @@ class MenuView(context: Context) : ViewGroup(context) {
   }
   
   override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-    maxItemWidth = 0
-    maxItemHeight = 0
     openCloseView.measure(exactly(crossBaseSize), exactly(crossBaseSize))
     children.forEach { child ->
       if (child is MenuItemView) {

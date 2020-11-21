@@ -46,7 +46,6 @@ import com.arsvechkarev.viewdsl.marginEnd
 import com.arsvechkarev.viewdsl.marginStart
 import com.arsvechkarev.viewdsl.marginTop
 import com.arsvechkarev.viewdsl.margins
-import com.arsvechkarev.viewdsl.orientation
 import com.arsvechkarev.viewdsl.padding
 import com.arsvechkarev.viewdsl.paddings
 import com.arsvechkarev.viewdsl.size
@@ -139,10 +138,9 @@ class SignInLayout(context: Context) : ViewGroup(context) {
         tag(ButtonSignIn)
         margins(start = MarginHorizontal, end = MarginHorizontal, bottom = MarginBottom)
       }
-      LinearLayout(MatchParent, WrapContent) {
+      VerticalLayout(MatchParent, WrapContent) {
         tag(LayoutLoading)
         invisible()
-        orientation(LinearLayout.VERTICAL)
         gravity(Gravity.CENTER)
         TextView(WrapContent, WrapContent, style = Styles.BoldTextView) {
           tag(TextLoading)
@@ -163,11 +161,10 @@ class SignInLayout(context: Context) : ViewGroup(context) {
           }
         }
       }
-      LinearLayout(MatchParent, MatchParent) {
+      VerticalLayout(MatchParent, MatchParent) {
         tag(LayoutError)
         invisible()
         gravity(Gravity.CENTER)
-        orientation(LinearLayout.VERTICAL)
         ImageView(ErrorLayoutImageSize, ErrorLayoutImageSize) {
           image(R.drawable.image_unknown_error)
           margins(bottom = ErrorLayoutTextPadding)

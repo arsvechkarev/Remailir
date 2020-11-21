@@ -10,6 +10,7 @@
     android:supportsRtl="true"
     android:theme="@style/AppTheme.Dark">
     <activity android:name=".MainActivity"
+      android:configChanges="orientation|screenSize|screenLayout"
       android:windowSoftInputMode="adjustResize">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>

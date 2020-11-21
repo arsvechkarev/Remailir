@@ -21,7 +21,7 @@ fun Any.Paint(
 }
 
 fun Any.TextPaint(
-  textSize: Float,
+  textSize: Float = 0f,
   color: Int = Colors.TextPrimary,
   textAlign: Paint.Align = Paint.Align.CENTER,
   font: Typeface = Fonts.SegoeUi
@@ -39,7 +39,7 @@ fun TextView.textHeight(text: String): Int {
   return TEMP_RECT.height()
 }
 
-fun TextPaint.getTextHeight(text: String): Int {
+fun TextPaint.getTextHeight(text: String = "Agy"): Int {
   TEMP_RECT.setEmpty()
   getTextBounds(text, 0, text.length, TEMP_RECT)
   return TEMP_RECT.height()

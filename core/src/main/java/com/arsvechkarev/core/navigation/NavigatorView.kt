@@ -100,13 +100,6 @@ class NavigatorView(context: Context) : FrameLayout(context) {
     return true
   }
   
-  override fun onDetachedFromWindow() {
-    super.onDetachedFromWindow()
-    screenClassesToScreens.values.forEach { releaseScreen(it) }
-    screens.clear()
-    screenClassesToScreens.clear()
-  }
-  
   override fun onConfigurationChanged(newConfig: Configuration) {
     super.onConfigurationChanged(newConfig)
     _currentScreen.ifNotNull { checkForOrientation(it, newConfig) }
@@ -127,9 +120,9 @@ class NavigatorView(context: Context) : FrameLayout(context) {
   
   private fun showScreen(screen: Screen, animateSlideFromRight: Boolean) {
     if (animateSlideFromRight) {
-      screen.viewNonNull.apply(newScreenAppearanceAnimation)
+      screen.view?.apply(newScreenAppearanceAnimation)
     } else {
-      screen.viewNonNull.apply(screenReappearanceAnimation)
+      screen.view?.apply(screenReappearanceAnimation)
     }
     screen.onAppearedOnScreenDelegate()
     screen.onAppearedOnScreen()
@@ -140,9 +133,9 @@ class NavigatorView(context: Context) : FrameLayout(context) {
     screen.onRelease()
     screen.onDetachDelegate()
     if (animateSlideToRight) {
-      screen.viewNonNull.apply(screenHidingAnimation)
+      screen.view?.apply(screenHidingAnimation)
     } else {
-      screen.viewNonNull.apply(oldScreenHidingAnimation)
+      screen.view?.apply(oldScreenHidingAnimation)
     }
   }
   
