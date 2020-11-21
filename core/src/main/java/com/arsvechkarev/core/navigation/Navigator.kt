@@ -23,5 +23,7 @@ interface Navigator {
   
   fun openEmailApp()
   
+  fun openLink(link: String)
+  
   fun signOut()
 }

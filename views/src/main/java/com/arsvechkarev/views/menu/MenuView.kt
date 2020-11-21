@@ -23,6 +23,7 @@ import com.arsvechkarev.viewdsl.Ints.dp
 import com.arsvechkarev.viewdsl.cancelIfRunning
 import com.arsvechkarev.viewdsl.children
 import com.arsvechkarev.viewdsl.exactly
+import com.arsvechkarev.viewdsl.isOrientationPortrait
 import com.arsvechkarev.viewdsl.layoutLeftTop
 import com.arsvechkarev.views.R
 import kotlin.math.abs
@@ -107,21 +108,18 @@ class MenuView(context: Context) : ViewGroup(context) {
         maxItemHeight = maxOf(maxItemHeight, child.measuredHeight)
       }
     }
-    val width = pStart + pEnd +
-        maxItemWidth * 2 + itemsHorizontalPadding
-    val height = pTop + pBottom +
-        crossOpenedSize + crossOpenedPadding + maxItemHeight * 2
-    setMeasuredDimension(
-      resolveSize(width, widthMeasureSpec),
-      resolveSize(height, heightMeasureSpec),
-    )
+    if (isOrientationPortrait) {
+      measurePortrait(widthMeasureSpec, heightMeasureSpec)
+    } else {
+      measureLandscape(widthMeasureSpec, heightMeasureSpec)
+    }
   }
   
   override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
     val topOffset = (crossOpenedSize + crossOpenedPadding).f
     val width = w.f
     val height = h.f
-    val curveOffset = width / 3f
+    val curveOffset = minOf(width, height) / 3f
     with(path) {
       moveTo(width, topOffset)
       lineTo(curveOffset, topOffset)
@@ -133,31 +131,11 @@ class MenuView(context: Context) : ViewGroup(context) {
   }
   
   override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
-    val topOffset = crossOpenedSize + crossOpenedPadding
-    firstMenuItem.layout(
-      pStart,
-      topOffset + pTop,
-      pStart + maxItemWidth,
-      topOffset + pTop + firstMenuItem.measuredHeight
-    )
-    secondMenuItem.layout(
-      width - pEnd - maxItemWidth,
-      topOffset + pTop,
-      width - pEnd,
-      topOffset + pTop + secondMenuItem.measuredHeight
-    )
-    thirdMenuItem.layout(
-      pStart,
-      height - pBottom - maxItemHeight,
-      pStart + maxItemWidth,
-      height - pBottom - maxItemHeight + thirdMenuItem.measuredHeight
-    )
-    fourthMenuItem.layout(
-      width - pEnd - maxItemWidth,
-      height - pBottom - maxItemHeight,
-      width - pEnd,
-      height - pBottom - maxItemHeight + fourthMenuItem.measuredHeight
-    )
+    if (isOrientationPortrait) {
+      layoutPortrait()
+    } else {
+      layoutLandscape()
+    }
     val left = width - crossBaseSize - crossBasePadding
     val right = height - crossBaseSize - crossBasePadding
     openCloseView.layoutLeftTop(left, right)
@@ -203,6 +181,68 @@ class MenuView(context: Context) : ViewGroup(context) {
       }
     }
     return dispatchTouchEvent
+  }
+  
+  private fun measurePortrait(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+    val width = pStart + pEnd +
+        maxItemWidth * 2 + itemsHorizontalPadding
+    val height = pTop + pBottom +
+        crossOpenedSize + crossOpenedPadding + maxItemHeight * 2
+    setMeasuredDimension(
+      resolveSize(width, widthMeasureSpec),
+      resolveSize(height, heightMeasureSpec),
+    )
+  }
+  
+  private fun measureLandscape(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+    val width = pStart + pEnd +
+        maxItemWidth * 4 + itemsHorizontalPadding * 3
+    val height = pTop + pBottom +
+        crossOpenedSize + crossOpenedPadding + maxItemHeight
+    setMeasuredDimension(
+      resolveSize(width, widthMeasureSpec),
+      resolveSize(height, heightMeasureSpec),
+    )
+  }
+  
+  private fun layoutPortrait() {
+    val topOffset = crossOpenedSize + crossOpenedPadding
+    firstMenuItem.layout(
+      pStart,
+      topOffset + pTop,
+      pStart + maxItemWidth,
+      topOffset + pTop + firstMenuItem.measuredHeight
+    )
+    secondMenuItem.layout(
+      width - pEnd - maxItemWidth,
+      topOffset + pTop,
+      width - pEnd,
+      topOffset + pTop + secondMenuItem.measuredHeight
+    )
+    thirdMenuItem.layout(
+      pStart,
+      height - pBottom - maxItemHeight,
+      pStart + maxItemWidth,
+      height - pBottom - maxItemHeight + thirdMenuItem.measuredHeight
+    )
+    fourthMenuItem.layout(
+      width - pEnd - maxItemWidth,
+      height - pBottom - maxItemHeight,
+      width - pEnd,
+      height - pBottom - maxItemHeight + fourthMenuItem.measuredHeight
+    )
+  }
+  
+  private fun layoutLandscape() {
+    val topOffset = crossOpenedSize + crossOpenedPadding
+    var left = pStart
+    children.forEach { child ->
+      if (child is MenuItemView) {
+        child.layout(left, topOffset + pTop, left + maxItemWidth,
+          topOffset + pTop + child.measuredHeight)
+        left += maxItemWidth + itemsHorizontalPadding
+      }
+    }
   }
   
   private fun drawPath(canvas: Canvas, pathHeight: Int) {

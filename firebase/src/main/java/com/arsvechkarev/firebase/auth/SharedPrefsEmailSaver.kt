@@ -1,9 +1,10 @@
 package com.arsvechkarev.firebase.auth
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 
-class SharedPrefsProfileSaver(context: Context) : ProfileSaver {
+class SharedPrefsEmailSaver(context: Context) : EmailSaver {
   
   private val sharedPrefs = context.getSharedPreferences(PROFILE_SAVER_FILENAME, MODE_PRIVATE)
   
@@ -11,22 +12,18 @@ class SharedPrefsProfileSaver(context: Context) : ProfileSaver {
     return sharedPrefs.getString(EMAIL, null)
   }
   
-  override fun getUsername(): String? {
-    return sharedPrefs.getString(USERNAME, null)
-  }
-  
   override fun saveEmail(email: String) {
     sharedPrefs.edit().putString(EMAIL, email).apply()
   }
   
-  override fun saveUsername(username: String) {
-    sharedPrefs.edit().putString(USERNAME, username).apply()
+  @SuppressLint("ApplySharedPref")
+  override fun deleteEmailSynchronously() {
+    sharedPrefs.edit().clear().commit()
   }
   
   companion object {
     
     const val PROFILE_SAVER_FILENAME = "ProfileFile"
     const val EMAIL = "email"
-    const val USERNAME = "username"
   }
 }

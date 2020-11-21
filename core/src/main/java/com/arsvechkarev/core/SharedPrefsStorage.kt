@@ -16,7 +16,15 @@ class SharedPrefsStorage(filename: String, context: Context) : KeyValueStorage {
   }
   
   override fun putString(key: String, value: String) {
-    sharedPrefs.edit().putString(key, value).apply()
+    execute { putString(key, value) }
+  }
+  
+  override fun putBoolean(key: String, value: Boolean) {
+    execute { putBoolean(key, value) }
+  }
+  
+  override fun getBoolean(key: String, defaultValue: Boolean): Boolean {
+    return sharedPrefs.getBoolean(key, defaultValue)
   }
   
   override fun hasLong(key: String): Boolean {
@@ -28,7 +36,7 @@ class SharedPrefsStorage(filename: String, context: Context) : KeyValueStorage {
   }
   
   override fun putLong(key: String, value: Long) {
-    return sharedPrefs.edit().putLong(key, value).apply()
+    execute { putLong(key, value) }
   }
   
   override fun hasInt(key: String): Boolean {
@@ -40,7 +48,7 @@ class SharedPrefsStorage(filename: String, context: Context) : KeyValueStorage {
   }
   
   override fun putInt(key: String, value: Int) {
-    return sharedPrefs.edit().putInt(key, value).apply()
+    execute { putInt(key, value) }
   }
   
   override fun execute(block: SharedPreferences.Editor.() -> Unit) {

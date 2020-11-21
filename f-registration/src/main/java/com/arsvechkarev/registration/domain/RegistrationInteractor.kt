@@ -2,9 +2,8 @@ package com.arsvechkarev.registration.domain
 
 import android.os.SystemClock
 import com.arsvechkarev.core.KeyValueStorage
-import com.arsvechkarev.core.navigation.Navigator
 import com.arsvechkarev.firebase.auth.Authenticator
-import com.arsvechkarev.firebase.auth.ProfileSaver
+import com.arsvechkarev.firebase.auth.EmailSaver
 import com.arsvechkarev.firebase.database.Database
 import com.arsvechkarev.registration.presentation.RegistrationPresenter
 import timerx.Timer
@@ -14,9 +13,8 @@ import java.util.concurrent.TimeUnit
 class RegistrationInteractor(
   private val authenticator: Authenticator,
   private val database: Database,
-  private val profileSaver: ProfileSaver,
+  private val emailSaver: EmailSaver,
   private val timerSaver: KeyValueStorage,
-  private var navigator: Navigator? = null,
 ) {
   
   private var timer: Timer? = null
@@ -26,11 +24,11 @@ class RegistrationInteractor(
   }
   
   fun isNoEmailSaved(): Boolean {
-    return profileSaver.getEmail() == null
+    return emailSaver.getEmail() == null
   }
   
   fun getSavedEmail(): String {
-    return profileSaver.getEmail()!!
+    return emailSaver.getEmail()!!
   }
   
   fun figureOutInitialState(
@@ -53,7 +51,7 @@ class RegistrationInteractor(
         builder.startTime(timeLeft, TimeUnit.MILLISECONDS)
         timer = builder.build()
         timer!!.start()
-        onTimerStarted(profileSaver.getEmail())
+        onTimerStarted(emailSaver.getEmail())
       }
     } else {
       onTimerDoesNotStart()
@@ -66,7 +64,7 @@ class RegistrationInteractor(
     onTimerFinish: () -> Unit
   ) {
     authenticator.sendSignInLinkToEmail(email, com.arsvechkarev.firebase.auth.AuthSettings)
-    profileSaver.saveEmail(email)
+    emailSaver.saveEmail(email)
     val timeInFuture = SystemClock.elapsedRealtime() + TimeUnit.MINUTES.toMillis(1)
     timerSaver.execute { putLong(RegistrationPresenter.TIMER_KEY, timeInFuture) }
     timer = TimerBuilder()
@@ -81,31 +79,22 @@ class RegistrationInteractor(
     timer!!.start()
   }
   
-  fun openEmailApp() {
-    navigator?.openEmailApp()
-  }
-  
   suspend fun signInWithEmailLink(email: String, emailLink: String) {
     timerSaver.execute { clear() }
     authenticator.signInWithEmailLink(email, emailLink)
   }
   
   suspend fun saveUsername(username: String) {
-    database.saveUser(username, profileSaver.getEmail()!!)
+    database.saveUser(username, emailSaver.getEmail()!!)
     authenticator.saveUsername(username)
   }
   
-  fun switchToMainScreen(): Boolean {
-    if (authenticator.userHasDisplayName()) {
-      navigator?.switchToMainScreen()
-      return true
-    }
-    return false
+  fun shouldSwitchToMainScreen(): Boolean {
+    return authenticator.userHasDisplayName()
   }
   
   fun release() {
     timer?.release()
     timer = null
-    navigator = null
   }
 }

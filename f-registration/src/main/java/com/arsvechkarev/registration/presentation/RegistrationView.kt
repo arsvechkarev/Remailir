@@ -7,6 +7,8 @@ import moxy.viewstate.strategy.StateStrategyType
 @StateStrategyType(AddToEndSingleStrategy::class)
 interface RegistrationView : MvpView {
   
+  fun switchToMainScreen()
+  
   fun showInitialState()
   
   fun showEnterUserNameLayout()

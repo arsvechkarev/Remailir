@@ -52,10 +52,11 @@ dependencies {
   implementation dependencies.threeTenAbp
   implementation dependencies.coroutinesCore
   implementation dependencies.firebaseAuth
-
   implementation dependencies.moxy
   implementation dependencies.moxyAndroidx
+  implementation dependencies.dagger
   kapt dependencies.moxyCompiler
+  kapt dependencies.daggerCompiler
 
   def testDependencies = rootProject.ext.testDependencies
   testImplementation testDependencies.junit

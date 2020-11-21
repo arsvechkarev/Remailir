@@ -31,8 +31,9 @@ dependencies {
   implementation dependencies.coroutinesCore
   implementation dependencies.firebaseAuth
   implementation dependencies.timerx
-
   implementation dependencies.moxy
   implementation dependencies.moxyAndroidx
+  implementation dependencies.dagger
   kapt dependencies.moxyCompiler
+  kapt dependencies.daggerCompiler
 }

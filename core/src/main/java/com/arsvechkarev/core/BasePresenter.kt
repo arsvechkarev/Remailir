@@ -11,7 +11,7 @@ import moxy.MvpPresenter
 import moxy.MvpView
 
 abstract class BasePresenter<V : MvpView>(
-  dispatchers: Dispatchers
+  protected val dispatchers: Dispatchers
 ) : MvpPresenter<V>() {
   
   private val scope = CoroutineScope(SupervisorJob() + dispatchers.Main)

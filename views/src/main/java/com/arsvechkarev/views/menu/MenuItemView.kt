@@ -52,7 +52,7 @@ class MenuItemView(
           textPaint.getTextHeight(secondWord!!) + (getTextPadding() * 2.5f).toInt()
     } else {
       textWidth = textPaint.measureText(text).i
-      textHeight = textPaint.getTextHeight(text) + (getTextPadding() * 1.5f).toInt()
+      textHeight = textPaint.getTextHeight() + (getTextPadding() * 1.5f).toInt()
     }
     val width = maxOf(circleSize, textWidth) + paddingStart + paddingEnd
     val height = circleSize + textHeight + paddingTop + paddingBottom
@@ -64,7 +64,7 @@ class MenuItemView(
   
   override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
     icon.colorFilter = PorterDuffColorFilter(Colors.Icon, PorterDuff.Mode.SRC_ATOP)
-    val padding = w / 5
+    val padding = circleSize / 4
     icon.setBounds(
       w / 2 - circleSize / 2 + padding,
       padding,
@@ -82,15 +82,15 @@ class MenuItemView(
       y += textPaint.getTextHeight(firstWord!!) + getTextPadding()
       canvas.drawText(secondWord!!, width / 2f, y, textPaint)
     } else {
-      val y = circleSize + getTextPadding().f + textPaint.getTextHeight(text)
+      val y = circleSize + getTextPadding().f + textPaint.getTextHeight()
       canvas.drawText(text, width / 2f, y, textPaint)
     }
   }
   
   private fun getTextPadding(): Int {
     if (firstWord != null && secondWord != null) {
-      return (textPaint.getTextHeight(text) * 0.8f).toInt()
+      return (textPaint.getTextHeight() * 0.8f).toInt()
     }
-    return (textPaint.getTextHeight(text))
+    return (textPaint.getTextHeight())
   }
 }

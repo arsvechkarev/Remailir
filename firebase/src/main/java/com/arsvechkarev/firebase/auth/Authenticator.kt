@@ -11,6 +11,8 @@ interface Authenticator {
   
   fun isSignInWithEmailLink(email: String): Boolean
   
+  fun signOut()
+  
   suspend fun saveUsername(username: String)
   
   suspend fun sendSignInLinkToEmail(email: String, settings: ActionCodeSettings)

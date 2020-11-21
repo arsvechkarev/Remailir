@@ -9,7 +9,7 @@ object Colors {
   
   const val Transparent = Color.TRANSPARENT
   
-  private val colors = IntArray(24) { 0 }
+  private val colors = IntArray(25) { 0 }
   
   val Background get() = colors[0]
   val Surface get() = colors[1]
@@ -32,9 +32,10 @@ object Colors {
   val ErrorGradientEnd get() = colors[18]
   val Disabled get() = colors[19]
   val Divider get() = colors[20]
-  val Border get() = colors[21]
-  val Share get() = colors[22]
-  val SourceCode get() = colors[23]
+  val Shadow get() = colors[21]
+  val Border get() = colors[22]
+  val Share get() = colors[23]
+  val SourceCode get() = colors[24]
   
   fun init(context: Context) {
     colors[0] = context.getAttrColor(R.attr.colorBackground)
@@ -58,8 +59,9 @@ object Colors {
     colors[18] = context.getAttrColor(R.attr.colorErrorGradientEnd)
     colors[19] = context.getAttrColor(R.attr.colorDisabled)
     colors[20] = context.getAttrColor(R.attr.colorDivider)
-    colors[21] = context.getAttrColor(R.attr.colorBorder)
-    colors[22] = context.getAttrColor(R.attr.colorShare)
-    colors[23] = context.getAttrColor(R.attr.colorSourceCode)
+    colors[21] = context.getAttrColor(R.attr.colorShadow)
+    colors[22] = context.getAttrColor(R.attr.colorBorder)
+    colors[23] = context.getAttrColor(R.attr.colorShare)
+    colors[24] = context.getAttrColor(R.attr.colorSourceCode)
   }
 }

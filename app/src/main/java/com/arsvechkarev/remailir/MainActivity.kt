@@ -2,6 +2,7 @@ package com.arsvechkarev.remailir
 
 import android.content.Intent
 import android.content.pm.ActivityInfo
+import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings.System
 import android.provider.Settings.System.ACCELEROMETER_ROTATION
@@ -17,6 +18,7 @@ import com.arsvechkarev.friends.presentation.FriendsScreen
 import com.arsvechkarev.friends.presentation.FriendsScreen2
 import com.arsvechkarev.friends.presentation.FriendsScreen3
 import com.arsvechkarev.registration.presentation.RegistrationScreen
+import com.arsvechkarev.registration.presentation.RegistrationScreen.Companion.CHECK_LINK
 import com.arsvechkarev.settings.presentation.SettingsScreen
 import com.arsvechkarev.viewdsl.Densities
 import com.arsvechkarev.viewdsl.Size.Companion.MatchParent
@@ -46,7 +48,12 @@ class MainActivity : BaseActivity(), Navigator {
     if (FirebaseAuthenticator.isUserLoggedIn()) {
       navigator.navigate(ChatsScreen::class)
     } else {
-      navigator.navigate(RegistrationScreen::class)
+      navigator.navigate(RegistrationScreen::class,
+        options = Options(
+          clearAllOtherScreens = true,
+          arguments = Bundle().apply { putBoolean(CHECK_LINK, true) }
+        )
+      )
     }
   }
   
@@ -92,6 +99,12 @@ class MainActivity : BaseActivity(), Navigator {
     startActivity(intent)
   }
   
+  override fun openLink(link: String) {
+    val intent = Intent(Intent.ACTION_VIEW)
+    intent.data = Uri.parse(link)
+    startActivity(intent)
+  }
+  
   override fun onBackPressed() {
     if (!navigator.handleGoBack()) {
       super.onBackPressed()
@@ -99,6 +112,14 @@ class MainActivity : BaseActivity(), Navigator {
   }
   
   override fun signOut() {
-    navigator.navigate(RegistrationScreen::class, Options(clearAllOtherScreens = true))
+    navigator.navigate(
+      RegistrationScreen::class,
+      options = Options(
+        clearAllOtherScreens = true,
+        arguments = Bundle().apply {
+          putBoolean(CHECK_LINK, false)
+        }
+      )
+    )
   }
 }

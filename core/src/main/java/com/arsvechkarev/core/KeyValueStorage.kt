@@ -13,6 +13,10 @@ interface KeyValueStorage {
   
   fun putString(key: String, value: String)
   
+  fun putBoolean(key: String, value: Boolean)
+  
+  fun getBoolean(key: String, defaultValue: Boolean): Boolean
+  
   fun hasLong(key: String): Boolean
   
   fun getLong(key: String): Long

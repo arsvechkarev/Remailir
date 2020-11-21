@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import com.arsvechkarev.core.viewbuilding.Colors
 import com.arsvechkarev.core.viewbuilding.TextSizes
 import com.arsvechkarev.viewdsl.children
+import com.arsvechkarev.viewdsl.onClick
 import com.arsvechkarev.viewdsl.size
 
 class SettingsThreeElementsView(context: Context) : ViewGroup(context) {
@@ -20,6 +21,18 @@ class SettingsThreeElementsView(context: Context) : ViewGroup(context) {
     addView(buildMenuItem(R.drawable.ic_log_out, R.string.text_log_out, Colors.Error))
     addView(buildMenuItem(R.drawable.ic_share, R.string.text_share, Colors.Share))
     addView(buildMenuItem(R.drawable.ic_source_code, R.string.text_source_code, Colors.SourceCode))
+  }
+  
+  fun onLogOutClick(block: () -> Unit) {
+    getChildAt(0).onClick(block)
+  }
+  
+  fun onShareClick(block: () -> Unit) {
+    getChildAt(1).onClick(block)
+  }
+  
+  fun onSourceCodeClick(block: () -> Unit) {
+    getChildAt(2).onClick(block)
   }
   
   override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {

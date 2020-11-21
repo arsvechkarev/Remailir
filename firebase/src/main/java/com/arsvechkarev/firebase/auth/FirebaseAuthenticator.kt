@@ -2,30 +2,35 @@ package com.arsvechkarev.firebase.auth
 
 import com.arsvechkarev.core.extenstions.await
 import com.google.firebase.auth.ActionCodeSettings
-import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 
 object FirebaseAuthenticator : Authenticator {
+  
+  private val auth = FirebaseAuth.getInstance()
   
   override fun isUserLoggedIn(): Boolean {
     return userHasDisplayName()
   }
   
   override fun userHasDisplayName(): Boolean {
-    val user = FirebaseAuth.getInstance().currentUser
+    val user = auth.currentUser
     return user != null && !user.displayName.isNullOrBlank()
   }
   
   override fun isSignInWithEmailLink(email: String): Boolean {
-    return FirebaseAuth.getInstance().isSignInWithEmailLink(email)
+    return auth.isSignInWithEmailLink(email)
+  }
+  
+  override fun signOut() {
+    auth.signOut()
   }
   
   override suspend fun saveUsername(username: String) {
     val profileUpdates = UserProfileChangeRequest.Builder()
         .setDisplayName(username)
         .build()
-    FirebaseAuth.getInstance().currentUser!!
+    auth.currentUser!!
         .updateProfile(profileUpdates)
         .await()
   }
@@ -34,17 +39,11 @@ object FirebaseAuthenticator : Authenticator {
     email: String,
     settings: ActionCodeSettings
   ) {
-    FirebaseAuth.getInstance()
-        .sendSignInLinkToEmail(email, settings)
-        .await()
+    auth.sendSignInLinkToEmail(email, settings).await()
   }
   
   override suspend fun signInWithEmailLink(
     email: String,
     emailLink: String
-  ): AuthResult {
-    return FirebaseAuth.getInstance()
-        .signInWithEmailLink(email, emailLink)
-        .await()!!
-  }
+  ) = auth.signInWithEmailLink(email, emailLink).await()!!
 }

@@ -14,9 +14,10 @@ import com.arsvechkarev.viewdsl.childView
 import com.arsvechkarev.viewdsl.withViewBuilder
 import moxy.MvpDelegate
 import moxy.MvpDelegateHolder
+import moxy.MvpView
 
-@Suppress("PropertyName")
-abstract class Screen : MvpDelegateHolder {
+@Suppress("PropertyName", "MemberVisibilityCanBePrivate")
+abstract class Screen : MvpDelegateHolder, MvpView {
   
   @PublishedApi
   internal val viewsCache = HashMap<String, View>()
@@ -60,6 +61,7 @@ abstract class Screen : MvpDelegateHolder {
   }
   
   internal fun onDestroyDelegate() {
+    mvpDelegate.onDestroyView()
     mvpDelegate.onDestroy()
   }
   

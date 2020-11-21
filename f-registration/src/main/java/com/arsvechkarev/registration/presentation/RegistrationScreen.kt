@@ -1,5 +1,6 @@
 package com.arsvechkarev.registration.presentation
 
+import android.os.Bundle
 import android.view.View
 import com.arsvechkarev.core.MAX_SYMBOLS_FOR_NICKNAME
 import com.arsvechkarev.core.extenstions.getMessageRes
@@ -43,20 +44,24 @@ class RegistrationScreen : Screen(), RegistrationView {
   
   private val presenter by moxyPresenter { RegistrationInjector.providePresenter(this) }
   
-  override fun onInit() {
-    presenter.figureOutScreenToGo(activityNonNull.intent)
-    view(ButtonOpenEmailApp).onClick { presenter.openEmailApp() }
+  override fun onInit(arguments: Bundle) {
+    val checkLink = arguments.getBoolean(CHECK_LINK)
+    if (checkLink) {
+      val link = activityNonNull.intent.data.toString()
+      presenter.figureOutScreenToGo(link)
+    } else {
+      presenter.figureOutScreenToGo()
+    }
+    view(ButtonOpenEmailApp).onClick { navigator.openEmailApp() }
+  }
+  
+  override fun switchToMainScreen() {
+    navigator.switchToMainScreen()
   }
   
   override fun showInitialState() {
-    editText(EditTextTag).setHint(R.string.hint_edit_text_email)
-    editText(EditTextTag).isEnabled = true
+    prepareEnterEmailState()
     editText(EditTextTag).requestFocus()
-    viewAs<SignInButton>(ButtonSignIn).title.text(R.string.text_continue)
-    view(ButtonSignIn).onClick {
-      val email = editText(EditTextTag).text.toString().trim()
-      presenter.sendEmailLink(email)
-    }
   }
   
   override fun showEnterUserNameLayout() {
@@ -129,6 +134,7 @@ class RegistrationScreen : Screen(), RegistrationView {
   }
   
   override fun showNoEmailSaved() {
+    prepareEnterEmailState()
     showFailureLayout(
       R.string.error_while_checking_link,
       R.string.text_retry,
@@ -137,6 +143,7 @@ class RegistrationScreen : Screen(), RegistrationView {
   }
   
   override fun showVerificationLinkExpired(email: String) {
+    prepareEnterEmailState()
     showFailureLayout(
       R.string.error_email_link_expired,
       R.string.text_resend_link,
@@ -146,11 +153,13 @@ class RegistrationScreen : Screen(), RegistrationView {
   
   override fun showEmailVerificationFailure(e: Throwable) {
     Timber.d(e, "Error: verification")
+    prepareEnterEmailState()
     showFailureLayout(
       e.getMessageRes(),
       R.string.text_retry,
       onClickAction = {
-        presenter.figureOutScreenToGo(activityNonNull.intent)
+        val emailLink = activityNonNull.intent.data.toString()
+        presenter.figureOutScreenToGo(emailLink)
       })
   }
   
@@ -182,6 +191,16 @@ class RegistrationScreen : Screen(), RegistrationView {
     view(EditTextTag).isEnabled = false
   }
   
+  private fun prepareEnterEmailState() {
+    editText(EditTextTag).setHint(R.string.hint_edit_text_email)
+    editText(EditTextTag).isEnabled = true
+    viewAs<SignInButton>(ButtonSignIn).title.text(R.string.text_continue)
+    view(ButtonSignIn).onClick {
+      val email = editText(EditTextTag).text.toString().trim()
+      presenter.sendEmailLink(email)
+    }
+  }
+  
   private fun showFailureLayout(
     textErrorRes: Int,
     textButtonRetryRes: Int,
@@ -209,5 +228,10 @@ class RegistrationScreen : Screen(), RegistrationView {
     view(TextLinkWasSent).apply(block)
     view(TextTimer).apply(block)
     view(ButtonOpenEmailApp).apply(block)
+  }
+  
+  companion object {
+    
+    const val CHECK_LINK = "CHECK_LINK"
   }
 }

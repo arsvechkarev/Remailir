@@ -29,6 +29,7 @@
     <item name="colorErrorGradientEnd">@color/dark_error_gradient_end</item>
     <item name="colorDisabled">@color/dark_disabled</item>
     <item name="colorDivider">@color/dark_divider</item>
+    <item name="colorShadow">@color/dark_shadow</item>
     <item name="colorBorder">@color/dark_border</item>
     <item name="colorShare">@color/dark_share</item>
     <item name="colorSourceCode">@color/dark_source_code</item>

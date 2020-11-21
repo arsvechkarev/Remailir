@@ -12,7 +12,6 @@ import com.arsvechkarev.viewdsl.animateGone
 import com.arsvechkarev.viewdsl.animateSlideFromRight
 import com.arsvechkarev.viewdsl.animateSlideToRight
 import com.arsvechkarev.viewdsl.animateVisible
-import com.arsvechkarev.viewdsl.children
 import com.arsvechkarev.viewdsl.invisible
 import kotlin.reflect.KClass
 
@@ -22,6 +21,8 @@ class NavigatorView(context: Context) : FrameLayout(context) {
   private val screenClassesToScreens = HashMap<String, Screen>()
   private val screens = ArrayList<Screen>()
   private var _currentScreen: Screen? = null
+  
+  val currentScreen get() = _currentScreen!!
   
   init {
     fitsSystemWindows = true
@@ -35,7 +36,10 @@ class NavigatorView(context: Context) : FrameLayout(context) {
       return
     }
     if (options.clearAllOtherScreens) {
-      children.forEach { child -> performRemoveView(child) }
+      screenClassesToScreens.values.forEach { releaseScreen(it) }
+      screenClassesToScreens.clear()
+      screens.clear()
+      removeAllViews()
     }
     val screen = screenClassesToScreens[screenClass.java.name] ?: run {
       val constructor = screenClass.java.getConstructor()
@@ -83,6 +87,8 @@ class NavigatorView(context: Context) : FrameLayout(context) {
     }
     if (screens.size == 1) {
       releaseScreen(_currentScreen!!)
+      screenClassesToScreens.clear()
+      screens.clear()
       _currentScreen = null
       return false
     }
@@ -143,6 +149,8 @@ class NavigatorView(context: Context) : FrameLayout(context) {
     removeView(child)
     val screen = screenClassesToScreens.getValue(child.tag as String)
     releaseScreen(screen)
+    screens.remove(screen)
+    screenClassesToScreens.remove(screen.javaClass.name)
   }
   
   private fun releaseScreen(screen: Screen) {
@@ -150,8 +158,6 @@ class NavigatorView(context: Context) : FrameLayout(context) {
     screen.metadata._context = null
     screen.metadata._view = null
     screen.onDestroyDelegate()
-    screens.remove(screen)
-    screenClassesToScreens.remove(screen::class.java.name)
   }
   
   companion object {

@@ -1,6 +1,5 @@
 package com.arsvechkarev.registration.presentation
 
-import android.content.Intent
 import com.arsvechkarev.core.BasePresenter
 import com.arsvechkarev.core.MIN_NETWORK_DELAY
 import com.arsvechkarev.core.concurrency.Dispatchers
@@ -22,9 +21,8 @@ class RegistrationPresenter(
   dispatchers: Dispatchers
 ) : BasePresenter<RegistrationView>(dispatchers) {
   
-  fun figureOutScreenToGo(intent: Intent) {
-    val emailLink = intent.data.toString()
-    if (interactor.isSignInWithEmailLink(emailLink)) {
+  fun figureOutScreenToGo(emailLink: String? = null) {
+    if (emailLink != null && interactor.isSignInWithEmailLink(emailLink)) {
       handleSignInWithEmailLink(emailLink)
     } else {
       interactor.figureOutInitialState(
@@ -60,15 +58,12 @@ class RegistrationPresenter(
     }
   }
   
-  fun openEmailApp() {
-    interactor.openEmailApp()
-  }
-  
   fun continueRegistration() {
-    if (interactor.switchToMainScreen()) {
-      return
+    if (interactor.shouldSwitchToMainScreen()) {
+      updateView { switchToMainScreen() }
+    } else {
+      updateView { showEnterUserNameLayout() }
     }
-    updateView { showEnterUserNameLayout() }
   }
   
   @Suppress("NON_EXHAUSTIVE_WHEN")
@@ -100,6 +95,7 @@ class RegistrationPresenter(
   
   override fun onDestroy() {
     super.onDestroy()
+    println("lalala")
     interactor.release()
   }
   

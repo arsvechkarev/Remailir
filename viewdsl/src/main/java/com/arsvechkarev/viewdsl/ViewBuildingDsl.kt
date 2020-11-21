@@ -50,8 +50,8 @@ class ViewBuilder(val context: Context) {
   }
   
   fun Any.RootFrameLayout(
-    width: Size = WrapContent,
-    height: Size = WrapContent,
+    width: Size = MatchParent,
+    height: Size = MatchParent,
     style: FrameLayout.() -> Unit = {},
     block: FrameLayout.() -> Unit = {}
   ) = FrameLayout(context).size(width, height).apply(style).apply(block)
@@ -164,6 +164,25 @@ class ViewBuilder(val context: Context) {
       else -> child<LinearLayout, ViewGroupLayoutParams>(width, height, style, block)
     }
     return layout.apply { orientation(LinearLayout.VERTICAL) }
+  }
+  
+  inline fun ViewGroup.ScrollableVerticalLayout(
+    width: Size = MatchParent,
+    height: Size = MatchParent,
+    style: LinearLayout.() -> Unit = {},
+    block: LinearLayout.() -> Unit,
+  ): ScrollView {
+    val layout = when (this) {
+      is FrameLayout -> child<ScrollView, FrameLayoutParams>(width, height, {}, {})
+      is LinearLayout -> child<ScrollView, LinearLayoutParams>(width, height, {}, {})
+      is CoordinatorLayout -> child<ScrollView, CoordLayoutParams>(width, height, {}, {})
+      else -> child<ScrollView, ViewGroupLayoutParams>(width, height, {}, {})
+    }
+    return layout.apply {
+      child<LinearLayout>(MatchParent, WrapContent, style, block).apply {
+        orientation(LinearLayout.VERTICAL)
+      }
+    }
   }
   
   inline fun ViewGroup.HorizontalLayout(
