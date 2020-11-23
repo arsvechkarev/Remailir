@@ -5,12 +5,6 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.PorterDuff.Mode.SRC_ATOP
 import android.graphics.PorterDuffColorFilter
-import android.view.MotionEvent
-import android.view.MotionEvent.ACTION_CANCEL
-import android.view.MotionEvent.ACTION_DOWN
-import android.view.MotionEvent.ACTION_MOVE
-import android.view.MotionEvent.ACTION_UP
-import android.view.ViewConfiguration
 import android.view.animation.LinearInterpolator
 import android.widget.FrameLayout
 import com.arsvechkarev.core.extenstions.Paint
@@ -32,13 +26,11 @@ import com.arsvechkarev.viewdsl.doOnEnd
 import com.arsvechkarev.viewdsl.retrieveDrawable
 import com.arsvechkarev.viewdsl.startIfNotRunning
 import com.arsvechkarev.views.drawables.ProgressBarDrawable
-import kotlin.math.sqrt
 
 class PullToRefreshView(context: Context) : FrameLayout(context) {
   
   private val progressBarSize = 30.dp
   private val innerPadding get() = progressBarSize / 1.8f
-  private val initialDistanceToTop get() = progressBarSize / 2f
   private val cornersRadius = 4.dp.f
   private val progressBarDrawable = ProgressBarDrawable()
   private val arrowDownDrawable = context.retrieveDrawable(R.drawable.ic_arrow_down)
@@ -54,17 +46,16 @@ class PullToRefreshView(context: Context) : FrameLayout(context) {
   private var textPullToRefreshAlpha = 255
   private var textReleaseToRefreshAlpha = 0
   private var textRefreshingAlpha = 0
-  private var distanceToTop = 0f
-  private var isPlankOpened = false
-  private var isBeingDragged = false
-  private var latestDownY = 0f
-  private var plankWidth = 0f
-  private var plankHeight = 0f
   private var outerRotationAngle = 0f
   private var innerRotationAngle = 0f
   private var maxTextWidth = 0f
+  private var plankWidth = 0f
+  private var plankHeight = 0f
   
-  var allowPulling: () -> Boolean = { false }
+  internal var isPlankOpened = false
+  internal var distanceToTop = 0f
+  internal val initialDistanceToTop get() = progressBarSize / 2f
+  
   var onRefreshPulled: () -> Unit = {}
   
   private val progressOuterAnimator = ValueAnimator().apply {
@@ -123,6 +114,40 @@ class PullToRefreshView(context: Context) : FrameLayout(context) {
     alphaAnimator.start()
   }
   
+  internal fun getPlankHeight(): Float {
+    return plankHeight
+  }
+  
+  internal fun animateToRefreshingState() {
+    onRefreshPulled()
+    plankAnimator.setFloatValues(distanceToTop, initialDistanceToTop * 2 + plankHeight)
+    plankAnimator.start()
+    textReleaseToRefreshAlpha = 0
+    textRefreshingAlpha = 255
+    textAndIconAnimator.setFloatValues(0f, 1f)
+    textAndIconAnimator.start()
+  }
+  
+  internal fun animateToHiddenState() {
+    plankAnimator.setFloatValues(distanceToTop, 0f)
+    plankAnimator.doOnEnd { arrowDownDrawable.alpha = 255 }
+    plankAnimator.start()
+  }
+  
+  internal fun moveToPullToRefreshState() {
+    textPullToRefreshAlpha = 255
+    textReleaseToRefreshAlpha = 0
+    changeTextAnimator.setFloatValues(arrowDownDrawableScale, 1f)
+    changeTextAnimator.start()
+  }
+  
+  internal fun moveToReleaseToRefreshState() {
+    textPullToRefreshAlpha = 0
+    textReleaseToRefreshAlpha = 255
+    changeTextAnimator.setFloatValues(arrowDownDrawableScale, -1f)
+    changeTextAnimator.start()
+  }
+  
   override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
     val horizontalPadding = progressBarSize / 2
     val verticalPadding = progressBarSize / 4
@@ -176,75 +201,6 @@ class PullToRefreshView(context: Context) : FrameLayout(context) {
     }
   }
   
-  override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
-    if (isPlankOpened || !allowPulling()) return false
-    if (ev.action == ACTION_MOVE && isBeingDragged) return true
-    when (ev.action) {
-      ACTION_DOWN -> {
-        latestDownY = ev.y
-      }
-      ACTION_MOVE -> {
-        val dy = ev.y - latestDownY
-        if (dy < 0) return false
-        isBeingDragged = dy > ViewConfiguration.get(context).scaledTouchSlop
-      }
-      ACTION_UP, ACTION_CANCEL -> {
-        isBeingDragged = false
-      }
-    }
-    return isBeingDragged
-  }
-  
-  override fun onTouchEvent(event: MotionEvent): Boolean {
-    if (isPlankOpened || !allowPulling()) return false
-    when (event.action) {
-      ACTION_DOWN -> {
-        latestDownY = event.y
-        return true
-      }
-      ACTION_MOVE -> {
-        val dy = event.y - latestDownY
-        var interpolatedValue = interpolate(dy)
-        if (interpolatedValue.isNaN()) {
-          interpolatedValue = 0f
-        }
-        distanceToTop = interpolatedValue
-        if (distanceToTop > initialDistanceToTop * 2 + plankHeight
-            && textReleaseToRefreshAlpha != 255) {
-          textPullToRefreshAlpha = 0
-          textReleaseToRefreshAlpha = 255
-          changeTextAnimator.setFloatValues(arrowDownDrawableScale, -1f)
-          changeTextAnimator.start()
-        } else if (distanceToTop < initialDistanceToTop * 2 + plankHeight
-            && textPullToRefreshAlpha != 255) {
-          textPullToRefreshAlpha = 255
-          textReleaseToRefreshAlpha = 0
-          changeTextAnimator.setFloatValues(arrowDownDrawableScale, 1f)
-          changeTextAnimator.start()
-        }
-        invalidate()
-      }
-      ACTION_UP, ACTION_CANCEL -> {
-        if (distanceToTop < initialDistanceToTop * 2 + plankHeight) {
-          isPlankOpened = false
-          plankAnimator.setFloatValues(distanceToTop, 0f)
-          plankAnimator.doOnEnd { arrowDownDrawable.alpha = 255 }
-          plankAnimator.start()
-        } else {
-          isPlankOpened = true
-          onRefreshPulled()
-          plankAnimator.setFloatValues(distanceToTop, initialDistanceToTop * 2 + plankHeight)
-          plankAnimator.start()
-          textReleaseToRefreshAlpha = 0
-          textRefreshingAlpha = 255
-          textAndIconAnimator.setFloatValues(0f, 1f)
-          textAndIconAnimator.start()
-        }
-      }
-    }
-    return super.onTouchEvent(event)
-  }
-  
   override fun onDetachedFromWindow() {
     super.onDetachedFromWindow()
     plankAnimator.cancelIfRunning()
@@ -273,23 +229,5 @@ class PullToRefreshView(context: Context) : FrameLayout(context) {
     interpolator = LinearInterpolator()
     repeatCount = ValueAnimator.INFINITE
     this.duration = duration
-  }
-  
-  private fun interpolate(distance: Float): Float {
-    return sqrt(distance) * 9.5f
-  }
-  
-  fun updateDistanceToTop(interpolatedValue: Float) {
-    this.distanceToTop = interpolatedValue
-  }
-  
-  fun animateToRefreshingState() {
-    onRefreshPulled()
-    plankAnimator.setFloatValues(distanceToTop, initialDistanceToTop * 2 + plankHeight)
-    plankAnimator.start()
-    textReleaseToRefreshAlpha = 0
-    textRefreshingAlpha = 255
-    textAndIconAnimator.setFloatValues(0f, 1f)
-    textAndIconAnimator.start()
   }
 }

@@ -40,6 +40,7 @@ import com.arsvechkarev.views.ComplexProgressBar
 import com.arsvechkarev.views.PullToRefreshView
 import com.arsvechkarev.views.Toolbar
 import com.arsvechkarev.views.behaviors.HeaderBehavior
+import com.arsvechkarev.views.behaviors.PullToRefreshBehavior
 import com.arsvechkarev.views.behaviors.ScrollingRecyclerBehavior
 import com.arsvechkarev.views.behaviors.ViewUnderHeaderBehavior
 
@@ -78,9 +79,13 @@ class FriendsScreen : Screen(), FriendsView {
           margins(top = 40.dp)
         }
       }
-      VerticalLayout(MatchParent, WrapContent) {
+      FrameLayout(MatchParent, WrapContent) {
         invisible()
         tag(LayoutFailure)
+        TextView(WrapContent, WrapContent) {
+          layoutGravity(CENTER)
+          text("Qwerty")
+        }
       }
       VerticalLayout(MatchParent, WrapContent) {
         tag(LayoutNoFriends)
@@ -107,9 +112,10 @@ class FriendsScreen : Screen(), FriendsView {
       }
       child<PullToRefreshView>(MatchParent, MatchParent) {
         classNameTag()
-        behavior(viewUnderHeaderBehavior)
+        val behavior = PullToRefreshBehavior(context)
+        behavior(behavior)
         onRefreshPulled = { presenter.onRefreshPulled() }
-        allowPulling = lb@{
+        behavior.allowPulling = lb@{
           if (view(LayoutNoFriends).isVisible) return@lb true
           if (view(LayoutFailure).isVisible) return@lb true
           if (viewAs<RecyclerView>().scrollY == 0) return@lb true
@@ -136,19 +142,23 @@ class FriendsScreen : Screen(), FriendsView {
   }
   
   override fun showLoading() {
+    println("llll: showLoading")
     showLayout(view(LayoutLoading))
   }
   
   override fun showNoFriends() {
+    println("llll: showNoFriends")
     showLayout(view(LayoutNoFriends))
   }
   
   override fun showFriendsList(list: List<User>) {
+    println("llll: showFriendsList")
     showLayout(viewAs<RecyclerView>())
     adapter.submitList(list)
   }
   
   override fun showFailure(e: Throwable) {
+    println("llll: showFailure")
     showLayout(view(LayoutFailure))
   }
   
@@ -164,7 +174,7 @@ class FriendsScreen : Screen(), FriendsView {
   companion object {
     
     const val LayoutLoading = "LayoutLoading"
-    const val LayoutFailure = "LayoutError"
+    const val LayoutFailure = "LayoutFailure"
     const val LayoutNoFriends = "LayoutNoFriends"
   }
 }
