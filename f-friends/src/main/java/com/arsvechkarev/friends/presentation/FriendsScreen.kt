@@ -49,9 +49,10 @@ class FriendsScreen : Screen(), FriendsView {
   override fun buildLayout() = withViewBuilder {
     RootCoordinatorLayout {
       val viewUnderHeaderBehavior = ViewUnderHeaderBehavior()
+      val headerBehavior = HeaderBehavior()
       child<Toolbar>(MatchParent, WrapContent) {
         classNameTag()
-        behavior(HeaderBehavior())
+        behavior(headerBehavior)
         showBackImage = true
         title(R.string.title_friends)
         onBackClick { navigator.onBackPress() }
@@ -118,7 +119,8 @@ class FriendsScreen : Screen(), FriendsView {
         behavior.allowPulling = lb@{
           if (view(LayoutNoFriends).isVisible) return@lb true
           if (view(LayoutFailure).isVisible) return@lb true
-          if (viewAs<RecyclerView>().scrollY == 0) return@lb true
+          if (viewAs<RecyclerView>().isVisible
+              && headerBehavior.getTopAndBottomOffset() == 0) return@lb true
           return@lb false
         }
       }
@@ -139,6 +141,11 @@ class FriendsScreen : Screen(), FriendsView {
   
   override fun onInit() {
     presenter.startLoadingList()
+    getScrollY()
+  }
+  
+  private fun getScrollY() {
+    viewNonNull.postDelayed({ getScrollY() }, 1000)
   }
   
   override fun showLoading() {

@@ -69,13 +69,18 @@ class PullToRefreshBehavior(
   
   override fun onInterceptTouchEvent(parent: CoordinatorLayout, child: PullToRefreshView, ev: MotionEvent): Boolean {
     if (child.isPlankOpened || !allowPulling()) return false
-    if (ev.action == ACTION_MOVE && isBeingDragged) return true
+    val dy = ev.y - latestDownY
+    if (ev.action == ACTION_MOVE
+        && isBeingDragged
+        && dy > 0
+    ) {
+      return true
+    }
     when (ev.action) {
       ACTION_DOWN -> {
         latestDownY = ev.y
       }
       ACTION_MOVE -> {
-        val dy = ev.y - latestDownY
         if (dy < 0) return false
         isBeingDragged = dy > ViewConfiguration.get(context).scaledTouchSlop
       }
@@ -113,6 +118,7 @@ class PullToRefreshBehavior(
         child.invalidate()
       }
       ACTION_UP, ACTION_CANCEL -> {
+        isBeingDragged = false
         if (distanceToTop < child.initialDistanceToTop * 2 + plankHeight) {
           child.isPlankOpened = false
           child.animateToHiddenState()

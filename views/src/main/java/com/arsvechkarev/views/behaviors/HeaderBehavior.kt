@@ -77,6 +77,8 @@ class HeaderBehavior : CoordinatorLayout.Behavior<View>() {
     }
   }
   
+  fun getTopAndBottomOffset() = offsetHelper?.topAndBottomOffset ?: 0
+  
   override fun onLayoutChild(parent: CoordinatorLayout,
                              child: View, layoutDirection: Int): Boolean {
     offsetFromPreviousLayout = offsetHelper?.topAndBottomOffset ?: 0

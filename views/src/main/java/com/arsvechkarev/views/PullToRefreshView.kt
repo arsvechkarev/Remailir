@@ -34,7 +34,7 @@ class PullToRefreshView(context: Context) : FrameLayout(context) {
   private val cornersRadius = 4.dp.f
   private val progressBarDrawable = ProgressBarDrawable()
   private val arrowDownDrawable = context.retrieveDrawable(R.drawable.ic_arrow_down)
-  private var arrowDownDrawableScale = 1f
+  private var arrowDownDrawableRotation = 0f
   private val textPaint = TextPaint(textSize = H4, font = SegoeUiBold)
   private val backgroundPaint = Paint(Colors.Dialog)
   private val textPullToRefresh = resources.getString(R.string.text_pull_to_refresh)
@@ -89,11 +89,11 @@ class PullToRefreshView(context: Context) : FrameLayout(context) {
       textRefreshingAlpha = alpha
     }
   }
-  private val changeTextAnimator = ValueAnimator().apply {
+  private val arrowDrawableAnimator = ValueAnimator().apply {
     duration = DURATION_VERY_SHORT
     interpolator = AccelerateDecelerateInterpolator
     addUpdateListener {
-      arrowDownDrawableScale = it.animatedValue as Float
+      arrowDownDrawableRotation = it.animatedValue as Float
       invalidate()
     }
   }
@@ -104,7 +104,7 @@ class PullToRefreshView(context: Context) : FrameLayout(context) {
     alphaAnimator.setFloatValues(1f, 0f)
     alphaAnimator.doOnEnd {
       distanceToTop = 0f
-      arrowDownDrawableScale = 1f
+      arrowDownDrawableRotation = 1f
       arrowDownDrawable.alpha = 255
       progressBarDrawable.alpha = 0
       backgroundPaint.alpha = 255
@@ -137,15 +137,15 @@ class PullToRefreshView(context: Context) : FrameLayout(context) {
   internal fun moveToPullToRefreshState() {
     textPullToRefreshAlpha = 255
     textReleaseToRefreshAlpha = 0
-    changeTextAnimator.setFloatValues(arrowDownDrawableScale, 1f)
-    changeTextAnimator.start()
+    arrowDrawableAnimator.setFloatValues(arrowDownDrawableRotation, 0f)
+    arrowDrawableAnimator.start()
   }
   
   internal fun moveToReleaseToRefreshState() {
     textPullToRefreshAlpha = 0
     textReleaseToRefreshAlpha = 255
-    changeTextAnimator.setFloatValues(arrowDownDrawableScale, -1f)
-    changeTextAnimator.start()
+    arrowDrawableAnimator.setFloatValues(arrowDownDrawableRotation, 180f)
+    arrowDrawableAnimator.start()
   }
   
   override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -189,7 +189,7 @@ class PullToRefreshView(context: Context) : FrameLayout(context) {
       canvas.execute {
         val centerX = arrowDownDrawable.bounds.exactCenterX()
         val centerY = arrowDownDrawable.bounds.exactCenterY()
-        scale(1f, arrowDownDrawableScale, centerX, centerY)
+        rotate(arrowDownDrawableRotation, centerX, centerY)
         arrowDownDrawable.draw(canvas)
       }
       textPaint.alpha = textPullToRefreshAlpha
@@ -207,7 +207,7 @@ class PullToRefreshView(context: Context) : FrameLayout(context) {
     alphaAnimator.cancelIfRunning()
     progressInnerAnimator.cancelIfRunning()
     progressOuterAnimator.cancelIfRunning()
-    changeTextAnimator.cancelIfRunning()
+    arrowDrawableAnimator.cancelIfRunning()
   }
   
   private fun Canvas.drawText(text: String) {
