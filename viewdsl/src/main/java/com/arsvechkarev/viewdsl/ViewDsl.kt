@@ -5,9 +5,7 @@ import android.graphics.drawable.GradientDrawable
 import android.view.View
 import android.view.ViewGroup.MarginLayoutParams
 import android.widget.FrameLayout
-import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.annotation.DimenRes
 import androidx.annotation.DrawableRes
@@ -38,6 +36,8 @@ fun View.invisible() {
 fun View.gone() {
   visibility = View.GONE
 }
+
+val View.isVisible get() = visibility == View.VISIBLE
 
 fun <T : View> T.size(
   width: Int,
@@ -184,11 +184,15 @@ fun View.onClick(block: () -> Unit) {
   setOnClickListener { block() }
 }
 
+fun View.onLongClick(block: () -> Unit) {
+  setOnLongClickListener { block(); true }
+}
+
 fun View.tag(tag: String) {
   this.tag = tag
 }
 
-fun <T : View> T.defaultTag() {
+fun <T : View> T.classNameTag() {
   this.tag = javaClass.name
 }
 
@@ -228,15 +232,7 @@ fun View.childView(tag: String): View {
   return findViewWithTag(tag)
 }
 
-fun View.childTextView(tag: String): TextView {
-  return findViewWithTag(tag) as TextView
-}
-
-fun View.childImageView(tag: String): ImageView {
-  return findViewWithTag(tag) as ImageView
-}
-
 @Suppress("UNCHECKED_CAST")
-fun <T : View> T.childViewAs(tag: String): T {
-  return childView(tag) as T
+inline fun <reified T : View> View.childViewAs(tag: String = T::class.java.name): T {
+  return findViewWithTag(tag)
 }

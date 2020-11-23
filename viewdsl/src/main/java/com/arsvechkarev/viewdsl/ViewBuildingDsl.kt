@@ -40,6 +40,15 @@ class ViewBuilder(val context: Context) {
     orientation(LinearLayout.VERTICAL)
   }
   
+  fun Any.RootHorizontalLayout(
+    width: Size = MatchParent,
+    height: Size = MatchParent,
+    style: LinearLayout.() -> Unit = {},
+    block: LinearLayout.() -> Unit = {}
+  ) = LinearLayout(context).size(width, height).apply(style).apply(block).apply {
+    orientation(LinearLayout.HORIZONTAL)
+  }
+  
   fun Any.RootScrollableVerticalLayout(
     width: Size = MatchParent,
     height: Size = MatchParent,
@@ -57,8 +66,8 @@ class ViewBuilder(val context: Context) {
   ) = FrameLayout(context).size(width, height).apply(style).apply(block)
   
   fun Any.RootCoordinatorLayout(
-    width: Size,
-    height: Size,
+    width: Size = MatchParent,
+    height: Size = MatchParent,
     style: CoordinatorLayout.() -> Unit = {},
     block: CoordinatorLayout.() -> Unit = {}
   ) = CoordinatorLayout(context).size(width, height).apply(style).apply(block)

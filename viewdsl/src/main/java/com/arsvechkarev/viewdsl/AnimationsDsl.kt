@@ -15,6 +15,7 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.OvershootInterpolator
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 
+const val DURATION_VERY_SHORT = 120L
 const val DURATION_SHORT = 200L
 const val DURATION_DEFAULT = 300L
 const val DURATION_MEDIUM = 500L

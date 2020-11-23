@@ -22,6 +22,14 @@ object FirebaseAuthenticator : Authenticator {
     return auth.isSignInWithEmailLink(email)
   }
   
+  override fun getUsername(): String {
+    return auth.currentUser!!.displayName!!
+  }
+  
+  override fun getEmail(): String {
+    return auth.currentUser!!.email!!
+  }
+  
   override fun signOut() {
     auth.signOut()
   }

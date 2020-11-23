@@ -25,7 +25,7 @@ import com.arsvechkarev.viewdsl.Size.Companion.WrapContent
 import com.arsvechkarev.viewdsl.addView
 import com.arsvechkarev.viewdsl.background
 import com.arsvechkarev.viewdsl.backgroundRoundRect
-import com.arsvechkarev.viewdsl.defaultTag
+import com.arsvechkarev.viewdsl.classNameTag
 import com.arsvechkarev.viewdsl.gravity
 import com.arsvechkarev.viewdsl.layoutGravity
 import com.arsvechkarev.viewdsl.margin
@@ -37,8 +37,8 @@ import com.arsvechkarev.viewdsl.size
 import com.arsvechkarev.viewdsl.text
 import com.arsvechkarev.viewdsl.textColor
 import com.arsvechkarev.viewdsl.textSize
-import com.arsvechkarev.views.ProgressBar
-import com.arsvechkarev.views.ProgressBar.Thickness.THICK
+import com.arsvechkarev.views.MateialProgressBar
+import com.arsvechkarev.views.MateialProgressBar.Thickness.THICK
 import com.arsvechkarev.views.SettingsThreeElementsView
 import com.arsvechkarev.views.SimpleDialog
 import com.arsvechkarev.views.Toolbar
@@ -85,7 +85,7 @@ class SettingsScreen : Screen(), SettingsView {
             text(R.string.text_notifications)
           }
           child<SwitchCompat>(WrapContent, WrapContent) {
-            defaultTag()
+            classNameTag()
             layoutGravity(Gravity.END)
             setColors(Colors.AccentLight, Colors.Disabled, Colors.OnAccent, Colors.Surface)
             setOnCheckedChangeListener { _, isChecked ->
@@ -101,7 +101,7 @@ class SettingsScreen : Screen(), SettingsView {
         }
       }
       child<SimpleDialog>(MatchParent, MatchParent) {
-        defaultTag()
+        classNameTag()
         VerticalLayout(WrapContent, WrapContent) {
           padding(16.dp)
           gravity(Gravity.CENTER_HORIZONTAL)
@@ -113,7 +113,7 @@ class SettingsScreen : Screen(), SettingsView {
             textSize(TextSizes.H3)
           }
           addView {
-            ProgressBar(context, Colors.AccentLight, THICK).apply {
+            MateialProgressBar(context, Colors.AccentLight, THICK).apply {
               size(ProgressBarSize, ProgressBarSize)
             }
           }

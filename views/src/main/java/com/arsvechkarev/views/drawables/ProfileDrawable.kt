@@ -11,13 +11,15 @@ import com.arsvechkarev.viewdsl.retrieveDrawable
 import com.arsvechkarev.views.R
 
 class ProfileDrawable(
-  context: Context
+  context: Context,
+  inverseColors: Boolean = false
 ) : BaseDrawable() {
   
-  private val paint = Paint(color = Colors.Surface)
+  private val paint = Paint(color = if (inverseColors) Colors.UserIconSecondary else Colors.Surface)
   
   private val profileDrawable = context.retrieveDrawable(R.drawable.ic_profile).apply {
-    colorFilter = PorterDuffColorFilter(Colors.UserIconSecondary, PorterDuff.Mode.SRC_ATOP)
+    val color = if (inverseColors) Colors.Surface else Colors.UserIconSecondary
+    colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP)
   }
   
   override fun onBoundsChange(bounds: Rect) {

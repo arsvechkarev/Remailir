@@ -8,10 +8,10 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import com.arsvechkarev.viewdsl.startIfNotRunning
 import com.arsvechkarev.viewdsl.stopIfRunning
-import com.arsvechkarev.views.ProgressBar.Thickness.NORMAL
-import com.arsvechkarev.views.ProgressBar.Thickness.THICK
+import com.arsvechkarev.views.MateialProgressBar.Thickness.NORMAL
+import com.arsvechkarev.views.MateialProgressBar.Thickness.THICK
 
-class ProgressBar(
+class MateialProgressBar(
   context: Context,
   color: Int,
   thickness: Thickness,

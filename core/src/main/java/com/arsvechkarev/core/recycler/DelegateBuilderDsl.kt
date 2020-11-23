@@ -26,8 +26,8 @@ open class DelegateBuilder<T> {
   private var _layoutRes: Int = -1
   private var _simpleViewBuilder: ((parent: View) -> View)? = null
   private var _viewBuilder: (ViewBuilder.(View) -> View)? = null
-  private var _viewHolderInitializer: (DslDelegateViewHolder<T>.() -> Unit) = { }
-  private var _onBind: (View, T) -> Unit = { _, _ -> }
+  private var _viewHolderInitializer: DslDelegateViewHolder<T>.() -> Unit = { }
+  private var _onBind: DslDelegateViewHolder<T>.() -> Unit = { }
   private var _onRecycled: ((itemView: View) -> Unit)? = null
   
   fun layoutRes(@LayoutRes res: Int) {
@@ -46,7 +46,7 @@ open class DelegateBuilder<T> {
     _viewHolderInitializer = function
   }
   
-  fun onBind(function: (itemView: View, element: T) -> Unit) {
+  fun onBind(function: DslDelegateViewHolder<T>.() -> Unit) {
     _onBind = function
   }
   
@@ -104,7 +104,7 @@ class DslAdapterDelegate<T : DisplayableItem>(
 
 class DslDelegateViewHolder<T>(
   itemView: View,
-  private val onBindFunction: (View, T) -> Unit,
+  private val onBindFunction: DslDelegateViewHolder<T>.() -> Unit,
   private val _onRecycled: ((itemView: View) -> Unit)?
 ) : DelegateViewHolder<T>(itemView) {
   
@@ -118,7 +118,7 @@ class DslDelegateViewHolder<T>(
       _item as T
     }
   
-  override fun bind(item: T) = onBindFunction(itemView, item)
+  override fun bind(item: T) = onBindFunction(this)
   
   override fun onViewRecycled() {
     _onRecycled?.invoke(itemView)

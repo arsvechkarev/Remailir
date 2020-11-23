@@ -32,7 +32,7 @@ class MenuItemView(
   private var secondWord: String? = null
   
   init {
-    rippleBackground(Colors.Ripple, Colors.Transparent, 4.dp)
+    rippleBackground(Colors.Ripple, Colors.Transparent, 8.dp)
     val padding = 6.dp
     setPadding(padding, padding, padding, padding)
     if (text.contains(' ')) {

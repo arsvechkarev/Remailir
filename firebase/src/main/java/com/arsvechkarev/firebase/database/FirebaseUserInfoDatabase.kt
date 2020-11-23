@@ -1,8 +1,10 @@
 package com.arsvechkarev.firebase.database
 
 import com.arsvechkarev.core.concurrency.Dispatchers
+import com.arsvechkarev.core.extenstions.assertThat
 import com.arsvechkarev.core.extenstions.await
 import com.arsvechkarev.core.extenstions.waitForSingleValueEvent
+import com.arsvechkarev.core.model.User
 import com.arsvechkarev.firebase.UsernameAlreadyExistsException
 import com.arsvechkarev.firebase.database.Schema.friend_requests_from_me
 import com.arsvechkarev.firebase.database.Schema.friend_requests_to_me
@@ -14,9 +16,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 
-class FirebaseDatabase(
-  private val dispatchers: Dispatchers,
-) : Database {
+class FirebaseUserInfoDatabase(
+  private val dispatchers: Dispatchers
+) : UserInfoDatabase {
   
   private val reference = FirebaseDatabase.getInstance().reference
   
@@ -39,6 +41,23 @@ class FirebaseDatabase(
     savingFriendRequestsFromMe.await()
     savingFriendRequestsToMe.await()
     savingFriends.await()
+  }
+  
+  override suspend fun getFriendsList(
+    thisUserUsername: String
+  ): List<User> = withContext(dispatchers.IO) {
+    val snapshot = reference.child(users).child(thisUserUsername)
+        .child(friends).waitForSingleValueEvent()
+    if (!snapshot.exists() || !snapshot.hasChildren()) {
+      return@withContext emptyList()
+    }
+    val list = ArrayList<User>()
+    for (snap in snapshot.children) {
+      val username = snap.value as? String
+      assertThat(!username.isNullOrBlank())
+      list.add(User(username))
+    }
+    return@withContext list
   }
   
   private suspend fun tryUpdateUsernames(username: String): ArrayList<String> {

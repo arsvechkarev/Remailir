@@ -11,10 +11,6 @@ interface Navigator {
   
   fun goToFriendsScreen()
   
-  fun goToFriendsScreen2()
-  
-  fun goToFriendsScreen3()
-  
   fun goToSearchScreen()
   
   fun goToSettingsScreen()

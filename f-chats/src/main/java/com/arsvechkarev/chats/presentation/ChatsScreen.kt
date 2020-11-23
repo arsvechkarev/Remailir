@@ -10,7 +10,7 @@ import com.arsvechkarev.core.viewbuilding.Fonts
 import com.arsvechkarev.core.viewbuilding.TextSizes
 import com.arsvechkarev.viewdsl.Size.Companion.MatchParent
 import com.arsvechkarev.viewdsl.Size.Companion.WrapContent
-import com.arsvechkarev.viewdsl.defaultTag
+import com.arsvechkarev.viewdsl.classNameTag
 import com.arsvechkarev.viewdsl.font
 import com.arsvechkarev.viewdsl.gravity
 import com.arsvechkarev.viewdsl.layoutGravity
@@ -43,7 +43,7 @@ class ChatsScreen : Screen() {
         font(Fonts.SegoeUiBold)
       }
       child<MenuView>(WrapContent, WrapContent) {
-        defaultTag()
+        classNameTag()
         layoutGravity(Gravity.BOTTOM or Gravity.RIGHT)
         firstMenuItem.onClick { closeMenu(); navigator.goToFriendsScreen() }
         secondMenuItem.onClick { closeMenu(); navigator.goToSearchScreen() }

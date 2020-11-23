@@ -6,6 +6,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import androidx.recyclerview.widget.RecyclerView
 
 operator fun View.contains(event: MotionEvent): Boolean {
   val x = event.x
@@ -38,4 +39,21 @@ fun EditText.onTextChanged(block: (String) -> Unit) {
       block(s.toString())
     }
   })
+}
+
+fun RecyclerView.allowRecyclerScrolling(): Boolean {
+  adapter.ifNotNull { adapter ->
+    var pos = -1
+    for (i in 0 until childCount) {
+      val view = getChildAt(i)
+      if (view.bottom > height) {
+        pos = i
+      }
+    }
+    if (pos == -1) {
+      return false
+    }
+    return pos < adapter.itemCount
+  }
+  return false
 }

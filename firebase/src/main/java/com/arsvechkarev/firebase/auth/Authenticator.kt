@@ -11,11 +11,15 @@ interface Authenticator {
   
   fun isSignInWithEmailLink(email: String): Boolean
   
-  fun signOut()
+  fun getUsername(): String
+  
+  fun getEmail(): String
   
   suspend fun saveUsername(username: String)
   
   suspend fun sendSignInLinkToEmail(email: String, settings: ActionCodeSettings)
   
   suspend fun signInWithEmailLink(email: String, emailLink: String): AuthResult
+  
+  fun signOut()
 }

@@ -4,7 +4,7 @@ import android.os.SystemClock
 import com.arsvechkarev.core.KeyValueStorage
 import com.arsvechkarev.firebase.auth.Authenticator
 import com.arsvechkarev.firebase.auth.EmailSaver
-import com.arsvechkarev.firebase.database.Database
+import com.arsvechkarev.firebase.database.UserInfoDatabase
 import com.arsvechkarev.registration.presentation.RegistrationPresenter
 import timerx.Timer
 import timerx.TimerBuilder
@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit
 
 class RegistrationInteractor(
   private val authenticator: Authenticator,
-  private val database: Database,
+  private val database: UserInfoDatabase,
   private val emailSaver: EmailSaver,
   private val timerSaver: KeyValueStorage,
 ) {

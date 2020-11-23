@@ -57,7 +57,7 @@ import com.arsvechkarev.viewdsl.unspecified
 import com.arsvechkarev.viewdsl.visible
 import com.arsvechkarev.viewdsl.withViewBuilder
 import com.arsvechkarev.views.CheckmarkView
-import com.arsvechkarev.views.ProgressBar
+import com.arsvechkarev.views.MateialProgressBar
 
 @SuppressLint("ViewConstructor")
 class SignInLayout(context: Context) : ViewGroup(context) {
@@ -154,7 +154,7 @@ class SignInLayout(context: Context) : ViewGroup(context) {
             tag(Checkmark)
           }
           addView {
-            ProgressBar(context, Colors.Accent, ProgressBar.Thickness.THICK).apply {
+            MateialProgressBar(context, Colors.Accent, MateialProgressBar.Thickness.THICK).apply {
               tag(ProgressBarTag)
               size(ProgressBarSizeBig, ProgressBarSizeBig)
             }

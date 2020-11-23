@@ -1,0 +1,295 @@
+package com.arsvechkarev.views
+
+import android.animation.ValueAnimator
+import android.content.Context
+import android.graphics.Canvas
+import android.graphics.PorterDuff.Mode.SRC_ATOP
+import android.graphics.PorterDuffColorFilter
+import android.view.MotionEvent
+import android.view.MotionEvent.ACTION_CANCEL
+import android.view.MotionEvent.ACTION_DOWN
+import android.view.MotionEvent.ACTION_MOVE
+import android.view.MotionEvent.ACTION_UP
+import android.view.ViewConfiguration
+import android.view.animation.LinearInterpolator
+import android.widget.FrameLayout
+import com.arsvechkarev.core.extenstions.Paint
+import com.arsvechkarev.core.extenstions.TextPaint
+import com.arsvechkarev.core.extenstions.execute
+import com.arsvechkarev.core.extenstions.f
+import com.arsvechkarev.core.extenstions.getTextHeight
+import com.arsvechkarev.core.extenstions.i
+import com.arsvechkarev.core.viewbuilding.Colors
+import com.arsvechkarev.core.viewbuilding.Fonts.SegoeUiBold
+import com.arsvechkarev.core.viewbuilding.TextSizes.H4
+import com.arsvechkarev.viewdsl.AccelerateDecelerateInterpolator
+import com.arsvechkarev.viewdsl.DURATION_DEFAULT
+import com.arsvechkarev.viewdsl.DURATION_SHORT
+import com.arsvechkarev.viewdsl.DURATION_VERY_SHORT
+import com.arsvechkarev.viewdsl.Ints.dp
+import com.arsvechkarev.viewdsl.cancelIfRunning
+import com.arsvechkarev.viewdsl.doOnEnd
+import com.arsvechkarev.viewdsl.retrieveDrawable
+import com.arsvechkarev.viewdsl.startIfNotRunning
+import com.arsvechkarev.views.drawables.ProgressBarDrawable
+import kotlin.math.sqrt
+
+class PullToRefreshView(context: Context) : FrameLayout(context) {
+  
+  private val progressBarSize = 30.dp
+  private val innerPadding get() = progressBarSize / 1.8f
+  private val initialDistanceToTop get() = progressBarSize / 2f
+  private val cornersRadius = 4.dp.f
+  private val progressBarDrawable = ProgressBarDrawable()
+  private val arrowDownDrawable = context.retrieveDrawable(R.drawable.ic_arrow_down)
+  private var arrowDownDrawableScale = 1f
+  private val textPaint = TextPaint(textSize = H4, font = SegoeUiBold)
+  private val backgroundPaint = Paint(Colors.Dialog)
+  private val textPullToRefresh = resources.getString(R.string.text_pull_to_refresh)
+  private val textReleaseToRefresh = resources.getString(R.string.text_release_to_refresh)
+  private val textRefreshing = resources.getString(R.string.text_refreshing)
+  private var textPullToRefreshHeight = 0f
+  private var textReleaseToRefreshHeight = 0f
+  private var textRefreshingHeight = 0f
+  private var textPullToRefreshAlpha = 255
+  private var textReleaseToRefreshAlpha = 0
+  private var textRefreshingAlpha = 0
+  private var distanceToTop = 0f
+  private var isPlankOpened = false
+  private var isBeingDragged = false
+  private var latestDownY = 0f
+  private var plankWidth = 0f
+  private var plankHeight = 0f
+  private var outerRotationAngle = 0f
+  private var innerRotationAngle = 0f
+  private var maxTextWidth = 0f
+  
+  var allowPulling: () -> Boolean = { false }
+  var onRefreshPulled: () -> Unit = {}
+  
+  private val progressOuterAnimator = ValueAnimator().apply {
+    configure(1500L) { outerRotationAngle = animatedValue as Float }
+  }
+  private val progressInnerAnimator = ValueAnimator().apply {
+    configure(800L) { innerRotationAngle = -(animatedValue as Float) }
+  }
+  private val plankAnimator = ValueAnimator().apply {
+    duration = DURATION_SHORT
+    interpolator = AccelerateDecelerateInterpolator
+    addUpdateListener {
+      distanceToTop = it.animatedValue as Float
+    }
+  }
+  private val textAndIconAnimator = ValueAnimator().apply {
+    duration = DURATION_DEFAULT
+    interpolator = AccelerateDecelerateInterpolator
+    addUpdateListener {
+      arrowDownDrawable.alpha = ((1 - it.animatedValue as Float) * 255).i
+      progressBarDrawable.alpha = (it.animatedValue as Float * 255).i
+    }
+  }
+  private val alphaAnimator = ValueAnimator().apply {
+    duration = DURATION_SHORT
+    interpolator = AccelerateDecelerateInterpolator
+    addUpdateListener {
+      val alpha = (it.animatedValue as Float * 255).i
+      progressBarDrawable.alpha = alpha
+      backgroundPaint.alpha = alpha
+      textRefreshingAlpha = alpha
+    }
+  }
+  private val changeTextAnimator = ValueAnimator().apply {
+    duration = DURATION_VERY_SHORT
+    interpolator = AccelerateDecelerateInterpolator
+    addUpdateListener {
+      arrowDownDrawableScale = it.animatedValue as Float
+      invalidate()
+    }
+  }
+  
+  fun hide() {
+    if (!isPlankOpened) return
+    isPlankOpened = false
+    alphaAnimator.setFloatValues(1f, 0f)
+    alphaAnimator.doOnEnd {
+      distanceToTop = 0f
+      arrowDownDrawableScale = 1f
+      arrowDownDrawable.alpha = 255
+      progressBarDrawable.alpha = 0
+      backgroundPaint.alpha = 255
+      textPullToRefreshAlpha = 255
+      textRefreshingAlpha = 0
+    }
+    alphaAnimator.start()
+  }
+  
+  override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+    val horizontalPadding = progressBarSize / 2
+    val verticalPadding = progressBarSize / 4
+    maxTextWidth = maxOf(textPaint.measureText(textPullToRefresh),
+      textPaint.measureText(textReleaseToRefresh), textPaint.measureText(textRefreshing))
+    plankWidth = progressBarSize + horizontalPadding * 2 +
+        innerPadding + maxTextWidth
+    textPullToRefreshHeight = textPaint.getTextHeight(textPullToRefresh).toFloat()
+    textReleaseToRefreshHeight = textPaint.getTextHeight(textReleaseToRefresh).toFloat()
+    textRefreshingHeight = textPaint.getTextHeight(textRefreshing).toFloat()
+    val maxTextHeight = maxOf(textPullToRefreshHeight,
+      textReleaseToRefreshHeight, textRefreshingHeight).i
+    plankHeight = maxOf(progressBarSize, maxTextHeight) + verticalPadding * 2f
+    val left = (width / 2f - plankWidth / 2f + horizontalPadding).i
+    val top = (plankHeight / 2f - progressBarSize / 2f).i
+    progressBarDrawable.setBounds(
+      left, top, left + progressBarSize, top + progressBarSize
+    )
+    arrowDownDrawable.setBounds(
+      left, top, left + progressBarSize, top + progressBarSize
+    )
+    progressBarDrawable.alpha = 0
+    arrowDownDrawable.colorFilter = PorterDuffColorFilter(Colors.TextPrimary, SRC_ATOP)
+    arrowDownDrawable.alpha = 255
+    progressInnerAnimator.startIfNotRunning()
+    progressOuterAnimator.startIfNotRunning()
+  }
+  
+  override fun dispatchDraw(canvas: Canvas) {
+    val left = width / 2f - plankWidth / 2f
+    canvas.execute {
+      translate(0f, distanceToTop - initialDistanceToTop - plankHeight)
+      canvas.drawRoundRect(
+        left, 0f, left + plankWidth, plankHeight,
+        cornersRadius, cornersRadius, backgroundPaint
+      )
+      progressBarDrawable.updateAngles(outerRotationAngle, innerRotationAngle)
+      progressBarDrawable.draw(canvas)
+      canvas.execute {
+        val centerX = arrowDownDrawable.bounds.exactCenterX()
+        val centerY = arrowDownDrawable.bounds.exactCenterY()
+        scale(1f, arrowDownDrawableScale, centerX, centerY)
+        arrowDownDrawable.draw(canvas)
+      }
+      textPaint.alpha = textPullToRefreshAlpha
+      canvas.drawText(textPullToRefresh)
+      textPaint.alpha = textReleaseToRefreshAlpha
+      canvas.drawText(textReleaseToRefresh)
+      textPaint.alpha = textRefreshingAlpha
+      canvas.drawText(textRefreshing)
+    }
+  }
+  
+  override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
+    if (isPlankOpened || !allowPulling()) return false
+    if (ev.action == ACTION_MOVE && isBeingDragged) return true
+    when (ev.action) {
+      ACTION_DOWN -> {
+        latestDownY = ev.y
+      }
+      ACTION_MOVE -> {
+        val dy = ev.y - latestDownY
+        if (dy < 0) return false
+        isBeingDragged = dy > ViewConfiguration.get(context).scaledTouchSlop
+      }
+      ACTION_UP, ACTION_CANCEL -> {
+        isBeingDragged = false
+      }
+    }
+    return isBeingDragged
+  }
+  
+  override fun onTouchEvent(event: MotionEvent): Boolean {
+    if (isPlankOpened || !allowPulling()) return false
+    when (event.action) {
+      ACTION_DOWN -> {
+        latestDownY = event.y
+        return true
+      }
+      ACTION_MOVE -> {
+        val dy = event.y - latestDownY
+        var interpolatedValue = interpolate(dy)
+        if (interpolatedValue.isNaN()) {
+          interpolatedValue = 0f
+        }
+        distanceToTop = interpolatedValue
+        if (distanceToTop > initialDistanceToTop * 2 + plankHeight
+            && textReleaseToRefreshAlpha != 255) {
+          textPullToRefreshAlpha = 0
+          textReleaseToRefreshAlpha = 255
+          changeTextAnimator.setFloatValues(arrowDownDrawableScale, -1f)
+          changeTextAnimator.start()
+        } else if (distanceToTop < initialDistanceToTop * 2 + plankHeight
+            && textPullToRefreshAlpha != 255) {
+          textPullToRefreshAlpha = 255
+          textReleaseToRefreshAlpha = 0
+          changeTextAnimator.setFloatValues(arrowDownDrawableScale, 1f)
+          changeTextAnimator.start()
+        }
+        invalidate()
+      }
+      ACTION_UP, ACTION_CANCEL -> {
+        if (distanceToTop < initialDistanceToTop * 2 + plankHeight) {
+          isPlankOpened = false
+          plankAnimator.setFloatValues(distanceToTop, 0f)
+          plankAnimator.doOnEnd { arrowDownDrawable.alpha = 255 }
+          plankAnimator.start()
+        } else {
+          isPlankOpened = true
+          onRefreshPulled()
+          plankAnimator.setFloatValues(distanceToTop, initialDistanceToTop * 2 + plankHeight)
+          plankAnimator.start()
+          textReleaseToRefreshAlpha = 0
+          textRefreshingAlpha = 255
+          textAndIconAnimator.setFloatValues(0f, 1f)
+          textAndIconAnimator.start()
+        }
+      }
+    }
+    return super.onTouchEvent(event)
+  }
+  
+  override fun onDetachedFromWindow() {
+    super.onDetachedFromWindow()
+    plankAnimator.cancelIfRunning()
+    alphaAnimator.cancelIfRunning()
+    progressInnerAnimator.cancelIfRunning()
+    progressOuterAnimator.cancelIfRunning()
+    changeTextAnimator.cancelIfRunning()
+  }
+  
+  private fun Canvas.drawText(text: String) {
+    val x = maxTextWidth / 2 + innerPadding + progressBarDrawable.bounds.right
+    val adjustedHeight = textPaint.getTextHeight(text)
+    val y = plankHeight / 2f + adjustedHeight / 2
+    drawText(text, x, y, textPaint)
+  }
+  
+  private fun ValueAnimator.configure(
+    duration: Long,
+    onUpdate: ValueAnimator.() -> Unit
+  ) {
+    setFloatValues(0f, 360f)
+    addUpdateListener {
+      onUpdate(this)
+      invalidate()
+    }
+    interpolator = LinearInterpolator()
+    repeatCount = ValueAnimator.INFINITE
+    this.duration = duration
+  }
+  
+  private fun interpolate(distance: Float): Float {
+    return sqrt(distance) * 9.5f
+  }
+  
+  fun updateDistanceToTop(interpolatedValue: Float) {
+    this.distanceToTop = interpolatedValue
+  }
+  
+  fun animateToRefreshingState() {
+    onRefreshPulled()
+    plankAnimator.setFloatValues(distanceToTop, initialDistanceToTop * 2 + plankHeight)
+    plankAnimator.start()
+    textReleaseToRefreshAlpha = 0
+    textRefreshingAlpha = 255
+    textAndIconAnimator.setFloatValues(0f, 1f)
+    textAndIconAnimator.start()
+  }
+}
