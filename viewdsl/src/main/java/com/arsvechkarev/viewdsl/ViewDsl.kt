@@ -167,6 +167,10 @@ fun View.paddings(
   }
 }
 
+fun View.string(stringRes: Int): String {
+  return resources.getString(stringRes)
+}
+
 fun onClick(vararg views: View, action: (View) -> Unit) {
   views.forEach { it.setOnClickListener(action) }
 }

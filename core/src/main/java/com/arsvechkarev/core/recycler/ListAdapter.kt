@@ -60,6 +60,11 @@ abstract class ListAdapter(
     applyChanges(AppendedListDiffCallbacks(data, oldSize))
   }
   
+  fun changeList(list: List<DifferentiableItem>) {
+    data = list as MutableList<DifferentiableItem>
+    notifyDataSetChanged()
+  }
+  
   fun submitList(list: List<DifferentiableItem>) {
     val callback = when (callbackType) {
       APPENDED_LIST -> AppendedListDiffCallbacks(list, data.size)

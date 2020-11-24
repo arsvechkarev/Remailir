@@ -4,6 +4,10 @@ import com.arsvechkarev.core.concurrency.Dispatchers
 import com.arsvechkarev.core.extenstions.assertThat
 import com.arsvechkarev.core.extenstions.await
 import com.arsvechkarev.core.extenstions.waitForSingleValueEvent
+import com.arsvechkarev.core.model.FriendsType
+import com.arsvechkarev.core.model.FriendsType.ALL_FRIENDS
+import com.arsvechkarev.core.model.FriendsType.FRIENDS_REQUESTS
+import com.arsvechkarev.core.model.FriendsType.MY_REQUESTS
 import com.arsvechkarev.core.model.User
 import com.arsvechkarev.firebase.UsernameAlreadyExistsException
 import com.arsvechkarev.firebase.database.Schema.friend_requests_from_me
@@ -43,11 +47,16 @@ class FirebaseUserInfoDatabase(
     savingFriends.await()
   }
   
-  override suspend fun getFriendsList(
-    thisUserUsername: String
+  override suspend fun getListOfType(
+    thisUserUsername: String, type: FriendsType
   ): List<User> = withContext(dispatchers.IO) {
+    val secondChild = when (type) {
+      ALL_FRIENDS -> friends
+      MY_REQUESTS -> friend_requests_from_me
+      FRIENDS_REQUESTS -> friend_requests_to_me
+    }
     val snapshot = reference.child(users).child(thisUserUsername)
-        .child(friends).waitForSingleValueEvent()
+        .child(secondChild).waitForSingleValueEvent()
     if (!snapshot.exists() || !snapshot.hasChildren()) {
       return@withContext emptyList()
     }

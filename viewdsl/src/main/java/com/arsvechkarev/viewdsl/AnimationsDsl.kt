@@ -16,7 +16,7 @@ import android.view.animation.OvershootInterpolator
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 
 const val DURATION_VIBRATE_SHORT = 10L
-const val DURATION_SHORT = 200L
+const val DURATION_SHORT = 170L
 const val DURATION_DEFAULT = 300L
 const val DURATION_MEDIUM = 500L
 const val DURATION_LONG = 800L
@@ -50,6 +50,7 @@ fun Animator.doOnEnd(block: () -> Unit) {
 }
 
 fun View.animateVisible(andThen: () -> Unit = {}, duration: Long = DURATION_DEFAULT) {
+  clearAnimation()
   if (alpha == 1f && visibility == View.VISIBLE) {
     andThen()
     return
@@ -63,6 +64,7 @@ fun View.animateVisible(andThen: () -> Unit = {}, duration: Long = DURATION_DEFA
 }
 
 fun View.animateInvisible(andThen: () -> Unit = {}, duration: Long = DURATION_DEFAULT) {
+  clearAnimation()
   if (visibility == INVISIBLE) {
     andThen()
     return
@@ -77,6 +79,7 @@ fun View.animateInvisible(andThen: () -> Unit = {}, duration: Long = DURATION_DE
 }
 
 fun View.animateGone(andThen: () -> Unit = {}, duration: Long = DURATION_DEFAULT) {
+  clearAnimation()
   if (visibility == GONE) {
     andThen()
     return

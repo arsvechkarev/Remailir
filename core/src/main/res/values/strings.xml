@@ -6,6 +6,7 @@
   <string name="title_chats">Chats</string>
   <string name="title_friends">Friends</string>
   <string name="title_settings">Settings</string>
+  <string name="title_saved_messages">Saved messages</string>
 
   <string name="text_sign_in">Sign in</string>
   <string name="text_continue">Continue</string>
@@ -19,14 +20,22 @@
   <string name="text_retry">Try again</string>
   <string name="text_resend_link">Resend link</string>
   <string name="text_retry_short">RETRY</string>
-  <string name="text_friends">Friends</string>
   <string name="text_search">Search</string>
-  <string name="text_settings">Settings</string>
-  <string name="text_saved_messages">Saved messages</string>
+  <string name="text_all_friends">All friends</string>
+  <string name="text_my_requests">My requests</string>
+  <string name="text_friend_requests">Friend requests</string>
   <string name="text_notifications">Notifications</string>
   <string name="text_pull_to_refresh">Pull to refresh</string>
   <string name="text_release_to_refresh">Release to refresh</string>
   <string name="text_refreshing">Refreshing data…</string>
+  <string name="text_loading_friends">Loading friends…</string>
+  <string name="text_loading_my_requests">Loading my requests…</string>
+  <string name="text_loading_friend_requests">Loading friend requests…</string>
+  <string name="text_no_friends">You don\'t have any friends yet!</string>
+  <string name="text_add_people_to_friends">Add people to friends so that you can chat with them</string>
+  <string name="text_no_my_requests">You haven\'t sent any requests to other people</string>
+  <string name="text_no_friend_requests">No friend requests found</string>
+  <string name="text_find_people">Find people</string>
   <string name="text_log_out">Log out</string>
   <string name="text_share">Share</string>
   <string name="text_source_code">Source code</string>

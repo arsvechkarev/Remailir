@@ -52,6 +52,7 @@ dependencies {
   implementation dependencies.threeTenAbp
   implementation dependencies.coroutinesCore
   implementation dependencies.firebaseAuth
+  implementation dependencies.firebaseDatabase
   implementation dependencies.moxy
   implementation dependencies.moxyAndroidx
   implementation dependencies.dagger

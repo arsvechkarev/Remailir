@@ -3,6 +3,7 @@ package com.arsvechkarev.friends.list
 import android.text.TextUtils
 import android.view.Gravity
 import android.widget.TextView
+import com.arsvechkarev.core.model.FriendsType
 import com.arsvechkarev.core.model.Text
 import com.arsvechkarev.core.model.User
 import com.arsvechkarev.core.recycler.ListAdapter
@@ -63,4 +64,7 @@ class FriendsAdapter : ListAdapter(
       itemView.childViewAs<TextView>().text(item.username)
     }
   },
-)
+) {
+  
+  var currentFriendsType = FriendsType.ALL_FRIENDS
+}

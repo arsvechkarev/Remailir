@@ -8,21 +8,25 @@ import android.view.MotionEvent.ACTION_DOWN
 import android.view.MotionEvent.ACTION_UP
 import android.view.ViewConfiguration
 import android.view.ViewGroup
-import androidx.core.view.ViewCompat
 import com.arsvechkarev.core.extenstions.Paint
 import com.arsvechkarev.core.extenstions.contains
 import com.arsvechkarev.core.extenstions.f
 import com.arsvechkarev.core.extenstions.i
+import com.arsvechkarev.core.model.FriendsType
+import com.arsvechkarev.core.model.FriendsType.ALL_FRIENDS
+import com.arsvechkarev.core.model.FriendsType.FRIENDS_REQUESTS
+import com.arsvechkarev.core.model.FriendsType.MY_REQUESTS
 import com.arsvechkarev.core.viewbuilding.Colors
 import com.arsvechkarev.core.viewbuilding.TextSizes
 import com.arsvechkarev.viewdsl.AccelerateDecelerateInterpolator
-import com.arsvechkarev.viewdsl.DURATION_DEFAULT
+import com.arsvechkarev.viewdsl.DURATION_SHORT
 import com.arsvechkarev.viewdsl.Ints.dp
 import com.arsvechkarev.viewdsl.cancelIfRunning
 import com.arsvechkarev.viewdsl.exactly
 import com.arsvechkarev.viewdsl.layoutLeftTop
 import com.arsvechkarev.viewdsl.onClick
 import com.arsvechkarev.viewdsl.size
+import com.arsvechkarev.viewdsl.string
 import com.arsvechkarev.viewdsl.unspecified
 import kotlin.math.abs
 import kotlin.math.hypot
@@ -35,17 +39,17 @@ class FriendsAndRequestsLayout(context: Context) : ViewGroup(context) {
   private val myRequestsChip get() = getChildAt(3) as Chip
   private val chipVerticalPadding = 20.dp
   private val chipHorizontalPadding = 16.dp
-  private val chipGroup: ChipGroup
-  private val backgroundPaint = Paint(Colors.Dialog)
   private val arrowIconSize = 60.dp
   private val arrowIconPadding = 16.dp
-  private var opened = false
+  private val chipGroup: ChipGroup
+  private val backgroundPaint = Paint(Colors.Dialog)
   private var viewsHeight = 0
+  private var opened = false
   private var wasDownEventInView = false
   private var latestY = 0f
   private var latestX = 0f
   private val coefficientAnimator = ValueAnimator().apply {
-    duration = DURATION_DEFAULT
+    duration = DURATION_SHORT
     interpolator = AccelerateDecelerateInterpolator
     addUpdateListener {
       translationY = it.animatedValue as Float
@@ -68,14 +72,11 @@ class FriendsAndRequestsLayout(context: Context) : ViewGroup(context) {
     val createChip = { text: String ->
       Chip(context, text, TextSizes.H4, Colors.TextPrimary, Colors.Dialog)
     }
-    addView(createChip("All friends"))
-    addView(createChip("My requests"))
-    addView(createChip("Friend requests"))
+    addView(createChip(string(R.string.text_all_friends)))
+    addView(createChip(string(R.string.text_my_requests)))
+    addView(createChip(string(R.string.text_friend_requests)))
     chipGroup = ChipGroup(allFriendsChip, friendsRequestsChip, myRequestsChip)
     allFriendsChip.isSelected = true
-    chipGroup.onNewChipSelected = {
-      println("asdfgh = $it")
-    }
     arrowIcon.onClick {
       if (isOpened) close() else open()
     }
@@ -99,7 +100,16 @@ class FriendsAndRequestsLayout(context: Context) : ViewGroup(context) {
     coefficientAnimator.start()
   }
   
-  fun onClick(block: () -> Unit) = allFriendsChip.onClick(block)
+  fun onClick(block: (type: FriendsType) -> Unit) {
+    chipGroup.onNewChipSelected = {
+      when (it.text) {
+        string(R.string.text_all_friends) -> block(ALL_FRIENDS)
+        string(R.string.text_my_requests) -> block(MY_REQUESTS)
+        string(R.string.text_friend_requests) -> block(FRIENDS_REQUESTS)
+        else -> throw IllegalStateException()
+      }
+    }
+  }
   
   override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
     arrowIcon.measure(exactly(arrowIconSize), exactly(arrowIconSize))

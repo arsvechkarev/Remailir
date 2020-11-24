@@ -83,10 +83,10 @@ class MenuView(context: Context) : ViewGroup(context) {
     val buildMenuItem = { iconRes: Int, titleRes: Int ->
       MenuItemView(context, iconRes, textSize, itemSize, context.getString(titleRes))
     }
-    addView(buildMenuItem(R.drawable.ic_friends, R.string.text_friends))
+    addView(buildMenuItem(R.drawable.ic_friends, R.string.title_friends))
     addView(buildMenuItem(R.drawable.ic_search, R.string.text_search))
-    addView(buildMenuItem(R.drawable.ic_settings, R.string.text_settings))
-    addView(buildMenuItem(R.drawable.ic_saved_messages, R.string.text_saved_messages))
+    addView(buildMenuItem(R.drawable.ic_settings, R.string.title_settings))
+    addView(buildMenuItem(R.drawable.ic_saved_messages, R.string.title_saved_messages))
   }
   
   fun openMenu() {

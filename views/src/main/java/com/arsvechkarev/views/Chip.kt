@@ -34,7 +34,9 @@ class Chip(
   }
   
   private val rect = RectF()
-  private var textLayout: Layout
+  private val textLayout: Layout
+  
+  val text get() = textLayout.text.toString()
   
   init {
     textLayout = boringLayoutOf(textPaint, text)
