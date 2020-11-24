@@ -2,7 +2,7 @@
 <resources>
   <color name="dark_background">#000000</color>
   <color name="dark_surface">#383838</color>
-  <color name="dark_dialog">#1D242D</color>
+  <color name="dark_dialog">#232930</color>
   <color name="dark_icon">#FFFFFF</color>
   <color name="dark_ripple">#C6FFFFFF</color>
   <color name="dark_accent">#286AC3</color>

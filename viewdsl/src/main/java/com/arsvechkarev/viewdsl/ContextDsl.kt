@@ -41,7 +41,7 @@ fun Context.getAttrColor(@AttrRes resId: Int): Int {
 }
 
 fun Context.retrieveDrawable(@DrawableRes resId: Int): Drawable {
-  return ContextCompat.getDrawable(this, resId)!!
+  return ContextCompat.getDrawable(this, resId)!!.mutate()
 }
 
 fun Context.createLayoutParams(

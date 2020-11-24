@@ -67,8 +67,13 @@ class PullToRefreshBehavior(
     return true
   }
   
-  override fun onInterceptTouchEvent(parent: CoordinatorLayout, child: PullToRefreshView, ev: MotionEvent): Boolean {
+  override fun onInterceptTouchEvent(
+    parent: CoordinatorLayout,
+    child: PullToRefreshView,
+    ev: MotionEvent
+  ): Boolean {
     if (child.isPlankOpened || !allowPulling()) return false
+    if (ev.pointerCount > 2) return false
     val dy = ev.y - latestDownY
     if (ev.action == ACTION_MOVE
         && isBeingDragged
@@ -97,6 +102,7 @@ class PullToRefreshBehavior(
     event: MotionEvent
   ): Boolean {
     if (child.isPlankOpened || !allowPulling()) return false
+    if (event.pointerCount > 2) return false
     when (event.action) {
       ACTION_DOWN -> {
         latestDownY = event.y

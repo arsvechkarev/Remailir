@@ -7,6 +7,9 @@ object Dimens {
   val IconLogoSize get() = 100.dp
   val UserIconSize get() = 40.dp
   val DividerHeight get() = 1.dp
+  val ChipHorizontalPadding get() = 20.dp
+  val ChipVerticalPadding get() = 4.dp
+  val ChipStrokeSize get() = 2.dp
   val DividerMargin get() = 12.dp
   val ToolbarMargin get() = 16.dp
   val ToolbarImageSize get() = 24.dp

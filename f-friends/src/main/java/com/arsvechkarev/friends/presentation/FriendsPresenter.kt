@@ -22,7 +22,7 @@ class FriendsPresenter(
   private fun loadFriendsList() {
     coroutine {
       try {
-        delay(MIN_NETWORK_DELAY)
+        delay(6000)
         val list = interactor.loadFriendsList()
         if (list.isEmpty()) {
           updateView { showNoFriends() }

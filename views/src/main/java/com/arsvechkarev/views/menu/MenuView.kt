@@ -25,6 +25,7 @@ import com.arsvechkarev.viewdsl.children
 import com.arsvechkarev.viewdsl.exactly
 import com.arsvechkarev.viewdsl.isOrientationPortrait
 import com.arsvechkarev.viewdsl.layoutLeftTop
+import com.arsvechkarev.views.CircleIconView
 import com.arsvechkarev.views.R
 import kotlin.math.abs
 import kotlin.math.hypot
@@ -60,8 +61,7 @@ class MenuView(context: Context) : ViewGroup(context) {
     }
   }
   
-  private val openCloseView get() = getChildAt(0) as OpenCloseView
-  
+  private val openCloseView get() = getChildAt(0) as CircleIconView
   val firstMenuItem get() = getChildAt(1) as MenuItemView
   val secondMenuItem get() = getChildAt(2) as MenuItemView
   val thirdMenuItem get() = getChildAt(3) as MenuItemView
@@ -71,7 +71,15 @@ class MenuView(context: Context) : ViewGroup(context) {
   
   init {
     clipToPadding = false
-    addView(OpenCloseView(context, (crossBaseSize * 0.75f).i))
+    val iconSize = (crossBaseSize * 0.75f).i
+    addView(
+      CircleIconView(
+        context, iconSize,
+        R.drawable.avd_plus_to_cross,
+        R.drawable.avd_cross_to_plus,
+        Colors.Accent, Colors.Icon
+      )
+    )
     val buildMenuItem = { iconRes: Int, titleRes: Int ->
       MenuItemView(context, iconRes, textSize, itemSize, context.getString(titleRes))
     }
@@ -84,7 +92,7 @@ class MenuView(context: Context) : ViewGroup(context) {
   fun openMenu() {
     if (opened) return
     opened = true
-    openCloseView.animateToCross()
+    openCloseView.animateToFirstDrawable()
     coefficientAnimator.cancelIfRunning()
     coefficientAnimator.setFloatValues(animCoefficient, 1f)
     coefficientAnimator.start()
@@ -93,7 +101,7 @@ class MenuView(context: Context) : ViewGroup(context) {
   fun closeMenu() {
     if (!opened) return
     opened = false
-    openCloseView.animateToPlus()
+    openCloseView.animateToSecondDrawable()
     coefficientAnimator.cancelIfRunning()
     coefficientAnimator.setFloatValues(animCoefficient, 0f)
     coefficientAnimator.start()
@@ -160,18 +168,18 @@ class MenuView(context: Context) : ViewGroup(context) {
     super.dispatchDraw(canvas)
   }
   
-  override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
-    val dispatchTouchEvent = super.dispatchTouchEvent(ev)
-    when (ev.action) {
+  override fun onTouchEvent(event: MotionEvent): Boolean {
+    val touchEvent = super.onTouchEvent(event)
+    when (event.action) {
       ACTION_DOWN -> {
-        wasDownEventInView = ev in openCloseView
-        latestX = ev.x
-        latestY = ev.y
+        wasDownEventInView = event in openCloseView
+        latestX = event.x
+        latestY = event.y
         return true
       }
       ACTION_UP -> {
-        val dx = abs(ev.x - latestX)
-        val dy = abs(ev.y - latestY)
+        val dx = abs(event.x - latestX)
+        val dy = abs(event.y - latestY)
         val dst = hypot(dx, dy)
         val scaledTouchSlop = ViewConfiguration.get(context).scaledTouchSlop
         if (wasDownEventInView && dst < scaledTouchSlop) {
@@ -180,7 +188,7 @@ class MenuView(context: Context) : ViewGroup(context) {
         }
       }
     }
-    return dispatchTouchEvent
+    return touchEvent
   }
   
   private fun measurePortrait(widthMeasureSpec: Int, heightMeasureSpec: Int) {

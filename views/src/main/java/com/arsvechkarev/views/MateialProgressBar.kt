@@ -5,7 +5,7 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.view.View
-import androidx.core.content.ContextCompat
+import com.arsvechkarev.viewdsl.retrieveDrawable
 import com.arsvechkarev.viewdsl.startIfNotRunning
 import com.arsvechkarev.viewdsl.stopIfRunning
 import com.arsvechkarev.views.MateialProgressBar.Thickness.NORMAL
@@ -21,8 +21,8 @@ class MateialProgressBar(
   
   init {
     background = when (thickness) {
-      NORMAL -> ContextCompat.getDrawable(context, R.drawable.progress_anim_normal)!!
-      THICK -> ContextCompat.getDrawable(context, R.drawable.progress_anim_thick)!!
+      NORMAL -> context.retrieveDrawable(R.drawable.progress_anim_normal)
+      THICK -> context.retrieveDrawable(R.drawable.progress_anim_thick)
     }.apply {
       colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP)
     }

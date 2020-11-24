@@ -1,5 +1,6 @@
 package com.arsvechkarev.friends.presentation
 
+import android.view.Gravity
 import android.view.Gravity.CENTER
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -37,6 +38,7 @@ import com.arsvechkarev.viewdsl.tag
 import com.arsvechkarev.viewdsl.text
 import com.arsvechkarev.viewdsl.textSize
 import com.arsvechkarev.views.ComplexProgressBar
+import com.arsvechkarev.views.FriendsAndRequestsLayout
 import com.arsvechkarev.views.PullToRefreshView
 import com.arsvechkarev.views.Toolbar
 import com.arsvechkarev.views.behaviors.HeaderBehavior
@@ -111,6 +113,10 @@ class FriendsScreen : Screen(), FriendsView {
           onClick { viewAs<PullToRefreshView>().hide() }
         }
       }
+      child<FriendsAndRequestsLayout>(MatchParent, WrapContent) {
+        classNameTag()
+        layoutGravity(Gravity.BOTTOM)
+      }
       child<PullToRefreshView>(MatchParent, MatchParent) {
         classNameTag()
         val behavior = PullToRefreshBehavior(context)
@@ -149,23 +155,19 @@ class FriendsScreen : Screen(), FriendsView {
   }
   
   override fun showLoading() {
-    println("llll: showLoading")
     showLayout(view(LayoutLoading))
   }
   
   override fun showNoFriends() {
-    println("llll: showNoFriends")
     showLayout(view(LayoutNoFriends))
   }
   
   override fun showFriendsList(list: List<User>) {
-    println("llll: showFriendsList")
     showLayout(viewAs<RecyclerView>())
     adapter.submitList(list)
   }
   
   override fun showFailure(e: Throwable) {
-    println("llll: showFailure")
     showLayout(view(LayoutFailure))
   }
   

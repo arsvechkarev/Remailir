@@ -95,7 +95,6 @@ class RegistrationPresenter(
   
   override fun onDestroy() {
     super.onDestroy()
-    println("lalala")
     interactor.release()
   }
   

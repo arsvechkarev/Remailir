@@ -13,13 +13,14 @@ import com.arsvechkarev.core.extenstions.execute
 import com.arsvechkarev.core.extenstions.f
 import com.arsvechkarev.core.extenstions.getTextHeight
 import com.arsvechkarev.core.extenstions.i
+import com.arsvechkarev.core.extenstions.vibrate
 import com.arsvechkarev.core.viewbuilding.Colors
 import com.arsvechkarev.core.viewbuilding.Fonts.SegoeUiBold
 import com.arsvechkarev.core.viewbuilding.TextSizes.H4
 import com.arsvechkarev.viewdsl.AccelerateDecelerateInterpolator
 import com.arsvechkarev.viewdsl.DURATION_DEFAULT
 import com.arsvechkarev.viewdsl.DURATION_SHORT
-import com.arsvechkarev.viewdsl.DURATION_VERY_SHORT
+import com.arsvechkarev.viewdsl.DURATION_VIBRATE_SHORT
 import com.arsvechkarev.viewdsl.Ints.dp
 import com.arsvechkarev.viewdsl.cancelIfRunning
 import com.arsvechkarev.viewdsl.doOnEnd
@@ -36,7 +37,7 @@ class PullToRefreshView(context: Context) : FrameLayout(context) {
   private val arrowDownDrawable = context.retrieveDrawable(R.drawable.ic_arrow_down)
   private var arrowDownDrawableRotation = 0f
   private val textPaint = TextPaint(textSize = H4, font = SegoeUiBold)
-  private val backgroundPaint = Paint(Colors.Dialog)
+  private val backgroundPaint = Paint(Colors.Surface)
   private val textPullToRefresh = resources.getString(R.string.text_pull_to_refresh)
   private val textReleaseToRefresh = resources.getString(R.string.text_release_to_refresh)
   private val textRefreshing = resources.getString(R.string.text_refreshing)
@@ -90,7 +91,7 @@ class PullToRefreshView(context: Context) : FrameLayout(context) {
     }
   }
   private val arrowDrawableAnimator = ValueAnimator().apply {
-    duration = DURATION_VERY_SHORT
+    duration = DURATION_SHORT
     interpolator = AccelerateDecelerateInterpolator
     addUpdateListener {
       arrowDownDrawableRotation = it.animatedValue as Float
@@ -104,7 +105,7 @@ class PullToRefreshView(context: Context) : FrameLayout(context) {
     alphaAnimator.setFloatValues(1f, 0f)
     alphaAnimator.doOnEnd {
       distanceToTop = 0f
-      arrowDownDrawableRotation = 1f
+      arrowDownDrawableRotation = 0f
       arrowDownDrawable.alpha = 255
       progressBarDrawable.alpha = 0
       backgroundPaint.alpha = 255
@@ -135,6 +136,8 @@ class PullToRefreshView(context: Context) : FrameLayout(context) {
   }
   
   internal fun moveToPullToRefreshState() {
+    if (progressBarDrawable.alpha == 0 || textPullToRefreshAlpha == 255) return
+    context.vibrate(DURATION_VIBRATE_SHORT)
     textPullToRefreshAlpha = 255
     textReleaseToRefreshAlpha = 0
     arrowDrawableAnimator.setFloatValues(arrowDownDrawableRotation, 0f)
@@ -142,6 +145,8 @@ class PullToRefreshView(context: Context) : FrameLayout(context) {
   }
   
   internal fun moveToReleaseToRefreshState() {
+    if (progressBarDrawable.alpha == 0 || textReleaseToRefreshAlpha == 255) return
+    context.vibrate(DURATION_VIBRATE_SHORT)
     textPullToRefreshAlpha = 0
     textReleaseToRefreshAlpha = 255
     arrowDrawableAnimator.setFloatValues(arrowDownDrawableRotation, 180f)
@@ -169,9 +174,14 @@ class PullToRefreshView(context: Context) : FrameLayout(context) {
     arrowDownDrawable.setBounds(
       left, top, left + progressBarSize, top + progressBarSize
     )
-    progressBarDrawable.alpha = 0
     arrowDownDrawable.colorFilter = PorterDuffColorFilter(Colors.TextPrimary, SRC_ATOP)
-    arrowDownDrawable.alpha = 255
+    if (isPlankOpened) {
+      progressBarDrawable.alpha = 255
+      arrowDownDrawable.alpha = 0
+    } else {
+      arrowDownDrawable.alpha = 255
+      progressBarDrawable.alpha = 0
+    }
     progressInnerAnimator.startIfNotRunning()
     progressOuterAnimator.startIfNotRunning()
   }

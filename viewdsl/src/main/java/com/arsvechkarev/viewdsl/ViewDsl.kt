@@ -10,7 +10,6 @@ import androidx.annotation.ColorInt
 import androidx.annotation.DimenRes
 import androidx.annotation.DrawableRes
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.content.ContextCompat
 
 fun View.layoutAroundPoint(x: Int, y: Int) {
   layout(
@@ -213,7 +212,7 @@ fun View.backgroundColor(@ColorInt color: Int) {
 }
 
 fun View.background(@DrawableRes drawableRes: Int) {
-  background = ContextCompat.getDrawable(context, drawableRes)
+  background = context.retrieveDrawable(drawableRes)
 }
 
 fun View.behavior(behavior: CoordinatorLayout.Behavior<*>) {

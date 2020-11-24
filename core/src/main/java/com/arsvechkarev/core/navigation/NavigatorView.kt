@@ -72,7 +72,6 @@ class NavigatorView(context: Context) : FrameLayout(context) {
       }
       showScreen(screen, animateSlideFromRight = true)
     }
-    println("kkk nav = ${screens.size}, $childCount")
     _currentScreen = screen
   }
   
@@ -102,7 +101,6 @@ class NavigatorView(context: Context) : FrameLayout(context) {
     screens.removeLast()
     _currentScreen = screens.last()
     showScreen(_currentScreen!!, animateSlideFromRight = false)
-    println("kkk rm = ${screens.size}, $childCount")
     return true
   }
   
