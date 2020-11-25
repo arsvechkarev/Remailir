@@ -16,7 +16,7 @@ class CheckmarkView(context: Context) : View(context) {
   
   init {
     background = context.retrieveDrawable(R.drawable.avd_checkmark)
-    background.colorFilter = PorterDuffColorFilter(Colors.Success, PorterDuff.Mode.SRC_ATOP)
+    background.colorFilter = PorterDuffColorFilter(Colors.Correct, PorterDuff.Mode.SRC_ATOP)
   }
   
   fun animateCheckmark(andThen: () -> Unit = {}) {

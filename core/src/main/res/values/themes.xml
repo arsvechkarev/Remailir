@@ -16,7 +16,9 @@
     <item name="colorAccent">@color/dark_accent</item>
     <item name="colorAccentLight">@color/dark_accent_light</item>
     <item name="colorOnAccent">@color/dark_on_accent</item>
-    <item name="colorSuccess">@color/dark_success</item>
+    <item name="colorAccentRipple">@color/dark_accent_ripple</item>
+    <item name="colorCorrect">@color/dark_correct</item>
+    <item name="colorCorrectRipple">@color/dark_correct_ripple</item>
     <item name="colorError">@color/dark_error</item>
     <item name="colorErrorRipple">@color/dark_error_ripple</item>
     <item name="colorTextPrimary">@color/dark_text_primary</item>

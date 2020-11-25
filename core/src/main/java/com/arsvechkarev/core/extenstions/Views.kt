@@ -17,10 +17,6 @@ operator fun View.contains(event: MotionEvent): Boolean {
       && y <= bottom + translationY
 }
 
-infix fun MotionEvent.happenedIn(view: View): Boolean {
-  return x >= 0 && y >= 0 && x <= view.width && y <= view.height
-}
-
 fun View.heightWithMargins(): Int {
   val params = layoutParams as? ViewGroup.MarginLayoutParams
   return measuredHeight + (params?.topMargin ?: 0) + (params?.bottomMargin ?: 0)

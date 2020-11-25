@@ -6,14 +6,13 @@ import android.graphics.drawable.RippleDrawable
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.RoundRectShape
 import android.text.TextUtils
-import android.view.Gravity
 import android.widget.TextView
 import com.arsvechkarev.viewdsl.Ints.dp
 import com.arsvechkarev.viewdsl.background
 import com.arsvechkarev.viewdsl.font
-import com.arsvechkarev.viewdsl.gravity
 import com.arsvechkarev.viewdsl.paddingHorizontal
 import com.arsvechkarev.viewdsl.paddingVertical
+import com.arsvechkarev.viewdsl.rippleBackground
 import com.arsvechkarev.viewdsl.textColor
 import com.arsvechkarev.viewdsl.textSize
 
@@ -22,24 +21,25 @@ object Styles {
   
   val BaseTextView: TextView.() -> Unit = {
     textSize(TextSizes.H5)
-    textColor(Colors.TextPrimary)
     font(Fonts.SegoeUi)
+    ellipsize = TextUtils.TruncateAt.END
   }
   
   val BoldTextView: TextView.() -> Unit = {
-    apply(BaseTextView)
     font(Fonts.SegoeUiBold)
+    textColor(Colors.TextPrimary)
+    textSize(TextSizes.H4)
   }
   
-  val HeaderTextView: TextView.() -> Unit = {
+  fun ClickableTextView(
+    rippleColor: Int,
+    backgroundColor: Int,
+  ): TextView.() -> Unit = {
     apply(BoldTextView)
-    textSize(TextSizes.Header)
-    gravity(Gravity.CENTER)
-  }
-  
-  val NewsTextView: TextView.() -> Unit = {
-    apply(BaseTextView)
-    ellipsize = TextUtils.TruncateAt.END
+    paddingVertical(6.dp)
+    paddingHorizontal(12.dp)
+    rippleBackground(rippleColor, backgroundColor, 4.dp)
+    textSize(TextSizes.H4)
   }
   
   fun ClickableButton(

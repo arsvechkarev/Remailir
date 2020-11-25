@@ -20,7 +20,7 @@ import com.arsvechkarev.viewdsl.childViewAs
 import com.arsvechkarev.viewdsl.classNameTag
 import com.arsvechkarev.viewdsl.gravity
 import com.arsvechkarev.viewdsl.margins
-import com.arsvechkarev.viewdsl.onLongClick
+import com.arsvechkarev.viewdsl.onClick
 import com.arsvechkarev.viewdsl.paddings
 import com.arsvechkarev.viewdsl.rippleBackground
 import com.arsvechkarev.viewdsl.size
@@ -28,7 +28,9 @@ import com.arsvechkarev.viewdsl.text
 import com.arsvechkarev.viewdsl.textSize
 import com.arsvechkarev.views.drawables.ProfileDrawable
 
-class FriendsAdapter : ListAdapter(
+class FriendsAdapter(
+  private val onClickListener: (User) -> Unit
+) : ListAdapter(
   delegate<Text> {
     buildView {
       TextView(context).apply {
@@ -58,7 +60,7 @@ class FriendsAdapter : ListAdapter(
       }
     }
     onInitViewHolder {
-      itemView.onLongClick { }
+      itemView.onClick { onClickListener(item) }
     }
     onBind {
       itemView.childViewAs<TextView>().text(item.username)
@@ -66,5 +68,5 @@ class FriendsAdapter : ListAdapter(
   },
 ) {
   
-  var currentFriendsType = FriendsType.ALL_FRIENDS
+  var currentFriendsType: FriendsType = FriendsType.ALL_FRIENDS
 }

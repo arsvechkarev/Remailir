@@ -1,6 +1,6 @@
 package com.arsvechkarev.friends.presentation
 
-import android.view.Gravity
+import android.view.Gravity.BOTTOM
 import android.view.Gravity.CENTER
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,11 +13,19 @@ import com.arsvechkarev.core.model.FriendsType.ALL_FRIENDS
 import com.arsvechkarev.core.model.FriendsType.FRIENDS_REQUESTS
 import com.arsvechkarev.core.model.FriendsType.MY_REQUESTS
 import com.arsvechkarev.core.model.User
+import com.arsvechkarev.core.model.UserAction
+import com.arsvechkarev.core.model.UserAction.ADDING_TO_FRIENDS
+import com.arsvechkarev.core.model.UserAction.CANCELING_MY_REQUEST
+import com.arsvechkarev.core.model.UserAction.DISMISSING_REQUEST
+import com.arsvechkarev.core.model.UserAction.REMOVE_FROM_FRIENDS
 import com.arsvechkarev.core.navigation.Screen
+import com.arsvechkarev.core.viewbuilding.Colors
+import com.arsvechkarev.core.viewbuilding.Dimens
 import com.arsvechkarev.core.viewbuilding.Dimens.ProgressBarSizeBig
 import com.arsvechkarev.core.viewbuilding.Styles.BaseTextView
 import com.arsvechkarev.core.viewbuilding.Styles.BoldTextView
 import com.arsvechkarev.core.viewbuilding.Styles.ClickableButton
+import com.arsvechkarev.core.viewbuilding.Styles.ClickableTextView
 import com.arsvechkarev.core.viewbuilding.TextSizes
 import com.arsvechkarev.firebase.auth.FirebaseAuthenticator
 import com.arsvechkarev.firebase.database.FirebaseUserInfoDatabase
@@ -30,6 +38,7 @@ import com.arsvechkarev.viewdsl.Size.Companion.MatchParent
 import com.arsvechkarev.viewdsl.Size.Companion.WrapContent
 import com.arsvechkarev.viewdsl.animateInvisible
 import com.arsvechkarev.viewdsl.animateVisible
+import com.arsvechkarev.viewdsl.backgroundRoundRect
 import com.arsvechkarev.viewdsl.behavior
 import com.arsvechkarev.viewdsl.classNameTag
 import com.arsvechkarev.viewdsl.gone
@@ -40,14 +49,18 @@ import com.arsvechkarev.viewdsl.layoutGravity
 import com.arsvechkarev.viewdsl.margins
 import com.arsvechkarev.viewdsl.onClick
 import com.arsvechkarev.viewdsl.paddingHorizontal
+import com.arsvechkarev.viewdsl.paddingVertical
 import com.arsvechkarev.viewdsl.paddings
 import com.arsvechkarev.viewdsl.tag
 import com.arsvechkarev.viewdsl.text
+import com.arsvechkarev.viewdsl.textColor
 import com.arsvechkarev.viewdsl.textSize
 import com.arsvechkarev.viewdsl.visible
 import com.arsvechkarev.views.ComplexProgressBar
 import com.arsvechkarev.views.FriendsAndRequestsLayout
 import com.arsvechkarev.views.PullToRefreshView
+import com.arsvechkarev.views.SimpleDialog
+import com.arsvechkarev.views.Snackbar
 import com.arsvechkarev.views.Toolbar
 import com.arsvechkarev.views.behaviors.HeaderBehavior
 import com.arsvechkarev.views.behaviors.PullToRefreshBehavior
@@ -126,7 +139,7 @@ class FriendsScreen : Screen(), FriendsView {
       child<FriendsAndRequestsLayout>(MatchParent, WrapContent) {
         classNameTag()
         invisible()
-        layoutGravity(Gravity.BOTTOM)
+        layoutGravity(BOTTOM)
         onClick { type -> onChipClicked(type) }
       }
       child<PullToRefreshView>(MatchParent, MatchParent) {
@@ -135,12 +148,47 @@ class FriendsScreen : Screen(), FriendsView {
         behavior(behavior)
         onRefreshPulled = { presenter.onRefreshPulled() }
         behavior.allowPulling = lb@{
+          if (viewAs<SimpleDialog>().isOpened) return@lb false
           if (view(LayoutNoData).isVisible) return@lb true
           if (view(LayoutFailure).isVisible) return@lb true
           if (viewAs<RecyclerView>().isVisible
               && headerBehavior.getTopAndBottomOffset() == 0) return@lb true
           return@lb false
         }
+      }
+      child<SimpleDialog>(MatchParent, MatchParent) {
+        classNameTag()
+        VerticalLayout(WrapContent, WrapContent) {
+          paddingVertical(12.dp)
+          paddingHorizontal(20.dp)
+          gravity(CENTER)
+          backgroundRoundRect(Dimens.DefaultCornerRadius, Colors.Dialog)
+          TextView(WrapContent, WrapContent, style = BoldTextView) {
+            tag(TextNameOfOtherUser)
+            textSize(TextSizes.H3)
+            margins(bottom = 12.dp)
+          }
+          TextView(WrapContent, WrapContent, style = ClickableTextView(
+            Colors.CorrectRipple, Colors.Dialog
+          )) {
+            tag(TextAcceptRequest)
+            margins(top = 12.dp)
+            text(R.string.text_accept_request)
+            textColor(Colors.Correct)
+          }
+          TextView(WrapContent, WrapContent, style = ClickableTextView(
+            Colors.ErrorRipple, Colors.Dialog
+          )) {
+            tag(TextDismissOrRemove)
+            margins(top = 12.dp)
+            textColor(Colors.Error)
+          }
+        }
+      }
+      child<Snackbar>(MatchParent, WrapContent) {
+        classNameTag()
+        layoutGravity(BOTTOM)
+        margins(start = 12.dp, end = 12.dp, bottom = 12.dp)
       }
     }
   }
@@ -156,25 +204,20 @@ class FriendsScreen : Screen(), FriendsView {
     )
   }
   
-  private val adapter = FriendsAdapter()
+  private val adapter = FriendsAdapter(onClickListener = { user ->
+    presenter.onUserClicked(user)
+  })
   
   override fun onInit() {
     presenter.loadListOf(ALL_FRIENDS)
   }
   
   override fun showLoading(type: FriendsType) {
-    when (type) {
-      ALL_FRIENDS -> {
-        textView(TextLoading).text(R.string.text_loading_friends)
-      }
-      MY_REQUESTS -> {
-        textView(TextLoading).text(R.string.text_loading_my_requests)
-      }
-      FRIENDS_REQUESTS -> {
-        textView(TextLoading).text(R.string.text_loading_friend_requests)
-    
-      }
-    }
+    textView(TextLoading).text(when (type) {
+      ALL_FRIENDS -> R.string.text_loading_friends
+      MY_REQUESTS -> R.string.text_loading_my_requests
+      FRIENDS_REQUESTS -> R.string.text_loading_friend_requests
+    })
     viewAs<FriendsAndRequestsLayout>().animateInvisible(duration = DURATION_SHORT)
     viewAs<FriendsAndRequestsLayout>().close()
     showLayout(view(LayoutLoading))
@@ -197,10 +240,36 @@ class FriendsScreen : Screen(), FriendsView {
     adapter.currentFriendsType = type
   }
   
+  override fun showUserDialog(friendsType: FriendsType, user: User) {
+    viewAs<SimpleDialog>().show()
+    textView(TextNameOfOtherUser).text(user.username)
+    val dismissText = textView(TextDismissOrRemove)
+    val acceptText = textView(TextAcceptRequest)
+    when (friendsType) {
+      ALL_FRIENDS -> {
+        acceptText.gone()
+        dismissText.text(R.string.text_remove_from_friends)
+        dismissText.onClick { presenter.performAction(REMOVE_FROM_FRIENDS, user) }
+      }
+      MY_REQUESTS -> {
+        acceptText.gone()
+        dismissText.text(R.string.text_cancel_request)
+        dismissText.onClick { presenter.performAction(CANCELING_MY_REQUEST, user) }
+      }
+      FRIENDS_REQUESTS -> {
+        acceptText.visible()
+        dismissText.text(R.string.text_dismiss_request)
+        acceptText.onClick { presenter.performAction(ADDING_TO_FRIENDS, user) }
+        dismissText.onClick { presenter.performAction(DISMISSING_REQUEST, user) }
+      }
+    }
+  }
+  
   override fun showSwitchedToList(type: FriendsType, list: List<User>) {
     viewAs<FriendsAndRequestsLayout>().close()
     showLayout(viewAs<RecyclerView>())
     adapter.submitList(list)
+    adapter.currentFriendsType = type
   }
   
   override fun showSwitchedToEmptyView(type: FriendsType) {
@@ -212,6 +281,34 @@ class FriendsScreen : Screen(), FriendsView {
   override fun showFailure(e: Throwable) {
     viewAs<FriendsAndRequestsLayout>().animateVisible(duration = DURATION_SHORT)
     showLayout(view(LayoutFailure))
+  }
+  
+  override fun showUserAction(userAction: UserAction) {
+    viewAs<SimpleDialog>().hide()
+    val snackbar = viewAs<Snackbar>()
+    snackbar.show()
+    snackbar.switchToLoadingMode()
+    when (userAction) {
+      REMOVE_FROM_FRIENDS -> {
+        snackbar.text.text("Removing from friends...")
+      }
+      CANCELING_MY_REQUEST -> {
+        snackbar.text.text("Canceling request...")
+      }
+      ADDING_TO_FRIENDS -> {
+        snackbar.text.text("Accepting request...")
+      }
+      DISMISSING_REQUEST -> {
+        snackbar.text.text("Dismissing request...")
+      }
+    }
+  }
+  
+  override fun showUserActionFailure(userAction: UserAction, user: User, e: Throwable) {
+    val snackbar = viewAs<Snackbar>()
+    snackbar.switchToErrorMode()
+    snackbar.textError.text("An error occurred")
+    snackbar.onRetryClicked { presenter.performAction(userAction, user) }
   }
   
   private fun showLayout(layout: View) {
@@ -257,6 +354,9 @@ class FriendsScreen : Screen(), FriendsView {
   companion object {
     
     const val TextLoading = "TextLoading"
+    const val TextNameOfOtherUser = "TextNameOfOtherUser"
+    const val TextAcceptRequest = "TextAcceptRequest"
+    const val TextDismissOrRemove = "TextDismissOrRemove"
     const val TitleNoData = "TitleNoData"
     const val TextNoData = "TextNoData"
     const val LayoutLoading = "LayoutLoading"

@@ -36,6 +36,12 @@
   <string name="text_no_my_requests">You haven\'t sent any requests to other people</string>
   <string name="text_no_friend_requests">No friend requests found</string>
   <string name="text_find_people">Find people</string>
+  <string name="text_remove_from_friends">Remove from friends</string>
+  <string name="text_cancel_request">Cancel request</string>
+  <string name="text_accept_request">Accept request</string>
+  <string name="text_dismiss_request">Dismiss request</string>
+  <string name="text_hide_all_caps">HIDE</string>
+  <string name="text_retry_all_caps">RETRY</string>
   <string name="text_log_out">Log out</string>
   <string name="text_share">Share</string>
   <string name="text_source_code">Source code</string>

@@ -8,7 +8,9 @@
   <attr name="colorAccent" format="color"/>
   <attr name="colorAccentLight" format="color"/>
   <attr name="colorOnAccent" format="color"/>
-  <attr name="colorSuccess" format="color"/>
+  <attr name="colorAccentRipple" format="color"/>
+  <attr name="colorCorrect" format="color"/>
+  <attr name="colorCorrectRipple" format="color"/>
   <attr name="colorError" format="color"/>
   <attr name="colorErrorRipple" format="color"/>
   <attr name="colorTextPrimary" format="color"/>

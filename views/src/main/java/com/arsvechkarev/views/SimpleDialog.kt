@@ -11,12 +11,10 @@ import android.view.View
 import android.view.ViewConfiguration
 import android.widget.FrameLayout
 import androidx.core.graphics.ColorUtils
-import com.arsvechkarev.core.extenstions.happenedIn
+import com.arsvechkarev.core.extenstions.contains
 import com.arsvechkarev.core.viewbuilding.Colors
 import com.arsvechkarev.viewdsl.AccelerateDecelerateInterpolator
-import com.arsvechkarev.viewdsl.DURATION_DEFAULT
 import com.arsvechkarev.viewdsl.DURATION_SHORT
-import com.arsvechkarev.viewdsl.OvershootInterpolator
 import com.arsvechkarev.viewdsl.cancelIfRunning
 import com.arsvechkarev.viewdsl.gone
 import com.arsvechkarev.viewdsl.invisible
@@ -105,7 +103,7 @@ class SimpleDialog(context: Context) : FrameLayout(context) {
   override fun onTouchEvent(event: MotionEvent): Boolean {
     when (event.action) {
       ACTION_DOWN -> {
-        if (!(event happenedIn dialogView)) {
+        if (event !in dialogView) {
           latestX = event.x
           latestY = event.y
           return true
