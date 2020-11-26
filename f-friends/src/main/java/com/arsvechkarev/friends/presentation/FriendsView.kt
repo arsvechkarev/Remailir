@@ -16,6 +16,8 @@ interface FriendsView : MvpView {
   
   fun showList(type: FriendsType, list: List<User>)
   
+  fun showSearchResult(list: List<User>)
+  
   fun showUserDialog(friendsType: FriendsType, user: User)
   
   fun showSwitchedToList(type: FriendsType, list: List<User>)

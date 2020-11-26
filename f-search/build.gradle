@@ -1,0 +1,42 @@
+plugins {
+  id 'com.android.library'
+  id 'kotlin-android'
+  id 'kotlin-kapt'
+}
+
+android {
+  compileSdkVersion rootProject.ext.compileSdkVersion
+  defaultConfig {
+    minSdkVersion rootProject.ext.minSdkVersion
+  }
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
+  kotlinOptions {
+    jvmTarget = "1.8"
+  }
+}
+
+dependencies {
+  implementation project(":core")
+  implementation project(":views")
+  implementation project(":firebase")
+  implementation project(":storage")
+
+  def dependencies = rootProject.ext.applicationDependencies
+  implementation platform(dependencies.firebasePlatform)
+  implementation dependencies.kotlin
+  implementation dependencies.appCompat
+  implementation dependencies.coordinatorLayout
+  implementation dependencies.recyclerView
+  implementation dependencies.coroutinesCore
+  implementation dependencies.firebaseAuth
+  implementation dependencies.googleServicesAuth
+  implementation dependencies.timerx
+  implementation dependencies.moxy
+  implementation dependencies.moxyAndroidx
+  implementation dependencies.dagger
+  kapt dependencies.moxyCompiler
+  kapt dependencies.daggerCompiler
+}

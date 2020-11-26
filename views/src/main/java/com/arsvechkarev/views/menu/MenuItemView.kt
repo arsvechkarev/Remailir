@@ -11,6 +11,7 @@ import com.arsvechkarev.core.extenstions.f
 import com.arsvechkarev.core.extenstions.getTextHeight
 import com.arsvechkarev.core.extenstions.i
 import com.arsvechkarev.core.viewbuilding.Colors
+import com.arsvechkarev.core.viewbuilding.Dimens
 import com.arsvechkarev.core.viewbuilding.Fonts
 import com.arsvechkarev.viewdsl.Ints.dp
 import com.arsvechkarev.viewdsl.retrieveDrawable
@@ -32,7 +33,7 @@ class MenuItemView(
   private var secondWord: String? = null
   
   init {
-    rippleBackground(Colors.Ripple, Colors.Transparent, 8.dp)
+    rippleBackground(Colors.Ripple, Colors.Transparent, Dimens.DefaultCornerRadius)
     val padding = 6.dp
     setPadding(padding, padding, padding, padding)
     if (text.contains(' ')) {

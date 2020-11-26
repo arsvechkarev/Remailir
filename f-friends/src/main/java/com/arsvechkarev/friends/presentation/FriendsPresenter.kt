@@ -23,12 +23,28 @@ class FriendsPresenter(
   
   private var currentFriendsType = ALL_FRIENDS
   
-  fun loadListOf(type: FriendsType) {
+  fun loadList(type: FriendsType) {
     currentFriendsType = type
     if (!interactor.hasCacheFor(type)) {
       updateView { showLoading(type) }
     }
     loadListOfType(type, true)
+  }
+  
+  fun performFiltering(text: String) {
+    coroutine {
+      val list = interactor.getFromCache(currentFriendsType)?.filter {
+        it.username.startsWith(text, ignoreCase = true)
+      }
+      if (list != null) {
+        updateView { showSearchResult(list) }
+      }
+    }
+  }
+  
+  fun showCurrentList() {
+    val list = interactor.getFromCache(currentFriendsType) ?: return
+    updateView { showList(currentFriendsType, list) }
   }
   
   fun onRefreshPulled() {

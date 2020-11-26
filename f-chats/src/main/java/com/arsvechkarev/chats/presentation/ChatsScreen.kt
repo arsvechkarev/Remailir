@@ -30,7 +30,7 @@ class ChatsScreen : Screen() {
       clipChildren = false
       child<Toolbar>(MatchParent, WrapContent) {
         showBackImage = false
-        title.text(R.string.title_chats)
+        title(R.string.title_chats)
       }
       child<TextView>(MatchParent, WrapContent) {
         layoutGravity(Gravity.CENTER)

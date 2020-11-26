@@ -11,6 +11,7 @@ import com.arsvechkarev.core.extenstions.f
 import com.arsvechkarev.core.extenstions.getTextHeight
 import com.arsvechkarev.core.extenstions.i
 import com.arsvechkarev.core.viewbuilding.Colors
+import com.arsvechkarev.core.viewbuilding.Dimens
 import com.arsvechkarev.core.viewbuilding.Fonts
 import com.arsvechkarev.viewdsl.Ints.dp
 import com.arsvechkarev.viewdsl.isOrientationPortrait
@@ -33,7 +34,7 @@ class TextWithImageView(
   private val circleLandscapeSize = 100.dp
   
   init {
-    rippleBackground(Colors.Ripple, Colors.Transparent, 4.dp)
+    rippleBackground(Colors.Ripple, Colors.Transparent, Dimens.DefaultCornerRadius)
     val padding = 6.dp
     setPadding(padding, padding, padding, padding)
   }

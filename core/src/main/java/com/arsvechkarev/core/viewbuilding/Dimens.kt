@@ -5,7 +5,7 @@ import com.arsvechkarev.viewdsl.Ints.dp
 object Dimens {
   
   val IconLogoSize get() = 100.dp
-  val DefaultCornerRadius get() = 4.dp
+  val DefaultCornerRadius get() = 6.dp
   val UserIconSize get() = 40.dp
   val DividerHeight get() = 1.dp
   val ChipHorizontalPadding get() = 20.dp

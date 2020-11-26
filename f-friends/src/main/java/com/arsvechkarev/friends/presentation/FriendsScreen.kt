@@ -78,10 +78,12 @@ class FriendsScreen : Screen(), FriendsView {
       val headerBehavior = HeaderBehavior()
       child<Toolbar>(MatchParent, WrapContent) {
         classNameTag()
-        behavior(headerBehavior)
-        showBackImage = true
+        showSearchImage = true
         title(R.string.title_friends)
         onBackClick { navigator.onBackPress() }
+        onSearchTyped { text -> presenter.performFiltering(text) }
+        onExitFromSearchMode = { presenter.showCurrentList() }
+        behavior(headerBehavior)
       }
       child<RecyclerView>(MatchParent, MatchParent) {
         classNameTag()
@@ -214,10 +216,11 @@ class FriendsScreen : Screen(), FriendsView {
   })
   
   override fun onInit() {
-    presenter.loadListOf(ALL_FRIENDS)
+    presenter.loadList(ALL_FRIENDS)
   }
   
   override fun showLoading(type: FriendsType) {
+    viewAs<Toolbar>().animateSearchInvisible()
     textView(TextLoading).text(when (type) {
       ALL_FRIENDS -> R.string.text_loading_friends
       MY_REQUESTS -> R.string.text_loading_my_requests
@@ -229,12 +232,14 @@ class FriendsScreen : Screen(), FriendsView {
   }
   
   override fun showNoData(type: FriendsType) {
+    viewAs<Toolbar>().animateSearchInvisible()
     viewAs<FriendsAndRequestsLayout>().animateVisible(duration = DURATION_SHORT)
     showLayout(view(LayoutNoData))
     showEmptyDataForType(type)
   }
   
   override fun showList(type: FriendsType, list: List<User>) {
+    viewAs<Toolbar>().animateSearchVisible()
     viewAs<FriendsAndRequestsLayout>().animateVisible(duration = DURATION_SHORT)
     showLayout(viewAs<RecyclerView>())
     if (adapter.currentFriendsType != type) {
@@ -243,6 +248,10 @@ class FriendsScreen : Screen(), FriendsView {
       adapter.submitList(list)
     }
     adapter.currentFriendsType = type
+  }
+  
+  override fun showSearchResult(list: List<User>) {
+    adapter.submitList(list)
   }
   
   override fun showUserDialog(friendsType: FriendsType, user: User) {
@@ -271,6 +280,7 @@ class FriendsScreen : Screen(), FriendsView {
   }
   
   override fun showSwitchedToList(type: FriendsType, list: List<User>) {
+    viewAs<Toolbar>().animateSearchVisible()
     viewAs<FriendsAndRequestsLayout>().close()
     showLayout(viewAs<RecyclerView>())
     adapter.submitList(list)
@@ -278,18 +288,21 @@ class FriendsScreen : Screen(), FriendsView {
   }
   
   override fun showSwitchedToEmptyView(type: FriendsType) {
+    viewAs<Toolbar>().animateSearchInvisible()
     viewAs<FriendsAndRequestsLayout>().close()
     showLayout(view(LayoutNoData))
     showEmptyDataForType(type)
   }
   
   override fun showFailure(e: Throwable) {
+    viewAs<Toolbar>().animateSearchInvisible()
     Timber.d(e, "Friends error")
     viewAs<FriendsAndRequestsLayout>().animateVisible(duration = DURATION_SHORT)
     showLayout(view(LayoutFailure))
   }
   
   override fun showLoadingUserAction(userAction: UserAction) {
+    viewAs<Toolbar>().animateSearchInvisible()
     viewAs<SimpleDialog>().hide()
     val snackbar = viewAs<Snackbar>()
     snackbar.show()
@@ -309,6 +322,7 @@ class FriendsScreen : Screen(), FriendsView {
   }
   
   override fun showCompletedUserAction(type: FriendsType, list: List<User>) {
+    viewAs<Toolbar>().animateSearchVisible()
     viewAs<Snackbar>().hide()
     showLayout(viewAs<RecyclerView>())
     adapter.submitList(list)
@@ -316,11 +330,21 @@ class FriendsScreen : Screen(), FriendsView {
   }
   
   override fun showUserActionFailure(userAction: UserAction, user: User, e: Throwable) {
+    viewAs<Toolbar>().animateSearchInvisible()
     Timber.d(e, "Friends error")
     val snackbar = viewAs<Snackbar>()
     snackbar.switchToErrorMode()
     snackbar.textError.text(R.string.error_unknown_short)
     snackbar.onRetryClicked { presenter.performAction(userAction, user) }
+  }
+  
+  override fun onBackPressed(): Boolean {
+    val toolbar = viewAs<Toolbar>()
+    if (toolbar.isInSearchMode) {
+      toolbar.handleBackPressed()
+      return true
+    }
+    return false
   }
   
   private fun showLayout(layout: View) {
@@ -353,7 +377,7 @@ class FriendsScreen : Screen(), FriendsView {
   }
   
   private fun onChipClicked(type: FriendsType) {
-    presenter.loadListOf(type)
+    presenter.loadList(type)
     viewAs<Toolbar>().title(
       when (type) {
         ALL_FRIENDS -> R.string.title_friends
