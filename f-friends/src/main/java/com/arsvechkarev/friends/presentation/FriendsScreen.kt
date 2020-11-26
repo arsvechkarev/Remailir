@@ -28,8 +28,10 @@ import com.arsvechkarev.core.viewbuilding.Styles.ClickableButton
 import com.arsvechkarev.core.viewbuilding.Styles.ClickableTextView
 import com.arsvechkarev.core.viewbuilding.TextSizes
 import com.arsvechkarev.firebase.auth.FirebaseAuthenticator
-import com.arsvechkarev.firebase.database.FirebaseUserInfoDatabase
+import com.arsvechkarev.firebase.database.FirebaseDatabaseImpl
+import com.arsvechkarev.firebase.database.FirebaseSchema
 import com.arsvechkarev.friends.R
+import com.arsvechkarev.friends.domain.FriendsInteractor
 import com.arsvechkarev.friends.domain.FriendsRepository
 import com.arsvechkarev.friends.list.FriendsAdapter
 import com.arsvechkarev.viewdsl.DURATION_SHORT
@@ -66,6 +68,7 @@ import com.arsvechkarev.views.behaviors.HeaderBehavior
 import com.arsvechkarev.views.behaviors.PullToRefreshBehavior
 import com.arsvechkarev.views.behaviors.ScrollingRecyclerBehavior
 import com.arsvechkarev.views.behaviors.ViewUnderHeaderBehavior
+import timber.log.Timber
 
 class FriendsScreen : Screen(), FriendsView {
   
@@ -195,10 +198,12 @@ class FriendsScreen : Screen(), FriendsView {
   
   private val presenter by moxyPresenter {
     FriendsPresenter(
-      FriendsRepository(
-        FirebaseAuthenticator,
-        FirebaseUserInfoDatabase(AndroidDispatchers),
-        AndroidDispatchers
+      FriendsInteractor(
+        FriendsRepository(
+          FirebaseAuthenticator.getUsername(),
+          FirebaseSchema,
+          FirebaseDatabaseImpl(AndroidDispatchers),
+        )
       ),
       AndroidDispatchers
     )
@@ -233,7 +238,7 @@ class FriendsScreen : Screen(), FriendsView {
     viewAs<FriendsAndRequestsLayout>().animateVisible(duration = DURATION_SHORT)
     showLayout(viewAs<RecyclerView>())
     if (adapter.currentFriendsType != type) {
-      adapter.changeList(list)
+      adapter.changeListWithoutAnimation(list)
     } else {
       adapter.submitList(list)
     }
@@ -279,35 +284,42 @@ class FriendsScreen : Screen(), FriendsView {
   }
   
   override fun showFailure(e: Throwable) {
+    Timber.d(e, "Friends error")
     viewAs<FriendsAndRequestsLayout>().animateVisible(duration = DURATION_SHORT)
     showLayout(view(LayoutFailure))
   }
   
-  override fun showUserAction(userAction: UserAction) {
+  override fun showLoadingUserAction(userAction: UserAction) {
     viewAs<SimpleDialog>().hide()
     val snackbar = viewAs<Snackbar>()
     snackbar.show()
     snackbar.switchToLoadingMode()
     when (userAction) {
-      REMOVE_FROM_FRIENDS -> {
-        snackbar.text.text("Removing from friends...")
-      }
-      CANCELING_MY_REQUEST -> {
-        snackbar.text.text("Canceling request...")
-      }
-      ADDING_TO_FRIENDS -> {
-        snackbar.text.text("Accepting request...")
-      }
-      DISMISSING_REQUEST -> {
-        snackbar.text.text("Dismissing request...")
-      }
+      REMOVE_FROM_FRIENDS -> snackbar.text.text(R.string.text_removing_from_friends)
+      CANCELING_MY_REQUEST -> snackbar.text.text(R.string.text_cancelling_request)
+      ADDING_TO_FRIENDS -> snackbar.text.text(R.string.text_accepting_request)
+      DISMISSING_REQUEST -> snackbar.text.text(R.string.text_dismissing_request)
     }
   }
   
+  override fun showCompletedUserAction(type: FriendsType) {
+    viewAs<Snackbar>().hide()
+    showLayout(view(LayoutNoData))
+    showEmptyDataForType(type)
+  }
+  
+  override fun showCompletedUserAction(type: FriendsType, list: List<User>) {
+    viewAs<Snackbar>().hide()
+    showLayout(viewAs<RecyclerView>())
+    adapter.submitList(list)
+    adapter.currentFriendsType = type
+  }
+  
   override fun showUserActionFailure(userAction: UserAction, user: User, e: Throwable) {
+    Timber.d(e, "Friends error")
     val snackbar = viewAs<Snackbar>()
     snackbar.switchToErrorMode()
-    snackbar.textError.text("An error occurred")
+    snackbar.textError.text(R.string.error_unknown_short)
     snackbar.onRetryClicked { presenter.performAction(userAction, user) }
   }
   

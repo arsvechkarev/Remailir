@@ -40,6 +40,10 @@
   <string name="text_cancel_request">Cancel request</string>
   <string name="text_accept_request">Accept request</string>
   <string name="text_dismiss_request">Dismiss request</string>
+  <string name="text_removing_from_friends">Removing from friends…</string>
+  <string name="text_cancelling_request">Cancelling request…</string>
+  <string name="text_accepting_request">Accepting request…</string>
+  <string name="text_dismissing_request">Dismissing request…</string>
   <string name="text_hide_all_caps">HIDE</string>
   <string name="text_retry_all_caps">RETRY</string>
   <string name="text_log_out">Log out</string>

@@ -3,7 +3,7 @@ package com.arsvechkarev.registration.presentation
 import com.arsvechkarev.core.BasePresenter
 import com.arsvechkarev.core.MIN_NETWORK_DELAY
 import com.arsvechkarev.core.concurrency.Dispatchers
-import com.arsvechkarev.firebase.UsernameAlreadyExistsException
+import com.arsvechkarev.core.exceptions.UsernameAlreadyExistsException
 import com.arsvechkarev.registration.R
 import com.arsvechkarev.registration.domain.RegistrationInteractor
 import com.arsvechkarev.registration.domain.Validator

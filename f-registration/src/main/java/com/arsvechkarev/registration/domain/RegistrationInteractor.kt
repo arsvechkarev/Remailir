@@ -85,7 +85,7 @@ class RegistrationInteractor(
   }
   
   suspend fun saveUsername(username: String) {
-    database.saveUser(username, emailSaver.getEmail()!!)
+    database.saveUserInfo(username, emailSaver.getEmail()!!)
     authenticator.saveUsername(username)
   }
   

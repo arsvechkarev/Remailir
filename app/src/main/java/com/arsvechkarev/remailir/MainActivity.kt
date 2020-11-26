@@ -9,6 +9,7 @@ import android.provider.Settings.System.ACCELEROMETER_ROTATION
 import android.view.View
 import com.arsvechkarev.chats.presentation.ChatsScreen
 import com.arsvechkarev.core.BaseActivity
+import com.arsvechkarev.core.extenstions.await
 import com.arsvechkarev.core.navigation.Navigator
 import com.arsvechkarev.core.navigation.NavigatorView
 import com.arsvechkarev.core.navigation.Options
@@ -23,6 +24,12 @@ import com.arsvechkarev.viewdsl.Size.Companion.MatchParent
 import com.arsvechkarev.viewdsl.classNameTag
 import com.arsvechkarev.viewdsl.size
 import com.arsvechkarev.viewdsl.withViewBuilder
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.UserProfileChangeRequest
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class MainActivity : BaseActivity(), Navigator {
   
@@ -43,6 +50,23 @@ class MainActivity : BaseActivity(), Navigator {
     setContentView(mainActivityLayout)
     window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
         or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
+//        GlobalScope.launch(Dispatchers.Main) {
+//          try {
+//
+//            FirebaseAuth.getInstance().signInWithEmailAndPassword(
+//              "b@gmail.com", "bbbbbbbb"
+//            ).await()
+//            val profileUpdates = UserProfileChangeRequest.Builder()
+//                .setDisplayName("b")
+//                .build()
+//            FirebaseAuth.getInstance().currentUser!!
+//                .updateProfile(profileUpdates)
+//                .await()
+//            navigator.navigate(ChatsScreen::class)
+//          } catch (e: Throwable) {
+//            Timber.d(e, "keke")
+//          }
+//        }
     if (FirebaseAuthenticator.isUserLoggedIn()) {
       navigator.navigate(ChatsScreen::class)
     } else {

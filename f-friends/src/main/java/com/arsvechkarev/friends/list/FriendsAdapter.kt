@@ -6,6 +6,7 @@ import android.widget.TextView
 import com.arsvechkarev.core.model.FriendsType
 import com.arsvechkarev.core.model.Text
 import com.arsvechkarev.core.model.User
+import com.arsvechkarev.core.recycler.DifferentiableItem
 import com.arsvechkarev.core.recycler.ListAdapter
 import com.arsvechkarev.core.recycler.delegate
 import com.arsvechkarev.core.viewbuilding.Colors

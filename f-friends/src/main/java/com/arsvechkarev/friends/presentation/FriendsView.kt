@@ -24,7 +24,11 @@ interface FriendsView : MvpView {
   
   fun showFailure(e: Throwable)
   
-  fun showUserAction(userAction: UserAction)
+  fun showLoadingUserAction(userAction: UserAction)
   
-  fun showUserActionFailure(userAction: UserAction, user: User,  e: Throwable)
+  fun showCompletedUserAction(type: FriendsType)
+  
+  fun showCompletedUserAction(type: FriendsType, list: List<User>)
+  
+  fun showUserActionFailure(userAction: UserAction, user: User, e: Throwable)
 }

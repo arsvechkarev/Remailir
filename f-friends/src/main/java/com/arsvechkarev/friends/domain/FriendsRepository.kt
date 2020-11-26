@@ -1,34 +1,112 @@
 package com.arsvechkarev.friends.domain
 
-import com.arsvechkarev.core.concurrency.Dispatchers
-import com.arsvechkarev.core.model.Data
 import com.arsvechkarev.core.model.FriendsType
-import com.arsvechkarev.core.model.User
-import com.arsvechkarev.firebase.auth.Authenticator
-import com.arsvechkarev.firebase.database.UserInfoDatabase
-import kotlinx.coroutines.withContext
+import com.arsvechkarev.core.model.FriendsType.ALL_FRIENDS
+import com.arsvechkarev.core.model.FriendsType.FRIENDS_REQUESTS
+import com.arsvechkarev.core.model.FriendsType.MY_REQUESTS
+import com.arsvechkarev.firebase.database.Database
+import com.arsvechkarev.firebase.database.Schema
+import java.util.concurrent.ConcurrentHashMap
 
 class FriendsRepository(
-  private val authenticator: Authenticator,
-  private val database: UserInfoDatabase,
-  private val dispatchers: Dispatchers
+  private val thisUsername: String,
+  private val schema: Schema,
+  private val database: Database
 ) {
   
-  private val cache = HashMap<FriendsType, List<User>>()
+  private val cache = ConcurrentHashMap<FriendsType, MutableList<String>>()
   
-  suspend fun loadListOfType(
-    type: FriendsType,
-    allowUseCache: Boolean
-  ): Data<List<User>> = withContext(dispatchers.IO) lb@{
-    if (allowUseCache && cache.containsKey(type)) {
-      return@lb Data(cache.getValue(type), true)
+  fun hasCacheFor(type: FriendsType) = cache.contains(type)
+  
+  fun getFromCache(friendsType: FriendsType) = cache[friendsType]
+  
+  suspend fun getListByType(friendsType: FriendsType): List<String> {
+    val path = when (friendsType) {
+      ALL_FRIENDS -> schema.friendsPath(thisUsername)
+      MY_REQUESTS -> schema.friendsRequestsFromMePath(thisUsername)
+      FRIENDS_REQUESTS -> schema.friendsRequestsToMePath(thisUsername)
     }
-    val list = database.getListOfType(authenticator.getUsername(), type)
-    cache[type] = list
-    return@lb Data(list, false)
+    val list = getList(path)
+    cache[friendsType] = list
+    return list
   }
   
-  fun hasCacheFor(type: FriendsType): Boolean {
-    return cache.containsKey(type)
+  suspend fun removeFriend(otherUsername: String) {
+    performRemove(
+      schema.friendsPath(thisUsername), otherUsername,
+      schema.friendsPath(otherUsername), thisUsername
+    )
+    cache[ALL_FRIENDS]?.remove(otherUsername)
   }
+  
+  suspend fun cancelMyRequest(otherUsername: String) {
+    performRemove(
+      schema.friendsRequestsFromMePath(thisUsername), otherUsername,
+      schema.friendsRequestsToMePath(otherUsername), thisUsername,
+    )
+    cache[MY_REQUESTS]?.remove(otherUsername)
+  }
+  
+  suspend fun dismissRequest(otherUsername: String) {
+    performRemove(
+      schema.friendsRequestsToMePath(thisUsername), otherUsername,
+      schema.friendsRequestsFromMePath(otherUsername), thisUsername,
+    )
+    cache[FRIENDS_REQUESTS]?.remove(otherUsername)
+  }
+  
+  suspend fun acceptRequest(otherUsername: String) {
+    val thisFriendsPath = schema.friendsPath(thisUsername)
+    val otherUserFriendsPath = schema.friendsPath(otherUsername)
+    val thisUserRequestsToMePath = schema.friendsRequestsToMePath(thisUsername)
+    val thisUserRequestsFromMePath = schema.friendsRequestsFromMePath(thisUsername)
+    val otherUserRequestsToMePath = schema.friendsRequestsToMePath(otherUsername)
+    val otherUserRequestsFromMePath = schema.friendsRequestsFromMePath(otherUsername)
+    val thisFriends = getList(thisFriendsPath)
+    val otherUserFriends = getList(otherUserFriendsPath)
+    val requestsToMe = getList(thisUserRequestsToMePath)
+    val requestsFromMe = getList(thisUserRequestsFromMePath)
+    val requestsToOtherUser = getList(otherUserRequestsToMePath)
+    val requestsFromOtherUser = getList(otherUserRequestsFromMePath)
+    thisFriends.add(otherUsername)
+    otherUserFriends.add(thisUsername)
+    requestsToMe.remove(otherUsername)
+    requestsFromMe.remove(otherUsername)
+    requestsToOtherUser.remove(thisUsername)
+    requestsFromOtherUser.remove(thisUsername)
+    val map = mutableMapOf<String, Any>(
+      thisFriendsPath to thisFriends,
+      otherUserFriendsPath to otherUserFriends,
+      thisUserRequestsToMePath to requestsToMe,
+      thisUserRequestsFromMePath to requestsFromMe,
+      otherUserRequestsToMePath to requestsToOtherUser,
+      otherUserRequestsFromMePath to requestsFromOtherUser,
+    )
+    for ((k, v) in map) {
+      if ((v as MutableList<String>).isEmpty()) {
+        map[k] = ""
+      }
+    }
+    database.setValues(map)
+    cache[ALL_FRIENDS]?.add(otherUsername)
+    cache[MY_REQUESTS]?.remove(otherUsername)
+    cache[FRIENDS_REQUESTS]?.remove(otherUsername)
+  }
+  
+  private suspend fun performRemove(
+    path1: String,
+    value1: String,
+    path2: String,
+    value2: String,
+  ) {
+    val list1 = database.getList(path1) { it }
+    val list2 = database.getList(path2) { it }
+    list1.remove(value1)
+    list2.remove(value2)
+    val v1: Any = if (list1.isNotEmpty()) list1 else ""
+    val v2: Any = if (list2.isNotEmpty()) list2 else ""
+    database.setValues(mapOf(path1 to v1, path2 to v2))
+  }
+  
+  private suspend fun getList(path: String) = database.getList(path) { it }
 }

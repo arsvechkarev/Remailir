@@ -60,7 +60,7 @@ abstract class ListAdapter(
     applyChanges(AppendedListDiffCallbacks(data, oldSize))
   }
   
-  fun changeList(list: List<DifferentiableItem>) {
+  fun changeListWithoutAnimation(list: List<DifferentiableItem>) {
     data = list as MutableList<DifferentiableItem>
     notifyDataSetChanged()
   }
