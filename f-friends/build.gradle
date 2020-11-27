@@ -41,8 +41,4 @@ dependencies {
   implementation dependencies.dagger
   kapt dependencies.moxyCompiler
   kapt dependencies.daggerCompiler
-
-  def testDependencies = rootProject.ext.testDependencies
-  testImplementation testDependencies.junit
-  testImplementation testDependencies.gson
 }

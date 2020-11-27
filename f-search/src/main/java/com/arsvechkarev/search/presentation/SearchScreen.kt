@@ -151,7 +151,8 @@ class SearchScreen : Screen(), SearchView {
       SearchRepository(
         FirebaseAuthenticator.getUsername(),
         PathSchema,
-        FirebaseDatabaseImpl(AndroidDispatchers)
+        FirebaseDatabaseImpl(AndroidDispatchers),
+        AndroidDispatchers
       ),
       AndroidDispatchers
     )

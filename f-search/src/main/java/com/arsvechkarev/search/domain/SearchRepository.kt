@@ -1,22 +1,23 @@
 package com.arsvechkarev.search.domain
 
+import com.arsvechkarev.core.concurrency.Dispatchers
 import com.arsvechkarev.core.model.User
 import com.arsvechkarev.firebase.database.Database
 import com.arsvechkarev.firebase.database.Schema
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class SearchRepository(
   private val thisUserUsername: String,
   private val schema: Schema,
-  private val database: Database
+  private val database: Database,
+  private val dispatchers: Dispatchers
 ) {
   
   private var cache: List<User>? = null
   
   suspend fun getUsersList(
     allowUseCache: Boolean
-  ): List<User> = withContext(Dispatchers.IO) {
+  ): List<User> = withContext(dispatchers.IO) {
     if (allowUseCache) {
       if (cache != null) {
         return@withContext cache!!
@@ -28,7 +29,7 @@ class SearchRepository(
     return@withContext cache!!
   }
   
-  suspend fun  sendFriendRequest(username: String): RequestResult {
+  suspend fun sendFriendRequest(username: String): RequestResult {
     val friendsList = getList(schema.friendsPath(thisUserUsername))
     if (friendsList.contains(username)) {
       return RequestResult.ERROR_ALREADY_FRIENDS
