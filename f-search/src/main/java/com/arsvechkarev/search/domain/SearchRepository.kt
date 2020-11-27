@@ -28,7 +28,7 @@ class SearchRepository(
     return@withContext cache!!
   }
   
-  suspend fun sendFriendRequest(username: String): RequestResult {
+  suspend fun  sendFriendRequest(username: String): RequestResult {
     val friendsList = getList(schema.friendsPath(thisUserUsername))
     if (friendsList.contains(username)) {
       return RequestResult.ERROR_ALREADY_FRIENDS

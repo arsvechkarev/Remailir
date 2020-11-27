@@ -20,6 +20,7 @@
             <option value="$PROJECT_DIR$/f-settings" />
             <option value="$PROJECT_DIR$/firebase" />
             <option value="$PROJECT_DIR$/storage" />
+            <option value="$PROJECT_DIR$/test-common" />
             <option value="$PROJECT_DIR$/viewdsl" />
             <option value="$PROJECT_DIR$/views" />
           </set>

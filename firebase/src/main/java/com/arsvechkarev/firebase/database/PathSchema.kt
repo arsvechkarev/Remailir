@@ -6,7 +6,7 @@ import com.arsvechkarev.firebase.database.Schema.Companion.friends
 import com.arsvechkarev.firebase.database.Schema.Companion.usernames
 import com.arsvechkarev.firebase.database.Schema.Companion.users
 
-object FirebaseSchema : Schema {
+object PathSchema : Schema {
   
   override val allUsersPath = path(usernames)
   

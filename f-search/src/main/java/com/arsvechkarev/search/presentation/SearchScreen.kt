@@ -16,7 +16,7 @@ import com.arsvechkarev.core.viewbuilding.Styles
 import com.arsvechkarev.core.viewbuilding.TextSizes
 import com.arsvechkarev.firebase.auth.FirebaseAuthenticator
 import com.arsvechkarev.firebase.database.FirebaseDatabaseImpl
-import com.arsvechkarev.firebase.database.FirebaseSchema
+import com.arsvechkarev.firebase.database.PathSchema
 import com.arsvechkarev.search.R
 import com.arsvechkarev.search.domain.RequestResult
 import com.arsvechkarev.search.domain.RequestResult.ERROR_ALREADY_FRIENDS
@@ -150,7 +150,7 @@ class SearchScreen : Screen(), SearchView {
     SearchPresenter(
       SearchRepository(
         FirebaseAuthenticator.getUsername(),
-        FirebaseSchema,
+        PathSchema,
         FirebaseDatabaseImpl(AndroidDispatchers)
       ),
       AndroidDispatchers
@@ -194,8 +194,7 @@ class SearchScreen : Screen(), SearchView {
     viewAs<Snackbar>().textLoading.text(R.string.text_sending_request)
     viewAs<Snackbar>().show()
     viewNonNull.postDelayed({
-      val snackbar = view?.findViewWithTag<Snackbar>(Snackbar::class.java.name)
-      snackbar?.hide()
+      view?.findViewWithTag<Snackbar>(Snackbar::class.java.name)?.hide()
     }, WAITING_TIME)
   }
   
@@ -203,8 +202,7 @@ class SearchScreen : Screen(), SearchView {
     viewAs<Snackbar>().switchToInfoMode()
     viewAs<Snackbar>().textInfo.text(R.string.text_request_sent)
     viewNonNull.postDelayed({
-      val snackbar = view?.findViewWithTag<Snackbar>(Snackbar::class.java.name)
-      snackbar?.hide()
+      view?.findViewWithTag<Snackbar>(Snackbar::class.java.name)?.hide()
     }, WAITING_TIME)
   }
   
@@ -224,6 +222,15 @@ class SearchScreen : Screen(), SearchView {
     viewAs<Snackbar>().switchToErrorMode()
     viewAs<Snackbar>().buttonRetry.onClick { presenter.sendFriendRequest(username) }
     viewAs<Snackbar>().textError.text(R.string.error_unknown_short)
+  }
+  
+  override fun onBackPressed(): Boolean {
+    val toolbar = viewAs<Toolbar>()
+    if (toolbar.isInSearchMode) {
+      toolbar.switchFromSearchMode()
+      return true
+    }
+    return false
   }
   
   private fun showLayout(layout: View) {

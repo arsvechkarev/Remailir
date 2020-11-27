@@ -29,7 +29,7 @@ import com.arsvechkarev.core.viewbuilding.Styles.ClickableTextView
 import com.arsvechkarev.core.viewbuilding.TextSizes
 import com.arsvechkarev.firebase.auth.FirebaseAuthenticator
 import com.arsvechkarev.firebase.database.FirebaseDatabaseImpl
-import com.arsvechkarev.firebase.database.FirebaseSchema
+import com.arsvechkarev.firebase.database.PathSchema
 import com.arsvechkarev.friends.R
 import com.arsvechkarev.friends.domain.FriendsInteractor
 import com.arsvechkarev.friends.domain.FriendsRepository
@@ -204,7 +204,7 @@ class FriendsScreen : Screen(), FriendsView {
       FriendsInteractor(
         FriendsRepository(
           FirebaseAuthenticator.getUsername(),
-          FirebaseSchema,
+          PathSchema,
           FirebaseDatabaseImpl(AndroidDispatchers),
         )
       ),

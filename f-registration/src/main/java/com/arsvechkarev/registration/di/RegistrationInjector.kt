@@ -4,7 +4,7 @@ import com.arsvechkarev.core.SharedPrefsStorage
 import com.arsvechkarev.core.concurrency.AndroidDispatchers
 import com.arsvechkarev.firebase.auth.FirebaseAuthenticator
 import com.arsvechkarev.firebase.auth.SharedPrefsEmailSaver
-import com.arsvechkarev.firebase.database.FirebaseSchema
+import com.arsvechkarev.firebase.database.PathSchema
 import com.arsvechkarev.firebase.database.FirebaseUserInfoDatabase
 import com.arsvechkarev.registration.domain.RegistrationInteractor
 import com.arsvechkarev.registration.presentation.RegistrationPresenter
@@ -20,7 +20,7 @@ object RegistrationInjector {
     val timerSaver = SharedPrefsStorage(TIMER_FILENAME, context)
     val interactor = RegistrationInteractor(
       FirebaseAuthenticator,
-      FirebaseUserInfoDatabase(FirebaseSchema, AndroidDispatchers),
+      FirebaseUserInfoDatabase(PathSchema, AndroidDispatchers),
       profileSaver,
       timerSaver
     )
