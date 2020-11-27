@@ -31,6 +31,5 @@ dependencies {
   implementation testDependencies.gson
 
   api testDependencies.junit
-  api testDependencies.mockk
   api testDependencies.coroutinesTest
 }

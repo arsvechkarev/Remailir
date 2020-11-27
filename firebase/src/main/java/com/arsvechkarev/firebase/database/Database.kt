@@ -4,5 +4,5 @@ interface Database {
   
   suspend fun getList(path: String): MutableList<String>
   
-  suspend fun setValues(values: Map<String, Any>)
+  suspend fun setValues(map: Map<String, Any>)
 }

@@ -2,13 +2,14 @@ package com.arsvechkarev.testcommon
 
 import com.arsvechkarev.firebase.database.Database
 import com.google.gson.JsonArray
+import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import com.google.gson.JsonPrimitive
 
 class TestDatabase(json: String) : Database {
   
-  val rootJsonObject = JsonParser.parseString(json)
+  val rootJsonObject: JsonElement = JsonParser.parseString(json)
   
   override suspend fun getList(path: String): MutableList<String> {
     val children = path.split("/")
@@ -36,11 +37,11 @@ class TestDatabase(json: String) : Database {
       val children = path.split("/")
           .filter { it.isNotBlank() }
           .toMutableList()
-      val last = children.last()
+      val dstJsonName = children.last()
       var obj: Any = rootJsonObject.asJsonObject
-      for (i in 1 until children.size) {
+      for (i in 0 until children.size - 1) {
         val name = children[i]
-        obj = (obj as? JsonObject)?.get(name) ?: break
+        obj = (obj as JsonObject).get(name)
       }
       if (obj is JsonObject) {
         val list = JsonArray()
@@ -48,9 +49,10 @@ class TestDatabase(json: String) : Database {
           value.forEach {
             list.add(it as String)
           }
-          obj.add(last, list)
+          obj.add(dstJsonName, list)
+          println()
         } else if (value is String) {
-          obj.addProperty(last, "")
+          obj.addProperty(dstJsonName, "")
         }
       }
     }

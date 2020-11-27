@@ -30,8 +30,8 @@ class FirebaseDatabaseImpl(
   }
   
   override suspend fun setValues(
-    values: Map<String, Any>
+    map: Map<String, Any>
   ): Unit = withContext(dispatchers.IO) {
-    reference.updateChildren(values).await()
+    reference.updateChildren(map).await()
   }
 }

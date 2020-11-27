@@ -1,8 +1,8 @@
 package com.arsvechkarev.testcommon
 
-object Json {
+object TestJson {
   
-  val FullUsersDatabase = """{
+  const val FullUsersDatabase = """{
   "usernames": [
     "a",
     "b",

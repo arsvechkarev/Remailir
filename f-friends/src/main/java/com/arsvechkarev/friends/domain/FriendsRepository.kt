@@ -6,7 +6,6 @@ import com.arsvechkarev.core.model.FriendsType.FRIENDS_REQUESTS
 import com.arsvechkarev.core.model.FriendsType.MY_REQUESTS
 import com.arsvechkarev.firebase.database.Database
 import com.arsvechkarev.firebase.database.Schema
-import java.util.concurrent.ConcurrentHashMap
 
 class FriendsRepository(
   private val thisUsername: String,
@@ -14,7 +13,7 @@ class FriendsRepository(
   private val database: Database
 ) {
   
-  private val cache = ConcurrentHashMap<FriendsType, MutableList<String>>()
+  private val cache = HashMap<FriendsType, MutableList<String>>()
   
   fun hasCacheFor(type: FriendsType) = cache.contains(type)
   
