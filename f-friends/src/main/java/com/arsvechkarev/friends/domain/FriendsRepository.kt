@@ -99,8 +99,8 @@ class FriendsRepository(
     path2: String,
     value2: String,
   ) {
-    val list1 = database.getList(path1) { it }
-    val list2 = database.getList(path2) { it }
+    val list1 = getList(path1)
+    val list2 = getList(path2)
     list1.remove(value1)
     list2.remove(value2)
     val v1: Any = if (list1.isNotEmpty()) list1 else ""
@@ -108,5 +108,5 @@ class FriendsRepository(
     database.setValues(mapOf(path1 to v1, path2 to v2))
   }
   
-  private suspend fun getList(path: String) = database.getList(path) { it }
+  private suspend fun getList(path: String) = database.getList(path)
 }

@@ -18,6 +18,7 @@ import com.arsvechkarev.firebase.auth.FirebaseAuthenticator
 import com.arsvechkarev.friends.presentation.FriendsScreen
 import com.arsvechkarev.registration.presentation.RegistrationScreen
 import com.arsvechkarev.registration.presentation.RegistrationScreen.Companion.CHECK_LINK
+import com.arsvechkarev.search.presentation.SearchScreen
 import com.arsvechkarev.settings.presentation.SettingsScreen
 import com.arsvechkarev.viewdsl.Densities
 import com.arsvechkarev.viewdsl.Size.Companion.MatchParent
@@ -98,6 +99,7 @@ class MainActivity : BaseActivity(), Navigator {
   }
   
   override fun goToSearchScreen() {
+    navigator.navigate(SearchScreen::class)
   }
   
   override fun goToSettingsScreen() {

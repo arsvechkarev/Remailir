@@ -13,18 +13,18 @@ class FirebaseDatabaseImpl(
   
   private val reference = FirebaseDatabase.getInstance().reference
   
-  override suspend fun <T> getList(
-    path: String, mapper: (String) -> T
-  ): MutableList<T> = withContext(dispatchers.IO) {
+  override suspend fun getList(
+    path: String
+  ): MutableList<String> = withContext(dispatchers.IO) {
     val snapshot = reference.child(path).waitForSingleValueEvent()
     if (!snapshot.exists() || !snapshot.hasChildren()) {
       return@withContext ArrayList()
     }
-    val list = ArrayList<T>()
+    val list = ArrayList<String>()
     for (snap in snapshot.children) {
       val value = snap.value as String
       assertThat(value.isNotBlank())
-      list.add(mapper(value))
+      list.add(value)
     }
     return@withContext list
   }

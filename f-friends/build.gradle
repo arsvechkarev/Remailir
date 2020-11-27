@@ -23,6 +23,7 @@ dependencies {
   implementation project(":views")
   implementation project(":firebase")
   implementation project(":storage")
+  implementation project(":f-common")
 
   def dependencies = rootProject.ext.applicationDependencies
   implementation platform(dependencies.firebasePlatform)

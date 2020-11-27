@@ -33,8 +33,8 @@ class FriendsPresenter(
   
   fun performFiltering(text: String) {
     coroutine {
-      val list = interactor.getFromCache(currentFriendsType)?.filter {
-        it.username.startsWith(text, ignoreCase = true)
+      val list = interactor.getFromCache(currentFriendsType)?.filter { user ->
+        user.username.startsWith(text, ignoreCase = true)
       }
       if (list != null) {
         updateView { showSearchResult(list) }

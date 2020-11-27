@@ -21,6 +21,6 @@ object Dimens {
   val ErrorLayoutTextPadding get() = 32.dp
   val CheckmarkHeight get() = ProgressBarSize
   val CheckmarkWidth get() = (CheckmarkHeight * 1.333f).toInt()
-  val CheckmarkHeightSmall get() = ProgressBarSizeSmall
-  val CheckmarkWidthSmall get() = (ProgressBarSizeSmall * 1.333f).toInt()
+  val CheckmarkHeightSmall get() = 18.dp
+  val CheckmarkWidthSmall get() = (CheckmarkHeightSmall * 1.333f).toInt()
 }

@@ -154,6 +154,7 @@ class FriendsScreen : Screen(), FriendsView {
         onRefreshPulled = { presenter.onRefreshPulled() }
         behavior.allowPulling = lb@{
           if (viewAs<SimpleDialog>().isOpened) return@lb false
+          if (viewAs<Toolbar>().isInSearchMode) return@lb false
           if (view(LayoutNoData).isVisible) return@lb true
           if (view(LayoutFailure).isVisible) return@lb true
           if (viewAs<RecyclerView>().isVisible
@@ -211,7 +212,7 @@ class FriendsScreen : Screen(), FriendsView {
     )
   }
   
-  private val adapter = FriendsAdapter(onClickListener = { user ->
+  private val adapter = FriendsAdapter(onUserClicked = { user ->
     presenter.onUserClicked(user)
   })
   
@@ -308,10 +309,10 @@ class FriendsScreen : Screen(), FriendsView {
     snackbar.show()
     snackbar.switchToLoadingMode()
     when (userAction) {
-      REMOVE_FROM_FRIENDS -> snackbar.text.text(R.string.text_removing_from_friends)
-      CANCELING_MY_REQUEST -> snackbar.text.text(R.string.text_cancelling_request)
-      ADDING_TO_FRIENDS -> snackbar.text.text(R.string.text_accepting_request)
-      DISMISSING_REQUEST -> snackbar.text.text(R.string.text_dismissing_request)
+      REMOVE_FROM_FRIENDS -> snackbar.textLoading.text(R.string.text_removing_from_friends)
+      CANCELING_MY_REQUEST -> snackbar.textLoading.text(R.string.text_cancelling_request)
+      ADDING_TO_FRIENDS -> snackbar.textLoading.text(R.string.text_accepting_request)
+      DISMISSING_REQUEST -> snackbar.textLoading.text(R.string.text_dismissing_request)
     }
   }
   
@@ -341,7 +342,7 @@ class FriendsScreen : Screen(), FriendsView {
   override fun onBackPressed(): Boolean {
     val toolbar = viewAs<Toolbar>()
     if (toolbar.isInSearchMode) {
-      toolbar.handleBackPressed()
+      toolbar.switchFromSearchMode()
       return true
     }
     return false

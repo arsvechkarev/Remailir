@@ -2,8 +2,12 @@ package com.arsvechkarev.firebase.database
 
 interface Schema {
   
+  val allUsersPath: String
+  
   fun friendsPath(username: String): String
+  
   fun friendsRequestsToMePath(username: String): String
+  
   fun friendsRequestsFromMePath(username: String): String
   
   companion object {

@@ -3,6 +3,7 @@ package com.arsvechkarev.friends.domain
 import com.arsvechkarev.core.model.Data
 import com.arsvechkarev.core.model.FriendsType
 import com.arsvechkarev.core.model.User
+import com.arsvechkarev.core.model.toUsersList
 
 class FriendsInteractor(
   private val repository: FriendsRepository
@@ -42,11 +43,5 @@ class FriendsInteractor(
   
   suspend fun acceptRequest(otherUsername: String) {
     repository.acceptRequest(otherUsername)
-  }
-  
-  private fun List<String>.toUsersList(): List<User> {
-    val list = ArrayList<User>()
-    forEach { list.add(User(it)) }
-    return list
   }
 }

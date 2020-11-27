@@ -89,6 +89,7 @@ class Toolbar(context: Context) : ViewGroup(context) {
     })
     addView(EditText(context).apply {
       textSize(TextSizes.H4)
+      setHint(R.string.hint_edit_text_search)
       paddingHorizontal(16.dp)
       setBackgroundResource(android.R.color.transparent)
       invisible()
@@ -137,8 +138,29 @@ class Toolbar(context: Context) : ViewGroup(context) {
     imageSearch.animateGone()
   }
   
-  fun handleBackPressed() {
-    switchFromSearchMode()
+  fun switchToSearchMode() {
+    if (searchMode) return
+    searchMode = true
+    editText.requestFocus()
+    imageSearch.setupAndSetDrawable(R.drawable.avd_search_to_close)
+    (imageSearch.drawable as AnimatedVectorDrawable).start()
+    editText.animateVisible(andThen = {
+      editText.requestFocus()
+      context.showKeyboard()
+    })
+    title.animateInvisible()
+  }
+  
+  fun switchFromSearchMode() {
+    if (!searchMode) return
+    searchMode = false
+    onExitFromSearchMode()
+    editText.clearAnimation()
+    context.hideKeyboard(editText)
+    imageSearch.setupAndSetDrawable(R.drawable.avd_close_to_search)
+    (imageSearch.drawable as AnimatedVectorDrawable).start()
+    editText.animateInvisible()
+    title.animateVisible()
   }
   
   override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -191,31 +213,6 @@ class Toolbar(context: Context) : ViewGroup(context) {
     editText.removeTextChangedListener(textWatcher)
     textWatcher = null
     super.onDetachedFromWindow()
-  }
-  
-  private fun switchToSearchMode() {
-    if (searchMode) return
-    searchMode = true
-    editText.requestFocus()
-    imageSearch.setupAndSetDrawable(R.drawable.avd_search_to_close)
-    (imageSearch.drawable as AnimatedVectorDrawable).start()
-    editText.animateVisible(andThen = {
-      editText.requestFocus()
-      context.showKeyboard()
-    })
-    title.animateInvisible()
-  }
-  
-  private fun switchFromSearchMode() {
-    if (!searchMode) return
-    searchMode = false
-    onExitFromSearchMode()
-    editText.clearAnimation()
-    context.hideKeyboard(editText)
-    imageSearch.setupAndSetDrawable(R.drawable.avd_close_to_search)
-    (imageSearch.drawable as AnimatedVectorDrawable).start()
-    editText.animateInvisible()
-    title.animateVisible()
   }
   
   private fun statusBarHeight(): Int {

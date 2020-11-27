@@ -12,10 +12,10 @@ import com.arsvechkarev.viewdsl.visible
 
 class CheckmarkView(context: Context) : View(context) {
   
-  val drawable get() = background as AnimatedVectorDrawable
+  private val drawable get() = background as AnimatedVectorDrawable
   
   init {
-    background = context.retrieveDrawable(R.drawable.avd_checkmark)
+    background = context.retrieveDrawable(R.drawable.avd_checkmark).apply { }
     background.colorFilter = PorterDuffColorFilter(Colors.Correct, PorterDuff.Mode.SRC_ATOP)
   }
   
