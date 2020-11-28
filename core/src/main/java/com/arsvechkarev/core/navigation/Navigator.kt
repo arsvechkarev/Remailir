@@ -11,7 +11,7 @@ interface Navigator {
   
   fun goToFriendsScreen()
   
-  fun goToSearchScreen()
+  fun goToSearchScreen(removeCurrentScreen: Boolean)
   
   fun goToSettingsScreen()
   

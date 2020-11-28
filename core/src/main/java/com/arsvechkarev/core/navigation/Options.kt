@@ -9,4 +9,5 @@ class Options(
   val clearAllOtherScreens: Boolean = false,
   val arguments: Bundle? = null,
   val removeOnExit: Boolean = false,
+  val removeCurrentScreen: Boolean = false,
 )

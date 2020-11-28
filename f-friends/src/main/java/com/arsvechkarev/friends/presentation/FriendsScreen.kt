@@ -138,7 +138,7 @@ class FriendsScreen : Screen(), FriendsView {
         TextView(WrapContent, WrapContent, style = ClickableButton()) {
           text(R.string.text_find_people)
           margins(top = 32.dp)
-          onClick { viewAs<PullToRefreshView>().hide() }
+          onClick { navigator.goToSearchScreen(true) }
         }
       }
       child<FriendsAndRequestsLayout>(MatchParent, WrapContent) {

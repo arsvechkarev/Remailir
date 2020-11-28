@@ -13,6 +13,7 @@ import com.arsvechkarev.viewdsl.animateSlideFromRight
 import com.arsvechkarev.viewdsl.animateSlideToRight
 import com.arsvechkarev.viewdsl.animateVisible
 import com.arsvechkarev.viewdsl.invisible
+import timber.log.Timber
 import kotlin.reflect.KClass
 
 
@@ -21,8 +22,6 @@ class NavigatorView(context: Context) : FrameLayout(context) {
   private val screenClassesToScreens = HashMap<String, Screen>()
   private val screens = ArrayList<Screen>()
   private var _currentScreen: Screen? = null
-  
-  val currentScreen get() = _currentScreen!!
   
   init {
     fitsSystemWindows = true
@@ -41,24 +40,15 @@ class NavigatorView(context: Context) : FrameLayout(context) {
       screens.clear()
       removeAllViews()
     }
-    val screen = screenClassesToScreens[screenClass.java.name] ?: run {
-      val constructor = screenClass.java.getConstructor()
-      val instance = constructor.newInstance()
-      val className = instance::class.java.name
-      screenClassesToScreens[className] = instance
-      instance.metadata._context = context
-      instance.metadata._arguments = options.arguments
-      instance.metadata.removeOnExit = options.removeOnExit
-      instance
-    }
-    val view = screen.view ?: run {
-      val builtView = screen.buildLayout()
-      screen.metadata._view = builtView
-      builtView.tag = screen::class.java.name
-      builtView
-    }
+    val screen = getOrCreateScreen(screenClass, options)
+    val view = getOrBuildScreenView(screen)
     view.invisible() // Make view invisible so that we can animate it later
-    _currentScreen.ifNotNull { hideScreen(it, animateSlideToRight = false) }
+    _currentScreen.ifNotNull {
+      hideScreen(it, animateSlideToRight = false)
+      if (options.removeCurrentScreen) {
+        scheduleScreenRemoving(it)
+      }
+    }
     screens.add(screen)
     if (view.isAttachedToWindow) {
       showScreen(screen, animateSlideFromRight = true)
@@ -122,6 +112,29 @@ class NavigatorView(context: Context) : FrameLayout(context) {
     }
   }
   
+  private fun getOrCreateScreen(
+    screenClass: KClass<out Screen>,
+    options: Options
+  ) = screenClassesToScreens[screenClass.java.name] ?: run {
+    val constructor = screenClass.java.getConstructor()
+    val instance = constructor.newInstance()
+    val className = instance::class.java.name
+    screenClassesToScreens[className] = instance
+    instance.metadata._context = context
+    instance.metadata._arguments = options.arguments
+    instance.metadata.removeOnExit = options.removeOnExit
+    instance
+  }
+  
+  private fun getOrBuildScreenView(screen: Screen): View {
+    return screen.view ?: run {
+      val builtView = screen.buildLayout()
+      screen.metadata._view = builtView
+      builtView.tag = screen::class.java.name
+      builtView
+    }
+  }
+  
   private fun showScreen(screen: Screen, animateSlideFromRight: Boolean) {
     if (animateSlideFromRight) {
       screen.view?.apply(newScreenAppearanceAnimation)
@@ -143,6 +156,16 @@ class NavigatorView(context: Context) : FrameLayout(context) {
     }
   }
   
+  private fun scheduleScreenRemoving(currentScreen: Screen) {
+    screenClassesToScreens.remove(currentScreen.javaClass.name)
+    screens.remove(currentScreen)
+    postDelayed({
+      removeView(currentScreen.view)
+      releaseScreen(currentScreen)
+      dump()
+    }, DURATION_SHORT)
+  }
+  
   private fun performRemoveView(child: View) {
     removeView(child)
     val screen = screenClassesToScreens.getValue(child.tag as String)
@@ -156,6 +179,25 @@ class NavigatorView(context: Context) : FrameLayout(context) {
     screen.metadata._context = null
     screen.metadata._view = null
     screen.onDestroyDelegate()
+  }
+  
+  private fun dump() {
+    val listToString = { list: List<Screen> ->
+      buildString {
+        append("[")
+        list.forEach {
+          append(it.javaClass.simpleName)
+          append(", ")
+        }
+        delete(length - 2, length)
+        append("]")
+      }
+    }
+    Timber.d("Current screen = $_currentScreen")
+    Timber.d("Current screens size = ${screens.size}")
+    Timber.d("Screens list = ${listToString(screens)}")
+    Timber.d("Cached list size = ${screenClassesToScreens.size}")
+    Timber.d("Cached list = $screenClassesToScreens")
   }
   
   companion object {

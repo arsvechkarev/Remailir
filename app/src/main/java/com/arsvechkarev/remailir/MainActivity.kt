@@ -98,8 +98,9 @@ class MainActivity : BaseActivity(), Navigator {
     navigator.navigate(FriendsScreen::class)
   }
   
-  override fun goToSearchScreen() {
-    navigator.navigate(SearchScreen::class)
+  override fun goToSearchScreen(removeCurrentScreen: Boolean) {
+    navigator.navigate(SearchScreen::class,
+      options = Options(removeCurrentScreen = removeCurrentScreen))
   }
   
   override fun goToSettingsScreen() {
