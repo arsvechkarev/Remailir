@@ -88,7 +88,7 @@ class FriendsScreen : Screen(), FriendsView {
         title(R.string.title_friends)
         onBackClick { navigator.onBackPress() }
         onSearchTyped { text -> presenter.performFiltering(text) }
-        onExitFromSearchMode = { presenter.showCurrentList() }
+        onExitFromSearchMode = { presenter.showCurrentListIfNotEmpty() }
         behavior(headerBehavior)
       }
       child<RecyclerView>(MatchParent, MatchParent) {
@@ -216,8 +216,8 @@ class FriendsScreen : Screen(), FriendsView {
     presenter.onUserClicked(user)
   })
   
-  override fun onInit() {
-    presenter.loadList(ALL_FRIENDS)
+  override fun onAppearedOnScreen() {
+    presenter.loadList()
   }
   
   override fun onOrientationBecamePortrait() {
@@ -308,7 +308,7 @@ class FriendsScreen : Screen(), FriendsView {
     viewAs<Toolbar>().animateSearchInvisible()
     viewAs<FriendsAndRequestsLayout>().animateVisible(duration = DURATION_SHORT)
     textView(TextError).text(e.getMessageRes())
-    textView(TextRetry).onClick { presenter.loadList() }
+    textView(TextRetry).onClick { presenter.loadList(allowUseCache = false) }
     showLayout(view(LayoutError))
   }
   

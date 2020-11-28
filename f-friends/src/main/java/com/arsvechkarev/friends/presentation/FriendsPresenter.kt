@@ -23,12 +23,15 @@ class FriendsPresenter(
   
   private var currentFriendsType = ALL_FRIENDS
   
-  fun loadList(type: FriendsType = currentFriendsType) {
+  fun loadList(
+    type: FriendsType = currentFriendsType,
+    allowUseCache: Boolean = true
+  ) {
     currentFriendsType = type
     if (!interactor.hasCacheFor(type)) {
       viewState.showLoading(type)
     }
-    loadListOfType(type, true)
+    loadListOfType(type, allowUseCache)
   }
   
   fun performFiltering(text: String) {
@@ -42,9 +45,11 @@ class FriendsPresenter(
     }
   }
   
-  fun showCurrentList() {
+  fun showCurrentListIfNotEmpty() {
     val list = interactor.getFromCache(currentFriendsType) ?: return
-    viewState.showList(currentFriendsType, list)
+    if (list.isNotEmpty()) {
+      viewState.showList(currentFriendsType, list)
+    }
   }
   
   fun onRefreshPulled() {
