@@ -1,11 +1,18 @@
 package com.arsvechkarev.search.presentation
 
 import android.view.Gravity
+import android.view.Gravity.CENTER
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.arsvechkarev.common.ErrorLayout
+import com.arsvechkarev.common.ImageError
+import com.arsvechkarev.common.LayoutError
+import com.arsvechkarev.common.TextError
+import com.arsvechkarev.common.TextRetry
 import com.arsvechkarev.core.WAITING_TIME
 import com.arsvechkarev.core.concurrency.AndroidDispatchers
+import com.arsvechkarev.core.extenstions.getMessageRes
 import com.arsvechkarev.core.extenstions.ifTrue
 import com.arsvechkarev.core.extenstions.moxyPresenter
 import com.arsvechkarev.core.model.User
@@ -13,6 +20,8 @@ import com.arsvechkarev.core.navigation.Screen
 import com.arsvechkarev.core.viewbuilding.Colors
 import com.arsvechkarev.core.viewbuilding.Dimens
 import com.arsvechkarev.core.viewbuilding.Styles
+import com.arsvechkarev.core.viewbuilding.Styles.BoldTextView
+import com.arsvechkarev.core.viewbuilding.Styles.ClickableTextView
 import com.arsvechkarev.core.viewbuilding.TextSizes
 import com.arsvechkarev.firebase.auth.FirebaseAuthenticator
 import com.arsvechkarev.firebase.database.FirebaseDatabaseImpl
@@ -32,6 +41,7 @@ import com.arsvechkarev.viewdsl.animateVisible
 import com.arsvechkarev.viewdsl.backgroundRoundRect
 import com.arsvechkarev.viewdsl.behavior
 import com.arsvechkarev.viewdsl.classNameTag
+import com.arsvechkarev.viewdsl.gone
 import com.arsvechkarev.viewdsl.gravity
 import com.arsvechkarev.viewdsl.invisible
 import com.arsvechkarev.viewdsl.isVisible
@@ -45,6 +55,7 @@ import com.arsvechkarev.viewdsl.tag
 import com.arsvechkarev.viewdsl.text
 import com.arsvechkarev.viewdsl.textColor
 import com.arsvechkarev.viewdsl.textSize
+import com.arsvechkarev.viewdsl.visible
 import com.arsvechkarev.views.ComplexProgressBar
 import com.arsvechkarev.views.PullToRefreshView
 import com.arsvechkarev.views.SimpleDialog
@@ -83,11 +94,11 @@ class SearchScreen : Screen(), SearchView {
         tag(LayoutLoading)
         invisible()
         behavior(viewUnderHeaderBehavior)
-        gravity(Gravity.CENTER)
-        layoutGravity(Gravity.CENTER)
+        gravity(CENTER)
+        layoutGravity(CENTER)
         TextView(MatchParent, WrapContent, style = Styles.BoldTextView) {
           tag(TextLoading)
-          gravity(Gravity.CENTER)
+          gravity(CENTER)
           textSize(TextSizes.H3)
           text(R.string.text_loading_users)
         }
@@ -95,13 +106,7 @@ class SearchScreen : Screen(), SearchView {
           margins(top = 40.dp)
         }
       }
-      FrameLayout(MatchParent, WrapContent) {
-        tag(LayoutFailure)
-        invisible()
-        TextView(WrapContent, WrapContent) {
-          layoutGravity(Gravity.CENTER)
-        }
-      }
+      ErrorLayout()
       child<PullToRefreshView>(MatchParent, MatchParent) {
         classNameTag()
         val behavior = PullToRefreshBehavior(context)
@@ -110,7 +115,7 @@ class SearchScreen : Screen(), SearchView {
         behavior.allowPulling = lb@{
           if (viewAs<SimpleDialog>().isOpened) return@lb false
           if (viewAs<Toolbar>().isInSearchMode) return@lb false
-          if (view(LayoutFailure).isVisible) return@lb true
+          if (view(LayoutError).isVisible) return@lb false
           if (viewAs<RecyclerView>().isVisible
               && headerBehavior.getTopAndBottomOffset() == 0) return@lb true
           return@lb false
@@ -121,14 +126,14 @@ class SearchScreen : Screen(), SearchView {
         VerticalLayout(WrapContent, WrapContent) {
           paddingVertical(12.dp)
           paddingHorizontal(20.dp)
-          gravity(Gravity.CENTER)
+          gravity(CENTER)
           backgroundRoundRect(Dimens.DefaultCornerRadius, Colors.Dialog)
-          TextView(WrapContent, WrapContent, style = Styles.BoldTextView) {
+          TextView(WrapContent, WrapContent, style = BoldTextView) {
             tag(TextNameOfOtherUser)
             textSize(TextSizes.H3)
             margins(bottom = 12.dp)
           }
-          TextView(WrapContent, WrapContent, style = Styles.ClickableTextView(
+          TextView(WrapContent, WrapContent, style = ClickableTextView(
             Colors.CorrectRipple, Colors.Dialog
           )) {
             tag(TextSendRequest)
@@ -168,6 +173,14 @@ class SearchScreen : Screen(), SearchView {
     presenter.loadUsersList()
   }
   
+  override fun onOrientationBecamePortrait() {
+    view(ImageError).visible()
+  }
+  
+  override fun onOrientationBecameLandscape() {
+    view(ImageError).gone()
+  }
+  
   override fun showLoading() {
     viewAs<Toolbar>().animateSearchInvisible()
     showLayout(view(LayoutLoading))
@@ -184,9 +197,11 @@ class SearchScreen : Screen(), SearchView {
   }
   
   override fun showFailure(e: Throwable) {
-    Timber.d(e, "Search error")
+    Timber.d(e)
     viewAs<Toolbar>().animateSearchInvisible()
-    showLayout(view(LayoutFailure))
+    textView(TextError).text(e.getMessageRes())
+    textView(TextRetry).onClick { presenter.loadUsersList() }
+    showLayout(view(LayoutError))
   }
   
   override fun showSendingRequest() {
@@ -238,7 +253,7 @@ class SearchScreen : Screen(), SearchView {
     layout.animateVisible()
     viewAs<RecyclerView>().ifTrue({ it !== layout }, { animateInvisible() })
     view(LayoutLoading).ifTrue({ it !== layout }, { animateInvisible() })
-    view(LayoutFailure).ifTrue({ it !== layout }, { animateInvisible() })
+    view(LayoutError).ifTrue({ it !== layout }, { animateInvisible() })
     viewAs<PullToRefreshView>().hide()
   }
   
@@ -248,6 +263,5 @@ class SearchScreen : Screen(), SearchView {
     const val TextNameOfOtherUser = "TextNameOfOtherUser"
     const val TextSendRequest = "TextSendRequest"
     const val LayoutLoading = "LayoutLoading"
-    const val LayoutFailure = "LayoutFailure"
   }
 }

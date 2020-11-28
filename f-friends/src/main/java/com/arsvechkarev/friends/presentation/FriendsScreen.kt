@@ -5,7 +5,13 @@ import android.view.Gravity.CENTER
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.arsvechkarev.common.ErrorLayout
+import com.arsvechkarev.common.ImageError
+import com.arsvechkarev.common.LayoutError
+import com.arsvechkarev.common.TextError
+import com.arsvechkarev.common.TextRetry
 import com.arsvechkarev.core.concurrency.AndroidDispatchers
+import com.arsvechkarev.core.extenstions.getMessageRes
 import com.arsvechkarev.core.extenstions.ifTrue
 import com.arsvechkarev.core.extenstions.moxyPresenter
 import com.arsvechkarev.core.model.FriendsType
@@ -108,13 +114,7 @@ class FriendsScreen : Screen(), FriendsView {
           margins(top = 40.dp)
         }
       }
-      FrameLayout(MatchParent, WrapContent) {
-        invisible()
-        tag(LayoutFailure)
-        TextView(WrapContent, WrapContent) {
-          layoutGravity(CENTER)
-        }
-      }
+      ErrorLayout()
       VerticalLayout(MatchParent, WrapContent) {
         tag(LayoutNoData)
         invisible()
@@ -153,10 +153,10 @@ class FriendsScreen : Screen(), FriendsView {
         behavior(behavior)
         onRefreshPulled = { presenter.onRefreshPulled() }
         behavior.allowPulling = lb@{
+          if (view(LayoutNoData).isVisible) return@lb true
           if (viewAs<SimpleDialog>().isOpened) return@lb false
           if (viewAs<Toolbar>().isInSearchMode) return@lb false
-          if (view(LayoutNoData).isVisible) return@lb true
-          if (view(LayoutFailure).isVisible) return@lb true
+          if (view(LayoutError).isVisible) return@lb false
           if (viewAs<RecyclerView>().isVisible
               && headerBehavior.getTopAndBottomOffset() == 0) return@lb true
           return@lb false
@@ -218,6 +218,14 @@ class FriendsScreen : Screen(), FriendsView {
   
   override fun onInit() {
     presenter.loadList(ALL_FRIENDS)
+  }
+  
+  override fun onOrientationBecamePortrait() {
+    view(ImageError).visible()
+  }
+  
+  override fun onOrientationBecameLandscape() {
+    view(ImageError).gone()
   }
   
   override fun showLoading(type: FriendsType) {
@@ -296,10 +304,12 @@ class FriendsScreen : Screen(), FriendsView {
   }
   
   override fun showFailure(e: Throwable) {
+    Timber.d(e)
     viewAs<Toolbar>().animateSearchInvisible()
-    Timber.d(e, "Friends error")
     viewAs<FriendsAndRequestsLayout>().animateVisible(duration = DURATION_SHORT)
-    showLayout(view(LayoutFailure))
+    textView(TextError).text(e.getMessageRes())
+    textView(TextRetry).onClick { presenter.loadList() }
+    showLayout(view(LayoutError))
   }
   
   override fun showLoadingUserAction(userAction: UserAction) {
@@ -353,7 +363,7 @@ class FriendsScreen : Screen(), FriendsView {
     viewAs<RecyclerView>().ifTrue({ it !== layout }, { animateInvisible() })
     view(LayoutLoading).ifTrue({ it !== layout }, { animateInvisible() })
     view(LayoutNoData).ifTrue({ it !== layout }, { animateInvisible() })
-    view(LayoutFailure).ifTrue({ it !== layout }, { animateInvisible() })
+    view(LayoutError).ifTrue({ it !== layout }, { animateInvisible() })
     viewAs<PullToRefreshView>().hide()
   }
   
@@ -397,7 +407,6 @@ class FriendsScreen : Screen(), FriendsView {
     const val TitleNoData = "TitleNoData"
     const val TextNoData = "TextNoData"
     const val LayoutLoading = "LayoutLoading"
-    const val LayoutFailure = "LayoutFailure"
     const val LayoutNoData = "LayoutNoData"
   }
 }

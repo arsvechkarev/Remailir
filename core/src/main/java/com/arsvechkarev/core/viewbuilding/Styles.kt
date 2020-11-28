@@ -59,8 +59,8 @@ object Styles {
     }
     val colorStateList = ColorStateList.valueOf(Colors.Ripple)
     background(RippleDrawable(colorStateList, gradientDrawable, maskRect))
-    paddingVertical(8.dp)
-    paddingHorizontal(24.dp)
+    paddingVertical(6.dp)
+    paddingHorizontal(20.dp)
     textSize(TextSizes.H3)
     isClickable = true
     isFocusable = true

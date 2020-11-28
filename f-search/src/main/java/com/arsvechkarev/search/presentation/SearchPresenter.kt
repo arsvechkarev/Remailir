@@ -13,7 +13,7 @@ class SearchPresenter(
 ) : BasePresenter<SearchView>(dispatchers) {
   
   fun loadUsersList() {
-    view.showLoading()
+    viewState.showLoading()
     performLoadingList(true)
   }
   
@@ -26,14 +26,14 @@ class SearchPresenter(
       val list = repository.getUsersList(true).filter { user ->
         user.username.startsWith(text, ignoreCase = true)
       }
-      view.showUsersList(list)
+      viewState.showUsersList(list)
     }
   }
   
   fun showCurrentList() {
     coroutine {
       val list = repository.getUsersList(true)
-      view.showUsersList(list)
+      viewState.showUsersList(list)
     }
   }
   
@@ -41,17 +41,17 @@ class SearchPresenter(
   
   fun sendFriendRequest(username: String) {
     coroutine {
-      view.showSendingRequest()
+      viewState.showSendingRequest()
       try {
         delay(MIN_NETWORK_DELAY)
         val result = repository.sendFriendRequest(username)
         if (result == SENT) {
-          view.showRequestSent()
+          viewState.showRequestSent()
         } else {
-          view.showSendingRequestFailure(result)
+          viewState.showSendingRequestFailure(result)
         }
       } catch (e: Throwable) {
-        view.showSendingRequestFailure(e, username)
+        viewState.showSendingRequestFailure(e, username)
       }
     }
   }
@@ -60,9 +60,9 @@ class SearchPresenter(
     coroutine {
       try {
         val list = repository.getUsersList(allowUseCache)
-        view.showUsersList(list)
+        viewState.showUsersList(list)
       } catch (e: Throwable) {
-        view.showFailure(e)
+        viewState.showFailure(e)
       }
     }
   }

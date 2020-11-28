@@ -26,10 +26,10 @@ class RegistrationPresenter(
       handleSignInWithEmailLink(emailLink)
     } else {
       interactor.figureOutInitialState(
-        onTimerTick = { updateView { showTimeTicking(it) } },
-        onTimerFinish = { updateView { showTimeHasRunOut() } },
-        onTimerStarted = { updateView { showEmailSent(it) } },
-        onTimerDoesNotStart = { updateView { showInitialState() } }
+        onTimerTick = { viewState.showTimeTicking(it) },
+        onTimerFinish = { viewState.showTimeHasRunOut() },
+        onTimerStarted = { viewState.showEmailSent(it) },
+        onTimerDoesNotStart = { viewState.showInitialState() }
       )
     }
   }
@@ -38,31 +38,31 @@ class RegistrationPresenter(
   fun sendEmailLink(email: String) {
     if (Validator.isEmailIncorrect(email)) {
       when (Validator.validateEmail(email)) {
-        EMAIL_EMPTY -> updateView { showTextIsIncorrect(R.string.error_email_is_empty) }
-        EMAIL_INVALID -> updateView { showTextIsIncorrect(R.string.error_email_is_invalid) }
+        EMAIL_EMPTY -> viewState.showTextIsIncorrect(R.string.error_email_is_empty)
+        EMAIL_INVALID -> viewState.showTextIsIncorrect(R.string.error_email_is_invalid)
       }
       return
     }
     coroutine {
       try {
-        updateView { showLoading() }
+        viewState.showLoading()
         delay(MIN_NETWORK_DELAY)
         interactor.sendEmailLink(email,
-          onTimerTick = { updateView { showTimeTicking(it) } },
-          onTimerFinish = { updateView { showTimeHasRunOut() } }
+          onTimerTick = { viewState.showTimeTicking(it) },
+          onTimerFinish = { viewState.showTimeHasRunOut() }
         )
-        updateView { showEmailSent(email) }
+        viewState.showEmailSent(email)
       } catch (e: Throwable) {
-        updateView { showFailure(e) }
+        viewState.showFailure(e)
       }
     }
   }
   
   fun continueRegistration() {
     if (interactor.shouldSwitchToMainScreen()) {
-      updateView { switchToMainScreen() }
+      viewState.switchToMainScreen()
     } else {
-      updateView { showEnterUserNameLayout() }
+      viewState.showEnterUserNameLayout()
     }
   }
   
@@ -70,24 +70,23 @@ class RegistrationPresenter(
   fun onEnteredUsername(username: String) {
     if (Validator.isUsernameIncorrect(username)) {
       when (Validator.validateUsername(username)) {
-        USERNAME_EMPTY -> updateView { showTextIsIncorrect(R.string.error_username_is_empty) }
-        USERNAME_CONTAINS_PROHIBITED_SYMBOLS -> updateView {
-          showTextIsIncorrect(R.string.error_username_contains_prohibited_symbols)
-        }
+        USERNAME_EMPTY -> viewState.showTextIsIncorrect(R.string.error_username_is_empty)
+        USERNAME_CONTAINS_PROHIBITED_SYMBOLS -> viewState.showTextIsIncorrect(
+          R.string.error_username_contains_prohibited_symbols)
       }
       return
     }
     coroutine {
       try {
-        updateView { showLoading() }
+        viewState.showLoading()
         delay(MIN_NETWORK_DELAY)
         interactor.saveUsername(username)
-        updateView { showSignedIn() }
+        viewState.showSignedIn()
       } catch (e: Throwable) {
         if (e is UsernameAlreadyExistsException) {
-          updateView { showTextIsIncorrect(R.string.error_username_already_exists) }
+          viewState.showTextIsIncorrect(R.string.error_username_already_exists)
         } else {
-          updateView { showFailure(e) }
+          viewState.showFailure(e)
         }
       }
     }
@@ -100,20 +99,20 @@ class RegistrationPresenter(
   
   private fun handleSignInWithEmailLink(emailLink: String) {
     if (interactor.isNoEmailSaved()) {
-      updateView { showNoEmailSaved() }
+      viewState.showNoEmailSaved()
       return
     }
     val email = interactor.getSavedEmail()
     coroutine {
       try {
-        updateView { showVerifyingLink() }
+        viewState.showVerifyingLink()
         interactor.signInWithEmailLink(email, emailLink)
-        updateView { showSuccessfullyVerified() }
+        viewState.showSuccessfullyVerified()
       } catch (e: Throwable) {
         if (e is FirebaseAuthActionCodeException) {
-          updateView { showVerificationLinkExpired(email) }
+          viewState.showVerificationLinkExpired(email)
         } else {
-          updateView { showEmailVerificationFailure(e) }
+          viewState.showEmailVerificationFailure(e)
         }
       }
     }

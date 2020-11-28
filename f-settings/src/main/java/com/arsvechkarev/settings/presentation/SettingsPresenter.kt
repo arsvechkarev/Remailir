@@ -27,7 +27,7 @@ class SettingsPresenter(
   
   fun logOut() {
     coroutine {
-      updateView { showSigningOut() }
+      viewState.showSigningOut()
       withContext(dispatchers.IO) {
         emailSaver.deleteEmailSynchronously()
         authenticator.signOut()

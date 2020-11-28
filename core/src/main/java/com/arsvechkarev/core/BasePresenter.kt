@@ -22,12 +22,6 @@ abstract class BasePresenter<V : MvpView>(
     }
   }
   
-  protected val view: V get() = viewState
-  
-  protected inline fun updateView(block: V.() -> Unit) {
-    viewState.apply(block)
-  }
-  
   @CallSuper
   override fun onDestroy() {
     scope.cancel()

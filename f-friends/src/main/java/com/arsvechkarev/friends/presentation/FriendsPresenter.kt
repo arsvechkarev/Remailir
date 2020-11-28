@@ -23,10 +23,10 @@ class FriendsPresenter(
   
   private var currentFriendsType = ALL_FRIENDS
   
-  fun loadList(type: FriendsType) {
+  fun loadList(type: FriendsType = currentFriendsType) {
     currentFriendsType = type
     if (!interactor.hasCacheFor(type)) {
-      updateView { showLoading(type) }
+      viewState.showLoading(type)
     }
     loadListOfType(type, true)
   }
@@ -37,14 +37,14 @@ class FriendsPresenter(
         user.username.startsWith(text, ignoreCase = true)
       }
       if (list != null) {
-        updateView { showSearchResult(list) }
+        viewState.showSearchResult(list)
       }
     }
   }
   
   fun showCurrentList() {
     val list = interactor.getFromCache(currentFriendsType) ?: return
-    updateView { showList(currentFriendsType, list) }
+    viewState.showList(currentFriendsType, list)
   }
   
   fun onRefreshPulled() {
@@ -52,12 +52,12 @@ class FriendsPresenter(
   }
   
   fun onUserClicked(user: User) {
-    updateView { showUserDialog(currentFriendsType, user) }
+    viewState.showUserDialog(currentFriendsType, user)
   }
   
   fun performAction(userAction: UserAction, user: User) {
     coroutine {
-      updateView { showLoadingUserAction(userAction) }
+      viewState.showLoadingUserAction(userAction)
       try {
         delay(MIN_NETWORK_DELAY)
         when (userAction) {
@@ -73,12 +73,12 @@ class FriendsPresenter(
         }
         val list = interactor.getFromCache(friendsType)!!
         if (list.isEmpty()) {
-          updateView { showCompletedUserAction(friendsType) }
+          viewState.showCompletedUserAction(friendsType)
         } else {
-          updateView { showCompletedUserAction(friendsType, list) }
+          viewState.showCompletedUserAction(friendsType, list)
         }
       } catch (e: Throwable) {
-        updateView { showUserActionFailure(userAction, user, e) }
+        viewState.showUserActionFailure(userAction, user, e)
       }
     }
   }
@@ -92,19 +92,19 @@ class FriendsPresenter(
         val data = interactor.getListByType(type, allowUseCache)
         if (data.isFromCache) {
           if (data.value.isEmpty()) {
-            updateView { showSwitchedToEmptyView(type) }
+            viewState.showSwitchedToEmptyView(type)
           } else {
-            updateView { showSwitchedToList(type, data.value) }
+            viewState.showSwitchedToList(type, data.value)
           }
         } else {
           if (data.value.isEmpty()) {
-            updateView { showNoData(type) }
+            viewState.showNoData(type)
           } else {
-            updateView { showList(type, data.value) }
+            viewState.showList(type, data.value)
           }
         }
       } catch (e: Throwable) {
-        updateView { showFailure(e) }
+        viewState.showFailure(e)
       }
     }
   }
