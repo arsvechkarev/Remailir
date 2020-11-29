@@ -3,7 +3,7 @@ apply from: 'dependencies.gradle'
 
 buildscript {
   ext {
-    kotlin_version = "1.4.10"
+    kotlin_version = "1.4.20"
     buildTools_version = "4.2.0-alpha16"
     googleServices_version = "4.3.4"
   }

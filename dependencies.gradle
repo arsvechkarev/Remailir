@@ -6,7 +6,7 @@ ext {
   glide_version = '4.11.0'
 
   applicationDependencies = [
-      kotlin            : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
+      kotlin            : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version",
       appCompat         : "androidx.appcompat:appcompat:1.2.0",
       moxy              : "com.github.moxy-community:moxy:$moxy_version",
       moxyCompiler      : "com.github.moxy-community:moxy-compiler:$moxy_version",

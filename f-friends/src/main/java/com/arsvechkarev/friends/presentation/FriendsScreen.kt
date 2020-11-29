@@ -26,6 +26,7 @@ import com.arsvechkarev.core.model.UserAction.DISMISSING_REQUEST
 import com.arsvechkarev.core.model.UserAction.REMOVE_FROM_FRIENDS
 import com.arsvechkarev.core.navigation.Screen
 import com.arsvechkarev.core.viewbuilding.Colors
+import com.arsvechkarev.core.viewbuilding.Colors.TextPrimary
 import com.arsvechkarev.core.viewbuilding.Dimens
 import com.arsvechkarev.core.viewbuilding.Dimens.ProgressBarSizeBig
 import com.arsvechkarev.core.viewbuilding.Styles.BaseTextView
@@ -37,6 +38,10 @@ import com.arsvechkarev.firebase.auth.FirebaseAuthenticator
 import com.arsvechkarev.firebase.database.FirebaseDatabaseImpl
 import com.arsvechkarev.firebase.database.PathSchema
 import com.arsvechkarev.friends.R
+import com.arsvechkarev.friends.R.drawable.ic_add_friend
+import com.arsvechkarev.friends.R.drawable.ic_cancel_circle
+import com.arsvechkarev.friends.R.drawable.ic_dismiss_circle
+import com.arsvechkarev.friends.R.drawable.ic_remove_firend
 import com.arsvechkarev.friends.domain.FriendsInteractor
 import com.arsvechkarev.friends.domain.FriendsRepository
 import com.arsvechkarev.friends.list.FriendsAdapter
@@ -49,11 +54,14 @@ import com.arsvechkarev.viewdsl.animateVisible
 import com.arsvechkarev.viewdsl.backgroundRoundRect
 import com.arsvechkarev.viewdsl.behavior
 import com.arsvechkarev.viewdsl.classNameTag
+import com.arsvechkarev.viewdsl.drawablePadding
+import com.arsvechkarev.viewdsl.drawables
 import com.arsvechkarev.viewdsl.gone
 import com.arsvechkarev.viewdsl.gravity
 import com.arsvechkarev.viewdsl.invisible
 import com.arsvechkarev.viewdsl.isVisible
 import com.arsvechkarev.viewdsl.layoutGravity
+import com.arsvechkarev.viewdsl.marginHorizontal
 import com.arsvechkarev.viewdsl.margins
 import com.arsvechkarev.viewdsl.onClick
 import com.arsvechkarev.viewdsl.paddingHorizontal
@@ -138,7 +146,7 @@ class FriendsScreen : Screen(), FriendsView {
         TextView(WrapContent, WrapContent, style = ClickableButton()) {
           text(R.string.text_find_people)
           margins(top = 32.dp)
-          onClick { navigator.goToSearchScreen(true) }
+          onClick { navigator.goToSearchScreen() }
         }
       }
       child<FriendsAndRequestsLayout>(MatchParent, WrapContent) {
@@ -167,27 +175,28 @@ class FriendsScreen : Screen(), FriendsView {
         VerticalLayout(WrapContent, WrapContent) {
           paddingVertical(12.dp)
           paddingHorizontal(20.dp)
+          marginHorizontal(32.dp)
           gravity(CENTER)
           backgroundRoundRect(Dimens.DefaultCornerRadius, Colors.Dialog)
           TextView(WrapContent, WrapContent, style = BoldTextView) {
             tag(TextNameOfOtherUser)
-            textSize(TextSizes.H3)
+            textSize(TextSizes.H1)
+            textColor(Colors.TextSecondary)
             margins(bottom = 12.dp)
           }
-          TextView(WrapContent, WrapContent, style = ClickableTextView(
-            Colors.CorrectRipple, Colors.Dialog
-          )) {
+          TextView(WrapContent, WrapContent) {
+            apply(ClickableTextView(Colors.Ripple, Colors.Dialog))
             tag(TextAcceptRequest)
             margins(top = 12.dp)
             text(R.string.text_accept_request)
-            textColor(Colors.Correct)
+            drawables(start = ic_add_friend, color = TextPrimary)
+            drawablePadding(16.dp)
           }
-          TextView(WrapContent, WrapContent, style = ClickableTextView(
-            Colors.ErrorRipple, Colors.Dialog
-          )) {
+          TextView(WrapContent, WrapContent) {
+            apply(ClickableTextView(Colors.Ripple, Colors.Dialog))
             tag(TextDismissOrRemove)
+            drawablePadding(16.dp)
             margins(top = 12.dp)
-            textColor(Colors.Error)
           }
         }
       }
@@ -273,19 +282,25 @@ class FriendsScreen : Screen(), FriendsView {
         acceptText.gone()
         dismissText.text(R.string.text_remove_from_friends)
         dismissText.onClick { presenter.performAction(REMOVE_FROM_FRIENDS, user) }
+        dismissText.drawables(start = ic_remove_firend, color = TextPrimary)
       }
       MY_REQUESTS -> {
         acceptText.gone()
         dismissText.text(R.string.text_cancel_request)
         dismissText.onClick { presenter.performAction(CANCELING_MY_REQUEST, user) }
+        dismissText.drawables(start = ic_cancel_circle, color = TextPrimary)
       }
       FRIENDS_REQUESTS -> {
         acceptText.visible()
         dismissText.text(R.string.text_dismiss_request)
         acceptText.onClick { presenter.performAction(ADDING_TO_FRIENDS, user) }
         dismissText.onClick { presenter.performAction(DISMISSING_REQUEST, user) }
+        dismissText.drawables(start = ic_dismiss_circle, color = TextPrimary)
       }
     }
+  }
+  
+  override fun showRemovingFriendConfirmationDialog(user: User) {
   }
   
   override fun showSwitchedToList(type: FriendsType, list: List<User>) {
@@ -401,6 +416,9 @@ class FriendsScreen : Screen(), FriendsView {
   companion object {
     
     const val TextLoading = "TextLoading"
+    const val TextConfirmation = "TextConfirmation"
+    const val TextDismiss = "TextDismiss"
+    const val TextConfirm = "TextConfirm"
     const val TextNameOfOtherUser = "TextNameOfOtherUser"
     const val TextAcceptRequest = "TextAcceptRequest"
     const val TextDismissOrRemove = "TextDismissOrRemove"

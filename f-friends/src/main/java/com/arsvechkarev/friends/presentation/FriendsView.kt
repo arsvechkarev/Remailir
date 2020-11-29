@@ -20,6 +20,8 @@ interface FriendsView : MvpView {
   
   fun showUserDialog(friendsType: FriendsType, user: User)
   
+  fun showRemovingFriendConfirmationDialog(user: User)
+  
   fun showSwitchedToList(type: FriendsType, list: List<User>)
   
   fun showSwitchedToEmptyView(type: FriendsType)

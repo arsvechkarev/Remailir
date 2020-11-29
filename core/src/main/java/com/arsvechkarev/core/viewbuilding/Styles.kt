@@ -1,14 +1,17 @@
 package com.arsvechkarev.core.viewbuilding
 
 import android.content.res.ColorStateList
+import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.RippleDrawable
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.RoundRectShape
 import android.text.TextUtils
 import android.widget.TextView
+import com.arsvechkarev.core.R
 import com.arsvechkarev.viewdsl.Ints.dp
 import com.arsvechkarev.viewdsl.background
+import com.arsvechkarev.viewdsl.drawables
 import com.arsvechkarev.viewdsl.font
 import com.arsvechkarev.viewdsl.paddingHorizontal
 import com.arsvechkarev.viewdsl.paddingVertical
@@ -22,6 +25,7 @@ object Styles {
   val BaseTextView: TextView.() -> Unit = {
     textSize(TextSizes.H5)
     font(Fonts.SegoeUi)
+    textColor(Colors.TextPrimary)
     ellipsize = TextUtils.TruncateAt.END
   }
   
@@ -35,11 +39,12 @@ object Styles {
     rippleColor: Int,
     backgroundColor: Int,
   ): TextView.() -> Unit = {
-    apply(BoldTextView)
+    textColor(Colors.TextPrimary)
+    textSize(TextSizes.H4)
+    font(Typeface.DEFAULT_BOLD)
     paddingVertical(6.dp)
     paddingHorizontal(12.dp)
     rippleBackground(rippleColor, backgroundColor, 4.dp)
-    textSize(TextSizes.H4)
   }
   
   fun ClickableButton(

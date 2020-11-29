@@ -16,7 +16,6 @@ import com.arsvechkarev.viewdsl.invisible
 import timber.log.Timber
 import kotlin.reflect.KClass
 
-
 class NavigatorView(context: Context) : FrameLayout(context) {
   
   private val screenClassesToScreens = HashMap<String, Screen>()
@@ -163,7 +162,7 @@ class NavigatorView(context: Context) : FrameLayout(context) {
       removeView(currentScreen.view)
       releaseScreen(currentScreen)
       dump()
-    }, DURATION_SHORT)
+    }, ANIMATION_DURATION)
   }
   
   private fun performRemoveView(child: View) {

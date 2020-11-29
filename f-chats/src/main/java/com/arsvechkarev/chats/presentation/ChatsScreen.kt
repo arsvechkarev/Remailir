@@ -46,7 +46,7 @@ class ChatsScreen : Screen() {
         classNameTag()
         layoutGravity(Gravity.BOTTOM or Gravity.RIGHT)
         firstMenuItem.onClick { closeMenu(); navigator.goToFriendsScreen() }
-        secondMenuItem.onClick { closeMenu(); navigator.goToSearchScreen(false) }
+        secondMenuItem.onClick { closeMenu(); navigator.goToSearchScreen() }
         thirdMenuItem.onClick { closeMenu(); navigator.goToSettingsScreen() }
         fourthMenuItem.onClick { closeMenu(); navigator.goToSavedMessagesScreen() }
       }

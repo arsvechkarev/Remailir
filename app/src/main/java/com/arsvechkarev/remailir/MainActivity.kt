@@ -51,33 +51,33 @@ class MainActivity : BaseActivity(), Navigator {
     setContentView(mainActivityLayout)
     window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
         or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
-//        GlobalScope.launch(Dispatchers.Main) {
-//          try {
+//    GlobalScope.launch(Dispatchers.Main) {
+//      try {
 //
-//            FirebaseAuth.getInstance().signInWithEmailAndPassword(
-//              "b@gmail.com", "bbbbbbbb"
-//            ).await()
-//            val profileUpdates = UserProfileChangeRequest.Builder()
-//                .setDisplayName("b")
-//                .build()
-//            FirebaseAuth.getInstance().currentUser!!
-//                .updateProfile(profileUpdates)
-//                .await()
-//            navigator.navigate(ChatsScreen::class)
-//          } catch (e: Throwable) {
-//            Timber.d(e, "keke")
-//          }
-//        }
-    if (FirebaseAuthenticator.isUserLoggedIn()) {
-      navigator.navigate(ChatsScreen::class)
-    } else {
-      navigator.navigate(RegistrationScreen::class,
-        options = Options(
-          clearAllOtherScreens = true,
-          arguments = Bundle().apply { putBoolean(CHECK_LINK, true) }
-        )
-      )
-    }
+//        FirebaseAuth.getInstance().signInWithEmailAndPassword(
+//          "a@gmail.com", "aaaaaaaa"
+//        ).await()
+//        val profileUpdates = UserProfileChangeRequest.Builder()
+//            .setDisplayName("a")
+//            .build()
+//        FirebaseAuth.getInstance().currentUser!!
+//            .updateProfile(profileUpdates)
+//            .await()
+//        navigator.navigate(ChatsScreen::class)
+//      } catch (e: Throwable) {
+//        Timber.d(e, "keke")
+//      }
+//    }
+        if (FirebaseAuthenticator.isUserLoggedIn()) {
+          navigator.navigate(ChatsScreen::class)
+        } else {
+          navigator.navigate(RegistrationScreen::class,
+            options = Options(
+              clearAllOtherScreens = true,
+              arguments = Bundle().apply { putBoolean(CHECK_LINK, true) }
+            )
+          )
+        }
   }
   
   override fun switchToMainScreen() {
@@ -98,9 +98,8 @@ class MainActivity : BaseActivity(), Navigator {
     navigator.navigate(FriendsScreen::class)
   }
   
-  override fun goToSearchScreen(removeCurrentScreen: Boolean) {
-    navigator.navigate(SearchScreen::class,
-      options = Options(removeCurrentScreen = removeCurrentScreen))
+  override fun goToSearchScreen() {
+    navigator.navigate(SearchScreen::class)
   }
   
   override fun goToSettingsScreen() {

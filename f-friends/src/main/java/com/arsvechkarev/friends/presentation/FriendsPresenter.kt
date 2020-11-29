@@ -56,6 +56,10 @@ class FriendsPresenter(
     loadListOfType(currentFriendsType, false)
   }
   
+  fun askForFriendRemovingConfirmation(user: User) {
+    viewState.showRemovingFriendConfirmationDialog(user)
+  }
+  
   fun onUserClicked(user: User) {
     viewState.showUserDialog(currentFriendsType, user)
   }
