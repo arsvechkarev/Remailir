@@ -42,6 +42,8 @@
   <string name="text_no_friend_requests">No friend requests found</string>
   <string name="text_find_people">Find people</string>
   <string name="text_remove_from_friends">Remove from friends</string>
+  <string name="text_confirm_remove_from_friends">Do you want to remove %1$s from your friends?</string>
+  <string name="text_confirm_remove_from_friends_first_part">Do you want to remove</string>
   <string name="text_cancel_request">Cancel request</string>
   <string name="text_accept_request">Accept request</string>
   <string name="text_dismiss_request">Dismiss request</string>
@@ -49,7 +51,8 @@
   <string name="text_cancelling_request">Cancelling request…</string>
   <string name="text_accepting_request">Accepting request…</string>
   <string name="text_dismissing_request">Dismissing request…</string>
-  <string name="text_hide_all_caps">HIDE</string>
+  <string name="text_cancel_all_caps">CANCEL</string>
+  <string name="text_remove_all_caps">REMOVE</string>
   <string name="text_retry_all_caps">RETRY</string>
   <string name="text_log_out">Log out</string>
   <string name="text_share">Share</string>

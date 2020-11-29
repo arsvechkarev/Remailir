@@ -1,8 +1,12 @@
 package com.arsvechkarev.friends.presentation
 
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.view.Gravity.BOTTOM
 import android.view.Gravity.CENTER
 import android.view.View
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.arsvechkarev.common.ErrorLayout
@@ -10,6 +14,7 @@ import com.arsvechkarev.common.ImageError
 import com.arsvechkarev.common.LayoutError
 import com.arsvechkarev.common.TextError
 import com.arsvechkarev.common.TextRetry
+import com.arsvechkarev.core.CustomFontSpan
 import com.arsvechkarev.core.concurrency.AndroidDispatchers
 import com.arsvechkarev.core.extenstions.getMessageRes
 import com.arsvechkarev.core.extenstions.ifTrue
@@ -29,6 +34,7 @@ import com.arsvechkarev.core.viewbuilding.Colors
 import com.arsvechkarev.core.viewbuilding.Colors.TextPrimary
 import com.arsvechkarev.core.viewbuilding.Dimens
 import com.arsvechkarev.core.viewbuilding.Dimens.ProgressBarSizeBig
+import com.arsvechkarev.core.viewbuilding.Fonts
 import com.arsvechkarev.core.viewbuilding.Styles.BaseTextView
 import com.arsvechkarev.core.viewbuilding.Styles.BoldTextView
 import com.arsvechkarev.core.viewbuilding.Styles.ClickableButton
@@ -38,10 +44,11 @@ import com.arsvechkarev.firebase.auth.FirebaseAuthenticator
 import com.arsvechkarev.firebase.database.FirebaseDatabaseImpl
 import com.arsvechkarev.firebase.database.PathSchema
 import com.arsvechkarev.friends.R
-import com.arsvechkarev.friends.R.drawable.ic_add_friend
 import com.arsvechkarev.friends.R.drawable.ic_cancel_circle
 import com.arsvechkarev.friends.R.drawable.ic_dismiss_circle
 import com.arsvechkarev.friends.R.drawable.ic_remove_firend
+import com.arsvechkarev.friends.R.string.text_confirm_remove_from_friends
+import com.arsvechkarev.friends.R.string.text_confirm_remove_from_friends_first_part
 import com.arsvechkarev.friends.domain.FriendsInteractor
 import com.arsvechkarev.friends.domain.FriendsRepository
 import com.arsvechkarev.friends.list.FriendsAdapter
@@ -172,31 +179,69 @@ class FriendsScreen : Screen(), FriendsView {
       }
       child<SimpleDialog>(MatchParent, MatchParent) {
         classNameTag()
-        VerticalLayout(WrapContent, WrapContent) {
-          paddingVertical(12.dp)
-          paddingHorizontal(20.dp)
-          marginHorizontal(32.dp)
-          gravity(CENTER)
-          backgroundRoundRect(Dimens.DefaultCornerRadius, Colors.Dialog)
-          TextView(WrapContent, WrapContent, style = BoldTextView) {
-            tag(TextNameOfOtherUser)
-            textSize(TextSizes.H1)
-            textColor(Colors.TextSecondary)
-            margins(bottom = 12.dp)
+        FrameLayout(WrapContent, WrapContent) {
+          layoutGravity(CENTER)
+          VerticalLayout(WrapContent, WrapContent) {
+            tag(DialogDefault)
+            paddingVertical(12.dp)
+            paddingHorizontal(20.dp)
+            marginHorizontal(32.dp)
+            gravity(CENTER)
+            layoutGravity(CENTER)
+            backgroundRoundRect(Dimens.DefaultCornerRadius, Colors.Dialog)
+            TextView(WrapContent, WrapContent, style = BoldTextView) {
+              tag(TextNameOfOtherUser)
+              textSize(TextSizes.H1)
+              textColor(Colors.TextSecondary)
+              margins(bottom = 12.dp)
+            }
+            TextView(WrapContent, WrapContent) {
+              apply(ClickableTextView(Colors.Ripple, Colors.Dialog))
+              tag(TextAcceptRequest)
+              margins(top = 12.dp)
+              text(R.string.text_accept_request)
+              drawables(start = R.drawable.ic_add_friend, color = TextPrimary)
+              drawablePadding(16.dp)
+            }
+            TextView(WrapContent, WrapContent) {
+              apply(ClickableTextView(Colors.Ripple, Colors.Dialog))
+              tag(TextDismissOrRemove)
+              drawablePadding(16.dp)
+              margins(top = 12.dp)
+            }
           }
-          TextView(WrapContent, WrapContent) {
-            apply(ClickableTextView(Colors.Ripple, Colors.Dialog))
-            tag(TextAcceptRequest)
-            margins(top = 12.dp)
-            text(R.string.text_accept_request)
-            drawables(start = ic_add_friend, color = TextPrimary)
-            drawablePadding(16.dp)
-          }
-          TextView(WrapContent, WrapContent) {
-            apply(ClickableTextView(Colors.Ripple, Colors.Dialog))
-            tag(TextDismissOrRemove)
-            drawablePadding(16.dp)
-            margins(top = 12.dp)
+          VerticalLayout(WrapContent, WrapContent) {
+            tag(DialogConfirmation)
+            paddingVertical(12.dp)
+            paddingHorizontal(20.dp)
+            marginHorizontal(32.dp)
+            gravity(CENTER)
+            layoutGravity(CENTER)
+            backgroundRoundRect(Dimens.DefaultCornerRadius, Colors.Dialog)
+            TextView(WrapContent, WrapContent, style = BaseTextView) {
+              tag(TextConfirmation)
+              gravity(CENTER)
+              textSize(TextSizes.H4)
+              textColor(TextPrimary)
+              margins(top = 12.dp, bottom = 24.dp)
+            }
+            HorizontalLayout(WrapContent, WrapContent) {
+              TextView(WrapContent, WrapContent) {
+                apply(ClickableTextView(Colors.Ripple, Colors.Dialog))
+                tag(TextDismiss)
+                margins(end = 12.dp)
+                text(R.string.text_cancel_all_caps)
+                textSize(TextSizes.H5)
+              }
+              TextView(WrapContent, WrapContent) {
+                apply(ClickableTextView(Colors.ErrorRipple, Colors.Dialog))
+                tag(TextProceed)
+                margins(start = 12.dp)
+                text(R.string.text_remove_all_caps)
+                textSize(TextSizes.H5)
+                textColor(Colors.Error)
+              }
+            }
           }
         }
       }
@@ -274,6 +319,9 @@ class FriendsScreen : Screen(), FriendsView {
   
   override fun showUserDialog(friendsType: FriendsType, user: User) {
     viewAs<SimpleDialog>().show()
+    view(DialogConfirmation).invisible()
+    view(DialogDefault).visible()
+    view(DialogDefault).alpha = 1f
     textView(TextNameOfOtherUser).text(user.username)
     val dismissText = textView(TextDismissOrRemove)
     val acceptText = textView(TextAcceptRequest)
@@ -281,7 +329,7 @@ class FriendsScreen : Screen(), FriendsView {
       ALL_FRIENDS -> {
         acceptText.gone()
         dismissText.text(R.string.text_remove_from_friends)
-        dismissText.onClick { presenter.performAction(REMOVE_FROM_FRIENDS, user) }
+        dismissText.onClick { presenter.askForFriendRemovingConfirmation(user) }
         dismissText.drawables(start = ic_remove_firend, color = TextPrimary)
       }
       MY_REQUESTS -> {
@@ -292,8 +340,8 @@ class FriendsScreen : Screen(), FriendsView {
       }
       FRIENDS_REQUESTS -> {
         acceptText.visible()
-        dismissText.text(R.string.text_dismiss_request)
         acceptText.onClick { presenter.performAction(ADDING_TO_FRIENDS, user) }
+        dismissText.text(R.string.text_dismiss_request)
         dismissText.onClick { presenter.performAction(DISMISSING_REQUEST, user) }
         dismissText.drawables(start = ic_dismiss_circle, color = TextPrimary)
       }
@@ -301,6 +349,13 @@ class FriendsScreen : Screen(), FriendsView {
   }
   
   override fun showRemovingFriendConfirmationDialog(user: User) {
+    textView(TextConfirmation).applyConfirmationSpan(user.username,
+      text_confirm_remove_from_friends, text_confirm_remove_from_friends_first_part
+    )
+    view(DialogDefault).animateInvisible()
+    view(DialogConfirmation).animateVisible()
+    view(TextProceed).onClick { presenter.performAction(REMOVE_FROM_FRIENDS, user) }
+    view(TextDismiss).onClick { viewAs<SimpleDialog>().hide() }
   }
   
   override fun showSwitchedToList(type: FriendsType, list: List<User>) {
@@ -413,12 +468,31 @@ class FriendsScreen : Screen(), FriendsView {
     )
   }
   
+  private fun TextView.applyConfirmationSpan(
+    username: String,
+    textRes: Int,
+    firstPartOfTheText: Int,
+  ) {
+    val firstPartOfText = getString(firstPartOfTheText)
+    val text = getString(textRes, username)
+    val spannable = SpannableString(text)
+    val indexOfText = text.indexOf(username, startIndex = firstPartOfText.length)
+    spannable.setSpan(
+      CustomFontSpan(Fonts.SegoeUiBold),
+      indexOfText, indexOfText + username.length,
+      Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+    )
+    text(spannable)
+  }
+  
   companion object {
     
+    const val DialogDefault = "DialogDefault"
+    const val DialogConfirmation = "DialogConfirmation"
     const val TextLoading = "TextLoading"
     const val TextConfirmation = "TextConfirmation"
     const val TextDismiss = "TextDismiss"
-    const val TextConfirm = "TextConfirm"
+    const val TextProceed = "TextProceed"
     const val TextNameOfOtherUser = "TextNameOfOtherUser"
     const val TextAcceptRequest = "TextAcceptRequest"
     const val TextDismissOrRemove = "TextDismissOrRemove"

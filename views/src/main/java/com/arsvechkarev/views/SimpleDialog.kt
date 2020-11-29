@@ -58,41 +58,37 @@ class SimpleDialog(context: Context) : FrameLayout(context) {
   fun show() {
     if (isOpened) return
     isOpened = true
-    post {
-      visible()
-      dialogView.alpha = 0f
-      dialogView.visible()
-      shadowAnimator.cancelIfRunning()
-      shadowAnimator.setFloatValues(currentShadowFraction, 1f)
-      shadowAnimator.start()
-      dialogView.animate()
-          .withLayer()
-          .scaleX(1f)
-          .scaleY(1f)
-          .alpha(1f)
-          .setDuration(DURATION_SHORT)
-          .setInterpolator(AccelerateDecelerateInterpolator)
-          .start()
-    }
+    visible()
+    dialogView.alpha = 0f
+    dialogView.visible()
+    shadowAnimator.cancelIfRunning()
+    shadowAnimator.setFloatValues(currentShadowFraction, 1f)
+    shadowAnimator.start()
+    dialogView.animate()
+        .withLayer()
+        .scaleX(1f)
+        .scaleY(1f)
+        .alpha(1f)
+        .setDuration(DURATION_SHORT)
+        .setInterpolator(AccelerateDecelerateInterpolator)
+        .start()
   }
   
   fun hide() {
     if (!isOpened) return
     isOpened = false
-    post {
-      shadowAnimator.cancelIfRunning()
-      shadowAnimator.setFloatValues(currentShadowFraction, 0f)
-      shadowAnimator.start()
-      dialogView.animate()
-          .withLayer()
-          .alpha(0f)
-          .scaleX(SCALE_FACTOR)
-          .scaleY(SCALE_FACTOR)
-          .setDuration(DURATION_SHORT)
-          .setInterpolator(AccelerateDecelerateInterpolator)
-          .withEndAction(::gone)
-          .start()
-    }
+    shadowAnimator.cancelIfRunning()
+    shadowAnimator.setFloatValues(currentShadowFraction, 0f)
+    shadowAnimator.start()
+    dialogView.animate()
+        .withLayer()
+        .alpha(0f)
+        .scaleX(SCALE_FACTOR)
+        .scaleY(SCALE_FACTOR)
+        .setDuration(DURATION_SHORT)
+        .setInterpolator(AccelerateDecelerateInterpolator)
+        .withEndAction(::gone)
+        .start()
   }
   
   override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {

@@ -96,7 +96,7 @@ class ViewBuilder(val context: Context) {
     width: Int, height: Int, style: T.() -> Unit = {}, block: T.() -> Unit,
   ) = child<T, CoordLayoutParams>(IntSize(width), IntSize(height), style, block)
   
-  inline fun ViewGroup.TextView(
+  fun ViewGroup.TextView(
     width: Size,
     height: Size,
     style: TextView.() -> Unit = {},
@@ -108,7 +108,7 @@ class ViewBuilder(val context: Context) {
     else -> child<TextView, ViewGroupLayoutParams>(width, height, style, block)
   }
   
-  inline fun ViewGroup.View(
+  fun ViewGroup.View(
     width: Size,
     height: Size,
     style: View.() -> Unit = {},
@@ -120,7 +120,7 @@ class ViewBuilder(val context: Context) {
     else -> child<View, ViewGroupLayoutParams>(width, height, style, block)
   }
   
-  inline fun ViewGroup.ImageView(
+  fun ViewGroup.ImageView(
     width: Size,
     height: Size,
     style: ImageView.() -> Unit = {},
@@ -132,7 +132,7 @@ class ViewBuilder(val context: Context) {
     else -> child<ImageView, ViewGroupLayoutParams>(width, height, style, block)
   }
   
-  inline fun ViewGroup.ImageView(
+  fun ViewGroup.ImageView(
     width: Int,
     height: Int,
     style: ImageView.() -> Unit = {},
@@ -148,7 +148,7 @@ class ViewBuilder(val context: Context) {
     }
   }
   
-  inline fun ViewGroup.FrameLayout(
+  fun ViewGroup.FrameLayout(
     width: Size,
     height: Size,
     style: FrameLayout.() -> Unit = {},
@@ -160,7 +160,7 @@ class ViewBuilder(val context: Context) {
     else -> child<FrameLayout, ViewGroupLayoutParams>(width, height, style, block)
   }
   
-  inline fun ViewGroup.VerticalLayout(
+  fun ViewGroup.VerticalLayout(
     width: Size,
     height: Size,
     style: LinearLayout.() -> Unit = {},
@@ -175,7 +175,7 @@ class ViewBuilder(val context: Context) {
     return layout.apply { orientation(LinearLayout.VERTICAL) }
   }
   
-  inline fun ViewGroup.ScrollableVerticalLayout(
+  fun ViewGroup.ScrollableVerticalLayout(
     width: Size = MatchParent,
     height: Size = MatchParent,
     style: LinearLayout.() -> Unit = {},
@@ -194,7 +194,7 @@ class ViewBuilder(val context: Context) {
     }
   }
   
-  inline fun ViewGroup.HorizontalLayout(
+  fun ViewGroup.HorizontalLayout(
     width: Size,
     height: Size,
     style: LinearLayout.() -> Unit = {},
