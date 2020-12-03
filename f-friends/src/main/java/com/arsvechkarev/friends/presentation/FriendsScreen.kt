@@ -2,7 +2,6 @@ package com.arsvechkarev.friends.presentation
 
 import android.text.Spannable
 import android.text.SpannableString
-import android.text.style.ForegroundColorSpan
 import android.view.Gravity.BOTTOM
 import android.view.Gravity.CENTER
 import android.view.View
@@ -42,10 +41,12 @@ import com.arsvechkarev.core.viewbuilding.Styles.ClickableTextView
 import com.arsvechkarev.core.viewbuilding.TextSizes
 import com.arsvechkarev.firebase.auth.FirebaseAuthenticator
 import com.arsvechkarev.firebase.database.FirebaseDatabaseImpl
-import com.arsvechkarev.firebase.database.PathSchema
+import com.arsvechkarev.firebase.database.PathDatabaseSchema
 import com.arsvechkarev.friends.R
+import com.arsvechkarev.friends.R.drawable.ic_add_friend
 import com.arsvechkarev.friends.R.drawable.ic_cancel_circle
 import com.arsvechkarev.friends.R.drawable.ic_dismiss_circle
+import com.arsvechkarev.friends.R.drawable.ic_message
 import com.arsvechkarev.friends.R.drawable.ic_remove_firend
 import com.arsvechkarev.friends.R.string.text_confirm_remove_from_friends
 import com.arsvechkarev.friends.R.string.text_confirm_remove_from_friends_first_part
@@ -199,8 +200,6 @@ class FriendsScreen : Screen(), FriendsView {
               apply(ClickableTextView(Colors.Ripple, Colors.Dialog))
               tag(TextAcceptRequest)
               margins(top = 12.dp)
-              text(R.string.text_accept_request)
-              drawables(start = R.drawable.ic_add_friend, color = TextPrimary)
               drawablePadding(16.dp)
             }
             TextView(WrapContent, WrapContent) {
@@ -258,7 +257,7 @@ class FriendsScreen : Screen(), FriendsView {
       FriendsInteractor(
         FriendsRepository(
           FirebaseAuthenticator.getUsername(),
-          PathSchema,
+          PathDatabaseSchema,
           FirebaseDatabaseImpl(AndroidDispatchers),
         )
       ),
@@ -327,7 +326,10 @@ class FriendsScreen : Screen(), FriendsView {
     val acceptText = textView(TextAcceptRequest)
     when (friendsType) {
       ALL_FRIENDS -> {
-        acceptText.gone()
+        acceptText.visible()
+        acceptText.text(R.string.text_start_chatting)
+        acceptText.drawables(start = ic_message, color = TextPrimary)
+        acceptText.onClick { navigator.startChatWith(user) }
         dismissText.text(R.string.text_remove_from_friends)
         dismissText.onClick { presenter.askForFriendRemovingConfirmation(user) }
         dismissText.drawables(start = ic_remove_firend, color = TextPrimary)
@@ -340,6 +342,8 @@ class FriendsScreen : Screen(), FriendsView {
       }
       FRIENDS_REQUESTS -> {
         acceptText.visible()
+        acceptText.text(R.string.text_accept_request)
+        acceptText.drawables(start = ic_add_friend, color = TextPrimary)
         acceptText.onClick { presenter.performAction(ADDING_TO_FRIENDS, user) }
         dismissText.text(R.string.text_dismiss_request)
         dismissText.onClick { presenter.performAction(DISMISSING_REQUEST, user) }

@@ -3,12 +3,12 @@ package com.arsvechkarev.search.domain
 import com.arsvechkarev.core.concurrency.Dispatchers
 import com.arsvechkarev.core.model.User
 import com.arsvechkarev.firebase.database.Database
-import com.arsvechkarev.firebase.database.Schema
+import com.arsvechkarev.firebase.database.DatabaseSchema
 import kotlinx.coroutines.withContext
 
 class SearchRepository(
   private val thisUserUsername: String,
-  private val schema: Schema,
+  private val schema: DatabaseSchema,
   private val database: Database,
   private val dispatchers: Dispatchers
 ) {

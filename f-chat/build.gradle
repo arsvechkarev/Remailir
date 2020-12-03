@@ -26,17 +26,14 @@ dependencies {
   implementation project(":f-common")
 
   def dependencies = rootProject.ext.applicationDependencies
-  implementation platform(dependencies.firebasePlatform)
   implementation dependencies.kotlin
   implementation dependencies.appCompat
   implementation dependencies.coordinatorLayout
   implementation dependencies.recyclerView
   implementation dependencies.coroutinesCore
-  implementation dependencies.firebaseAuth
-  implementation dependencies.googleServicesAuth
-  implementation dependencies.timerx
   implementation dependencies.moxy
   implementation dependencies.moxyAndroidx
+  implementation dependencies.firebaseFirestore
   implementation dependencies.dagger
   kapt dependencies.moxyCompiler
   kapt dependencies.daggerCompiler

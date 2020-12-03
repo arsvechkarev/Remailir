@@ -44,6 +44,7 @@
   <string name="text_remove_from_friends">Remove from friends</string>
   <string name="text_confirm_remove_from_friends">Do you want to remove %1$s from your friends?</string>
   <string name="text_confirm_remove_from_friends_first_part">Do you want to remove</string>
+  <string name="text_start_chatting">Start chatting</string>
   <string name="text_cancel_request">Cancel request</string>
   <string name="text_accept_request">Accept request</string>
   <string name="text_dismiss_request">Dismiss request</string>
@@ -59,9 +60,10 @@
   <string name="text_source_code">Source code</string>
 
   <string name="number_resend_link">Resend link in %1$s</string>
-  <string name="hint_edit_text_email">Email</string>
-  <string name="hint_edit_text_username">Username</string>
-  <string name="hint_edit_text_search">Search</string>
+  <string name="hint_email">Email</string>
+  <string name="hint_username">Username</string>
+  <string name="hint_search">Search</string>
+  <string name="hint_message">Message</string>
 
   <string name="error_user_already_friend">This user is already your friend</string>
   <string name="error_request_already_sent">Request to this user was already sent</string>

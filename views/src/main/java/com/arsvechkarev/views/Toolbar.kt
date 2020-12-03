@@ -89,7 +89,7 @@ class Toolbar(context: Context) : ViewGroup(context) {
     })
     addView(EditText(context).apply {
       textSize(TextSizes.H4)
-      setHint(R.string.hint_edit_text_search)
+      setHint(R.string.hint_search)
       paddingHorizontal(16.dp)
       setBackgroundResource(android.R.color.transparent)
       invisible()
@@ -117,6 +117,10 @@ class Toolbar(context: Context) : ViewGroup(context) {
   
   fun title(titleRes: Int) {
     title.text(titleRes)
+  }
+  
+  fun title(text: String) {
+    title.text(text)
   }
   
   fun onSearchTyped(block: (String) -> Unit) {

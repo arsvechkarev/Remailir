@@ -1,5 +1,7 @@
 package com.arsvechkarev.core.navigation
 
+import com.arsvechkarev.core.model.User
+
 /**
  * Host activity with necessary methods to be accessed from fragment
  */
@@ -8,6 +10,10 @@ interface Navigator {
   fun switchToMainScreen()
   
   fun onBackPress()
+  
+  fun startChatWith(user: User)
+  
+  fun respondToChatWith(user: User)
   
   fun goToFriendsScreen()
   

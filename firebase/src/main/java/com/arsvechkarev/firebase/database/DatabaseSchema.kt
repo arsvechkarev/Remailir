@@ -1,8 +1,10 @@
 package com.arsvechkarev.firebase.database
 
-interface Schema {
+interface DatabaseSchema {
   
   val allUsersPath: String
+  
+  fun emailPath(username: String): String
   
   fun friendsPath(username: String): String
   

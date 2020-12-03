@@ -5,11 +5,11 @@ import com.arsvechkarev.core.model.FriendsType.ALL_FRIENDS
 import com.arsvechkarev.core.model.FriendsType.FRIENDS_REQUESTS
 import com.arsvechkarev.core.model.FriendsType.MY_REQUESTS
 import com.arsvechkarev.firebase.database.Database
-import com.arsvechkarev.firebase.database.Schema
+import com.arsvechkarev.firebase.database.DatabaseSchema
 
 class FriendsRepository(
   private val thisUsername: String,
-  private val schema: Schema,
+  private val schema: DatabaseSchema,
   private val database: Database
 ) {
   

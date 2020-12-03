@@ -2,7 +2,7 @@ package com.arsvechkarev.search.domain
 
 import com.arsvechkarev.core.concurrency.Dispatchers
 import com.arsvechkarev.core.model.User
-import com.arsvechkarev.firebase.database.PathSchema
+import com.arsvechkarev.firebase.database.PathDatabaseSchema
 import com.arsvechkarev.search.domain.RequestResult.ERROR_ALREADY_FRIENDS
 import com.arsvechkarev.search.domain.RequestResult.ERROR_REQUEST_ALREADY_SENT
 import com.arsvechkarev.search.domain.RequestResult.ERROR_THIS_USER_ALREADY_HAS_REQUEST
@@ -24,7 +24,7 @@ class SearchRepositoryTest {
     testDatabase: TestDatabase = TestDatabase(FullUsersDatabase),
     dispatchers: Dispatchers = FakeDispatchersProvider
   ): SearchRepository {
-    return SearchRepository(username, PathSchema, testDatabase, dispatchers)
+    return SearchRepository(username, PathDatabaseSchema, testDatabase, dispatchers)
   }
   
   @Test

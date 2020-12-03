@@ -42,7 +42,7 @@ class RegistrationScreen : Screen(), RegistrationView {
     SignInLayout(context)
   }
   
-  private val presenter by moxyPresenter { RegistrationInjector.providePresenter(this) }
+  private val presenter by moxyPresenter { RegistrationInjector.providePresenter() }
   
   override fun onInit(arguments: Bundle) {
     val checkLink = arguments.getBoolean(CHECK_LINK)
@@ -70,7 +70,7 @@ class RegistrationScreen : Screen(), RegistrationView {
     withMainLayout { animateVisible() }
     textView(TextDescription).text(R.string.text_create_username)
     editText(EditTextTag).setMaxLength(MAX_SYMBOLS_FOR_NICKNAME)
-    editText(EditTextTag).setHint(R.string.hint_edit_text_username)
+    editText(EditTextTag).setHint(R.string.hint_username)
     editText(EditTextTag).requestFocus()
     editText(EditTextTag).isEnabled = true
     viewAs<SignInButton>(ButtonSignIn).title.text(R.string.text_sign_in)
@@ -192,7 +192,7 @@ class RegistrationScreen : Screen(), RegistrationView {
   }
   
   private fun prepareEnterEmailState() {
-    editText(EditTextTag).setHint(R.string.hint_edit_text_email)
+    editText(EditTextTag).setHint(R.string.hint_email)
     editText(EditTextTag).isEnabled = true
     viewAs<SignInButton>(ButtonSignIn).title.text(R.string.text_continue)
     view(ButtonSignIn).onClick {

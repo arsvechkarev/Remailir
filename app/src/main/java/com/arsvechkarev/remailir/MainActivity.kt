@@ -7,15 +7,20 @@ import android.os.Bundle
 import android.provider.Settings.System
 import android.provider.Settings.System.ACCELEROMETER_ROTATION
 import android.view.View
-import com.arsvechkarev.chats.presentation.ChatsScreen
+import com.arsvechkarev.chat.presentation.ChatScreen
+import com.arsvechkarev.chat.presentation.ChatScreen.Companion.KEY_TYPE
+import com.arsvechkarev.chat.presentation.ChatScreen.Companion.KEY_USERNAME
+import com.arsvechkarev.chat.presentation.ChatScreen.Companion.TYPE_JOINED
+import com.arsvechkarev.chat.presentation.ChatScreen.Companion.TYPE_REQUEST
 import com.arsvechkarev.core.BaseActivity
-import com.arsvechkarev.core.extenstions.await
+import com.arsvechkarev.core.model.User
 import com.arsvechkarev.core.navigation.Navigator
 import com.arsvechkarev.core.navigation.NavigatorView
 import com.arsvechkarev.core.navigation.Options
 import com.arsvechkarev.core.viewbuilding.Colors
 import com.arsvechkarev.firebase.auth.FirebaseAuthenticator
 import com.arsvechkarev.friends.presentation.FriendsScreen
+import com.arsvechkarev.home.presentation.HomeScreen
 import com.arsvechkarev.registration.presentation.RegistrationScreen
 import com.arsvechkarev.registration.presentation.RegistrationScreen.Companion.CHECK_LINK
 import com.arsvechkarev.search.presentation.SearchScreen
@@ -25,12 +30,8 @@ import com.arsvechkarev.viewdsl.Size.Companion.MatchParent
 import com.arsvechkarev.viewdsl.classNameTag
 import com.arsvechkarev.viewdsl.size
 import com.arsvechkarev.viewdsl.withViewBuilder
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.UserProfileChangeRequest
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import timber.log.Timber
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestoreSettings
 
 class MainActivity : BaseActivity(), Navigator {
   
@@ -51,47 +52,65 @@ class MainActivity : BaseActivity(), Navigator {
     setContentView(mainActivityLayout)
     window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
         or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
-//    GlobalScope.launch(Dispatchers.Main) {
-//      try {
+    FirebaseFirestore.getInstance().setFirestoreSettings(
+      FirebaseFirestoreSettings.Builder().setPersistenceEnabled(false).build())
+//        GlobalScope.launch(Dispatchers.Main) {
+//          try {
 //
-//        FirebaseAuth.getInstance().signInWithEmailAndPassword(
-//          "a@gmail.com", "aaaaaaaa"
-//        ).await()
-//        val profileUpdates = UserProfileChangeRequest.Builder()
-//            .setDisplayName("a")
-//            .build()
-//        FirebaseAuth.getInstance().currentUser!!
-//            .updateProfile(profileUpdates)
-//            .await()
-//        navigator.navigate(ChatsScreen::class)
-//      } catch (e: Throwable) {
-//        Timber.d(e, "keke")
-//      }
-//    }
-        if (FirebaseAuthenticator.isUserLoggedIn()) {
-          navigator.navigate(ChatsScreen::class)
-        } else {
-          navigator.navigate(RegistrationScreen::class,
-            options = Options(
-              clearAllOtherScreens = true,
-              arguments = Bundle().apply { putBoolean(CHECK_LINK, true) }
-            )
-          )
-        }
+//            FirebaseAuth.getInstance().signInWithEmailAndPassword(
+//              "b@gmail.com", "bbbbbbbb"
+//            ).await()
+//            val profileUpdates = UserProfileChangeRequest.Builder()
+//                .setDisplayName("b")
+//                .build()
+//            FirebaseAuth.getInstance().currentUser!!
+//                .updateProfile(profileUpdates)
+//                .await()
+//            navigator.navigate(HomeScreen::class)
+//          } catch (e: Throwable) {
+//            Timber.d(e, "keke")
+//          }
+//        }
+    if (FirebaseAuthenticator.isUserLoggedIn()) {
+      navigator.navigate(HomeScreen::class)
+    } else {
+      navigator.navigate(RegistrationScreen::class,
+        options = Options(
+          clearAllOtherScreens = true,
+          arguments = Bundle().apply { putBoolean(CHECK_LINK, true) }
+        )
+      )
+    }
   }
-  
+
   override fun switchToMainScreen() {
     if (System.getInt(contentResolver, ACCELEROMETER_ROTATION, 0) == 1) {
       requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR
     }
     navigator.navigate(
-      ChatsScreen::class,
+      HomeScreen::class,
       options = Options(clearAllOtherScreens = true)
     )
   }
   
   override fun onBackPress() {
     onBackPressed()
+  }
+  
+  override fun startChatWith(user: User) {
+    navigator.navigate(ChatScreen::class,
+      options = Options(arguments = Bundle().apply {
+        putString(KEY_USERNAME, user.username)
+        putString(KEY_TYPE, TYPE_REQUEST)
+      }))
+  }
+  
+  override fun respondToChatWith(user: User) {
+    navigator.navigate(ChatScreen::class,
+      options = Options(arguments = Bundle().apply {
+        putString(KEY_USERNAME, user.username)
+        putString(KEY_TYPE, TYPE_JOINED)
+      }))
   }
   
   override fun goToFriendsScreen() {

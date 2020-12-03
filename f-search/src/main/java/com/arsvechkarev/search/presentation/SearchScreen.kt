@@ -25,7 +25,7 @@ import com.arsvechkarev.core.viewbuilding.Styles.ClickableTextView
 import com.arsvechkarev.core.viewbuilding.TextSizes
 import com.arsvechkarev.firebase.auth.FirebaseAuthenticator
 import com.arsvechkarev.firebase.database.FirebaseDatabaseImpl
-import com.arsvechkarev.firebase.database.PathSchema
+import com.arsvechkarev.firebase.database.PathDatabaseSchema
 import com.arsvechkarev.search.R
 import com.arsvechkarev.search.domain.RequestResult
 import com.arsvechkarev.search.domain.RequestResult.ERROR_ALREADY_FRIENDS
@@ -155,7 +155,7 @@ class SearchScreen : Screen(), SearchView {
     SearchPresenter(
       SearchRepository(
         FirebaseAuthenticator.getUsername(),
-        PathSchema,
+        PathDatabaseSchema,
         FirebaseDatabaseImpl(AndroidDispatchers),
         AndroidDispatchers
       ),

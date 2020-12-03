@@ -2,6 +2,8 @@ package com.arsvechkarev.viewdsl
 
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.RippleDrawable
@@ -11,6 +13,10 @@ import android.graphics.drawable.shapes.RectShape
 import android.graphics.drawable.shapes.RoundRectShape
 import android.graphics.drawable.shapes.Shape
 import android.view.View
+
+fun Drawable.applyColor(color: Int) {
+  colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP)
+}
 
 fun View.backgroundRoundRect(cornerRadius: Int, color: Int) {
   val r = cornerRadius.toFloat()

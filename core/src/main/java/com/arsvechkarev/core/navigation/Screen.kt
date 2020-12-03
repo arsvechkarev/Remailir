@@ -26,6 +26,8 @@ abstract class Screen : MvpDelegateHolder, MvpView {
   
   internal val metadata = ScreenMetadata()
   
+  val arguments get() = metadata._arguments
+  
   val view get() = metadata._view
   
   val context get() = metadata._context

@@ -3,7 +3,7 @@ package com.arsvechkarev.friends.domain
 import com.arsvechkarev.core.model.FriendsType.ALL_FRIENDS
 import com.arsvechkarev.core.model.FriendsType.FRIENDS_REQUESTS
 import com.arsvechkarev.core.model.FriendsType.MY_REQUESTS
-import com.arsvechkarev.firebase.database.PathSchema
+import com.arsvechkarev.firebase.database.PathDatabaseSchema
 import com.arsvechkarev.testcommon.TestDatabase
 import com.arsvechkarev.testcommon.TestJson.FullUsersDatabase
 import com.arsvechkarev.testcommon.doesNotContain
@@ -22,7 +22,7 @@ class FriendsRepositoryTest {
     username: String,
     database: TestDatabase = TestDatabase(FullUsersDatabase)
   ): FriendsRepository {
-    return FriendsRepository(username, PathSchema, database)
+    return FriendsRepository(username, PathDatabaseSchema, database)
   }
   
   @Test

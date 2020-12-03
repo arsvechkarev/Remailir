@@ -31,9 +31,9 @@ dependencies {
   implementation dependencies.coroutinesCore
   implementation dependencies.coroutinesAndroid
   implementation dependencies.threeTenAbp
-  implementation dependencies.firebaseAuth
-  implementation dependencies.firebaseDatabase
-  implementation dependencies.firebaseFirestore
+  api dependencies.firebaseAuth
+  api dependencies.firebaseDatabase
+  api dependencies.firebaseFirestore
   implementation dependencies.dagger
   kapt dependencies.daggerCompiler
 }
