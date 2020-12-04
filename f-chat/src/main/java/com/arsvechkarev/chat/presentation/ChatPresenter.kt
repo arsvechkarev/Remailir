@@ -3,18 +3,18 @@ package com.arsvechkarev.chat.presentation
 import com.arsvechkarev.chat.domain.ChatRepository
 import com.arsvechkarev.core.BasePresenter
 import com.arsvechkarev.core.concurrency.Dispatchers
-import com.arsvechkarev.core.model.DisplayableMessage
-import com.arsvechkarev.core.model.Message
-import com.arsvechkarev.core.model.MessageOtherUser
-import com.arsvechkarev.core.model.MessageThisUser
-import com.arsvechkarev.firebase.firestore.chatting.MessageListener
-import com.arsvechkarev.firebase.firestore.waiting.ChatWaitingListener
-import com.google.firebase.Timestamp
-import java.util.UUID
+import com.arsvechkarev.core.model.messaging.DisplayableMessage
+import com.arsvechkarev.core.model.messaging.Message
+import com.arsvechkarev.core.model.messaging.MessageFactory
+import com.arsvechkarev.core.model.messaging.MessageOtherUser
+import com.arsvechkarev.core.model.messaging.MessageThisUser
+import com.arsvechkarev.firebase.firestore.chatmanaging.ChatWaitingListener
+import com.arsvechkarev.firebase.firestore.messaging.MessageListener
 
 class ChatPresenter(
-  private val repository: ChatRepository,
   private val thisUserUsername: String,
+  private val messageFactory: MessageFactory,
+  private val repository: ChatRepository,
   dispatchers: Dispatchers
 ) : BasePresenter<ChatView>(dispatchers) {
   
@@ -49,16 +49,15 @@ class ChatPresenter(
   }
   
   
-  fun start2() {
+  fun startListeningForMessages() {
     coroutine {
       repository.startListeningMessages(messageListener)
     }
   }
   
   fun sendMessage(message: String) {
+    val msg = messageFactory.createMessage(message.trim(), thisUserUsername)
     coroutine {
-      val msg = Message(UUID.randomUUID().toString(), message, thisUserUsername,
-        Timestamp.now().toDate().time)
       repository.sendMessage(msg)
       messages.add(DisplayableMessage(msg.id, msg.text))
       viewState.showMessageSent(MessageThisUser(msg.id, msg.text))

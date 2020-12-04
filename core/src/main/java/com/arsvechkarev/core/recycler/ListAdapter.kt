@@ -13,7 +13,6 @@ import com.arsvechkarev.core.recycler.CallbackType.TWO_LISTS
 import kotlin.reflect.KClass
 
 abstract class ListAdapter(
-  private val delegates: List<ListAdapterDelegate<out DifferentiableItem>>,
   private val callbackType: CallbackType = TWO_LISTS,
   private val threader: Threader = AndroidThreader,
   private var onReadyToLoadNextPage: (() -> Unit)? = null
@@ -23,35 +22,24 @@ abstract class ListAdapter(
     private set
   
   protected var data: MutableList<DifferentiableItem> = ArrayList()
+  
   private val classesToViewTypes = HashMap<KClass<*>, Int>()
   private val delegatesSparseArray = SparseArrayCompat<ListAdapterDelegate<out DifferentiableItem>>()
+  private val delegates = ArrayList<ListAdapterDelegate<out DifferentiableItem>>()
   
   constructor(
     vararg delegates: ListAdapterDelegate<out DifferentiableItem>,
     callbackType: CallbackType = TWO_LISTS,
     threader: Threader = AndroidThreader,
     onReadyToLoadNextPage: () -> Unit = {}
-  ) : this(delegates.toList(), callbackType, threader, onReadyToLoadNextPage)
-  
-  init {
-    delegates.forEachIndexed { i, delegate ->
-      classesToViewTypes[delegate.modelClass] = i
-      delegatesSparseArray.put(i, delegate)
-    }
+  ) : this(callbackType, threader, onReadyToLoadNextPage) {
+    addDelegates(*delegates)
   }
   
   fun addItem(item: DifferentiableItem) {
-    threader.onMainThread {
-      data.add(item)
-      notifyItemInserted(data.size - 1)
-    }
-  }
-  
-  fun removeLastAndAdd(list: List<DifferentiableItem>) {
-    val oldSize = data.size
-    data.removeLast()
-    data.addAll(list)
-    applyChanges(AppendedListDiffCallbacks(data, oldSize))
+    data.add(item)
+    notifyItemInserted(data.lastIndex)
+    recyclerView?.scrollToPosition(data.lastIndex)
   }
   
   fun addItems(list: List<DifferentiableItem>) {
@@ -75,12 +63,11 @@ abstract class ListAdapter(
     applyChanges(callback)
   }
   
-  private fun applyChanges(callback: DiffUtil.Callback) {
-    threader.onBackground {
-      val diffResult = DiffUtil.calculateDiff(callback)
-      threader.onMainThread {
-        diffResult.dispatchUpdatesTo(this)
-      }
+  protected fun addDelegates(vararg delegates: ListAdapterDelegate<out DifferentiableItem>) {
+    this.delegates.addAll(delegates)
+    delegates.forEachIndexed { i, delegate ->
+      classesToViewTypes[delegate.modelClass] = i
+      delegatesSparseArray.put(i, delegate)
     }
   }
   
@@ -119,5 +106,14 @@ abstract class ListAdapter(
   override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
     delegates.forEach { it.onDetachedFromRecyclerView(recyclerView) }
     onReadyToLoadNextPage = null
+  }
+  
+  private fun applyChanges(callback: DiffUtil.Callback) {
+    threader.onBackground {
+      val diffResult = DiffUtil.calculateDiff(callback)
+      threader.onMainThread {
+        diffResult.dispatchUpdatesTo(this)
+      }
+    }
   }
 }

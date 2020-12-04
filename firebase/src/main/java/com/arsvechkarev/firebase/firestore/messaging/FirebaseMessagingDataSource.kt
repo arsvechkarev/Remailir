@@ -1,8 +1,8 @@
-package com.arsvechkarev.firebase.firestore.chatting
+package com.arsvechkarev.firebase.firestore.messaging
 
 import com.arsvechkarev.core.concurrency.Dispatchers
 import com.arsvechkarev.core.extenstions.await
-import com.arsvechkarev.core.model.Message
+import com.arsvechkarev.core.model.messaging.Message
 import com.arsvechkarev.firebase.firestore.FirestoreSchema.chatDocumentName
 import com.arsvechkarev.firebase.firestore.FirestoreSchema.chats
 import com.arsvechkarev.firebase.firestore.FirestoreSchema.messages
@@ -11,11 +11,11 @@ import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
 import kotlinx.coroutines.withContext
 
-class FirebaseChattingDataSource(
+class FirebaseMessagingDataSource(
   private val thisUserUsername: String,
   private val otherUserUsername: String,
   private val dispatchers: Dispatchers
-) : ChattingDataSource {
+) : MessagingDataSource {
   
   private var listenerRegistration: ListenerRegistration? = null
   

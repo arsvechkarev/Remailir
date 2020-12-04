@@ -11,7 +11,6 @@ import com.arsvechkarev.core.extenstions.onTextChanged
 import com.arsvechkarev.core.viewbuilding.Colors
 import com.arsvechkarev.core.viewbuilding.TextSizes
 import com.arsvechkarev.viewdsl.Ints.dp
-import com.arsvechkarev.viewdsl.addView
 import com.arsvechkarev.viewdsl.applyColor
 import com.arsvechkarev.viewdsl.backgroundColor
 import com.arsvechkarev.viewdsl.circleRippleBackground
@@ -47,9 +46,9 @@ class ChatLayout(context: Context) : ViewGroup(context) {
   val imageSend get() = getChildAt(4) as ImageView
   
   init {
-    addView {
-      Toolbar(context)
-    }
+    addView(Toolbar(context).apply {
+      showBackImage = true
+    })
     addView(RecyclerView(context).apply {
       val linearLayoutManager = LinearLayoutManager(context)
       linearLayoutManager.reverseLayout = false

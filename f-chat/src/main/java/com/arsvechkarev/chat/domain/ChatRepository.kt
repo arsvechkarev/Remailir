@@ -1,14 +1,14 @@
 package com.arsvechkarev.chat.domain
 
-import com.arsvechkarev.core.model.Message
-import com.arsvechkarev.firebase.firestore.chatting.ChattingDataSource
-import com.arsvechkarev.firebase.firestore.chatting.MessageListener
-import com.arsvechkarev.firebase.firestore.waiting.ChatWaitingDataSource
-import com.arsvechkarev.firebase.firestore.waiting.ChatWaitingListener
+import com.arsvechkarev.core.model.messaging.Message
+import com.arsvechkarev.firebase.firestore.messaging.MessagingDataSource
+import com.arsvechkarev.firebase.firestore.messaging.MessageListener
+import com.arsvechkarev.firebase.firestore.chatmanaging.ChatWaitingDataSource
+import com.arsvechkarev.firebase.firestore.chatmanaging.ChatWaitingListener
 
 class ChatRepository(
   private val chatWaitingDataSource: ChatWaitingDataSource,
-  private val chattingDataSource: ChattingDataSource
+  private val messagingDataSource: MessagingDataSource
 ) {
   
   suspend fun setCurrentUserAsActive(otherUserUsername: String) {
@@ -20,15 +20,15 @@ class ChatRepository(
   }
   
   suspend fun startListeningMessages(listener: MessageListener) {
-    chattingDataSource.listenForMessages(listener)
+    messagingDataSource.listenForMessages(listener)
   }
   
   suspend fun sendMessage(message: Message) {
-    chattingDataSource.sendMessage(message)
+    messagingDataSource.sendMessage(message)
   }
   
   fun releaseListeners() {
     chatWaitingDataSource.releaseJoiningListener()
-    chattingDataSource.releaseListener()
+    messagingDataSource.releaseListener()
   }
 }

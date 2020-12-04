@@ -8,10 +8,9 @@ import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.RoundRectShape
 import android.text.TextUtils
 import android.widget.TextView
-import com.arsvechkarev.core.R
+import com.arsvechkarev.core.extenstions.screenWidth
 import com.arsvechkarev.viewdsl.Ints.dp
 import com.arsvechkarev.viewdsl.background
-import com.arsvechkarev.viewdsl.drawables
 import com.arsvechkarev.viewdsl.font
 import com.arsvechkarev.viewdsl.paddingHorizontal
 import com.arsvechkarev.viewdsl.paddingVertical
@@ -33,6 +32,12 @@ object Styles {
     font(Fonts.SegoeUiBold)
     textColor(Colors.TextPrimary)
     textSize(TextSizes.H4)
+  }
+  
+  val MessageTextView: TextView.() -> Unit = {
+    textColor(Colors.TextPrimary)
+    textSize(TextSizes.H4)
+    maxWidth = (context.screenWidth * 0.7f).toInt()
   }
   
   fun ClickableTextView(

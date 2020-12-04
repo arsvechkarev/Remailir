@@ -1,4 +1,4 @@
-package com.arsvechkarev.core.model
+package com.arsvechkarev.core.model.messaging
 
 import com.arsvechkarev.core.recycler.DifferentiableItem
 

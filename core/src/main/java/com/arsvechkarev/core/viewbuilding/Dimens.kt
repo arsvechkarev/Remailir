@@ -23,4 +23,5 @@ object Dimens {
   val CheckmarkWidth get() = (CheckmarkHeight * 1.333f).toInt()
   val CheckmarkHeightSmall get() = 18.dp
   val CheckmarkWidthSmall get() = (CheckmarkHeightSmall * 1.333f).toInt()
+  val MessageStickingDistance get() = 10.dp
 }

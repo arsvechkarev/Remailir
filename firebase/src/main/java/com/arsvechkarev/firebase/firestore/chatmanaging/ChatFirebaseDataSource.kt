@@ -1,4 +1,4 @@
-package com.arsvechkarev.firebase.firestore.waiting
+package com.arsvechkarev.firebase.firestore.chatmanaging
 
 import com.arsvechkarev.core.concurrency.Dispatchers
 import com.arsvechkarev.core.extenstions.await
@@ -10,7 +10,6 @@ import com.arsvechkarev.firebase.firestore.FirestoreSchema.participants
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 
 class ChatFirebaseDataSource(
   private val thisUserUsername: String,
@@ -21,9 +20,9 @@ class ChatFirebaseDataSource(
   
   private var alreadyJoined = false
   private var registrationListener: ListenerRegistration? = null
-  private var chatWaitingListener: ChatWaitingListener? = null
   
   override suspend fun setCurrentUserAsActive(otherUserUsername: String) {
+    createChatDocumentIfNotExists(otherUserUsername)
     instance.collection(chats)
         .document(chatDocumentName(thisUserUsername, otherUserUsername))
         .update(activeUserFieldName(thisUserUsername), true)
@@ -54,13 +53,13 @@ class ChatFirebaseDataSource(
   override suspend fun respondToChatRequest(
     otherUserUsername: String
   ): Boolean = withContext(dispatchers.IO) lb@{
-    val documentSnapshot = instance.collection(chats)
+    val document = instance.collection(chats)
         .document(chatDocumentName(thisUserUsername, otherUserUsername))
         .get()
-        .await() ?: return@lb false
-    val isOtherActive = documentSnapshot.getBoolean(activeUserFieldName(otherUserUsername))!!
+        .await()
+    val isOtherActive = document!!.getBoolean(activeUserFieldName(otherUserUsername))!!
     if (isOtherActive) {
-      val map = documentSnapshot.data ?: return@lb false
+      val map = document.data ?: return@lb false
       map[activeUserFieldName(thisUserUsername)] = true
       instance.collection(chats)
           .document(chatDocumentName(thisUserUsername, otherUserUsername))
@@ -75,27 +74,44 @@ class ChatFirebaseDataSource(
     otherUserUsername: String,
     listener: ChatWaitingListener,
   ) = withContext(dispatchers.IO) {
-    chatWaitingListener = listener
+    val chatDocumentName = chatDocumentName(thisUserUsername, otherUserUsername)
+    createChatDocumentIfNotExists(otherUserUsername)
     registrationListener = instance.collection(chats)
-        .document(chatDocumentName(thisUserUsername, otherUserUsername))
+        .document(chatDocumentName)
         .addSnapshotListener lb@{ snapshot, error ->
-          error?.printStackTrace()
-          Timber.d(error)
-          if (error == null) {
-            val value = snapshot!!.getBoolean(activeUserFieldName(otherUserUsername))!!
-            if (value) {
-              chatWaitingListener?.onUserJoined()
-              alreadyJoined = true
-            } else if (alreadyJoined) {
-              chatWaitingListener?.onUserCancelledRequest()
-            }
+          if (error != null) {
+            return@lb
+          }
+          val value = snapshot!!.getBoolean(activeUserFieldName(otherUserUsername))!!
+          if (value) {
+            listener.onUserJoined()
+            alreadyJoined = true
+          } else if (alreadyJoined) {
+            listener.onUserCancelledRequest()
           }
         }
+  }
+  
+  private suspend fun createChatDocumentIfNotExists(otherUserUsername: String) {
+    val chatDocumentName = chatDocumentName(thisUserUsername, otherUserUsername)
+    val document = instance.collection(chats)
+        .document(chatDocumentName)
+        .get()
+        .await()
+    if (document == null || !document.exists()) {
+      instance.collection(chats)
+          .document(chatDocumentName)
+          .set(mapOf<String, Any>(
+            "$active_prefix$thisUserUsername" to false,
+            "$active_prefix$otherUserUsername" to false,
+            participants to arrayListOf(thisUserUsername, otherUserUsername)
+          ))
+          .await()
+    }
   }
   
   override fun releaseJoiningListener() {
     registrationListener?.remove()
     registrationListener = null
-    chatWaitingListener = null
   }
 }

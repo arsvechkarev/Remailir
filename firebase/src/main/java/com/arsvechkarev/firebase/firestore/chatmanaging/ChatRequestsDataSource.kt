@@ -1,4 +1,4 @@
-package com.arsvechkarev.firebase.firestore.waiting
+package com.arsvechkarev.firebase.firestore.chatmanaging
 
 interface ChatRequestsDataSource {
   

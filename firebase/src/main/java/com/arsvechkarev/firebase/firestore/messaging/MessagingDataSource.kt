@@ -1,8 +1,8 @@
-package com.arsvechkarev.firebase.firestore.chatting
+package com.arsvechkarev.firebase.firestore.messaging
 
-import com.arsvechkarev.core.model.Message
+import com.arsvechkarev.core.model.messaging.Message
 
-interface ChattingDataSource {
+interface MessagingDataSource {
   
   suspend fun sendMessage(message: Message)
   

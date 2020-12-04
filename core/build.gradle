@@ -38,6 +38,7 @@ dependencies {
   implementation dependencies.threeTenAbp
   implementation dependencies.firebaseAuth
   implementation dependencies.firebaseDatabase
+  implementation dependencies.firebaseFirestore
   implementation dependencies.dagger
   kapt dependencies.daggerCompiler
 }

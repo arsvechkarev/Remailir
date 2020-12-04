@@ -6,14 +6,15 @@ import com.arsvechkarev.chat.domain.ChatRepository
 import com.arsvechkarev.chat.list.ChatAdapter
 import com.arsvechkarev.core.concurrency.AndroidDispatchers
 import com.arsvechkarev.core.extenstions.moxyPresenter
-import com.arsvechkarev.core.model.MessageOtherUser
-import com.arsvechkarev.core.model.MessageThisUser
+import com.arsvechkarev.core.model.messaging.MessageFactoryImpl
+import com.arsvechkarev.core.model.messaging.MessageOtherUser
+import com.arsvechkarev.core.model.messaging.MessageThisUser
 import com.arsvechkarev.core.navigation.Screen
 import com.arsvechkarev.core.viewbuilding.Styles
 import com.arsvechkarev.core.viewbuilding.TextSizes
 import com.arsvechkarev.firebase.auth.FirebaseAuthenticator
-import com.arsvechkarev.firebase.firestore.chatting.FirebaseChattingDataSource
-import com.arsvechkarev.firebase.firestore.waiting.ChatFirebaseDataSource
+import com.arsvechkarev.firebase.firestore.chatmanaging.ChatFirebaseDataSource
+import com.arsvechkarev.firebase.firestore.messaging.FirebaseMessagingDataSource
 import com.arsvechkarev.viewdsl.Size.Companion.MatchParent
 import com.arsvechkarev.viewdsl.Size.Companion.WrapContent
 import com.arsvechkarev.viewdsl.addView
@@ -52,18 +53,19 @@ class ChatScreen : Screen(), ChatView {
   
   private val presenter by moxyPresenter {
     ChatPresenter(
+      FirebaseAuthenticator.getUsername(),
+      MessageFactoryImpl,
       ChatRepository(
         ChatFirebaseDataSource(
           FirebaseAuthenticator.getUsername(),
           AndroidDispatchers,
         ),
-        FirebaseChattingDataSource(
+        FirebaseMessagingDataSource(
           FirebaseAuthenticator.getUsername(),
           arguments!!.getString(KEY_USERNAME)!!,
           AndroidDispatchers
         )
       ),
-      FirebaseAuthenticator.getUsername(),
       AndroidDispatchers
     )
   }
@@ -79,7 +81,7 @@ class ChatScreen : Screen(), ChatView {
     when (arguments.getString(KEY_TYPE)) {
       TYPE_JOINED -> {
         textView("Text").text("Joined for chat")
-        presenter.start2()
+        presenter.startListeningForMessages()
       }
       TYPE_REQUEST -> {
         textView("Text").text("Waiting for joining")
@@ -92,7 +94,7 @@ class ChatScreen : Screen(), ChatView {
   override fun showUserJoined() {
     Timber.d("User joined")
     textView("Text").text("Joined")
-    presenter.start2()
+    presenter.startListeningForMessages()
   }
   
   override fun showMessageReceived(messageOtherUser: MessageOtherUser) {

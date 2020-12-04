@@ -1,4 +1,4 @@
-package com.arsvechkarev.core.model
+package com.arsvechkarev.core.model.messaging
 
 data class Message(
   val id: String,
