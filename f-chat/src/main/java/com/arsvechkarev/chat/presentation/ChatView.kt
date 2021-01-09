@@ -9,7 +9,11 @@ import moxy.viewstate.strategy.StateStrategyType
 @StateStrategyType(AddToEndSingleStrategy::class)
 interface ChatView : MvpView {
   
-  fun showUserJoined()
+  fun showThisUserWaitingForChat()
+  
+  fun showThisUserJoined()
+  
+  fun showOtherUserJoined()
   
   fun showMessageReceived(messageOtherUser: MessageOtherUser)
   

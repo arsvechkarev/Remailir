@@ -6,7 +6,7 @@ interface MessagingDataSource {
   
   suspend fun sendMessage(message: Message)
   
-  suspend fun listenForMessages(listener: MessageListener)
+  fun listenForMessages(listener: MessageListener)
   
   fun releaseListener()
 }

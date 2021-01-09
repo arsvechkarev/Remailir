@@ -179,7 +179,6 @@ class HomeScreen : Screen(), HomeView {
     return false
   }
   
-  
   private fun showLayout(layout: View) {
     layout.animateVisible()
     viewAs<RecyclerView>().ifTrue({ it !== layout }, { animateInvisible() })

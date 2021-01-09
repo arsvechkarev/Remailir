@@ -35,7 +35,7 @@ class FirebaseMessagingDataSource(
         .await()
   }
   
-  override suspend fun listenForMessages(listener: MessageListener) {
+  override fun listenForMessages(listener: MessageListener) {
     listenerRegistration = instance.collection(chats)
         .document(chatDocumentName(thisUserUsername, otherUserUsername))
         .collection(messages)

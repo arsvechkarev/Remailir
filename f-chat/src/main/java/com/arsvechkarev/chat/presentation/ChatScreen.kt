@@ -2,7 +2,7 @@ package com.arsvechkarev.chat.presentation
 
 import android.os.Bundle
 import android.view.Gravity
-import com.arsvechkarev.chat.domain.ChatRepository
+import com.arsvechkarev.chat.domain.ChatInteractor
 import com.arsvechkarev.chat.list.ChatAdapter
 import com.arsvechkarev.core.concurrency.AndroidDispatchers
 import com.arsvechkarev.core.extenstions.moxyPresenter
@@ -53,9 +53,9 @@ class ChatScreen : Screen(), ChatView {
   
   private val presenter by moxyPresenter {
     ChatPresenter(
-      FirebaseAuthenticator.getUsername(),
-      MessageFactoryImpl,
-      ChatRepository(
+      ChatInteractor(
+        FirebaseAuthenticator.getUsername(),
+        MessageFactoryImpl,
         ChatFirebaseDataSource(
           FirebaseAuthenticator.getUsername(),
           AndroidDispatchers,
@@ -64,7 +64,7 @@ class ChatScreen : Screen(), ChatView {
           FirebaseAuthenticator.getUsername(),
           arguments!!.getString(KEY_USERNAME)!!,
           AndroidDispatchers
-        )
+        ),
       ),
       AndroidDispatchers
     )
@@ -76,25 +76,23 @@ class ChatScreen : Screen(), ChatView {
   
   override fun onInit(arguments: Bundle) {
     val otherUserUsername = arguments.getString(KEY_USERNAME)!!
+    val type = arguments.getString(KEY_TYPE)
+    presenter.initialize(type!!, otherUserUsername)
     chatLayout.toolbar.title(otherUserUsername)
     chatLayout.recyclerView.adapter = adapter
-    when (arguments.getString(KEY_TYPE)) {
-      TYPE_JOINED -> {
-        textView("Text").text("Joined for chat")
-        presenter.startListeningForMessages()
-      }
-      TYPE_REQUEST -> {
-        textView("Text").text("Waiting for joining")
-        presenter.start(otherUserUsername)
-      }
-      else -> throw IllegalStateException()
-    }
   }
   
-  override fun showUserJoined() {
+  override fun showThisUserWaitingForChat() {
+    textView("Text").text("Waiting for joining")
+  }
+  
+  override fun showThisUserJoined() {
+    textView("Text").text("Joined for chat")
+  }
+  
+  override fun showOtherUserJoined() {
     Timber.d("User joined")
     textView("Text").text("Joined")
-    presenter.startListeningForMessages()
   }
   
   override fun showMessageReceived(messageOtherUser: MessageOtherUser) {
