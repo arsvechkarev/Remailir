@@ -10,11 +10,12 @@ import com.arsvechkarev.firebase.firestore.FirestoreSchema.participants
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 class ChatFirebaseDataSource(
   private val thisUserUsername: String,
   private val dispatchers: Dispatchers
-) : ChatRequestsDataSource, ChatWaitingDataSource {
+) : ChatRequestsDataSource, ChatMetaInfoDataSource {
   
   private val instance = FirebaseFirestore.getInstance()
   
@@ -27,6 +28,18 @@ class ChatFirebaseDataSource(
         .document(chatDocumentName(thisUserUsername, otherUserUsername))
         .update(activeUserFieldName(thisUserUsername), true)
         .await()
+  }
+  
+  override fun setCurrentUserAsInactive(otherUserUsername: String) {
+    instance.collection(chats)
+        .document(chatDocumentName(thisUserUsername, otherUserUsername))
+        .update(activeUserFieldName(thisUserUsername), false)
+        .addOnSuccessListener {
+          Timber.d("Set current user \"$thisUserUsername\" as inactive")
+        }
+        .addOnFailureListener {
+          Timber.d(it, "Failure setting current user \"$thisUserUsername\" as inactive")
+        }
   }
   
   override suspend fun getCurrentlyWaitingForChat(): List<String> = withContext(dispatchers.IO) {
@@ -84,10 +97,10 @@ class ChatFirebaseDataSource(
           }
           val value = snapshot!!.getBoolean(activeUserFieldName(otherUserUsername))!!
           if (value) {
-            listener.onUserJoined()
+            listener.onUserBecameActive()
             alreadyJoined = true
           } else if (alreadyJoined) {
-            listener.onUserCancelledRequest()
+            listener.onUserBecameInactive()
           }
         }
   }

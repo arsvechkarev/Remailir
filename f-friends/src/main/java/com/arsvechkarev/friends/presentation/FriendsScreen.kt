@@ -102,7 +102,7 @@ class FriendsScreen : Screen(), FriendsView {
         classNameTag()
         showSearchImage = true
         title(R.string.title_friends)
-        onBackClick { navigator.onBackPress() }
+        onBackClick { navigator.popCurrentScreen() }
         onSearchTyped { text -> presenter.performFiltering(text) }
         onExitFromSearchMode = { presenter.showCurrentListIfNotEmpty() }
         behavior(headerBehavior)

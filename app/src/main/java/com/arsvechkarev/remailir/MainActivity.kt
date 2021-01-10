@@ -13,7 +13,6 @@ import com.arsvechkarev.chat.presentation.ChatScreen.Companion.KEY_USERNAME
 import com.arsvechkarev.chat.presentation.ChatScreen.Companion.TYPE_JOINED
 import com.arsvechkarev.chat.presentation.ChatScreen.Companion.TYPE_REQUEST
 import com.arsvechkarev.core.BaseActivity
-import com.arsvechkarev.core.extenstions.await
 import com.arsvechkarev.core.model.User
 import com.arsvechkarev.core.navigation.Navigator
 import com.arsvechkarev.core.navigation.NavigatorView
@@ -31,14 +30,6 @@ import com.arsvechkarev.viewdsl.Size.Companion.MatchParent
 import com.arsvechkarev.viewdsl.classNameTag
 import com.arsvechkarev.viewdsl.size
 import com.arsvechkarev.viewdsl.withViewBuilder
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.UserProfileChangeRequest
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.FirebaseFirestoreSettings
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import timber.log.Timber
 
 class MainActivity : BaseActivity(), Navigator {
   
@@ -59,24 +50,24 @@ class MainActivity : BaseActivity(), Navigator {
     setContentView(mainActivityLayout)
     window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
         or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
-//    FirebaseFirestore.getInstance().setFirestoreSettings(
-//      FirebaseFirestoreSettings.Builder().setPersistenceEnabled(false).build())
-//        GlobalScope.launch(Dispatchers.Main) {
-//          try {
-//            FirebaseAuth.getInstance().signInWithEmailAndPassword(
-//              "b@gmail.com", "bbbbbbbb"
-//            ).await()
-//            val profileUpdates = UserProfileChangeRequest.Builder()
-//                .setDisplayName("b")
-//                .build()
-//            FirebaseAuth.getInstance().currentUser!!
-//                .updateProfile(profileUpdates)
-//                .await()
-//            navigator.navigate(HomeScreen::class)
-//          } catch (e: Throwable) {
-//            Timber.d(e, "Failed Sign In")
-//          }
-//        }
+    //    FirebaseFirestore.getInstance().setFirestoreSettings(
+    //      FirebaseFirestoreSettings.Builder().setPersistenceEnabled(false).build())
+    //        GlobalScope.launch(Dispatchers.Main) {
+    //          try {
+    //            FirebaseAuth.getInstance().signInWithEmailAndPassword(
+    //              "b@gmail.com", "bbbbbbbb"
+    //            ).await()
+    //            val profileUpdates = UserProfileChangeRequest.Builder()
+    //                .setDisplayName("b")
+    //                .build()
+    //            FirebaseAuth.getInstance().currentUser!!
+    //                .updateProfile(profileUpdates)
+    //                .await()
+    //            navigator.navigate(HomeScreen::class)
+    //          } catch (e: Throwable) {
+    //            Timber.d(e, "Failed Sign In")
+    //          }
+    //        }
     if (FirebaseAuthenticator.isUserLoggedIn()) {
       navigator.navigate(HomeScreen::class)
     } else {
@@ -88,7 +79,7 @@ class MainActivity : BaseActivity(), Navigator {
       )
     }
   }
-
+  
   override fun switchToMainScreen() {
     if (System.getInt(contentResolver, ACCELEROMETER_ROTATION, 0) == 1) {
       requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR
@@ -99,24 +90,32 @@ class MainActivity : BaseActivity(), Navigator {
     )
   }
   
-  override fun onBackPress() {
-    onBackPressed()
+  override fun popCurrentScreen(notifyBackPress: Boolean) {
+    if (notifyBackPress) {
+      onBackPressed()
+    } else {
+      navigator.handleGoBack(notifyBackPress = false)
+    }
   }
   
   override fun startChatWith(user: User) {
     navigator.navigate(ChatScreen::class,
-      options = Options(arguments = Bundle().apply {
-        putString(KEY_USERNAME, user.username)
-        putString(KEY_TYPE, TYPE_REQUEST)
-      }))
+      options = Options(
+        removeOnExit = true,
+        arguments = Bundle().apply {
+          putString(KEY_USERNAME, user.username)
+          putString(KEY_TYPE, TYPE_REQUEST)
+        }))
   }
   
   override fun respondToChatWith(user: User) {
     navigator.navigate(ChatScreen::class,
-      options = Options(arguments = Bundle().apply {
-        putString(KEY_USERNAME, user.username)
-        putString(KEY_TYPE, TYPE_JOINED)
-      }))
+      options = Options(
+        removeOnExit = true,
+        arguments = Bundle().apply {
+          putString(KEY_USERNAME, user.username)
+          putString(KEY_TYPE, TYPE_JOINED)
+        }))
   }
   
   override fun goToFriendsScreen() {

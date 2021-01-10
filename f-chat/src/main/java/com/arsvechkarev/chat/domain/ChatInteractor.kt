@@ -1,11 +1,15 @@
 package com.arsvechkarev.chat.domain
 
+import com.arsvechkarev.chat.domain.ChatState.CHATTING
+import com.arsvechkarev.chat.domain.ChatState.NONE
+import com.arsvechkarev.chat.domain.ChatState.OTHER_USER_LEFT
+import com.arsvechkarev.chat.domain.ChatState.WAITING_FOR_USER
 import com.arsvechkarev.core.model.messaging.DisplayableMessage
 import com.arsvechkarev.core.model.messaging.Message
 import com.arsvechkarev.core.model.messaging.MessageFactory
 import com.arsvechkarev.core.model.messaging.MessageOtherUser
 import com.arsvechkarev.core.model.messaging.MessageThisUser
-import com.arsvechkarev.firebase.firestore.chatmanaging.ChatWaitingDataSource
+import com.arsvechkarev.firebase.firestore.chatmanaging.ChatMetaInfoDataSource
 import com.arsvechkarev.firebase.firestore.chatmanaging.ChatWaitingListener
 import com.arsvechkarev.firebase.firestore.messaging.MessageListener
 import com.arsvechkarev.firebase.firestore.messaging.MessagingDataSource
@@ -13,23 +17,39 @@ import com.arsvechkarev.firebase.firestore.messaging.MessagingDataSource
 class ChatInteractor(
   private val thisUserUsername: String,
   private val messageFactory: MessageFactory,
-  private val chatWaitingDataSource: ChatWaitingDataSource,
+  private val chatMetaInfoDataSource: ChatMetaInfoDataSource,
   private val messagingDataSource: MessagingDataSource,
 ) {
   
-  @Volatile
-  private var isChatting = false
+  var state = NONE
+    private set
+  
   private val messages = ArrayList<DisplayableMessage>()
   private var observer: ChattingObserver? = null
+  private var otherUserUsername: String? = null
   
   private val waitingListener = object : ChatWaitingListener {
     
-    override fun onUserJoined() {
-      observer?.showOtherUserJoined()
+    override fun onUserBecameActive() {
+      if (state == NONE || state == WAITING_FOR_USER) {
+        state = CHATTING
+        observer?.showOtherUserJoined()
+      }
     }
     
-    override fun onUserCancelledRequest() {
-      observer?.showOtherUserCancelledRequest()
+    override fun onUserBecameInactive() {
+      when (state) {
+        WAITING_FOR_USER -> {
+          observer?.showOtherUserBecameInactive()
+          state = NONE
+        }
+        CHATTING -> {
+          observer?.showOtherUserLeftChatting()
+        }
+        OTHER_USER_LEFT -> {
+    
+        }
+      }
     }
   }
   
@@ -43,11 +63,13 @@ class ChatInteractor(
     }
   }
   
-  fun initialize(observer: ChattingObserver) {
+  fun initialize(observer: ChattingObserver, otherUserUsername: String) {
     this.observer = observer
+    this.otherUserUsername = otherUserUsername
   }
   
   fun startListeningForMessages() {
+    state = CHATTING
     messagingDataSource.listenForMessages(messageListener)
   }
   
@@ -57,22 +79,29 @@ class ChatInteractor(
     observer?.showMessageSent(MessageThisUser(msg.id, msg.text))
   }
   
-  suspend fun startRequest(otherUserUsername: String) {
-    setCurrentUserAsActive(otherUserUsername)
-    startWaitingForJoining(otherUserUsername, waitingListener)
+  suspend fun startRequest() {
+    state = WAITING_FOR_USER
+    setCurrentUserAsActive(otherUserUsername!!)
+    startWaitingForJoining(otherUserUsername!!, waitingListener)
   }
   
-  fun releaseListeners() {
-    chatWaitingDataSource.releaseJoiningListener()
+  fun exitChatting() {
+    chatMetaInfoDataSource.setCurrentUserAsInactive(otherUserUsername!!)
+    release()
+  }
+  
+  fun release() {
+    state = NONE
+    chatMetaInfoDataSource.releaseJoiningListener()
     messagingDataSource.releaseListener()
     observer = null
   }
   
   private suspend fun setCurrentUserAsActive(otherUserUsername: String) {
-    chatWaitingDataSource.setCurrentUserAsActive(otherUserUsername)
+    chatMetaInfoDataSource.setCurrentUserAsActive(otherUserUsername)
   }
   
   private suspend fun startWaitingForJoining(otherUserUsername: String, listener: ChatWaitingListener) {
-    chatWaitingDataSource.waitForJoining(otherUserUsername, listener)
+    chatMetaInfoDataSource.waitForJoining(otherUserUsername, listener)
   }
 }

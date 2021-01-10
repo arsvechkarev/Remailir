@@ -9,7 +9,7 @@ interface Navigator {
   
   fun switchToMainScreen()
   
-  fun onBackPress()
+  fun popCurrentScreen(notifyBackPress: Boolean = true)
   
   fun startChatWith(user: User)
   

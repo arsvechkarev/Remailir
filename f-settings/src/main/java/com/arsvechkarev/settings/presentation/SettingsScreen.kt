@@ -55,7 +55,7 @@ class SettingsScreen : Screen(), SettingsView {
         val email = FirebaseAuth.getInstance().currentUser!!.email!!
         child<Toolbar>(MatchParent, WrapContent) {
           title(R.string.title_settings)
-          onBackClick { navigator.onBackPress() }
+          onBackClick { navigator.popCurrentScreen() }
         }
         val size = (minOf(context.screenWidth, context.screenHeight) / 2.5f).i
         ImageView(size, size) {

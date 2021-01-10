@@ -1,6 +1,7 @@
 package com.arsvechkarev.chat.presentation
 
 import com.arsvechkarev.chat.domain.ChatInteractor
+import com.arsvechkarev.chat.domain.ChatState
 import com.arsvechkarev.chat.domain.ChattingObserver
 import com.arsvechkarev.chat.domain.TYPE_JOINED
 import com.arsvechkarev.chat.domain.TYPE_REQUEST
@@ -15,12 +16,12 @@ class ChatPresenter(
 ) : BasePresenter<ChatView>(dispatchers), ChattingObserver {
   
   fun initialize(type: String, otherUserUsername: String) {
-    interactor.initialize(this)
-      coroutine {
+    interactor.initialize(this, otherUserUsername)
+    coroutine {
       when (type) {
         TYPE_REQUEST -> {
           viewState.showThisUserWaitingForChat()
-          interactor.startRequest(otherUserUsername)
+          interactor.startRequest()
         }
         TYPE_JOINED -> {
           viewState.showThisUserJoined()
@@ -37,13 +38,30 @@ class ChatPresenter(
     }
   }
   
+  fun allowBackPress(): Boolean {
+    if (interactor.state == ChatState.CHATTING) {
+      viewState.showExitRequestDialog()
+      return false
+    }
+    return true
+  }
+  
+  fun exit() {
+    interactor.exitChatting()
+    viewState.showExit()
+  }
+  
   override fun showOtherUserJoined() {
     viewState.showOtherUserJoined()
     interactor.startListeningForMessages()
   }
   
-  override fun showOtherUserCancelledRequest() {
+  override fun showOtherUserBecameInactive() {
   
+  }
+  
+  override fun showOtherUserLeftChatting() {
+    viewState.showOtherUserLeftChatting()
   }
   
   override fun showMessageSent(message: MessageThisUser) {
@@ -56,6 +74,6 @@ class ChatPresenter(
   
   override fun onDestroy() {
     super.onDestroy()
-    interactor.releaseListeners()
+    interactor.release()
   }
 }

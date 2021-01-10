@@ -78,7 +78,7 @@ class SearchScreen : Screen(), SearchView {
         classNameTag()
         showSearchImage = true
         title(R.string.title_people)
-        onBackClick { navigator.onBackPress() }
+        onBackClick { navigator.popCurrentScreen() }
         onSearchTyped { text -> presenter.performFiltering(text) }
         onExitFromSearchMode = { presenter.showCurrentList() }
       }

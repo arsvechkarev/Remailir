@@ -67,7 +67,7 @@ abstract class Screen : MvpDelegateHolder, MvpView {
     mvpDelegate.onDestroy()
   }
   
-  open fun onBackPressed(): Boolean = false
+  open fun  onBackPressed(): Boolean = false
   
   open fun onInit() = Unit
   

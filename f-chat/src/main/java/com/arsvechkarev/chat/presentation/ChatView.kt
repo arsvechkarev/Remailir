@@ -19,5 +19,11 @@ interface ChatView : MvpView {
   
   fun showMessageSent(messageThisUser: MessageThisUser)
   
-  fun showUserCancelledJoiningRequest()
+  fun showOtherUserCancelledRequest()
+  
+  fun showOtherUserLeftChatting()
+  
+  fun showExitRequestDialog()
+  
+  fun showExit()
 }
