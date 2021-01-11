@@ -106,6 +106,7 @@ class ChatScreen : Screen(), ChatView {
   private val presenter by moxyPresenter {
     ChatPresenter(
       ChatInteractor(
+        contextNonNull,
         FirebaseAuthenticator.getUsername(),
         MessageFactoryImpl,
         ChatFirebaseDataSource(

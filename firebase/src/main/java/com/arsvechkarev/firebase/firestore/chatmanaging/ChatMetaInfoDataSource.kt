@@ -6,7 +6,7 @@ interface ChatMetaInfoDataSource {
   
   suspend fun setCurrentUserAsActive(otherUserUsername: String)
   
-  fun setCurrentUserAsInactive(otherUserUsername: String)
+  suspend fun exitChat(otherUserUsername: String)
   
   fun releaseJoiningListener()
 }

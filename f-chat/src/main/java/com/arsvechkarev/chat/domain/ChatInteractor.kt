@@ -1,5 +1,7 @@
 package com.arsvechkarev.chat.domain
 
+import android.content.Context
+import android.content.Intent
 import com.arsvechkarev.chat.domain.ChatState.CHATTING
 import com.arsvechkarev.chat.domain.ChatState.NONE
 import com.arsvechkarev.chat.domain.ChatState.OTHER_USER_LEFT
@@ -15,6 +17,7 @@ import com.arsvechkarev.firebase.firestore.messaging.MessageListener
 import com.arsvechkarev.firebase.firestore.messaging.MessagingDataSource
 
 class ChatInteractor(
+  private val context: Context,
   private val thisUserUsername: String,
   private val messageFactory: MessageFactory,
   private val chatMetaInfoDataSource: ChatMetaInfoDataSource,
@@ -56,7 +59,7 @@ class ChatInteractor(
   private val messageListener = object : MessageListener {
     
     override fun receiveMessage(message: Message) {
-      if (message.sender != thisUserUsername) {
+      if (state == CHATTING && message.sender != thisUserUsername) {
         messages.add(DisplayableMessage(message.id, message.text))
         observer?.showMessageReceived(MessageOtherUser(message.id, message.text))
       }
@@ -73,6 +76,10 @@ class ChatInteractor(
     messagingDataSource.listenForMessages(messageListener)
   }
   
+  suspend fun startListeningToUserStatus() {
+    chatMetaInfoDataSource.waitForJoining(otherUserUsername!!, waitingListener)
+  }
+  
   suspend fun sendMessage(message: String) {
     val msg = messageFactory.createMessage(message.trim(), thisUserUsername)
     messagingDataSource.sendMessage(msg)
@@ -81,12 +88,14 @@ class ChatInteractor(
   
   suspend fun startRequest() {
     state = WAITING_FOR_USER
-    setCurrentUserAsActive(otherUserUsername!!)
-    startWaitingForJoining(otherUserUsername!!, waitingListener)
+    chatMetaInfoDataSource.setCurrentUserAsActive(otherUserUsername!!)
+    chatMetaInfoDataSource.waitForJoining(otherUserUsername!!, waitingListener)
   }
   
   fun exitChatting() {
-    chatMetaInfoDataSource.setCurrentUserAsInactive(otherUserUsername!!)
+    val intent = Intent(context, ChatExitingService::class.java)
+    intent.putExtra(ChatExitingService.OTHER_USER_USERNAME, otherUserUsername!!)
+    context.startService(intent)
     release()
   }
   
@@ -95,13 +104,5 @@ class ChatInteractor(
     chatMetaInfoDataSource.releaseJoiningListener()
     messagingDataSource.releaseListener()
     observer = null
-  }
-  
-  private suspend fun setCurrentUserAsActive(otherUserUsername: String) {
-    chatMetaInfoDataSource.setCurrentUserAsActive(otherUserUsername)
-  }
-  
-  private suspend fun startWaitingForJoining(otherUserUsername: String, listener: ChatWaitingListener) {
-    chatMetaInfoDataSource.waitForJoining(otherUserUsername, listener)
   }
 }

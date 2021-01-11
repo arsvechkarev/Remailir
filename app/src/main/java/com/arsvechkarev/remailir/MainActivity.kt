@@ -65,7 +65,7 @@ class MainActivity : BaseActivity(), Navigator {
     //                .await()
     //            navigator.navigate(HomeScreen::class)
     //          } catch (e: Throwable) {
-    //            Timber.d(e, "Failed Sign In")
+    //            Timber.d(e, "Failed to sign in")
     //          }
     //        }
     if (FirebaseAuthenticator.isUserLoggedIn()) {

@@ -33,7 +33,6 @@ dependencies {
   implementation dependencies.coroutinesCore
   implementation dependencies.moxy
   implementation dependencies.moxyAndroidx
-  implementation dependencies.firebaseFirestore
   implementation dependencies.dagger
   kapt dependencies.moxyCompiler
   kapt dependencies.daggerCompiler

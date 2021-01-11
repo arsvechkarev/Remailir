@@ -26,6 +26,7 @@ class ChatPresenter(
         TYPE_JOINED -> {
           viewState.showThisUserJoined()
           interactor.startListeningForMessages()
+          interactor.startListeningToUserStatus()
         }
         else -> throw IllegalStateException()
       }
@@ -52,6 +53,7 @@ class ChatPresenter(
   }
   
   override fun showOtherUserJoined() {
+    
     viewState.showOtherUserJoined()
     interactor.startListeningForMessages()
   }

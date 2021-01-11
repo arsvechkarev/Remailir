@@ -6,11 +6,11 @@ import com.arsvechkarev.firebase.firestore.FirestoreSchema.activeUserFieldName
 import com.arsvechkarev.firebase.firestore.FirestoreSchema.active_prefix
 import com.arsvechkarev.firebase.firestore.FirestoreSchema.chatDocumentName
 import com.arsvechkarev.firebase.firestore.FirestoreSchema.chats
+import com.arsvechkarev.firebase.firestore.FirestoreSchema.messages
 import com.arsvechkarev.firebase.firestore.FirestoreSchema.participants
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 
 class ChatFirebaseDataSource(
   private val thisUserUsername: String,
@@ -22,6 +22,28 @@ class ChatFirebaseDataSource(
   private var alreadyJoined = false
   private var registrationListener: ListenerRegistration? = null
   
+  override suspend fun waitForJoining(
+    otherUserUsername: String,
+    listener: ChatWaitingListener,
+  ) = withContext(dispatchers.IO) {
+    val chatDocumentName = chatDocumentName(thisUserUsername, otherUserUsername)
+    createChatDocumentIfNotExists(otherUserUsername)
+    registrationListener = instance.collection(chats)
+        .document(chatDocumentName)
+        .addSnapshotListener lb@{ snapshot, error ->
+          if (error != null) {
+            return@lb
+          }
+          val value = snapshot!!.getBoolean(activeUserFieldName(otherUserUsername))!!
+          if (value) {
+            listener.onUserBecameActive()
+            alreadyJoined = true
+          } else if (alreadyJoined) {
+            listener.onUserBecameInactive()
+          }
+        }
+  }
+  
   override suspend fun setCurrentUserAsActive(otherUserUsername: String) {
     createChatDocumentIfNotExists(otherUserUsername)
     instance.collection(chats)
@@ -30,16 +52,30 @@ class ChatFirebaseDataSource(
         .await()
   }
   
-  override fun setCurrentUserAsInactive(otherUserUsername: String) {
-    instance.collection(chats)
+  override suspend fun exitChat(otherUserUsername: String) {
+    val chatDocumentRef = instance.collection(chats)
         .document(chatDocumentName(thisUserUsername, otherUserUsername))
+    val document = chatDocumentRef
+        .get()
+        .await() ?: return
+    chatDocumentRef
         .update(activeUserFieldName(thisUserUsername), false)
-        .addOnSuccessListener {
-          Timber.d("Set current user \"$thisUserUsername\" as inactive")
-        }
-        .addOnFailureListener {
-          Timber.d(it, "Failure setting current user \"$thisUserUsername\" as inactive")
-        }
+        .await()
+    if (document.getBoolean(activeUserFieldName(otherUserUsername)) == false) {
+      // Other user is not active, exit chat and delete messages
+      // TODO (1/11/2021): Move messages deletion to server side if necessary
+      chatDocumentRef.collection(messages)
+          .get()
+          .await()?.documents?.forEach { documentSnapshot ->
+            chatDocumentRef.collection(messages)
+                .document(documentSnapshot.id).delete().await()
+          }
+    }
+  }
+  
+  override fun releaseJoiningListener() {
+    registrationListener?.remove()
+    registrationListener = null
   }
   
   override suspend fun getCurrentlyWaitingForChat(): List<String> = withContext(dispatchers.IO) {
@@ -83,28 +119,6 @@ class ChatFirebaseDataSource(
     return@lb false
   }
   
-  override suspend fun waitForJoining(
-    otherUserUsername: String,
-    listener: ChatWaitingListener,
-  ) = withContext(dispatchers.IO) {
-    val chatDocumentName = chatDocumentName(thisUserUsername, otherUserUsername)
-    createChatDocumentIfNotExists(otherUserUsername)
-    registrationListener = instance.collection(chats)
-        .document(chatDocumentName)
-        .addSnapshotListener lb@{ snapshot, error ->
-          if (error != null) {
-            return@lb
-          }
-          val value = snapshot!!.getBoolean(activeUserFieldName(otherUserUsername))!!
-          if (value) {
-            listener.onUserBecameActive()
-            alreadyJoined = true
-          } else if (alreadyJoined) {
-            listener.onUserBecameInactive()
-          }
-        }
-  }
-  
   private suspend fun createChatDocumentIfNotExists(otherUserUsername: String) {
     val chatDocumentName = chatDocumentName(thisUserUsername, otherUserUsername)
     val document = instance.collection(chats)
@@ -121,10 +135,5 @@ class ChatFirebaseDataSource(
           ))
           .await()
     }
-  }
-  
-  override fun releaseJoiningListener() {
-    registrationListener?.remove()
-    registrationListener = null
   }
 }
