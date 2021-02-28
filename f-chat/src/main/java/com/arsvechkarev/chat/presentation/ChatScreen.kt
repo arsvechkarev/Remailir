@@ -16,7 +16,7 @@ import com.arsvechkarev.core.viewbuilding.Styles
 import com.arsvechkarev.core.viewbuilding.Styles.ClickableTextView
 import com.arsvechkarev.core.viewbuilding.TextSizes
 import com.arsvechkarev.firebase.auth.FirebaseAuthenticator
-import com.arsvechkarev.firebase.firestore.chatmanaging.ChatFirebaseDataSource
+import com.arsvechkarev.firebase.firestore.chat.ChatFirebaseDataSource
 import com.arsvechkarev.firebase.firestore.messaging.FirebaseMessagingDataSource
 import com.arsvechkarev.viewdsl.Ints.dp
 import com.arsvechkarev.viewdsl.Size.Companion.MatchParent

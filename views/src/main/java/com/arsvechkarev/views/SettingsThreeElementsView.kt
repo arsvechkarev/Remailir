@@ -1,7 +1,6 @@
 package com.arsvechkarev.views
 
 import android.content.Context
-import android.graphics.Canvas
 import android.view.ViewGroup
 import com.arsvechkarev.core.viewbuilding.Colors
 import com.arsvechkarev.core.viewbuilding.TextSizes
@@ -60,9 +59,5 @@ class SettingsThreeElementsView(context: Context) : ViewGroup(context) {
       val left = getChildAt(1).right + padding
       layout(left, 0, left + maxItemWidth, measuredHeight)
     }
-  }
-  
-  override fun dispatchDraw(canvas: Canvas) {
-    super.dispatchDraw(canvas)
   }
 }

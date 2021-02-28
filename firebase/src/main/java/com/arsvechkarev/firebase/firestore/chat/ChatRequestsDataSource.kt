@@ -1,4 +1,4 @@
-package com.arsvechkarev.firebase.firestore.chatmanaging
+package com.arsvechkarev.firebase.firestore.chat
 
 interface ChatRequestsDataSource {
   

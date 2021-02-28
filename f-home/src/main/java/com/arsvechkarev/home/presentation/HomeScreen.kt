@@ -19,7 +19,7 @@ import com.arsvechkarev.core.viewbuilding.Styles
 import com.arsvechkarev.core.viewbuilding.Styles.BoldTextView
 import com.arsvechkarev.core.viewbuilding.TextSizes
 import com.arsvechkarev.firebase.auth.FirebaseAuthenticator
-import com.arsvechkarev.firebase.firestore.chatmanaging.ChatFirebaseDataSource
+import com.arsvechkarev.firebase.firestore.chat.ChatFirebaseDataSource
 import com.arsvechkarev.home.R
 import com.arsvechkarev.home.domain.HomeRepository
 import com.arsvechkarev.home.list.HomeAdapter

@@ -8,10 +8,10 @@ import android.view.View
 import com.arsvechkarev.viewdsl.retrieveDrawable
 import com.arsvechkarev.viewdsl.startIfNotRunning
 import com.arsvechkarev.viewdsl.stopIfRunning
-import com.arsvechkarev.views.MateialProgressBar.Thickness.NORMAL
-import com.arsvechkarev.views.MateialProgressBar.Thickness.THICK
+import com.arsvechkarev.views.MaterialProgressBar.Thickness.NORMAL
+import com.arsvechkarev.views.MaterialProgressBar.Thickness.THICK
 
-class MateialProgressBar(
+class MaterialProgressBar(
   context: Context,
   color: Int,
   thickness: Thickness,

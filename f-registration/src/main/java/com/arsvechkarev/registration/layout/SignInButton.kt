@@ -30,7 +30,7 @@ import com.arsvechkarev.viewdsl.layoutGravity
 import com.arsvechkarev.viewdsl.paddingVertical
 import com.arsvechkarev.viewdsl.size
 import com.arsvechkarev.viewdsl.textSize
-import com.arsvechkarev.views.MateialProgressBar
+import com.arsvechkarev.views.MaterialProgressBar
 
 class SignInButton(context: Context) : FrameLayout(context) {
   
@@ -48,7 +48,7 @@ class SignInButton(context: Context) : FrameLayout(context) {
       }
     }
     addView {
-      MateialProgressBar(context, TextPrimary, MateialProgressBar.Thickness.THICK).apply {
+      MaterialProgressBar(context, TextPrimary, MaterialProgressBar.Thickness.THICK).apply {
         size(32.dp, 32.dp)
         invisible()
       }

@@ -11,8 +11,8 @@ import com.arsvechkarev.core.model.messaging.Message
 import com.arsvechkarev.core.model.messaging.MessageFactory
 import com.arsvechkarev.core.model.messaging.MessageOtherUser
 import com.arsvechkarev.core.model.messaging.MessageThisUser
-import com.arsvechkarev.firebase.firestore.chatmanaging.ChatMetaInfoDataSource
-import com.arsvechkarev.firebase.firestore.chatmanaging.ChatWaitingListener
+import com.arsvechkarev.firebase.firestore.chat.ChatMetaInfoDataSource
+import com.arsvechkarev.firebase.firestore.chat.ChatWaitingListener
 import com.arsvechkarev.firebase.firestore.messaging.MessageListener
 import com.arsvechkarev.firebase.firestore.messaging.MessagingDataSource
 

@@ -8,7 +8,7 @@ import com.arsvechkarev.core.concurrency.AndroidThreader
 import com.arsvechkarev.core.concurrency.Threader
 import com.arsvechkarev.core.extenstions.assertThat
 import com.arsvechkarev.firebase.auth.FirebaseAuthenticator
-import com.arsvechkarev.firebase.firestore.chatmanaging.ChatFirebaseDataSource
+import com.arsvechkarev.firebase.firestore.chat.ChatFirebaseDataSource
 import kotlinx.coroutines.runBlocking
 
 class ChatExitingService : Service() {

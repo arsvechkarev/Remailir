@@ -2,7 +2,6 @@
 <resources>
   <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
     <item name="colorPrimary">?colorBackground</item>
-    <item name="android:textViewStyle">@style/TextStyle</item>
     <item name="android:statusBarColor">@android:color/transparent</item>
     <item name="android:windowBackground">?colorBackground</item>
   </style>
@@ -35,10 +34,5 @@
     <item name="colorBorder">@color/dark_border</item>
     <item name="colorShare">@color/dark_share</item>
     <item name="colorSourceCode">@color/dark_source_code</item>
-  </style>
-
-  <style name="TextStyle" parent="@style/TextAppearance.AppCompat">
-    <item name="fontFamily">@font/segoe_ui_bold</item>
-    <item name="android:textColor">?colorTextPrimary</item>
   </style>
 </resources>

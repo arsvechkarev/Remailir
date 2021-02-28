@@ -1,13 +1,18 @@
-package com.arsvechkarev.firebase.firestore.chatmanaging
+package com.arsvechkarev.firebase.firestore.chat
 
 import com.arsvechkarev.core.concurrency.Dispatchers
+import com.arsvechkarev.core.extenstions.assertThat
 import com.arsvechkarev.core.extenstions.await
-import com.arsvechkarev.firebase.firestore.FirestoreSchema.activeUserFieldName
-import com.arsvechkarev.firebase.firestore.FirestoreSchema.active_prefix
+import com.arsvechkarev.firebase.firestore.FirestoreSchema
 import com.arsvechkarev.firebase.firestore.FirestoreSchema.chatDocumentName
 import com.arsvechkarev.firebase.firestore.FirestoreSchema.chats
+import com.arsvechkarev.firebase.firestore.FirestoreSchema.chattingUserFieldName
+import com.arsvechkarev.firebase.firestore.FirestoreSchema.chatting_prefix
 import com.arsvechkarev.firebase.firestore.FirestoreSchema.messages
 import com.arsvechkarev.firebase.firestore.FirestoreSchema.participants
+import com.arsvechkarev.firebase.firestore.FirestoreSchema.statusFieldName
+import com.arsvechkarev.firebase.firestore.FirestoreSchema.status_chatting
+import com.arsvechkarev.firebase.firestore.FirestoreSchema.status_not_chatting
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import kotlinx.coroutines.withContext
@@ -34,13 +39,21 @@ class ChatFirebaseDataSource(
           if (error != null) {
             return@lb
           }
-          val value = snapshot!!.getBoolean(activeUserFieldName(otherUserUsername))!!
-          if (value) {
+          assertThat(snapshot != null)
+          val value = snapshot.getString(statusFieldName(otherUserUsername))
+          if (value == status_chatting) {
             listener.onUserBecameActive()
             alreadyJoined = true
-          } else if (alreadyJoined) {
+          } else if (value == status_not_chatting && alreadyJoined) {
             listener.onUserBecameInactive()
           }
+          //          val value = snapshot!!.getBoolean(chattingUserFieldName(otherUserUsername))!!
+          //          if (value) {
+          //            listener.onUserBecameActive()
+          //            alreadyJoined = true
+          //          } else if (alreadyJoined) {
+          //            listener.onUserBecameInactive()
+          //          }
         }
   }
   
@@ -48,7 +61,7 @@ class ChatFirebaseDataSource(
     createChatDocumentIfNotExists(otherUserUsername)
     instance.collection(chats)
         .document(chatDocumentName(thisUserUsername, otherUserUsername))
-        .update(activeUserFieldName(thisUserUsername), true)
+        .update(statusFieldName(thisUserUsername), status_chatting)
         .await()
   }
   
@@ -59,11 +72,10 @@ class ChatFirebaseDataSource(
         .get()
         .await() ?: return
     chatDocumentRef
-        .update(activeUserFieldName(thisUserUsername), false)
+        .update(statusFieldName(thisUserUsername), status_not_chatting)
         .await()
-    if (document.getBoolean(activeUserFieldName(otherUserUsername)) == false) {
+    if (document.getString(statusFieldName(otherUserUsername)) == status_not_chatting) {
       // Other user is not active, exit chat and delete messages
-      // TODO (1/11/2021): Move messages deletion to server side if necessary
       chatDocumentRef.collection(messages)
           .get()
           .await()?.documents?.forEach { documentSnapshot ->
@@ -88,9 +100,9 @@ class ChatFirebaseDataSource(
       // Despite being nested loop, it will run only several
       // times just to check whether other user is active
       for ((key, value) in snapshotElement.data) {
-        if (key.startsWith(active_prefix) && !key.endsWith(thisUserUsername)) {
+        if (key.startsWith(chatting_prefix) && !key.endsWith(thisUserUsername)) {
           if (value as Boolean) {
-            waitingForChatting.add(key.drop(active_prefix.length))
+            waitingForChatting.add(key.drop(chatting_prefix.length))
             continue
           }
         }
@@ -106,10 +118,10 @@ class ChatFirebaseDataSource(
         .document(chatDocumentName(thisUserUsername, otherUserUsername))
         .get()
         .await()
-    val isOtherActive = document!!.getBoolean(activeUserFieldName(otherUserUsername))!!
+    val isOtherActive = document!!.getBoolean(chattingUserFieldName(otherUserUsername))!!
     if (isOtherActive) {
       val map = document.data ?: return@lb false
-      map[activeUserFieldName(thisUserUsername)] = true
+      map[chattingUserFieldName(thisUserUsername)] = true
       instance.collection(chats)
           .document(chatDocumentName(thisUserUsername, otherUserUsername))
           .update(map)
@@ -129,8 +141,10 @@ class ChatFirebaseDataSource(
       instance.collection(chats)
           .document(chatDocumentName)
           .set(mapOf<String, Any>(
-            "$active_prefix$thisUserUsername" to false,
-            "$active_prefix$otherUserUsername" to false,
+            statusFieldName(thisUserUsername) to status_not_chatting,
+            statusFieldName(otherUserUsername) to status_not_chatting,
+            "$chatting_prefix$thisUserUsername" to false,
+            "$chatting_prefix$otherUserUsername" to false,
             participants to arrayListOf(thisUserUsername, otherUserUsername)
           ))
           .await()

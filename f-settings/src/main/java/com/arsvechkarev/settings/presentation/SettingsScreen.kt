@@ -37,8 +37,8 @@ import com.arsvechkarev.viewdsl.size
 import com.arsvechkarev.viewdsl.text
 import com.arsvechkarev.viewdsl.textColor
 import com.arsvechkarev.viewdsl.textSize
-import com.arsvechkarev.views.MateialProgressBar
-import com.arsvechkarev.views.MateialProgressBar.Thickness.THICK
+import com.arsvechkarev.views.MaterialProgressBar
+import com.arsvechkarev.views.MaterialProgressBar.Thickness.THICK
 import com.arsvechkarev.views.SettingsThreeElementsView
 import com.arsvechkarev.views.SimpleDialog
 import com.arsvechkarev.views.Toolbar
@@ -113,7 +113,7 @@ class SettingsScreen : Screen(), SettingsView {
             textSize(TextSizes.H3)
           }
           addView {
-            MateialProgressBar(context, Colors.AccentLight, THICK).apply {
+            MaterialProgressBar(context, Colors.AccentLight, THICK).apply {
               size(ProgressBarSize, ProgressBarSize)
             }
           }
