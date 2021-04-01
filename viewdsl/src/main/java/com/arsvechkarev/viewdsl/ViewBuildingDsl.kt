@@ -3,12 +3,15 @@ package com.arsvechkarev.viewdsl
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.recyclerview.widget.RecyclerView
 import com.arsvechkarev.viewdsl.Size.Companion.MatchParent
 import com.arsvechkarev.viewdsl.Size.Companion.WrapContent
 import com.arsvechkarev.viewdsl.Size.IntSize
@@ -72,6 +75,13 @@ class ViewBuilder(val context: Context) {
     block: CoordinatorLayout.() -> Unit = {}
   ) = CoordinatorLayout(context).size(width, height).apply(style).apply(block)
   
+  fun Any.RootConstraintLayout(
+    width: Size = MatchParent,
+    height: Size = MatchParent,
+    style: ConstraintLayout.() -> Unit = {},
+    block: ConstraintLayout.() -> Unit = {}
+  ) = ConstraintLayout(context).size(width, height).apply(style).apply(block)
+  
   inline fun <reified T : View> FrameLayout.child(
     width: Size, height: Size, style: T.() -> Unit = {}, block: T.() -> Unit,
   ) = child<T, FrameLayoutParams>(width, height, style, block)
@@ -96,6 +106,26 @@ class ViewBuilder(val context: Context) {
     width: Int, height: Int, style: T.() -> Unit = {}, block: T.() -> Unit,
   ) = child<T, CoordLayoutParams>(IntSize(width), IntSize(height), style, block)
   
+  inline fun <reified T : View> ConstraintLayout.child(
+    width: Size, height: Size, style: T.() -> Unit = {}, block: T.() -> Unit,
+  ) = child<T, ConstraintLayout.LayoutParams>(width, height, style, block)
+  
+  inline fun <reified T : View> ConstraintLayout.child(
+    width: Int, height: Int, style: T.() -> Unit = {}, block: T.() -> Unit,
+  ) = child<T, ConstraintLayout.LayoutParams>(IntSize(width), IntSize(height), style, block)
+  
+  fun ViewGroup.View(
+    width: Size,
+    height: Size,
+    style: View.() -> Unit = {},
+    block: View.() -> Unit,
+  ) = when (this) {
+    is FrameLayout -> child<View, FrameLayoutParams>(width, height, style, block)
+    is LinearLayout -> child<View, LinearLayoutParams>(width, height, style, block)
+    is CoordinatorLayout -> child<View, CoordLayoutParams>(width, height, style, block)
+    else -> child<View, ViewGroupLayoutParams>(width, height, style, block)
+  }
+  
   fun ViewGroup.TextView(
     width: Size,
     height: Size,
@@ -108,16 +138,28 @@ class ViewBuilder(val context: Context) {
     else -> child<TextView, ViewGroupLayoutParams>(width, height, style, block)
   }
   
-  fun ViewGroup.View(
+  fun ViewGroup.EditText(
     width: Size,
     height: Size,
-    style: View.() -> Unit = {},
-    block: View.() -> Unit,
+    style: EditText.() -> Unit = {},
+    block: EditText.() -> Unit,
   ) = when (this) {
-    is FrameLayout -> child<View, FrameLayoutParams>(width, height, style, block)
-    is LinearLayout -> child<View, LinearLayoutParams>(width, height, style, block)
-    is CoordinatorLayout -> child<View, CoordLayoutParams>(width, height, style, block)
-    else -> child<View, ViewGroupLayoutParams>(width, height, style, block)
+    is FrameLayout -> child<EditText, FrameLayoutParams>(width, height, style, block)
+    is LinearLayout -> child<EditText, LinearLayoutParams>(width, height, style, block)
+    is CoordinatorLayout -> child<EditText, CoordLayoutParams>(width, height, style, block)
+    else -> child<EditText, ViewGroupLayoutParams>(width, height, style, block)
+  }
+  
+  fun ViewGroup.RecyclerView(
+    width: Size,
+    height: Size,
+    style: RecyclerView.() -> Unit = {},
+    block: RecyclerView.() -> Unit,
+  ) = when (this) {
+    is FrameLayout -> child<RecyclerView, FrameLayoutParams>(width, height, style, block)
+    is LinearLayout -> child<RecyclerView, LinearLayoutParams>(width, height, style, block)
+    is CoordinatorLayout -> child<RecyclerView, CoordLayoutParams>(width, height, style, block)
+    else -> child<RecyclerView, ViewGroupLayoutParams>(width, height, style, block)
   }
   
   fun ViewGroup.ImageView(
@@ -188,7 +230,7 @@ class ViewBuilder(val context: Context) {
       else -> child<ScrollView, ViewGroupLayoutParams>(width, height, {}, {})
     }
     return layout.apply {
-      child<LinearLayout>(MatchParent, WrapContent, style, block).apply {
+      child(MatchParent, WrapContent, style, block).apply {
         orientation(LinearLayout.VERTICAL)
       }
     }
@@ -216,8 +258,8 @@ class ViewBuilder(val context: Context) {
     block: T.() -> Unit
   ): T {
     val viewGroupParams = ViewGroupLayoutParams(
-      context.determineSize(width),
-      context.determineSize(height)
+      determineSize(context, width),
+      determineSize(context, height)
     )
     val viewConstrictor = T::class.java.getDeclaredConstructor(Context::class.java)
     val paramsConstructor = P::class.java.getDeclaredConstructor(ViewGroupLayoutParams::class.java)

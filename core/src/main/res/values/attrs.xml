@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <attr name="colorBackground" format="color"/>
+  <attr name="colorToolbar" format="color"/>
   <attr name="colorSurface" format="color"/>
   <attr name="colorDialog" format="color"/>
   <attr name="colorIcon" format="color"/>

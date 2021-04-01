@@ -1,30 +1,34 @@
 package com.arsvechkarev.firebase.database
 
-import com.arsvechkarev.firebase.database.DatabaseSchema.Companion.email
-import com.arsvechkarev.firebase.database.DatabaseSchema.Companion.friend_requests_from_me
-import com.arsvechkarev.firebase.database.DatabaseSchema.Companion.friend_requests_to_me
-import com.arsvechkarev.firebase.database.DatabaseSchema.Companion.friends
-import com.arsvechkarev.firebase.database.DatabaseSchema.Companion.usernames
-import com.arsvechkarev.firebase.database.DatabaseSchema.Companion.users
-import com.arsvechkarev.firebase.path
+import com.arsvechkarev.core.model.User
+import com.arsvechkarev.firebase.database.UsersDatabaseSchema.Companion.email
+import com.arsvechkarev.firebase.database.UsersDatabaseSchema.Companion.friend_requests_from_me
+import com.arsvechkarev.firebase.database.UsersDatabaseSchema.Companion.friend_requests_to_me
+import com.arsvechkarev.firebase.database.UsersDatabaseSchema.Companion.friends
+import com.arsvechkarev.firebase.database.UsersDatabaseSchema.Companion.usernames
+import com.arsvechkarev.firebase.database.UsersDatabaseSchema.Companion.users
 
-object PathDatabaseSchema : DatabaseSchema {
+object PathDatabaseSchema : UsersDatabaseSchema {
   
-  override val allUsersPath = path(usernames)
+  override val allUsernamesPath = withSlashes(usernames)
   
-  override fun emailPath(username: String): String {
-    return path(users, username, email)
+  override fun emailPath(user: User): String {
+    return withSlashes(users, user.username, email)
   }
   
-  override fun friendsPath(username: String): String {
-    return path(users, username, friends)
+  override fun friendsPath(user: User): String {
+    return withSlashes(users, user.username, friends)
   }
   
-  override fun friendsRequestsToMePath(username: String): String {
-    return path(users, username, friend_requests_to_me)
+  override fun friendsRequestsToUserPath(user: User): String {
+    return withSlashes(users, user.username, friend_requests_to_me)
   }
   
-  override fun friendsRequestsFromMePath(username: String): String {
-    return path(users, username, friend_requests_from_me)
+  override fun friendsRequestsFromUserPath(user: User): String {
+    return withSlashes(users, user.username, friend_requests_from_me)
+  }
+  
+  private fun withSlashes(vararg args: String) = buildString {
+    args.forEach { arg -> append(arg).append("/") }
   }
 }

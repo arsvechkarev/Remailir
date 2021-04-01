@@ -2,15 +2,15 @@ package com.arsvechkarev.search.domain
 
 import com.arsvechkarev.core.concurrency.Dispatchers
 import com.arsvechkarev.core.model.User
-import com.arsvechkarev.firebase.database.Database
-import com.arsvechkarev.firebase.database.DatabaseSchema
+import com.arsvechkarev.firebase.database.FirebaseDatabase
+import com.arsvechkarev.firebase.database.UsersDatabaseSchema
 import kotlinx.coroutines.withContext
 
 class SearchRepository(
   private val thisUserUsername: String,
-  private val schema: DatabaseSchema,
-  private val database: Database,
-  private val dispatchers: Dispatchers
+  private val schema: UsersDatabaseSchema,
+  private val database: FirebaseDatabase,
+  private val dispatchers: Dispatchers,
 ) {
   
   private var cache: List<User>? = null
@@ -23,29 +23,29 @@ class SearchRepository(
         return@withContext cache!!
       }
     }
-    cache = database.getList(schema.allUsersPath)
+    cache = database.getList(schema.allUsernamesPath)
         .filter { it != thisUserUsername }
         .map { User(it) }
     return@withContext cache!!
   }
   
-  suspend fun sendFriendRequest(username: String): RequestResult {
-    val friendsList = getList(schema.friendsPath(thisUserUsername))
-    if (friendsList.contains(username)) {
-      return RequestResult.ERROR_ALREADY_FRIENDS
-    }
-    val requestFromMe = getList(schema.friendsRequestsFromMePath(thisUserUsername))
-    if (requestFromMe.contains(username)) {
-      return RequestResult.ERROR_REQUEST_ALREADY_SENT
-    }
-    val requestsToMe = getList(schema.friendsRequestsToMePath(thisUserUsername))
-    if (requestsToMe.contains(username)) {
-      return RequestResult.ERROR_THIS_USER_ALREADY_HAS_REQUEST
-    }
-    addValues(
-      schema.friendsRequestsFromMePath(thisUserUsername), username,
-      schema.friendsRequestsToMePath(username), thisUserUsername,
-    )
+  suspend fun sendFriendRequest(user: User): RequestResult {
+    val friendsList = getList(schema.friendsPath(user))
+//    if (friendsList.contains(user)) {
+//      return RequestResult.ERROR_ALREADY_FRIENDS
+//    }
+//    val requestFromMe = getList(schema.friendsRequestsFromUserPath(thisUserUsername))
+//    if (requestFromMe.contains(username)) {
+//      return RequestResult.ERROR_REQUEST_ALREADY_SENT
+//    }
+//    val requestsToMe = getList(schema.friendsRequestsToUserPath(thisUserUsername))
+//    if (requestsToMe.contains(username)) {
+//      return RequestResult.ERROR_THIS_USER_ALREADY_HAS_REQUEST
+//    }
+//    addValues(
+//      schema.friendsRequestsFromUserPath(thisUserUsername), username,
+//      schema.friendsRequestsToUserPath(username), thisUserUsername,
+//    )
     return RequestResult.SENT
   }
   

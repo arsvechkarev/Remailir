@@ -163,9 +163,9 @@ class SearchScreen : Screen(), SearchView {
     )
   }
   
-  private val adapter = SearchAdapter(onUserClicked = {
-    textView(TextNameOfOtherUser).text(it.username)
-    textView(TextSendRequest).onClick { presenter.sendFriendRequest(it.username) }
+  private val adapter = SearchAdapter(onUserClicked = { user ->
+    textView(TextNameOfOtherUser).text(user.username)
+    textView(TextSendRequest).onClick { presenter.sendFriendRequest(user) }
     viewAs<SimpleDialog>().show()
   })
   
@@ -234,9 +234,9 @@ class SearchScreen : Screen(), SearchView {
     viewAs<Snackbar>().buttonRetry.invisible()
   }
   
-  override fun showSendingRequestFailure(e: Throwable, username: String) {
+  override fun showSendingRequestFailure(e: Throwable, user: User) {
     viewAs<Snackbar>().switchToErrorMode()
-    viewAs<Snackbar>().buttonRetry.onClick { presenter.sendFriendRequest(username) }
+    viewAs<Snackbar>().buttonRetry.onClick { presenter.sendFriendRequest(user) }
     viewAs<Snackbar>().textError.text(R.string.error_unknown_short)
   }
   

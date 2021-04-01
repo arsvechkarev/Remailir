@@ -14,13 +14,13 @@ val TEMP_RECT = Rect()
 val TEMP_RECT_F = RectF()
 val TEMP_PAINT = TextPaint(Paint.ANTI_ALIAS_FLAG)
 
-fun Any.Paint(
+fun Paint(
   color: Int
-) = android.graphics.Paint(Paint.ANTI_ALIAS_FLAG).apply {
+) = Paint(Paint.ANTI_ALIAS_FLAG).apply {
   this.color = color
 }
 
-fun Any.TextPaint(
+fun TextPaint(
   textSize: Float = 0f,
   color: Int = Colors.TextPrimary,
   textAlign: Paint.Align = Paint.Align.CENTER,

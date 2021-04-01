@@ -9,7 +9,7 @@ import kotlinx.coroutines.withContext
 
 class FirebaseDatabaseImpl(
   private val dispatchers: Dispatchers
-) : Database {
+) : com.arsvechkarev.firebase.database.FirebaseDatabase {
   
   private val reference = FirebaseDatabase.getInstance().reference
   

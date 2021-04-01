@@ -23,5 +23,5 @@ interface SearchView : MvpView {
   
   fun showSendingRequestFailure(result: RequestResult)
   
-  fun showSendingRequestFailure(e: Throwable, username: String)
+  fun showSendingRequestFailure(e: Throwable, user: User)
 }

@@ -55,8 +55,8 @@ fun <T : View> T.size(
   if (layoutParams == null) {
     layoutParams = context.createLayoutParams(width, height, margins)
   } else {
-    layoutParams.width = context.determineSize(width)
-    layoutParams.height = context.determineSize(height)
+    layoutParams.width = determineSize(context, width)
+    layoutParams.height = determineSize(context, height)
   }
   return this
 }
@@ -199,8 +199,8 @@ fun <T : View> T.classNameTag() {
   this.tag = javaClass.name
 }
 
-fun View.id(idRes: Int) {
-  id = idRes
+fun View.id(id: Int) {
+  this.id = id
 }
 
 fun View.background(drawable: Drawable) {
@@ -231,11 +231,11 @@ inline fun <reified T : CoordinatorLayout.Behavior<*>> View.hasBehavior(): Boole
   return (layoutParams as? CoordinatorLayout.LayoutParams)?.behavior as? T != null
 }
 
-fun View.childView(tag: String): View {
+fun View.childView(tag: Any): View {
   return findViewWithTag(tag)
 }
 
 @Suppress("UNCHECKED_CAST")
-inline fun <reified T : View> View.childViewAs(tag: String = T::class.java.name): T {
+inline fun <reified T : View> View.childViewAs(tag: Any = T::class.java.name): T {
   return findViewWithTag(tag)
 }

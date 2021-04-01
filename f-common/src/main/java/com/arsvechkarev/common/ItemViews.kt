@@ -1,10 +1,10 @@
 package com.arsvechkarev.common
 
-import android.text.TextUtils
 import android.view.Gravity
 import android.widget.LinearLayout
 import com.arsvechkarev.core.viewbuilding.Colors
 import com.arsvechkarev.core.viewbuilding.Dimens.UserIconSize
+import com.arsvechkarev.core.viewbuilding.Styles.BaseTextView
 import com.arsvechkarev.core.viewbuilding.TextSizes
 import com.arsvechkarev.viewdsl.Ints.dp
 import com.arsvechkarev.viewdsl.Size.Companion.MatchParent
@@ -17,6 +17,7 @@ import com.arsvechkarev.viewdsl.gravity
 import com.arsvechkarev.viewdsl.margins
 import com.arsvechkarev.viewdsl.paddings
 import com.arsvechkarev.viewdsl.rippleBackground
+import com.arsvechkarev.viewdsl.textColor
 import com.arsvechkarev.viewdsl.textSize
 import com.arsvechkarev.views.drawables.ProfileDrawable
 
@@ -29,10 +30,10 @@ fun ViewBuilder.UserItemView(): LinearLayout {
       background(ProfileDrawable(context, inverseColors = true))
       margins(end = 24.dp)
     }
-    TextView(WrapContent, WrapContent) {
+    TextView(WrapContent, WrapContent, style = BaseTextView) {
       classNameTag()
-      textSize(TextSizes.H4)
-      ellipsize = TextUtils.TruncateAt.END
+      textColor(Colors.TextPrimary)
+      textSize(TextSizes.H3)
     }
   }
 }

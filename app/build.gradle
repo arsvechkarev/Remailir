@@ -16,12 +16,17 @@ android {
     versionName configs.versionName
     testInstrumentationRunner configs.testInstrumentationRunner
   }
+
   buildTypes {
     release {
       minifyEnabled configs.minifyEnabled
       proguardFiles(getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro')
     }
+    mock {
+      initWith debug
+    }
   }
+
   compileOptions {
     sourceCompatibility JavaVersion.VERSION_1_8
     targetCompatibility JavaVersion.VERSION_1_8
@@ -33,6 +38,7 @@ android {
 
 dependencies {
   implementation project(':core')
+  implementation project(':core')
   implementation project(':firebase')
   implementation project(':views')
   implementation project(':f-registration')
@@ -42,7 +48,7 @@ dependencies {
   implementation project(':f-search')
   implementation project(':f-settings')
 
-  debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.2'
+  debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.6'
 
   def dependencies = rootProject.ext.applicationDependencies
   implementation platform(dependencies.firebasePlatform)

@@ -14,7 +14,7 @@ abstract class BasePresenter<V : MvpView>(
   protected val dispatchers: Dispatchers
 ) : MvpPresenter<V>() {
   
-  private val scope = CoroutineScope(SupervisorJob() + dispatchers.Main)
+  protected val scope = CoroutineScope(SupervisorJob() + dispatchers.Main)
   
   protected fun coroutine(block: suspend () -> Unit) {
     scope.launch {

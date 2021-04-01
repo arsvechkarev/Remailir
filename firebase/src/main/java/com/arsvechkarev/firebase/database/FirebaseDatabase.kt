@@ -1,6 +1,6 @@
 package com.arsvechkarev.firebase.database
 
-interface Database {
+interface FirebaseDatabase {
   
   suspend fun getList(path: String): MutableList<String>
   

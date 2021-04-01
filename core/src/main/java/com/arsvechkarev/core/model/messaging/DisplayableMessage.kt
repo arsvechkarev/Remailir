@@ -2,6 +2,12 @@ package com.arsvechkarev.core.model.messaging
 
 import com.arsvechkarev.core.recycler.DifferentiableItem
 
+/**
+ * A message to be displayed in chat's recycler view
+ *
+ * @param id Unique message id
+ * @param text Message text
+ */
 open class DisplayableMessage(
   override val id: String,
   val text: String
@@ -24,6 +30,12 @@ open class DisplayableMessage(
   }
 }
 
+/**
+ * Represents a message from this user
+ */
 class MessageThisUser(id: String, text: String) : DisplayableMessage(id, text)
 
+/**
+ * Represents a message from other user
+ */
 class MessageOtherUser(id: String, text: String) : DisplayableMessage(id, text)

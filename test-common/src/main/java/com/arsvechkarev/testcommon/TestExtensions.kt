@@ -2,12 +2,16 @@ package com.arsvechkarev.testcommon
 
 import org.junit.Assert
 
-infix fun <T> List<T>.isEquivalentTo(other: List<T>): Boolean {
+infix fun <T> List<T>.isExactlyTheSameAs(other: List<T>): Boolean {
   return this.containsAll(other) && other.containsAll(this)
 }
 
-infix fun <T> List<T>.doesNotContain(element: T): Boolean {
-  return !this.contains(element)
+infix fun <T> List<T>.has(element: T): Boolean {
+  return contains(element)
+}
+
+infix fun <T> List<T>.doesNotHave(element: T): Boolean {
+  return !contains(element)
 }
 
 infix fun <T> List<T>.shouldContainAll(other: List<T>) {

@@ -1,4 +1,4 @@
-package com.arsvechkarev.friends.list
+package com.arsvechkarev.friends.old
 
 import android.widget.TextView
 import com.arsvechkarev.common.UserItemView
@@ -10,7 +10,7 @@ import com.arsvechkarev.viewdsl.childViewAs
 import com.arsvechkarev.viewdsl.onClick
 import com.arsvechkarev.viewdsl.text
 
-class FriendsAdapter(
+class FriendsOldAdapter(
   private val onUserClicked: (User) -> Unit
 ) : ListAdapter(
   delegate<User> {

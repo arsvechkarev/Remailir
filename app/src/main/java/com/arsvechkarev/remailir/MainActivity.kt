@@ -13,7 +13,6 @@ import com.arsvechkarev.chat.presentation.ChatScreen.Companion.KEY_USERNAME
 import com.arsvechkarev.chat.presentation.ChatScreen.Companion.TYPE_JOINED
 import com.arsvechkarev.chat.presentation.ChatScreen.Companion.TYPE_REQUEST
 import com.arsvechkarev.core.BaseActivity
-import com.arsvechkarev.core.extenstions.await
 import com.arsvechkarev.core.model.User
 import com.arsvechkarev.core.navigation.Navigator
 import com.arsvechkarev.core.navigation.NavigatorView
@@ -31,14 +30,7 @@ import com.arsvechkarev.viewdsl.Size.Companion.MatchParent
 import com.arsvechkarev.viewdsl.classNameTag
 import com.arsvechkarev.viewdsl.size
 import com.arsvechkarev.viewdsl.withViewBuilder
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.UserProfileChangeRequest
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.FirebaseFirestoreSettings
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import timber.log.Timber
+import com.arsvechkarev.views.RootView
 
 class MainActivity : BaseActivity(), Navigator {
   
@@ -46,9 +38,11 @@ class MainActivity : BaseActivity(), Navigator {
   
   private val mainActivityLayout
     get() = withViewBuilder {
-      NavigatorView(context).apply {
-        classNameTag()
+      RootView(context).apply {
         size(MatchParent, MatchParent)
+        child<NavigatorView>(MatchParent, MatchParent) {
+          classNameTag()
+        }
       }
     }
   
@@ -59,34 +53,34 @@ class MainActivity : BaseActivity(), Navigator {
     setContentView(mainActivityLayout)
     window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
         or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
-        FirebaseFirestore.getInstance().setFirestoreSettings(
-          FirebaseFirestoreSettings.Builder().setPersistenceEnabled(false).build())
-            GlobalScope.launch(Dispatchers.Main) {
-              try {
-                FirebaseAuth.getInstance().signInWithEmailAndPassword(
-                  "a@gmail.com", "aaaaaaaa"
-                ).await()
-                val profileUpdates = UserProfileChangeRequest.Builder()
-                    .setDisplayName("a")
-                    .build()
-                FirebaseAuth.getInstance().currentUser!!
-                    .updateProfile(profileUpdates)
-                    .await()
-                navigator.navigate(HomeScreen::class)
-              } catch (e: Throwable) {
-                Timber.d(e, "Failed to sign in")
-              }
-            }
-//    if (FirebaseAuthenticator.isUserLoggedIn()) {
-//      navigator.navigate(HomeScreen::class)
-//    } else {
-//      navigator.navigate(RegistrationScreen::class,
-//        options = Options(
-//          clearAllOtherScreens = true,
-//          arguments = Bundle().apply { putBoolean(CHECK_LINK, true) }
-//        )
-//      )
-//    }
+    //        FirebaseFirestore.getInstance().setFirestoreSettings(
+    //          FirebaseFirestoreSettings.Builder().setPersistenceEnabled(false).build())
+    //            GlobalScope.launch(Dispatchers.Main) {
+    //              try {
+    //                FirebaseAuth.getInstance().signInWithEmailAndPassword(
+    //                  "a@gmail.com", "aaaaaaaa"
+    //                ).await()
+    //                val profileUpdates = UserProfileChangeRequest.Builder()
+    //                    .setDisplayName("a")
+    //                    .build()
+    //                FirebaseAuth.getInstance().currentUser!!
+    //                    .updateProfile(profileUpdates)
+    //                    .await()
+    //                navigator.navigate(HomeScreen::class)
+    //              } catch (e: Throwable) {
+    //                Timber.d(e, "Failed to sign in")
+    //              }
+    //            }
+    if (FirebaseAuthenticator.isUserLoggedIn()) {
+      navigator.navigate(HomeScreen::class)
+    } else {
+      navigator.navigate(RegistrationScreen::class,
+        options = Options(
+          clearAllOtherScreens = true,
+          arguments = Bundle().apply { putBoolean(CHECK_LINK, true) }
+        )
+      )
+    }
   }
   
   override fun switchToMainScreen() {

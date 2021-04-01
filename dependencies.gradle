@@ -8,6 +8,7 @@ ext {
   applicationDependencies = [
       kotlin            : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version",
       appCompat         : "androidx.appcompat:appcompat:1.2.0",
+      materialDesign    : "com.google.android.material:material:1.3.0",
       moxy              : "com.github.moxy-community:moxy:$moxy_version",
       moxyCompiler      : "com.github.moxy-community:moxy-compiler:$moxy_version",
       moxyAndroidx      : "com.github.moxy-community:moxy-androidx:$moxy_version",
@@ -15,6 +16,7 @@ ext {
       constraintLayout  : "androidx.constraintlayout:constraintlayout:2.0.4",
       coordinatorLayout : "androidx.coordinatorlayout:coordinatorlayout:1.1.0",
       recyclerView      : "androidx.recyclerview:recyclerview:1.1.0",
+      viewPager2        : "androidx.viewpager2:viewpager2:1.0.0",
       coroutinesCore    : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version",
       coroutinesAndroid : "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version",
       dagger            : "com.google.dagger:dagger:$dagger_version",
@@ -29,6 +31,7 @@ ext {
       firebaseFunctions : "com.google.firebase:firebase-functions",
       googleServicesAuth: "com.google.android.gms:play-services-auth:19.0.0",
       timerx            : "com.arsvechkarev:timerx:2.3.2",
+
   ]
 
   espresso_version = '3.2.0'

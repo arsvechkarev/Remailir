@@ -3,6 +3,7 @@ package com.arsvechkarev.search.presentation
 import com.arsvechkarev.core.BasePresenter
 import com.arsvechkarev.core.MIN_NETWORK_DELAY
 import com.arsvechkarev.core.concurrency.Dispatchers
+import com.arsvechkarev.core.model.User
 import com.arsvechkarev.search.domain.RequestResult.SENT
 import com.arsvechkarev.search.domain.SearchRepository
 import kotlinx.coroutines.delay
@@ -39,19 +40,19 @@ class SearchPresenter(
   
   private var c = 0
   
-  fun sendFriendRequest(username: String) {
+  fun sendFriendRequest(user: User) {
     coroutine {
       viewState.showSendingRequest()
       try {
         delay(MIN_NETWORK_DELAY)
-        val result = repository.sendFriendRequest(username)
+        val result = repository.sendFriendRequest(user)
         if (result == SENT) {
           viewState.showRequestSent()
         } else {
           viewState.showSendingRequestFailure(result)
         }
       } catch (e: Throwable) {
-        viewState.showSendingRequestFailure(e, username)
+        viewState.showSendingRequestFailure(e, user)
       }
     }
   }

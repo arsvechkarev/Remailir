@@ -14,7 +14,7 @@ import com.arsvechkarev.core.extenstions.f
 import com.arsvechkarev.core.extenstions.i
 import com.arsvechkarev.core.model.FriendsType
 import com.arsvechkarev.core.model.FriendsType.ALL_FRIENDS
-import com.arsvechkarev.core.model.FriendsType.FRIENDS_REQUESTS
+import com.arsvechkarev.core.model.FriendsType.REQUESTS_TO_ME
 import com.arsvechkarev.core.model.FriendsType.MY_REQUESTS
 import com.arsvechkarev.core.viewbuilding.Colors
 import com.arsvechkarev.core.viewbuilding.TextSizes
@@ -105,7 +105,7 @@ class FriendsAndRequestsLayout(context: Context) : ViewGroup(context) {
       when (it.text) {
         string(R.string.text_all_friends) -> block(ALL_FRIENDS)
         string(R.string.text_my_requests) -> block(MY_REQUESTS)
-        string(R.string.text_friend_requests) -> block(FRIENDS_REQUESTS)
+        string(R.string.text_friend_requests) -> block(REQUESTS_TO_ME)
         else -> throw IllegalStateException()
       }
     }

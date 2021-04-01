@@ -14,14 +14,13 @@ import kotlin.reflect.KClass
 
 abstract class ListAdapter(
   private val callbackType: CallbackType = TWO_LISTS,
-  private val threader: Threader = AndroidThreader,
   private var onReadyToLoadNextPage: (() -> Unit)? = null
 ) : RecyclerView.Adapter<ViewHolder>() {
   
   protected var recyclerView: RecyclerView? = null
     private set
   
-  protected var data: MutableList<DifferentiableItem> = ArrayList()
+  var data: MutableList<DifferentiableItem> = ArrayList()
   
   private val classesToViewTypes = HashMap<KClass<*>, Int>()
   private val delegatesSparseArray = SparseArrayCompat<ListAdapterDelegate<out DifferentiableItem>>()
@@ -32,7 +31,7 @@ abstract class ListAdapter(
     callbackType: CallbackType = TWO_LISTS,
     threader: Threader = AndroidThreader,
     onReadyToLoadNextPage: () -> Unit = {}
-  ) : this(callbackType, threader, onReadyToLoadNextPage) {
+  ) : this(callbackType, onReadyToLoadNextPage) {
     addDelegates(*delegates)
   }
   
@@ -109,11 +108,7 @@ abstract class ListAdapter(
   }
   
   private fun applyChanges(callback: DiffUtil.Callback) {
-    threader.onBackground {
-      val diffResult = DiffUtil.calculateDiff(callback)
-      threader.onMainThread {
-        diffResult.dispatchUpdatesTo(this)
-      }
-    }
+    val diffResult = DiffUtil.calculateDiff(callback)
+    diffResult.dispatchUpdatesTo(this)
   }
 }

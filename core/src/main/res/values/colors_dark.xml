@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <color name="dark_background">#000000</color>
-  <color name="dark_surface">#383838</color>
-  <color name="dark_dialog">#232930</color>
+  <color name="dark_background">#0E0E0E</color>
+  <color name="dark_toolbar">#1A1A1A</color>
+  <color name="dark_surface">#282828</color>
+  <color name="dark_dialog">#2C2C2C</color>
   <color name="dark_icon">#FFFFFF</color>
   <color name="dark_ripple">#C6FFFFFF</color>
   <color name="dark_accent">#286AC3</color>
@@ -23,7 +24,7 @@
   <color name="dark_error_gradient_end">#FF997C</color>
   <color name="dark_disabled">@color/dark_divider</color>
   <color name="dark_divider">#AFAFAF</color>
-  <color name="dark_shadow">#A3000000</color>
+  <color name="dark_shadow">#52000000</color>
   <color name="dark_border">#6F6F6F</color>
   <color name="dark_share">#8900D8</color>
   <color name="dark_source_code">#08B08F</color>

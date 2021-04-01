@@ -39,6 +39,9 @@ fun Context.hideKeyboard(editText: EditText) {
   inputMethodManager!!.hideSoftInputFromWindow(editText.windowToken, 0)
 }
 
+fun Context.readAssetsFile(fileName: String): String = assets.open(fileName).bufferedReader()
+    .use { reader -> reader.readText() }
+
 val Context.connectivityManager: ConnectivityManager
   get() = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 

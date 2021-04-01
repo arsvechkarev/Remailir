@@ -9,6 +9,7 @@
   <style name="AppTheme.Dark">
     <item name="colorBackground">@color/dark_background</item>
     <item name="colorSurface">@color/dark_surface</item>
+    <item name="colorToolbar">@color/dark_toolbar</item>
     <item name="colorDialog">@color/dark_dialog</item>
     <item name="colorIcon">@color/dark_icon</item>
     <item name="colorRipple">@color/dark_ripple</item>

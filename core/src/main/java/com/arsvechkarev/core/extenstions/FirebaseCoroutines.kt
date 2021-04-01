@@ -7,20 +7,26 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.cancellation.CancellationException
+import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
 suspend fun DatabaseReference.waitForSingleValueEvent(): DataSnapshot {
-  return suspendCancellableCoroutine {
-    addListenerForSingleValueEvent(object : ValueEventListener {
-  
+  return suspendCancellableCoroutine { continuation ->
+    
+    val listener = object : ValueEventListener {
+      
       override fun onDataChange(snapshot: DataSnapshot) {
-        it.resumeWith(Result.success(snapshot))
+        continuation.resumeWith(Result.success(snapshot))
       }
-  
+      
       override fun onCancelled(error: DatabaseError) {
-        it.resumeWith(Result.failure(error.toException()))
+        continuation.resumeWith(Result.failure(error.toException()))
       }
-    })
+    }
+    continuation.invokeOnCancellation {
+      this.removeEventListener(listener)
+    }
+    addListenerForSingleValueEvent(listener)
   }
 }
 
@@ -38,17 +44,17 @@ suspend fun <T> Task<T>.await(): T? {
     }
   }
   
-  return suspendCancellableCoroutine { cont ->
+  return suspendCancellableCoroutine { continuation ->
     addOnCompleteListener {
       val e = exception
       if (e == null) {
         if (isCanceled) {
-          cont.cancel()
+          continuation.cancel()
         } else {
-          cont.resumeWith(Result.success(result))
+          continuation.resume(result)
         }
       } else {
-        cont.resumeWithException(e)
+        continuation.resumeWithException(e)
       }
     }
   }

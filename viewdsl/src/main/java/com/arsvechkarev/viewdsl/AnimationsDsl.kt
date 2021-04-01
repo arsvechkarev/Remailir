@@ -50,10 +50,6 @@ fun Animator.doOnEnd(block: () -> Unit) {
 }
 
 fun View.animateVisible(andThen: () -> Unit = {}, duration: Long = DURATION_DEFAULT) {
-  if (alpha == 1f && visibility == View.VISIBLE) {
-    andThen()
-    return
-  }
   alpha = 0f
   visible()
   animate().alpha(1f).setDuration(duration)
@@ -73,10 +69,6 @@ fun View.animateInvisible(andThen: () -> Unit = {}, duration: Long = DURATION_DE
 }
 
 fun View.animateGone(andThen: () -> Unit = {}, duration: Long = DURATION_DEFAULT) {
-  if (visibility == GONE) {
-    andThen()
-    return
-  }
   animate().alpha(0f).setDuration(duration)
       .setInterpolator(AccelerateDecelerateInterpolator)
       .withEndAction {

@@ -53,9 +53,9 @@ class Toolbar(context: Context) : ViewGroup(context) {
   private val divider get() = getChildAt(4)
   
   private var textWatcher: TextWatcher? = null
-  private var searchMode = false
+  private var inSearchMode = false
   
-  val isInSearchMode get() = searchMode
+  val isInSearchMode get() = inSearchMode
   var onExitFromSearchMode = {}
   
   var takeIntoAccountStatusBar = true
@@ -77,6 +77,7 @@ class Toolbar(context: Context) : ViewGroup(context) {
     }
   
   init {
+    setBackgroundColor(Colors.Toolbar)
     addView(TextView(context).apply(BoldTextView).apply {
       size(MatchParent, WrapContent)
       textSize(TextSizes.H1)
@@ -101,7 +102,7 @@ class Toolbar(context: Context) : ViewGroup(context) {
       setupAndSetDrawable(R.drawable.avd_search_to_close)
       invisible()
       onClick {
-        if (searchMode) switchFromSearchMode() else switchToSearchMode()
+        if (inSearchMode) switchFromSearchMode() else switchToSearchMode()
       }
     })
     addView(View(context).apply {
@@ -143,8 +144,8 @@ class Toolbar(context: Context) : ViewGroup(context) {
   }
   
   fun switchToSearchMode() {
-    if (searchMode) return
-    searchMode = true
+    if (inSearchMode) return
+    inSearchMode = true
     editText.requestFocus()
     imageSearch.setupAndSetDrawable(R.drawable.avd_search_to_close)
     (imageSearch.drawable as AnimatedVectorDrawable).start()
@@ -156,8 +157,8 @@ class Toolbar(context: Context) : ViewGroup(context) {
   }
   
   fun switchFromSearchMode() {
-    if (!searchMode) return
-    searchMode = false
+    if (!inSearchMode) return
+    inSearchMode = false
     onExitFromSearchMode()
     editText.clearAnimation()
     context.hideKeyboard(editText)
@@ -208,9 +209,9 @@ class Toolbar(context: Context) : ViewGroup(context) {
     editText.layoutLeftTop(imageBack.right, editTextTop)
     val titleTop = height / 2 - title.measuredHeight / 2 + statusBarHeight() / 2
     title.layoutLeftTop(titleLeft, titleTop)
-    divider.layout(
-      DividerMargin, height - DividerHeight,
-      width - DividerMargin, height)
+//    divider.layout(
+//      DividerMargin, height - DividerHeight,
+//      width - DividerMargin, height)
   }
   
   override fun onDetachedFromWindow() {

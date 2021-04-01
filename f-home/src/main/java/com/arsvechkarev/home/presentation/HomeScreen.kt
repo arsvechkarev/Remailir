@@ -104,7 +104,6 @@ class HomeScreen : Screen(), HomeView {
       child<Toolbar>(MatchParent, WrapContent) {
         classNameTag()
         val text = FirebaseAuthenticator.getUsername()
-        backgroundColor(Colors.Background)
         title("Me: $text")
         behavior(headerBehavior)
       }

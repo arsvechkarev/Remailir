@@ -8,9 +8,9 @@ import com.arsvechkarev.search.domain.RequestResult.ERROR_REQUEST_ALREADY_SENT
 import com.arsvechkarev.search.domain.RequestResult.ERROR_THIS_USER_ALREADY_HAS_REQUEST
 import com.arsvechkarev.search.domain.RequestResult.SENT
 import com.arsvechkarev.testcommon.FakeDispatchersProvider
-import com.arsvechkarev.testcommon.TestDatabase
-import com.arsvechkarev.testcommon.TestJson.FullUsersDatabase
-import com.arsvechkarev.testcommon.isEquivalentTo
+import com.arsvechkarev.testcommon.FakeFirebaseDatabase
+import com.arsvechkarev.testcommon.FakeJsonData.FullUsersDatabase
+import com.arsvechkarev.testcommon.isExactlyTheSameAs
 import com.arsvechkarev.testcommon.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
@@ -21,10 +21,10 @@ class SearchRepositoryTest {
   
   private fun createSearchRepository(
     username: String,
-    testDatabase: TestDatabase = TestDatabase(FullUsersDatabase),
+    fakeDatabase: FakeFirebaseDatabase = FakeFirebaseDatabase(FullUsersDatabase),
     dispatchers: Dispatchers = FakeDispatchersProvider
   ): SearchRepository {
-    return SearchRepository(username, PathDatabaseSchema, testDatabase, dispatchers)
+    return SearchRepository(username, PathDatabaseSchema, fakeDatabase, dispatchers)
   }
   
   @Test
@@ -34,7 +34,7 @@ class SearchRepositoryTest {
     
     val list: List<User> = repository.getUsersList(true)
     
-    verify { expectedList isEquivalentTo list }
+    verify { expectedList isExactlyTheSameAs list }
   }
   
   @Test

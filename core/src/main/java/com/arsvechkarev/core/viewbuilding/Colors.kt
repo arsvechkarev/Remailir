@@ -9,9 +9,12 @@ object Colors {
   
   const val Transparent = Color.TRANSPARENT
   
-  private val colors = IntArray(27) { 0 }
+  private val colors = IntArray(28) { 0 }
+  
+  private val colorsMap = HashMap<String, Int>()
   
   val Background get() = colors[0]
+  val Toolbar get() = colors[27]
   val Surface get() = colors[1]
   val Dialog get() = colors[2]
   val Icon get() = colors[3]
@@ -41,6 +44,7 @@ object Colors {
   
   fun init(context: Context) {
     colors[0] = context.getAttrColor(R.attr.colorBackground)
+    colors[27] = context.getAttrColor(R.attr.colorToolbar)
     colors[1] = context.getAttrColor(R.attr.colorSurface)
     colors[2] = context.getAttrColor(R.attr.colorDialog)
     colors[3] = context.getAttrColor(R.attr.colorIcon)

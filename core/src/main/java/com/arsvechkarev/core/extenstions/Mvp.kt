@@ -25,6 +25,7 @@ class MoxyKtxDelegate<T : MvpPresenter<*>>(
     val field = object : PresenterField<Any?>(name, null, null) {
       override fun providePresenter(delegated: Any?): MvpPresenter<*> = factory()
       override fun bind(container: Any?, presenter: MvpPresenter<*>) {
+        @Suppress("UNCHECKED_CAST")
         this@MoxyKtxDelegate.presenter = presenter as T
       }
     }

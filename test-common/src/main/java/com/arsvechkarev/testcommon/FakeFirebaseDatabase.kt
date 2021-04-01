@@ -1,13 +1,13 @@
 package com.arsvechkarev.testcommon
 
-import com.arsvechkarev.firebase.database.Database
+import com.arsvechkarev.firebase.database.FirebaseDatabase
 import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import com.google.gson.JsonPrimitive
 
-class TestDatabase(json: String) : Database {
+class FakeFirebaseDatabase(json: String) : FirebaseDatabase {
   
   val rootJsonObject: JsonElement = JsonParser.parseString(json)
   

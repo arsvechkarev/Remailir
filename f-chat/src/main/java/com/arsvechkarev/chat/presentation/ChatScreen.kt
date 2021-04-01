@@ -6,7 +6,7 @@ import com.arsvechkarev.chat.domain.ChatInteractor
 import com.arsvechkarev.chat.list.ChatAdapter
 import com.arsvechkarev.core.concurrency.AndroidDispatchers
 import com.arsvechkarev.core.extenstions.moxyPresenter
-import com.arsvechkarev.core.model.messaging.MessageFactoryImpl
+import com.arsvechkarev.core.model.messaging.DefaultMessageFactory
 import com.arsvechkarev.core.model.messaging.MessageOtherUser
 import com.arsvechkarev.core.model.messaging.MessageThisUser
 import com.arsvechkarev.core.navigation.Screen
@@ -108,7 +108,7 @@ class ChatScreen : Screen(), ChatView {
       ChatInteractor(
         contextNonNull,
         FirebaseAuthenticator.getUsername(),
-        MessageFactoryImpl,
+        DefaultMessageFactory,
         ChatFirebaseDataSource(
           FirebaseAuthenticator.getUsername(),
           AndroidDispatchers,

@@ -20,7 +20,7 @@ import moxy.MvpView
 abstract class Screen : MvpDelegateHolder, MvpView {
   
   @PublishedApi
-  internal val viewsCache = HashMap<String, View>()
+  internal val viewsCache = HashMap<Any, View>()
   
   private var _mvpDelegate: MvpDelegate<out Screen>? = null
   
@@ -67,7 +67,7 @@ abstract class Screen : MvpDelegateHolder, MvpView {
     mvpDelegate.onDestroy()
   }
   
-  open fun  onBackPressed(): Boolean = false
+  open fun onBackPressed(): Boolean = false
   
   open fun onInit() = Unit
   
@@ -97,21 +97,26 @@ abstract class Screen : MvpDelegateHolder, MvpView {
   }
   
   @Suppress("UNCHECKED_CAST")
-  fun view(tag: String): View {
+  fun view(tag: Any): View {
     if (viewsCache[tag] == null) {
-      viewsCache[tag] = viewNonNull.childView(tag)
+      val view = if (tag is Int) {
+        viewNonNull.findViewById<View>(tag)
+      } else {
+        viewNonNull.childView(tag)
+      }
+      viewsCache[tag] = view
     }
     return viewsCache.getValue(tag)
   }
   
   @Suppress("UNCHECKED_CAST")
-  inline fun <reified T : View> viewAs(tag: String = T::class.java.name): T {
+  inline fun <reified T : View> viewAs(tag: Any = T::class.java.name): T {
     return view(tag) as T
   }
   
-  fun imageView(tag: String) = viewAs<ImageView>(tag)
+  fun imageView(tag: Any) = viewAs<ImageView>(tag)
   
-  fun textView(tag: String) = viewAs<TextView>(tag)
+  fun textView(tag: Any) = viewAs<TextView>(tag)
   
-  fun editText(tag: String) = viewAs<EditText>(tag)
+  fun editText(tag: Any) = viewAs<EditText>(tag)
 }

@@ -1,14 +1,15 @@
-package com.arsvechkarev.testcommon
-
-object TestJson {
-  
-  const val FullUsersDatabase = """{
+{
   "usernames": [
     "a",
     "b",
     "c",
     "d",
     "e",
+    "f",
+    "g",
+    "h",
+    "i",
+    "j",
     "lala"
   ],
   "users": {
@@ -22,7 +23,10 @@ object TestJson {
       ],
       "friends": [
         "c",
-        "e"
+        "e",
+        "f",
+        "g",
+        "h"
       ]
     },
     "b": {
@@ -65,6 +69,30 @@ object TestJson {
         "b"
       ]
     },
+    "f": {
+      "email": "f@gmail.com",
+      "friend_requests_from_me": [],
+      "friend_requests_to_me": [],
+      "friends": [
+        "a"
+      ]
+    },
+    "g": {
+      "email": "g@gmail.com",
+      "friend_requests_from_me": [],
+      "friend_requests_to_me": [],
+      "friends": [
+        "a"
+      ]
+    },
+    "h": {
+      "email": "h@gmail.com",
+      "friend_requests_from_me": [],
+      "friend_requests_to_me": [],
+      "friends": [
+        "a"
+      ]
+    },
     "lala": {
       "email": "arsvechkarev@gmail.com",
       "friend_requests_from_me": [],
@@ -72,6 +100,4 @@ object TestJson {
       "friends": []
     }
   }
-}"""
-
 }
