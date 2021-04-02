@@ -10,6 +10,7 @@ import com.arsvechkarev.friends.presentation.FriendsPresenter
 import com.arsvechkarev.friends.presentation.pagerscreens.allfriends.AllFriendsPresenter
 import com.arsvechkarev.friends.presentation.pagerscreens.myrequests.MyRequestsPresenter
 import com.arsvechkarev.friends.presentation.pagerscreens.requeststome.RequestsToMePresenter
+import core.Dispatchers
 import core.StringToUserMapper
 import core.di.AppDependenciesProvider
 import core.di.FeatureScope
@@ -81,7 +82,9 @@ object FriendsModule {
   @Provides
   @FeatureScope
   @JvmStatic
-  fun provideInteractor(repository: FriendsRepository) = FriendsInteractor(repository)
+  fun provideInteractor(dispatchers: Dispatchers, repository: FriendsRepository): FriendsInteractor {
+    return FriendsInteractor(repository, dispatchers)
+  }
   
   @Provides
   @FeatureScope

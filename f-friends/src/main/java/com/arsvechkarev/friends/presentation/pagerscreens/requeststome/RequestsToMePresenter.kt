@@ -5,7 +5,7 @@ import com.arsvechkarev.friends.domain.FriendsPagerScreenAction.AcceptRequest
 import com.arsvechkarev.friends.domain.FriendsPagerScreenAction.DismissRequest
 import com.arsvechkarev.friends.domain.FriendsScreensCommunicator
 import core.Dispatchers
-import core.model.FriendsType
+import core.model.FriendsType.REQUESTS_TO_ME
 import core.model.User
 import core.ui.BasePresenter
 import kotlinx.coroutines.flow.collect
@@ -21,7 +21,7 @@ class RequestsToMePresenter @Inject constructor(
   fun startLoadingRequestsToMe() {
     coroutine {
       viewState.showLoadingList()
-      val friends = interactor.getListByType(FriendsType.REQUESTS_TO_ME)
+      val friends = interactor.getListByType(REQUESTS_TO_ME)
       if (friends.isEmpty()) {
         viewState.showListIsEmpty()
       } else {
@@ -46,7 +46,7 @@ class RequestsToMePresenter @Inject constructor(
   
   fun onUserClicked(user: User) {
     coroutine {
-      screensCommunicator.onUserClicked(FriendsType.REQUESTS_TO_ME, user)
+      screensCommunicator.onUserClicked(REQUESTS_TO_ME, user)
     }
   }
   
@@ -54,8 +54,10 @@ class RequestsToMePresenter @Inject constructor(
     coroutine {
       viewState.showLoadingAcceptingRequest(user)
       interactor.acceptRequest(user)
-      screensCommunicator.notifyRequestAccepted(user)
+      val updatedRequestToMe = interactor.getCachedListByType(REQUESTS_TO_ME)
+      screensCommunicator.notifyRequestAccepted()
       viewState.showSuccessAcceptingRequest(user)
+      notifyListChange(updatedRequestToMe)
     }
   }
   
@@ -63,7 +65,17 @@ class RequestsToMePresenter @Inject constructor(
     coroutine {
       viewState.showLoadingDismissingRequest(user)
       interactor.dismissRequest(user)
+      val updatedRequestToMe = interactor.getCachedListByType(REQUESTS_TO_ME)
       viewState.showSuccessDismissingRequest(user)
+      notifyListChange(updatedRequestToMe)
+    }
+  }
+  
+  private fun notifyListChange(updatedRequestToMe: List<User>) {
+    if (updatedRequestToMe.isNotEmpty()) {
+      viewState.showListChanged(updatedRequestToMe)
+    } else {
+      viewState.showListIsEmpty()
     }
   }
 }

@@ -5,6 +5,7 @@ import com.arsvechkarev.friends.domain.FriendsPagerScreenAction.CancelMyRequest
 import com.arsvechkarev.friends.domain.FriendsPagerScreenAction.DismissRequest
 import com.arsvechkarev.friends.domain.FriendsPagerScreenAction.RemoveFromFriends
 import com.arsvechkarev.friends.domain.FriendsScreensEvent.AcceptedRequest
+import com.arsvechkarev.friends.domain.FriendsScreensEvent.OnUserClicked
 import com.arsvechkarev.friends.presentation.FriendsScreen
 import com.arsvechkarev.friends.presentation.pagerscreens.allfriends.AllFriendsPagerScreen
 import com.arsvechkarev.friends.presentation.pagerscreens.myrequests.MyRequestsPagerScreen
@@ -33,11 +34,11 @@ class FriendsScreensCommunicator {
     get() = _friendsPagerScreenActions
   
   suspend fun onUserClicked(friendsType: FriendsType, user: User) {
-    _friendsScreenEvents.emit(FriendsScreensEvent.OnUserClicked(friendsType, user))
+    _friendsScreenEvents.emit(OnUserClicked(friendsType, user))
   }
   
-  suspend fun notifyRequestAccepted(user: User) {
-    _friendsScreenEvents.emit(AcceptedRequest(user))
+  suspend fun notifyRequestAccepted() {
+    _friendsScreenEvents.emit(AcceptedRequest)
   }
   
   suspend fun sendRemoveFriendAction(user: User) {

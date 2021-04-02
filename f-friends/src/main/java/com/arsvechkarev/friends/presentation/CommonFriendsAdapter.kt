@@ -1,16 +1,16 @@
 package com.arsvechkarev.friends.presentation
 
 import android.widget.TextView
-import com.arsvechkarev.views.UserItemView
 import com.arsvechkarev.recycler.CustomListAdapter
 import com.arsvechkarev.recycler.listDelegate
+import com.arsvechkarev.views.UserItemView
+import core.model.User
 import viewdsl.childViewAs
 import viewdsl.onClick
 import viewdsl.text
-import core.model.User
 import viewdsl.withViewBuilder
 
-class CommonFriendsAdapter(
+open class CommonFriendsAdapter(
   private val onUserClicked: (User) -> Unit
 ) : CustomListAdapter() {
   

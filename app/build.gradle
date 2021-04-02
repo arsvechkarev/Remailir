@@ -59,6 +59,7 @@ dependencies {
   implementation dependencies.appCompat
   implementation dependencies.dagger
   implementation dependencies.moxy
+  implementation dependencies.coroutinesCore
   kapt dependencies.daggerCompiler
 
   def testDependencies = rootProject.ext.testDependencies

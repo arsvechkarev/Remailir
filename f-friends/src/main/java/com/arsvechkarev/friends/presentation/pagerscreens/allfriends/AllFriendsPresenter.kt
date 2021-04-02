@@ -5,11 +5,13 @@ import com.arsvechkarev.friends.domain.FriendsPagerScreenAction.RemoveFromFriend
 import com.arsvechkarev.friends.domain.FriendsScreensCommunicator
 import com.arsvechkarev.friends.domain.FriendsScreensEvent.AcceptedRequest
 import core.Dispatchers
-import core.model.FriendsType
+import core.model.FriendsType.ALL_FRIENDS
 import core.model.User
 import core.ui.BasePresenter
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filterIsInstance
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,7 +24,7 @@ class AllFriendsPresenter @Inject constructor(
   fun startLoadingAllFriends() {
     viewState.showLoadingList()
     coroutine {
-      val friends = interactor.getListByType(FriendsType.ALL_FRIENDS)
+      val friends = interactor.getListByType(ALL_FRIENDS)
       if (friends.isEmpty()) {
         viewState.showListIsEmpty()
       } else {
@@ -34,19 +36,22 @@ class AllFriendsPresenter @Inject constructor(
   fun startListeningToFriendsActionsAndEvents() {
     scope.launch {
       screensCommunicator.friendsScreenEvents
+          .onEach { println() }
           .filterIsInstance<AcceptedRequest>()
-          .collect { event -> viewState.showFriendAdded(event.user) }
+          .map { interactor.getCachedListByType(ALL_FRIENDS) }
+          .collect(viewState::showNewFriendAdded)
     }
     scope.launch {
       screensCommunicator.friendsPagerScreenActions
+          .onEach { println() }
           .filterIsInstance<RemoveFromFriends>()
-          .collect { action -> performRemoveFromFriends(action.user) }
+          .collect { performRemoveFromFriends(it.user) }
     }
   }
   
   fun onUserClicked(user: User) {
     coroutine {
-      screensCommunicator.onUserClicked(FriendsType.ALL_FRIENDS, user)
+      screensCommunicator.onUserClicked(ALL_FRIENDS, user)
     }
   }
   
@@ -54,7 +59,13 @@ class AllFriendsPresenter @Inject constructor(
     viewState.showLoadingRemovingFromFriends(user)
     coroutine {
       interactor.removeFriend(user)
+      val updatedFriendsList = interactor.getCachedListByType(ALL_FRIENDS)
       viewState.showSuccessRemovingFromFriends(user)
+      if (updatedFriendsList.isNotEmpty()) {
+        viewState.showListChanged(updatedFriendsList)
+      } else {
+        viewState.showListIsEmpty()
+      }
     }
   }
 }

@@ -17,5 +17,7 @@ interface BaseFriendsMvpView : MvpView {
   
   fun showLoadedList(data: List<User>)
   
+  fun showListChanged(newData: List<User>)
+  
   fun showFailureLoadingList(e: Throwable)
 }

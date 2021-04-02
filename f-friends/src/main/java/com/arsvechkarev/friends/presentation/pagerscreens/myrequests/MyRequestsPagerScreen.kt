@@ -109,6 +109,10 @@ class MyRequestsPagerScreen : ViewPagerScreen(), MyRequestsView {
     adapter.submitList(data)
   }
   
+  override fun showListChanged(newData: List<User>) {
+    adapter.submitList(newData)
+  }
+  
   override fun showFailureLoadingList(e: Throwable) {
   }
   

@@ -110,16 +110,20 @@ class RequestsToMePagerScreen : ViewPagerScreen(), RequestsToMeView {
     adapter.submitList(data)
   }
   
+  override fun showListChanged(newData: List<User>) {
+    adapter.submitList(newData)
+  }
+  
   override fun showFailureLoadingList(e: Throwable) {
     Toast.makeText(contextNonNull, "error", Toast.LENGTH_LONG).show()
   }
   
   override fun showLoadingAcceptingRequest(user: User) {
-    Toast.makeText(contextNonNull, "accepting request $user", Toast.LENGTH_LONG).show()
+    Toast.makeText(contextNonNull, "accepting request $user", Toast.LENGTH_SHORT).show()
   }
   
   override fun showSuccessAcceptingRequest(user: User) {
-    adapter.submitList(adapter.currentList - user)
+    Toast.makeText(contextNonNull, "done request $user", Toast.LENGTH_SHORT).show()
   }
   
   override fun showFailureAcceptingRequest(user: User) {
@@ -129,7 +133,6 @@ class RequestsToMePagerScreen : ViewPagerScreen(), RequestsToMeView {
   }
   
   override fun showSuccessDismissingRequest(user: User) {
-    adapter.submitList(adapter.currentList - user)
   }
   
   override fun showFailureDismissingRequest(user: User) {

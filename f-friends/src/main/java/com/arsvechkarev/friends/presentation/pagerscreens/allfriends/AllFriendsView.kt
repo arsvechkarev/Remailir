@@ -14,5 +14,5 @@ interface AllFriendsView : BaseFriendsMvpView {
   
   fun showFailureRemovingFromFriends(user: User)
   
-  fun showFriendAdded(user: User)
+  fun showNewFriendAdded(updatedFriends: List<User>)
 }

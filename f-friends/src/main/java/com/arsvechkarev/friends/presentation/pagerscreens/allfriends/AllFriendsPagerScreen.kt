@@ -108,6 +108,10 @@ class AllFriendsPagerScreen : ViewPagerScreen(), AllFriendsView {
     adapter.submitList(data)
   }
   
+  override fun showListChanged(newData: List<User>) {
+    adapter.submitList(newData)
+  }
+  
   override fun showFailureLoadingList(e: Throwable) {
   }
   
@@ -117,14 +121,13 @@ class AllFriendsPagerScreen : ViewPagerScreen(), AllFriendsView {
   }
   
   override fun showSuccessRemovingFromFriends(user: User) {
-    adapter.submitList(adapter.currentList - user)
   }
   
   override fun showFailureRemovingFromFriends(user: User) {
   }
   
-  override fun showFriendAdded(user: User) {
-    adapter.submitList(adapter.currentList + user)
+  override fun showNewFriendAdded(updatedFriends: List<User>) {
+    adapter.submitList(updatedFriends)
   }
   
   private fun showOnly(view: View) {

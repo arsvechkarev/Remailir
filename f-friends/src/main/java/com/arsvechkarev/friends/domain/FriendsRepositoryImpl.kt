@@ -1,17 +1,16 @@
 package com.arsvechkarev.friends.domain
 
-import firebase.database.FirebaseDatabase
 import core.StringToUserMapper
-import firebase.database.UsersActions
-import firebase.database.UsersDatabaseSchema
 import core.model.FriendsType
 import core.model.FriendsType.ALL_FRIENDS
 import core.model.FriendsType.MY_REQUESTS
 import core.model.FriendsType.REQUESTS_TO_ME
 import core.model.User
-import javax.inject.Inject
+import firebase.database.FirebaseDatabase
+import firebase.database.UsersActions
+import firebase.database.UsersDatabaseSchema
 
-class FriendsRepositoryImpl @Inject constructor(
+class FriendsRepositoryImpl(
   private val thisUser: User,
   private val schema: UsersDatabaseSchema,
   private val database: FirebaseDatabase,
@@ -30,7 +29,9 @@ class FriendsRepositoryImpl @Inject constructor(
       REQUESTS_TO_ME -> schema.friendsRequestsToUserPath(thisUser)
     }
     val destination = ArrayList<User>()
-    return database.getList(path).mapTo(destination, userMapper::map).also { cache[type] = it }
+    return database.getList(path).mapTo(destination, userMapper::map)
+        .sortedBy(User::username)
+        .also { users -> cache[type] = ArrayList(users) }
   }
   
   override suspend fun removeFriend(user: User) {
@@ -79,9 +80,7 @@ class FriendsRepositoryImpl @Inject constructor(
       otherUserRequestsFromMePath to usersActions.remove(requestsFromOtherUser, thisUser),
     )
     database.setValues(map)
-    cache[ALL_FRIENDS]?.add(user)
-    cache[MY_REQUESTS]?.remove(user)
-    cache[REQUESTS_TO_ME]?.remove(user)
+    updateCacheAfterAcceptingRequest(user)
   }
   
   /**
@@ -100,5 +99,20 @@ class FriendsRepositoryImpl @Inject constructor(
     val v1: Any = if (list1.isNotEmpty()) list1 else ""
     val v2: Any = if (list2.isNotEmpty()) list2 else ""
     database.setValues(mapOf(pathToList1 to v1, pathToList2 to v2))
+  }
+  
+  private fun updateCacheAfterAcceptingRequest(user: User) {
+    cache[ALL_FRIENDS]?.let { friendsCache ->
+      cache[ALL_FRIENDS] = ArrayList<User>(friendsCache).apply {
+        add(user)
+        sortBy(User::username)
+      }
+    }
+    cache[MY_REQUESTS]?.let { myRequestCache ->
+      cache[MY_REQUESTS] = ArrayList<User>(myRequestCache).apply { remove(user) }
+    }
+    cache[REQUESTS_TO_ME]?.let { requestsToMeCache ->
+      cache[REQUESTS_TO_ME] = ArrayList<User>(requestsToMeCache).apply { remove(user) }
+    }
   }
 }

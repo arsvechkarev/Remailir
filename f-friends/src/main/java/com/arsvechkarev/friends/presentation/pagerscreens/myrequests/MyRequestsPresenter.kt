@@ -4,7 +4,7 @@ import com.arsvechkarev.friends.domain.FriendsInteractor
 import com.arsvechkarev.friends.domain.FriendsPagerScreenAction.CancelMyRequest
 import com.arsvechkarev.friends.domain.FriendsScreensCommunicator
 import core.Dispatchers
-import core.model.FriendsType
+import core.model.FriendsType.MY_REQUESTS
 import core.model.User
 import core.ui.BasePresenter
 import kotlinx.coroutines.flow.collect
@@ -20,7 +20,7 @@ class MyRequestsPresenter @Inject constructor(
   
   fun startLoadingMyRequests() {
     coroutine {
-      val friends = interactor.getListByType(FriendsType.MY_REQUESTS)
+      val friends = interactor.getListByType(MY_REQUESTS)
       if (friends.isEmpty()) {
         viewState.showListIsEmpty()
       } else {
@@ -39,7 +39,7 @@ class MyRequestsPresenter @Inject constructor(
   
   fun onUserClicked(user: User) {
     coroutine {
-      screensCommunicator.onUserClicked(FriendsType.MY_REQUESTS, user)
+      screensCommunicator.onUserClicked(MY_REQUESTS, user)
     }
   }
   
@@ -47,7 +47,13 @@ class MyRequestsPresenter @Inject constructor(
     viewState.showLoadingCancelMyRequest(user)
     coroutine {
       interactor.cancelMyRequest(user)
+      val updatedMyRequests = interactor.getCachedListByType(MY_REQUESTS)
       viewState.showSuccessCancelMyRequest(user)
+      if (updatedMyRequests.isNotEmpty()) {
+        viewState.showListChanged(updatedMyRequests)
+      } else {
+        viewState.showListIsEmpty()
+      }
     }
   }
 }

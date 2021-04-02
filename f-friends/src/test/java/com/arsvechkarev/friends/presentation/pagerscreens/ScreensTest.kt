@@ -82,7 +82,7 @@ class ScreensTest {
     
     val userB = user("b")
     interactor.acceptRequest(userB)
-    screensBridge.notifyRequestAccepted(userB)
+    screensBridge.notifyRequestAccepted()
     
     with(allFriendsScreen) {
       hasStatesCount(3)

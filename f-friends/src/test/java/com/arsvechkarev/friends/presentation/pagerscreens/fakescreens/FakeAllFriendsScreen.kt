@@ -10,10 +10,10 @@ import core.model.User
 
 class FakeAllFriendsScreen : FakeBaseScreen(), AllFriendsView {
   
-  override fun showFriendAdded(user: User) {
+  override fun showNewFriendAdded(updatedFriends: List<User>) {
     val success = currentSuccessState<List<User>>()
     val data = success.data
-    val state = Success(data + user)
+    val state = Success(data + updatedFriends)
     updateState(state)
   }
   

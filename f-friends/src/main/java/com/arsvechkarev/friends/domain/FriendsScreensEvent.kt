@@ -10,5 +10,5 @@ sealed class FriendsScreensEvent {
   
   class OnUserClicked(val friendsType: FriendsType, val user: User) : FriendsScreensEvent()
   
-  class AcceptedRequest(val user: User) : FriendsScreensEvent()
+  object AcceptedRequest : FriendsScreensEvent()
 }
