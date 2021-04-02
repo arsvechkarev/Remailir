@@ -1,6 +1,6 @@
 package com.arsvechkarev.home.presentation
 
-import com.arsvechkarev.core.model.User
+import core.model.User
 import moxy.MvpView
 import moxy.viewstate.strategy.AddToEndSingleStrategy
 import moxy.viewstate.strategy.StateStrategyType

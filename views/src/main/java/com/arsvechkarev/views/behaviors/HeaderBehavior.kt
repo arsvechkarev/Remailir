@@ -5,12 +5,10 @@ import android.view.View
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.arsvechkarev.core.extenstions.allowRecyclerScrolling
-import com.arsvechkarev.core.extenstions.assertThat
-import com.arsvechkarev.viewdsl.AccelerateDecelerateInterpolator
-import com.arsvechkarev.viewdsl.DURATION_SHORT
-import com.arsvechkarev.viewdsl.doOnEnd
-import com.arsvechkarev.viewdsl.getBehavior
+import viewdsl.AccelerateDecelerateInterpolator
+import viewdsl.DURATION_SHORT
+import viewdsl.doOnEnd
+import viewdsl.getBehavior
 
 /**
  * Behavior for header view in coordinator layout
@@ -54,7 +52,7 @@ class HeaderBehavior : CoordinatorLayout.Behavior<View>() {
    */
   var slideRangeCoefficient = 1f
     set(value) {
-      assertThat(value in 0f..1f) { "Range should be in range 0..1" }
+      require(value in 0f..1f) { "Range should be in range 0..1" }
       offsetHelper?.slideRangeCoefficient = value
       field = value
     }
@@ -102,7 +100,7 @@ class HeaderBehavior : CoordinatorLayout.Behavior<View>() {
     type: Int
   ): Boolean {
     if (alreadyStartedScrolling && allowScrolling) return true
-    assertThat(target is RecyclerView)
+    require(target is RecyclerView)
     if (target.allowRecyclerScrolling()) {
       alreadyStartedScrolling = true
       return true
@@ -119,7 +117,7 @@ class HeaderBehavior : CoordinatorLayout.Behavior<View>() {
     consumed: IntArray,
     type: Int
   ) {
-    assertThat(target is RecyclerView)
+    require(target is RecyclerView)
     val targetViewOffset = target.computeVerticalScrollOffset()
     if (alreadyStartedScrolling && allowScrolling && targetViewOffset == 0) {
       consumed[1] = updateTopBottomOffset(dy)
@@ -139,7 +137,7 @@ class HeaderBehavior : CoordinatorLayout.Behavior<View>() {
     type: Int,
     consumed: IntArray
   ) {
-    assertThat(target is RecyclerView)
+    require(target is RecyclerView)
     if (alreadyStartedScrolling && allowScrolling && dyUnconsumed < 0) {
       consumed[1] = updateTopBottomOffset(dyUnconsumed)
     } else if (allowScrolling && dyUnconsumed < 0 && target.allowRecyclerScrolling()) {
@@ -152,6 +150,23 @@ class HeaderBehavior : CoordinatorLayout.Behavior<View>() {
   }
   
   private val allowScrolling get() = !scrollAnimator.isRunning && isScrollable
+  
+  private fun RecyclerView.allowRecyclerScrolling(): Boolean {
+    adapter?.let { adapter ->
+      var pos = -1
+      for (i in 0 until childCount) {
+        val view = getChildAt(i)
+        if (view.bottom > height) {
+          pos = i
+        }
+      }
+      if (pos == -1) {
+        return false
+      }
+      return pos < adapter.itemCount
+    }
+    return false
+  }
   
   companion object {
     

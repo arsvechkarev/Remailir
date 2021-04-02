@@ -1,6 +1,6 @@
 package com.arsvechkarev.friends.domain
 
-import com.arsvechkarev.core.model.User
+import core.model.User
 
 /**
  * Actions that passed from main friends screens to view pager screens

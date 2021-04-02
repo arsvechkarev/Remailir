@@ -1,17 +1,18 @@
 package com.arsvechkarev.friends.presentation.pagerscreens.myrequests
 
-import com.arsvechkarev.core.BasePresenter
-import com.arsvechkarev.core.concurrency.Dispatchers
-import com.arsvechkarev.core.model.FriendsType
-import com.arsvechkarev.core.model.User
 import com.arsvechkarev.friends.domain.FriendsInteractor
 import com.arsvechkarev.friends.domain.FriendsPagerScreenAction.CancelMyRequest
 import com.arsvechkarev.friends.domain.FriendsScreensCommunicator
+import core.Dispatchers
+import core.model.FriendsType
+import core.model.User
+import core.ui.BasePresenter
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MyRequestsPresenter(
+class MyRequestsPresenter @Inject constructor(
   private val interactor: FriendsInteractor,
   private val screensCommunicator: FriendsScreensCommunicator,
   dispatchers: Dispatchers

@@ -1,6 +1,6 @@
 package com.arsvechkarev.testcommon
 
-import com.arsvechkarev.core.concurrency.Dispatchers
+import core.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 

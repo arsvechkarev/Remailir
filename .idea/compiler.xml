@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="13" />
+    <bytecodeTargetLevel target="1.8">
+      <module name="Remailir.app" target="13" />
+      <module name="Remailir.authentication-api" target="13" />
+      <module name="Remailir.authentication-impl" target="13" />
+      <module name="Remailir.core-api" target="13" />
+      <module name="Remailir.core-impl" target="13" />
+      <module name="Remailir.core-ui" target="13" />
+      <module name="Remailir.f-chat" target="13" />
+      <module name="Remailir.f-common" target="13" />
+      <module name="Remailir.f-friends" target="13" />
+      <module name="Remailir.f-home" target="13" />
+      <module name="Remailir.f-registration" target="13" />
+      <module name="Remailir.f-search" target="13" />
+      <module name="Remailir.f-settings" target="13" />
+      <module name="Remailir.firebase-api" target="13" />
+      <module name="Remailir.firebase-impl" target="13" />
+      <module name="Remailir.recycler" target="13" />
+      <module name="Remailir.resources" target="13" />
+      <module name="Remailir.storage" target="13" />
+      <module name="Remailir.test-common" target="13" />
+      <module name="Remailir.viewdsl" target="13" />
+      <module name="Remailir.views" target="13" />
+    </bytecodeTargetLevel>
   </component>
 </project>

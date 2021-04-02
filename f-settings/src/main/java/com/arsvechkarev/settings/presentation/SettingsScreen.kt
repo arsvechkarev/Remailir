@@ -2,41 +2,7 @@ package com.arsvechkarev.settings.presentation
 
 import android.view.Gravity
 import androidx.appcompat.widget.SwitchCompat
-import com.arsvechkarev.core.SharedPrefsStorage
-import com.arsvechkarev.core.concurrency.AndroidDispatchers
-import com.arsvechkarev.core.extenstions.i
-import com.arsvechkarev.core.extenstions.moxyPresenter
-import com.arsvechkarev.core.extenstions.screenHeight
-import com.arsvechkarev.core.extenstions.screenWidth
-import com.arsvechkarev.core.navigation.Screen
-import com.arsvechkarev.core.settings.AndroidSettings
-import com.arsvechkarev.core.settings.AndroidSettings.Companion.SETTINGS_FILENAME
-import com.arsvechkarev.core.viewbuilding.Colors
-import com.arsvechkarev.core.viewbuilding.Dimens.ProgressBarSize
-import com.arsvechkarev.core.viewbuilding.Styles.BaseTextView
-import com.arsvechkarev.core.viewbuilding.Styles.BoldTextView
-import com.arsvechkarev.core.viewbuilding.TextSizes
-import com.arsvechkarev.firebase.auth.FirebaseAuthenticator
-import com.arsvechkarev.firebase.auth.SharedPrefsEmailSaver
 import com.arsvechkarev.settings.R
-import com.arsvechkarev.viewdsl.Ints.dp
-import com.arsvechkarev.viewdsl.Size.Companion.MatchParent
-import com.arsvechkarev.viewdsl.Size.Companion.WrapContent
-import com.arsvechkarev.viewdsl.addView
-import com.arsvechkarev.viewdsl.background
-import com.arsvechkarev.viewdsl.backgroundRoundRect
-import com.arsvechkarev.viewdsl.classNameTag
-import com.arsvechkarev.viewdsl.gravity
-import com.arsvechkarev.viewdsl.layoutGravity
-import com.arsvechkarev.viewdsl.margin
-import com.arsvechkarev.viewdsl.margins
-import com.arsvechkarev.viewdsl.padding
-import com.arsvechkarev.viewdsl.paddingHorizontal
-import com.arsvechkarev.viewdsl.setColors
-import com.arsvechkarev.viewdsl.size
-import com.arsvechkarev.viewdsl.text
-import com.arsvechkarev.viewdsl.textColor
-import com.arsvechkarev.viewdsl.textSize
 import com.arsvechkarev.views.MaterialProgressBar
 import com.arsvechkarev.views.MaterialProgressBar.Thickness.THICK
 import com.arsvechkarev.views.SettingsThreeElementsView
@@ -44,7 +10,32 @@ import com.arsvechkarev.views.SimpleDialog
 import com.arsvechkarev.views.Toolbar
 import com.arsvechkarev.views.drawables.ProfileDrawable
 import com.google.firebase.auth.FirebaseAuth
-
+import core.resources.Colors
+import core.resources.Dimens.ProgressBarSize
+import core.resources.Styles.BaseTextView
+import core.resources.Styles.BoldTextView
+import core.resources.TextSizes
+import core.ui.navigation.Screen
+import viewdsl.Ints.dp
+import viewdsl.Size.Companion.MatchParent
+import viewdsl.Size.Companion.WrapContent
+import viewdsl.addView
+import viewdsl.background
+import viewdsl.backgroundRoundRect
+import viewdsl.classNameTag
+import viewdsl.gravity
+import viewdsl.layoutGravity
+import viewdsl.margin
+import viewdsl.margins
+import viewdsl.padding
+import viewdsl.paddingHorizontal
+import viewdsl.screenHeight
+import viewdsl.screenWidth
+import viewdsl.setColors
+import viewdsl.size
+import viewdsl.text
+import viewdsl.textColor
+import viewdsl.textSize
 
 class SettingsScreen : Screen(), SettingsView {
   
@@ -57,7 +48,7 @@ class SettingsScreen : Screen(), SettingsView {
           title(R.string.title_settings)
           onBackClick { navigator.popCurrentScreen() }
         }
-        val size = (minOf(context.screenWidth, context.screenHeight) / 2.5f).i
+        val size = (minOf(context.screenWidth, context.screenHeight) / 2.5f).toInt()
         ImageView(size, size) {
           margin(24.dp)
           layoutGravity(Gravity.CENTER)
@@ -87,17 +78,19 @@ class SettingsScreen : Screen(), SettingsView {
           child<SwitchCompat>(WrapContent, WrapContent) {
             classNameTag()
             layoutGravity(Gravity.END)
-            setColors(Colors.AccentLight, Colors.Disabled, Colors.OnAccent, Colors.Surface)
+            setColors(
+              Colors.AccentLight, Colors.Disabled,
+              Colors.OnAccent, Colors.Surface)
             setOnCheckedChangeListener { _, isChecked ->
-              presenter.setNotificationsEnabled(isChecked)
+              //              presenter.setNotificationsEnabled(isChecked)
             }
           }
         }
         child<SettingsThreeElementsView>(MatchParent, WrapContent) {
           margins(top = 24.dp)
-          onLogOutClick { presenter.logOut() }
-          onShareClick { presenter.share() }
-          onSourceCodeClick { presenter.openSourceCode() }
+          //          onLogOutClick { presenter.logOut() }
+          //          onShareClick { presenter.share() }
+          //          onSourceCodeClick { presenter.openSourceCode() }
         }
       }
       child<SimpleDialog>(MatchParent, MatchParent) {
@@ -122,19 +115,19 @@ class SettingsScreen : Screen(), SettingsView {
     }
   }
   
-  private val presenter by moxyPresenter {
-    val storage = SharedPrefsStorage(SETTINGS_FILENAME, contextNonNull)
-    SettingsPresenter(
-      AndroidSettings(storage),
-      FirebaseAuthenticator,
-      SharedPrefsEmailSaver(contextNonNull),
-      navigator,
-      AndroidDispatchers
-    )
-  }
-  
+  //  private val presenter by moxyPresenter {
+  //    val storage = core.impl.SharedPrefsStorage(SETTINGS_FILENAME, contextNonNull)
+  //    SettingsPresenter(
+  //      core.impl.AndroidSettings(storage),
+  //      core.impl.firebase.FirebaseAuthenticator,
+  //      core.impl.firebase.SharedPrefsEmailSaver(contextNonNull),
+  //      navigator,
+  //      core.impl.AndroidDispatchers
+  //    )
+  //  }
+  //
   override fun onInit() {
-    viewAs<SwitchCompat>().isChecked = presenter.areNotificationsEnabled()
+    //    viewAs<SwitchCompat>().isChecked = presenter.areNotificationsEnabled()
   }
   
   override fun showSigningOut() {

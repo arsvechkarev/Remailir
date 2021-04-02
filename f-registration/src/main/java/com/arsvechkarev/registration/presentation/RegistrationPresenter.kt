@@ -1,9 +1,5 @@
 package com.arsvechkarev.registration.presentation
 
-import com.arsvechkarev.core.BasePresenter
-import com.arsvechkarev.core.MIN_NETWORK_DELAY
-import com.arsvechkarev.core.concurrency.Dispatchers
-import com.arsvechkarev.core.exceptions.UsernameAlreadyExistsException
 import com.arsvechkarev.registration.R
 import com.arsvechkarev.registration.domain.RegistrationInteractor
 import com.arsvechkarev.registration.domain.Validator
@@ -12,10 +8,11 @@ import com.arsvechkarev.registration.domain.Validator.EmailState.EMAIL_INVALID
 import com.arsvechkarev.registration.domain.Validator.UsernameState.USERNAME_CONTAINS_PROHIBITED_SYMBOLS
 import com.arsvechkarev.registration.domain.Validator.UsernameState.USERNAME_EMPTY
 import com.google.firebase.auth.FirebaseAuthActionCodeException
+import core.Dispatchers
+import core.ui.BasePresenter
+import core.ui.MIN_NETWORK_DELAY
 import kotlinx.coroutines.delay
-import moxy.InjectViewState
 
-@InjectViewState
 class RegistrationPresenter(
   private val interactor: RegistrationInteractor,
   dispatchers: Dispatchers
@@ -83,7 +80,7 @@ class RegistrationPresenter(
         interactor.saveUsername(username)
         viewState.showSignedIn()
       } catch (e: Throwable) {
-        if (e is UsernameAlreadyExistsException) {
+        if (e is core.UsernameAlreadyExistsException) {
           viewState.showTextIsIncorrect(R.string.error_username_already_exists)
         } else {
           viewState.showFailure(e)

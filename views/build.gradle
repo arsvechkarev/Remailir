@@ -23,7 +23,9 @@ android {
 }
 
 dependencies {
-  implementation project(":core")
+  implementation project(':core-api')
+  implementation project(':resources')
+  implementation project(':viewdsl')
 
   def dependencies = rootProject.ext.applicationDependencies
   implementation dependencies.kotlin

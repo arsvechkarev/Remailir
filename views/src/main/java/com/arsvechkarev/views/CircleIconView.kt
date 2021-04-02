@@ -8,10 +8,10 @@ import android.graphics.drawable.AnimatedVectorDrawable
 import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
-import com.arsvechkarev.core.extenstions.Paint
-import com.arsvechkarev.viewdsl.layoutGravity
-import com.arsvechkarev.viewdsl.retrieveDrawable
-import com.arsvechkarev.viewdsl.size
+import com.arsvechkarev.views.utils.Paint
+import viewdsl.layoutGravity
+import viewdsl.retrieveDrawable
+import viewdsl.size
 
 class CircleIconView(
   context: Context,

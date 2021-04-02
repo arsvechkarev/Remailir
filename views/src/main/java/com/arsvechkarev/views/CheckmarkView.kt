@@ -5,10 +5,9 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.view.View
-import com.arsvechkarev.core.viewbuilding.Colors
-import com.arsvechkarev.viewdsl.retrieveDrawable
-import com.arsvechkarev.viewdsl.stopIfRunning
-import com.arsvechkarev.viewdsl.visible
+import viewdsl.retrieveDrawable
+import viewdsl.stopIfRunning
+import viewdsl.visible
 
 class CheckmarkView(context: Context) : View(context) {
   
@@ -16,7 +15,8 @@ class CheckmarkView(context: Context) : View(context) {
   
   init {
     background = context.retrieveDrawable(R.drawable.avd_checkmark).apply { }
-    background.colorFilter = PorterDuffColorFilter(Colors.Correct, PorterDuff.Mode.SRC_ATOP)
+    background.colorFilter = PorterDuffColorFilter(core.resources.Colors.Correct,
+      PorterDuff.Mode.SRC_ATOP)
   }
   
   fun animateCheckmark(andThen: () -> Unit = {}) {

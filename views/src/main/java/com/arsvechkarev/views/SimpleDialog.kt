@@ -11,15 +11,15 @@ import android.view.View
 import android.view.ViewConfiguration
 import android.widget.FrameLayout
 import androidx.core.graphics.ColorUtils
-import com.arsvechkarev.core.extenstions.contains
-import com.arsvechkarev.core.viewbuilding.Colors
-import com.arsvechkarev.viewdsl.AccelerateDecelerateInterpolator
-import com.arsvechkarev.viewdsl.DURATION_SHORT
-import com.arsvechkarev.viewdsl.cancelIfRunning
-import com.arsvechkarev.viewdsl.gone
-import com.arsvechkarev.viewdsl.invisible
-import com.arsvechkarev.viewdsl.layoutGravity
-import com.arsvechkarev.viewdsl.visible
+import viewdsl.AccelerateDecelerateInterpolator
+import viewdsl.DURATION_SHORT
+import viewdsl.cancelIfRunning
+import viewdsl.contains
+import viewdsl.gone
+import viewdsl.invisible
+import viewdsl.layoutGravity
+import viewdsl.visible
+import core.resources.Colors
 import kotlin.math.abs
 import kotlin.math.hypot
 
@@ -35,7 +35,8 @@ class SimpleDialog(context: Context) : FrameLayout(context) {
     addUpdateListener {
       currentShadowFraction = it.animatedValue as Float
       onShadowFractionChangedListener?.invoke(currentShadowFraction)
-      val color = ColorUtils.blendARGB(Color.TRANSPARENT, Colors.Shadow, currentShadowFraction)
+      val color = ColorUtils.blendARGB(Color.TRANSPARENT, Colors.Shadow,
+        currentShadowFraction)
       setBackgroundColor(color)
     }
   }

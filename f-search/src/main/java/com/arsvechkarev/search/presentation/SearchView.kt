@@ -1,7 +1,7 @@
 package com.arsvechkarev.search.presentation
 
-import com.arsvechkarev.core.model.User
 import com.arsvechkarev.search.domain.RequestResult
+import core.model.User
 import moxy.MvpView
 import moxy.viewstate.strategy.AddToEndSingleStrategy
 import moxy.viewstate.strategy.StateStrategyType

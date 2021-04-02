@@ -1,7 +1,7 @@
 package com.arsvechkarev.chat.domain
 
-import com.arsvechkarev.core.model.messaging.MessageOtherUser
-import com.arsvechkarev.core.model.messaging.MessageThisUser
+import core.model.messaging.MessageOtherUser
+import core.model.messaging.MessageThisUser
 
 interface ChattingObserver {
   

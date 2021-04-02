@@ -1,11 +1,11 @@
 package com.arsvechkarev.search.presentation
 
-import com.arsvechkarev.core.BasePresenter
-import com.arsvechkarev.core.MIN_NETWORK_DELAY
-import com.arsvechkarev.core.concurrency.Dispatchers
-import com.arsvechkarev.core.model.User
 import com.arsvechkarev.search.domain.RequestResult.SENT
 import com.arsvechkarev.search.domain.SearchRepository
+import core.Dispatchers
+import core.model.User
+import core.ui.BasePresenter
+import core.ui.MIN_NETWORK_DELAY
 import kotlinx.coroutines.delay
 
 class SearchPresenter(

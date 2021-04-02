@@ -6,12 +6,11 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.RectF
 import android.view.View
-import com.arsvechkarev.core.extenstions.execute
-import com.arsvechkarev.core.extenstions.f
-import com.arsvechkarev.core.viewbuilding.Colors
-import com.arsvechkarev.viewdsl.AccelerateDecelerateInterpolator
-import com.arsvechkarev.viewdsl.Ints.dp
-import com.arsvechkarev.viewdsl.cancelIfRunning
+import com.arsvechkarev.views.utils.execute
+import core.resources.Colors
+import viewdsl.AccelerateDecelerateInterpolator
+import viewdsl.Ints.dp
+import viewdsl.cancelIfRunning
 
 class ComplexProgressBar(context: Context) : View(context) {
   
@@ -61,14 +60,14 @@ class ComplexProgressBar(context: Context) : View(context) {
   override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
     paint.strokeWidth = w / 12f
     val outerInset = paint.strokeWidth / 2
-    outerOval.set(paddingStart.f + outerInset, paddingTop.f + outerInset,
-      w.f - paddingEnd - outerInset, h.f - paddingBottom - outerInset)
+    outerOval.set(paddingStart.toFloat() + outerInset, paddingTop.toFloat() + outerInset,
+      w.toFloat() - paddingEnd - outerInset, h.toFloat() - paddingBottom - outerInset)
     val middleOffset = paint.strokeWidth * 1.5f + outerInset
-    middleOval.set(paddingStart.f + middleOffset, paddingTop + middleOffset,
-      w.f - paddingEnd - middleOffset, h.f - paddingBottom - middleOffset)
+    middleOval.set(paddingStart.toFloat() + middleOffset, paddingTop + middleOffset,
+      w.toFloat() - paddingEnd - middleOffset, h.toFloat() - paddingBottom - middleOffset)
     val innerInset = paint.strokeWidth * 3 + outerInset
-    innerOval.set(paddingStart.f + innerInset, paddingTop + innerInset,
-      w.f - paddingEnd - innerInset, h.f - paddingBottom - innerInset)
+    innerOval.set(paddingStart.toFloat() + innerInset, paddingTop + innerInset,
+      w.toFloat() - paddingEnd - innerInset, h.toFloat() - paddingBottom - innerInset)
   }
   
   override fun onDraw(canvas: Canvas) {

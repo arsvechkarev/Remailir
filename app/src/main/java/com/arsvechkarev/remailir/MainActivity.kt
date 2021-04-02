@@ -12,25 +12,22 @@ import com.arsvechkarev.chat.presentation.ChatScreen.Companion.KEY_TYPE
 import com.arsvechkarev.chat.presentation.ChatScreen.Companion.KEY_USERNAME
 import com.arsvechkarev.chat.presentation.ChatScreen.Companion.TYPE_JOINED
 import com.arsvechkarev.chat.presentation.ChatScreen.Companion.TYPE_REQUEST
-import com.arsvechkarev.core.BaseActivity
-import com.arsvechkarev.core.model.User
-import com.arsvechkarev.core.navigation.Navigator
-import com.arsvechkarev.core.navigation.NavigatorView
-import com.arsvechkarev.core.navigation.Options
-import com.arsvechkarev.core.viewbuilding.Colors
-import com.arsvechkarev.firebase.auth.FirebaseAuthenticator
 import com.arsvechkarev.friends.presentation.FriendsScreen
 import com.arsvechkarev.home.presentation.HomeScreen
 import com.arsvechkarev.registration.presentation.RegistrationScreen
 import com.arsvechkarev.registration.presentation.RegistrationScreen.Companion.CHECK_LINK
 import com.arsvechkarev.search.presentation.SearchScreen
 import com.arsvechkarev.settings.presentation.SettingsScreen
-import com.arsvechkarev.viewdsl.Densities
-import com.arsvechkarev.viewdsl.Size.Companion.MatchParent
-import com.arsvechkarev.viewdsl.classNameTag
-import com.arsvechkarev.viewdsl.size
-import com.arsvechkarev.viewdsl.withViewBuilder
-import com.arsvechkarev.views.RootView
+import core.model.User
+import core.resources.ViewBuilding
+import core.ui.BaseActivity
+import core.ui.navigation.Navigator
+import core.ui.navigation.NavigatorView
+import core.ui.navigation.Options
+import viewdsl.Size.Companion.MatchParent
+import viewdsl.classNameTag
+import viewdsl.size
+import viewdsl.withViewBuilder
 
 class MainActivity : BaseActivity(), Navigator {
   
@@ -48,39 +45,11 @@ class MainActivity : BaseActivity(), Navigator {
   
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    Densities.init(resources)
-    Colors.init(this)
+    ViewBuilding.initializeWithActivityContext(this)
     setContentView(mainActivityLayout)
     window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
         or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
-    //        FirebaseFirestore.getInstance().setFirestoreSettings(
-    //          FirebaseFirestoreSettings.Builder().setPersistenceEnabled(false).build())
-    //            GlobalScope.launch(Dispatchers.Main) {
-    //              try {
-    //                FirebaseAuth.getInstance().signInWithEmailAndPassword(
-    //                  "a@gmail.com", "aaaaaaaa"
-    //                ).await()
-    //                val profileUpdates = UserProfileChangeRequest.Builder()
-    //                    .setDisplayName("a")
-    //                    .build()
-    //                FirebaseAuth.getInstance().currentUser!!
-    //                    .updateProfile(profileUpdates)
-    //                    .await()
-    //                navigator.navigate(HomeScreen::class)
-    //              } catch (e: Throwable) {
-    //                Timber.d(e, "Failed to sign in")
-    //              }
-    //            }
-    if (FirebaseAuthenticator.isUserLoggedIn()) {
-      navigator.navigate(HomeScreen::class)
-    } else {
-      navigator.navigate(RegistrationScreen::class,
-        options = Options(
-          clearAllOtherScreens = true,
-          arguments = Bundle().apply { putBoolean(CHECK_LINK, true) }
-        )
-      )
-    }
+    navigator.navigate(HomeScreen::class)
   }
   
   override fun switchToMainScreen() {

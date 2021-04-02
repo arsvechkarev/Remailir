@@ -24,15 +24,15 @@ android {
 }
 
 dependencies {
-  implementation project(":core")
-  implementation project(":views")
-  implementation project(":firebase")
-  implementation project(":storage")
-  implementation project(":f-common")
+  implementation project(':core-ui')
+  implementation project(':firebase-api')
+  implementation project(':recycler')
+  implementation project(':views')
 
   def dependencies = rootProject.ext.applicationDependencies
   implementation dependencies.kotlin
   implementation dependencies.appCompat
+  implementation dependencies.timber
   implementation dependencies.coordinatorLayout
   implementation dependencies.recyclerView
   implementation dependencies.coroutinesCore

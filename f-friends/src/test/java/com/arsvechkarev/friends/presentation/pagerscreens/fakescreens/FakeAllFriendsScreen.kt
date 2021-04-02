@@ -1,12 +1,12 @@
 package com.arsvechkarev.friends.presentation.pagerscreens.fakescreens
 
-import com.arsvechkarev.core.model.User
 import com.arsvechkarev.friends.presentation.pagerscreens.allfriends.AllFriendsView
 import com.arsvechkarev.testcommon.FakeBaseScreen
 import com.arsvechkarev.testcommon.ScreenState.Empty
 import com.arsvechkarev.testcommon.ScreenState.Failure
 import com.arsvechkarev.testcommon.ScreenState.Loading
 import com.arsvechkarev.testcommon.ScreenState.Success
+import core.model.User
 
 class FakeAllFriendsScreen : FakeBaseScreen(), AllFriendsView {
   

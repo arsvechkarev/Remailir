@@ -7,12 +7,12 @@ import android.graphics.RectF
 import android.text.Layout
 import android.text.TextPaint
 import android.view.View
-import com.arsvechkarev.core.extenstions.execute
-import com.arsvechkarev.core.extenstions.f
-import com.arsvechkarev.core.viewbuilding.Dimens
-import com.arsvechkarev.core.viewbuilding.Dimens.ChipHorizontalPadding
-import com.arsvechkarev.core.viewbuilding.Dimens.ChipVerticalPadding
-import com.arsvechkarev.core.viewbuilding.Fonts
+import com.arsvechkarev.views.utils.boringLayoutOf
+import com.arsvechkarev.views.utils.execute
+import core.resources.Dimens
+import core.resources.Dimens.ChipHorizontalPadding
+import core.resources.Dimens.ChipVerticalPadding
+import core.resources.Fonts
 
 class Chip(
   context: Context,
@@ -66,11 +66,11 @@ class Chip(
     }
     rect.set(strokeOffsetForRect, strokeOffsetForRect,
       width - strokeOffsetForRect, height - strokeOffsetForRect)
-    canvas.drawRoundRect(rect, height.f, height.f, rectPaint)
+    canvas.drawRoundRect(rect, height.toFloat(), height.toFloat(), rectPaint)
     val strokeOffsetItems = rectPaint.strokeWidth
     canvas.execute {
-      translate(paddingStart.f + strokeOffsetItems,
-        paddingTop.f + strokeOffsetItems)
+      translate(paddingStart.toFloat() + strokeOffsetItems,
+        paddingTop.toFloat() + strokeOffsetItems)
       textLayout.draw(canvas)
     }
   }

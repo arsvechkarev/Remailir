@@ -1,18 +1,18 @@
 package com.arsvechkarev.friends.old
 
-import com.arsvechkarev.core.BasePresenter
-import com.arsvechkarev.core.MIN_NETWORK_DELAY
-import com.arsvechkarev.core.concurrency.Dispatchers
-import com.arsvechkarev.core.model.FriendsType
-import com.arsvechkarev.core.model.FriendsType.ALL_FRIENDS
-import com.arsvechkarev.core.model.FriendsType.REQUESTS_TO_ME
-import com.arsvechkarev.core.model.FriendsType.MY_REQUESTS
-import com.arsvechkarev.core.model.User
-import com.arsvechkarev.core.model.UserAction
-import com.arsvechkarev.core.model.UserAction.ADDING_TO_FRIENDS
-import com.arsvechkarev.core.model.UserAction.CANCELING_MY_REQUEST
-import com.arsvechkarev.core.model.UserAction.DISMISSING_REQUEST
-import com.arsvechkarev.core.model.UserAction.REMOVE_FROM_FRIENDS
+import core.Dispatchers
+import core.model.FriendsType
+import core.model.FriendsType.ALL_FRIENDS
+import core.model.FriendsType.MY_REQUESTS
+import core.model.FriendsType.REQUESTS_TO_ME
+import core.model.User
+import core.model.UserAction
+import core.model.UserAction.ADDING_TO_FRIENDS
+import core.model.UserAction.CANCELING_MY_REQUEST
+import core.model.UserAction.DISMISSING_REQUEST
+import core.model.UserAction.REMOVE_FROM_FRIENDS
+import core.ui.BasePresenter
+import core.ui.MIN_NETWORK_DELAY
 import kotlinx.coroutines.delay
 
 class FriendsOldPresenter(

@@ -8,41 +8,10 @@ import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.arsvechkarev.common.ErrorLayout
-import com.arsvechkarev.common.ImageError
-import com.arsvechkarev.common.LayoutError
-import com.arsvechkarev.common.TextError
-import com.arsvechkarev.common.TextRetry
-import com.arsvechkarev.core.CustomFontSpan
-import com.arsvechkarev.core.UserMapper
-import com.arsvechkarev.core.concurrency.AndroidDispatchers
-import com.arsvechkarev.core.extenstions.getMessageRes
-import com.arsvechkarev.core.extenstions.ifTrue
-import com.arsvechkarev.core.extenstions.moxyPresenter
-import com.arsvechkarev.core.model.FriendsType
-import com.arsvechkarev.core.model.FriendsType.ALL_FRIENDS
-import com.arsvechkarev.core.model.FriendsType.REQUESTS_TO_ME
-import com.arsvechkarev.core.model.FriendsType.MY_REQUESTS
-import com.arsvechkarev.core.model.User
-import com.arsvechkarev.core.model.UserAction
-import com.arsvechkarev.core.model.UserAction.ADDING_TO_FRIENDS
-import com.arsvechkarev.core.model.UserAction.CANCELING_MY_REQUEST
-import com.arsvechkarev.core.model.UserAction.DISMISSING_REQUEST
-import com.arsvechkarev.core.model.UserAction.REMOVE_FROM_FRIENDS
-import com.arsvechkarev.core.navigation.Screen
-import com.arsvechkarev.core.viewbuilding.Colors
-import com.arsvechkarev.core.viewbuilding.Colors.TextPrimary
-import com.arsvechkarev.core.viewbuilding.Dimens
-import com.arsvechkarev.core.viewbuilding.Dimens.ProgressBarSizeBig
-import com.arsvechkarev.core.viewbuilding.Fonts
-import com.arsvechkarev.core.viewbuilding.Styles.BaseTextView
-import com.arsvechkarev.core.viewbuilding.Styles.BoldTextView
-import com.arsvechkarev.core.viewbuilding.Styles.ClickableButton
-import com.arsvechkarev.core.viewbuilding.Styles.ClickableTextView
-import com.arsvechkarev.core.viewbuilding.TextSizes
-import com.arsvechkarev.firebase.auth.FirebaseAuthenticator
-import com.arsvechkarev.firebase.database.FirebaseDatabaseImpl
-import com.arsvechkarev.firebase.database.PathDatabaseSchema
+import com.arsvechkarev.views.ErrorLayout
+import com.arsvechkarev.views.ImageError
+import com.arsvechkarev.views.LayoutError
+import com.arsvechkarev.views.TextError
 import com.arsvechkarev.friends.R
 import com.arsvechkarev.friends.R.drawable.ic_add_friend
 import com.arsvechkarev.friends.R.drawable.ic_cancel_circle
@@ -51,35 +20,16 @@ import com.arsvechkarev.friends.R.drawable.ic_message
 import com.arsvechkarev.friends.R.drawable.ic_remove_firend
 import com.arsvechkarev.friends.R.string.text_confirm_remove_from_friends
 import com.arsvechkarev.friends.R.string.text_confirm_remove_from_friends_first_part
-import com.arsvechkarev.friends.domain.ByUsernameUsersActions
-import com.arsvechkarev.friends.domain.FriendsRepositoryImpl
-import com.arsvechkarev.viewdsl.DURATION_SHORT
-import com.arsvechkarev.viewdsl.Ints.dp
-import com.arsvechkarev.viewdsl.Size.Companion.MatchParent
-import com.arsvechkarev.viewdsl.Size.Companion.WrapContent
-import com.arsvechkarev.viewdsl.animateInvisible
-import com.arsvechkarev.viewdsl.animateVisible
-import com.arsvechkarev.viewdsl.backgroundRoundRect
-import com.arsvechkarev.viewdsl.behavior
-import com.arsvechkarev.viewdsl.classNameTag
-import com.arsvechkarev.viewdsl.drawablePadding
-import com.arsvechkarev.viewdsl.drawables
-import com.arsvechkarev.viewdsl.gone
-import com.arsvechkarev.viewdsl.gravity
-import com.arsvechkarev.viewdsl.invisible
-import com.arsvechkarev.viewdsl.isVisible
-import com.arsvechkarev.viewdsl.layoutGravity
-import com.arsvechkarev.viewdsl.marginHorizontal
-import com.arsvechkarev.viewdsl.margins
-import com.arsvechkarev.viewdsl.onClick
-import com.arsvechkarev.viewdsl.paddingHorizontal
-import com.arsvechkarev.viewdsl.paddingVertical
-import com.arsvechkarev.viewdsl.paddings
-import com.arsvechkarev.viewdsl.tag
-import com.arsvechkarev.viewdsl.text
-import com.arsvechkarev.viewdsl.textColor
-import com.arsvechkarev.viewdsl.textSize
-import com.arsvechkarev.viewdsl.visible
+import viewdsl.DURATION_SHORT
+import viewdsl.Ints.dp
+import viewdsl.animateInvisible
+import viewdsl.animateVisible
+import viewdsl.drawables
+import viewdsl.gone
+import viewdsl.invisible
+import viewdsl.onClick
+import viewdsl.text
+import viewdsl.visible
 import com.arsvechkarev.views.ComplexProgressBar
 import com.arsvechkarev.views.FriendsAndRequestsLayout
 import com.arsvechkarev.views.PullToRefreshView
@@ -90,7 +40,47 @@ import com.arsvechkarev.views.behaviors.HeaderBehavior
 import com.arsvechkarev.views.behaviors.PullToRefreshBehavior
 import com.arsvechkarev.views.behaviors.ScrollingRecyclerBehavior
 import com.arsvechkarev.views.behaviors.ViewUnderHeaderBehavior
+import core.model.FriendsType
+import core.model.FriendsType.ALL_FRIENDS
+import core.model.FriendsType.MY_REQUESTS
+import core.model.FriendsType.REQUESTS_TO_ME
+import core.model.User
+import core.model.UserAction
+import core.model.UserAction.ADDING_TO_FRIENDS
+import core.model.UserAction.CANCELING_MY_REQUEST
+import core.model.UserAction.DISMISSING_REQUEST
+import core.model.UserAction.REMOVE_FROM_FRIENDS
+import core.resources.Colors
+import core.resources.Colors.TextPrimary
+import core.resources.Dimens
+import core.resources.Dimens.ProgressBarSizeBig
+import core.resources.Styles.BaseTextView
+import core.resources.Styles.BoldTextView
+import core.resources.Styles.ClickableButton
+import core.resources.Styles.ClickableTextView
+import core.resources.TextSizes
+import core.ui.CustomFontSpan
+import core.ui.navigation.Screen
+import core.ui.utils.getMessageRes
+import core.ui.utils.ifTrue
 import timber.log.Timber
+import viewdsl.Size.Companion.MatchParent
+import viewdsl.Size.Companion.WrapContent
+import viewdsl.backgroundRoundRect
+import viewdsl.behavior
+import viewdsl.classNameTag
+import viewdsl.drawablePadding
+import viewdsl.gravity
+import viewdsl.isVisible
+import viewdsl.layoutGravity
+import viewdsl.marginHorizontal
+import viewdsl.margins
+import viewdsl.paddingHorizontal
+import viewdsl.paddingVertical
+import viewdsl.paddings
+import viewdsl.tag
+import viewdsl.textColor
+import viewdsl.textSize
 
 class FriendsOldScreen : Screen(), FriendsOldView {
   
@@ -103,8 +93,8 @@ class FriendsOldScreen : Screen(), FriendsOldView {
         showSearchImage = true
         title(R.string.title_friends)
         onBackClick { navigator.popCurrentScreen() }
-        onSearchTyped { text -> presenter.performFiltering(text) }
-        onExitFromSearchMode = { presenter.showCurrentListIfNotEmpty() }
+        //        onSearchTyped { text -> presenter.performFiltering(text) }
+        //        onExitFromSearchMode = { presenter.showCurrentListIfNotEmpty() }
         behavior(headerBehavior)
       }
       child<RecyclerView>(MatchParent, MatchParent) {
@@ -167,7 +157,7 @@ class FriendsOldScreen : Screen(), FriendsOldView {
         classNameTag()
         val behavior = PullToRefreshBehavior(context)
         behavior(behavior)
-        onRefreshPulled = { presenter.onRefreshPulled() }
+        //        onRefreshPulled = { presenter.onRefreshPulled() }
         behavior.allowPulling = lb@{
           if (view(LayoutNoData).isVisible) return@lb true
           if (viewAs<SimpleDialog>().isOpened) return@lb false
@@ -216,7 +206,8 @@ class FriendsOldScreen : Screen(), FriendsOldView {
             marginHorizontal(32.dp)
             gravity(CENTER)
             layoutGravity(CENTER)
-            backgroundRoundRect(Dimens.DefaultCornerRadius, Colors.Dialog)
+            backgroundRoundRect(Dimens.DefaultCornerRadius,
+              Colors.Dialog)
             TextView(WrapContent, WrapContent, style = BaseTextView) {
               tag(TextConfirmation)
               gravity(CENTER)
@@ -233,7 +224,8 @@ class FriendsOldScreen : Screen(), FriendsOldView {
                 textSize(TextSizes.H5)
               }
               TextView(WrapContent, WrapContent) {
-                apply(ClickableTextView(Colors.ErrorRipple, Colors.Dialog))
+                apply(ClickableTextView(Colors.ErrorRipple,
+                  Colors.Dialog))
                 tag(TextProceed)
                 margins(start = 12.dp)
                 text(R.string.text_remove_all_caps)
@@ -252,27 +244,27 @@ class FriendsOldScreen : Screen(), FriendsOldView {
     }
   }
   
-  private val presenter by moxyPresenter {
-    FriendsOldPresenter(
-      FriendsOldInteractor(
-        FriendsRepositoryImpl(
-          User(FirebaseAuthenticator.getUsername()),
-          PathDatabaseSchema,
-          FirebaseDatabaseImpl(AndroidDispatchers),
-          ByUsernameUsersActions,
-          UserMapper
-        )
-      ),
-      AndroidDispatchers
-    )
-  }
+  //  private val presenter by moxyPresenter {
+  //    FriendsOldPresenter(
+  //      FriendsOldInteractor(
+  //        FriendsRepositoryImpl(
+  //          User(core.impl.firebase.FirebaseAuthenticator.getUsername()),
+  //          core.impl.firebase.PathDatabaseSchema,
+  //          core.impl.firebase.FirebaseDatabaseImpl(core.impl.AndroidDispatchers),
+  //          ByUsernameUsersActions,
+  //          UserMapper
+  //        )
+  //      ),
+  //      core.impl.AndroidDispatchers
+  //    )
+  //  }
   
   private val adapter = FriendsOldAdapter(onUserClicked = { user ->
-    presenter.onUserClicked(user)
+    //    presenter.onUserClicked(user)
   })
   
   override fun onAppearedOnScreen() {
-    presenter.loadList()
+    //    presenter.loadList()
   }
   
   override fun onOrientationBecamePortrait() {
@@ -307,7 +299,7 @@ class FriendsOldScreen : Screen(), FriendsOldView {
     viewAs<FriendsAndRequestsLayout>().animateVisible(duration = DURATION_SHORT)
     showLayout(viewAs<RecyclerView>())
     if (adapter.currentFriendsType != type) {
-      adapter.changeListWithoutAnimation(list)
+      //      adapter.changeListWithoutAnimation(list)
     } else {
       adapter.submitList(list)
     }
@@ -333,22 +325,22 @@ class FriendsOldScreen : Screen(), FriendsOldView {
         acceptText.drawables(start = ic_message, color = TextPrimary)
         acceptText.onClick { navigator.startChatWith(user) }
         dismissText.text(R.string.text_remove_from_friends)
-        dismissText.onClick { presenter.askForFriendRemovingConfirmation(user) }
+        //        dismissText.onClick { presenter.askForFriendRemovingConfirmation(user) }
         dismissText.drawables(start = ic_remove_firend, color = TextPrimary)
       }
       MY_REQUESTS -> {
         acceptText.gone()
         dismissText.text(R.string.text_cancel_request)
-        dismissText.onClick { presenter.performAction(CANCELING_MY_REQUEST, user) }
+        //        dismissText.onClick { presenter.performAction(CANCELING_MY_REQUEST, user) }
         dismissText.drawables(start = ic_cancel_circle, color = TextPrimary)
       }
       REQUESTS_TO_ME -> {
         acceptText.visible()
         acceptText.text(R.string.text_accept_request)
         acceptText.drawables(start = ic_add_friend, color = TextPrimary)
-        acceptText.onClick { presenter.performAction(ADDING_TO_FRIENDS, user) }
+        //        acceptText.onClick { presenter.performAction(ADDING_TO_FRIENDS, user) }
         dismissText.text(R.string.text_dismiss_request)
-        dismissText.onClick { presenter.performAction(DISMISSING_REQUEST, user) }
+        //        dismissText.onClick { presenter.performAction(DISMISSING_REQUEST, user) }
         dismissText.drawables(start = ic_dismiss_circle, color = TextPrimary)
       }
     }
@@ -360,7 +352,7 @@ class FriendsOldScreen : Screen(), FriendsOldView {
     )
     view(DialogDefault).animateInvisible()
     view(DialogConfirmation).animateVisible()
-    view(TextProceed).onClick { presenter.performAction(REMOVE_FROM_FRIENDS, user) }
+    //    view(TextProceed).onClick { presenter.performAction(REMOVE_FROM_FRIENDS, user) }
     view(TextDismiss).onClick { viewAs<SimpleDialog>().hide() }
   }
   
@@ -384,7 +376,7 @@ class FriendsOldScreen : Screen(), FriendsOldView {
     viewAs<Toolbar>().animateSearchInvisible()
     viewAs<FriendsAndRequestsLayout>().animateVisible(duration = DURATION_SHORT)
     textView(TextError).text(e.getMessageRes())
-    textView(TextRetry).onClick { presenter.loadList(allowUseCache = false) }
+    //    textView(TextRetry).onClick { presenter.loadList(allowUseCache = false) }
     showLayout(view(LayoutError))
   }
   
@@ -422,7 +414,7 @@ class FriendsOldScreen : Screen(), FriendsOldView {
     val snackbar = viewAs<Snackbar>()
     snackbar.switchToErrorMode()
     snackbar.textError.text(R.string.error_unknown_short)
-    snackbar.onRetryClicked { presenter.performAction(userAction, user) }
+    //    snackbar.onRetryClicked { presenter.performAction(userAction, user) }
   }
   
   override fun onBackPressed(): Boolean {
@@ -464,7 +456,7 @@ class FriendsOldScreen : Screen(), FriendsOldView {
   }
   
   private fun onChipClicked(type: FriendsType) {
-    presenter.loadList(type)
+    //    presenter.loadList(type)
     viewAs<Toolbar>().title(
       when (type) {
         ALL_FRIENDS -> R.string.title_friends
@@ -484,7 +476,7 @@ class FriendsOldScreen : Screen(), FriendsOldView {
     val spannable = SpannableString(text)
     val indexOfText = text.indexOf(username, startIndex = firstPartOfText.length)
     spannable.setSpan(
-      CustomFontSpan(Fonts.SegoeUiBold),
+      CustomFontSpan(core.resources.Fonts.SegoeUiBold),
       indexOfText, indexOfText + username.length,
       Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
     )

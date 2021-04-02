@@ -1,7 +1,5 @@
 package com.arsvechkarev.friends.domain
 
-import com.arsvechkarev.core.model.FriendsType
-import com.arsvechkarev.core.model.User
 import com.arsvechkarev.friends.domain.FriendsPagerScreenAction.AcceptRequest
 import com.arsvechkarev.friends.domain.FriendsPagerScreenAction.CancelMyRequest
 import com.arsvechkarev.friends.domain.FriendsPagerScreenAction.DismissRequest
@@ -11,6 +9,8 @@ import com.arsvechkarev.friends.presentation.FriendsScreen
 import com.arsvechkarev.friends.presentation.pagerscreens.allfriends.AllFriendsPagerScreen
 import com.arsvechkarev.friends.presentation.pagerscreens.myrequests.MyRequestsPagerScreen
 import com.arsvechkarev.friends.presentation.pagerscreens.requeststome.RequestsToMePagerScreen
+import core.model.FriendsType
+import core.model.User
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow

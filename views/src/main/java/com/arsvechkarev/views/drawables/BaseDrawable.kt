@@ -6,15 +6,9 @@ import android.graphics.drawable.Drawable
 
 abstract class BaseDrawable : Drawable() {
   
-  override fun setAlpha(alpha: Int) {
+  override fun setAlpha(alpha: Int) = Unit
   
-  }
+  override fun setColorFilter(colorFilter: ColorFilter?) = Unit
   
-  override fun setColorFilter(colorFilter: ColorFilter?) {
-  
-  }
-  
-  override fun getOpacity(): Int {
-    return PixelFormat.OPAQUE
-  }
+  override fun getOpacity() = PixelFormat.OPAQUE
 }

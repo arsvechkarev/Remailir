@@ -6,54 +6,53 @@ import android.view.Gravity
 import android.view.View
 import android.widget.TextView
 import androidx.viewpager2.widget.ViewPager2
-import com.arsvechkarev.core.CustomFontSpan
-import com.arsvechkarev.core.concurrency.AndroidDispatchers
-import com.arsvechkarev.core.extenstions.moxyPresenter
-import com.arsvechkarev.core.model.FriendsType
-import com.arsvechkarev.core.model.User
-import com.arsvechkarev.core.navigation.Screen
-import com.arsvechkarev.core.navigation.ViewPagerAdapter
-import com.arsvechkarev.core.viewbuilding.Colors
-import com.arsvechkarev.core.viewbuilding.Dimens
-import com.arsvechkarev.core.viewbuilding.Fonts
-import com.arsvechkarev.core.viewbuilding.Styles
-import com.arsvechkarev.core.viewbuilding.Styles.ClickableTextView
-import com.arsvechkarev.core.viewbuilding.TextSizes
 import com.arsvechkarev.friends.R
-import com.arsvechkarev.friends.di.FriendsDi
+import com.arsvechkarev.friends.di.FriendsComponent
 import com.arsvechkarev.friends.presentation.pagerscreens.allfriends.AllFriendsPagerScreen
 import com.arsvechkarev.friends.presentation.pagerscreens.myrequests.MyRequestsPagerScreen
 import com.arsvechkarev.friends.presentation.pagerscreens.requeststome.RequestsToMePagerScreen
-import com.arsvechkarev.viewdsl.Ints.dp
-import com.arsvechkarev.viewdsl.Size.Companion.MatchParent
-import com.arsvechkarev.viewdsl.Size.Companion.WrapContent
-import com.arsvechkarev.viewdsl.Size.IntSize
-import com.arsvechkarev.viewdsl.animateInvisible
-import com.arsvechkarev.viewdsl.animateVisible
-import com.arsvechkarev.viewdsl.backgroundColor
-import com.arsvechkarev.viewdsl.backgroundRoundRect
-import com.arsvechkarev.viewdsl.classNameTag
-import com.arsvechkarev.viewdsl.constraints
-import com.arsvechkarev.viewdsl.drawablePadding
-import com.arsvechkarev.viewdsl.drawables
-import com.arsvechkarev.viewdsl.gone
-import com.arsvechkarev.viewdsl.gravity
-import com.arsvechkarev.viewdsl.id
-import com.arsvechkarev.viewdsl.invisible
-import com.arsvechkarev.viewdsl.layoutGravity
-import com.arsvechkarev.viewdsl.marginHorizontal
-import com.arsvechkarev.viewdsl.margins
-import com.arsvechkarev.viewdsl.onClick
-import com.arsvechkarev.viewdsl.paddingHorizontal
-import com.arsvechkarev.viewdsl.paddingVertical
-import com.arsvechkarev.viewdsl.text
-import com.arsvechkarev.viewdsl.textColor
-import com.arsvechkarev.viewdsl.textSize
-import com.arsvechkarev.viewdsl.visible
+import viewdsl.Ints.dp
+import viewdsl.animateInvisible
+import viewdsl.animateVisible
+import viewdsl.drawables
+import viewdsl.gone
+import viewdsl.invisible
+import viewdsl.onClick
+import viewdsl.text
+import viewdsl.visible
 import com.arsvechkarev.views.SimpleDialog
 import com.arsvechkarev.views.Toolbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import core.model.FriendsType
+import core.model.User
+import core.resources.Colors
+import core.resources.Dimens
+import core.resources.Styles
+import core.resources.Styles.ClickableTextView
+import core.resources.TextSizes
+import core.ui.CustomFontSpan
+import core.ui.navigation.Screen
+import core.ui.navigation.ViewPagerAdapter
+import core.ui.utils.moxyPresenter
+import viewdsl.Size
+import viewdsl.Size.Companion.MatchParent
+import viewdsl.Size.Companion.WrapContent
+import viewdsl.Size.IntSize
+import viewdsl.backgroundColor
+import viewdsl.backgroundRoundRect
+import viewdsl.classNameTag
+import viewdsl.constraints
+import viewdsl.drawablePadding
+import viewdsl.gravity
+import viewdsl.id
+import viewdsl.layoutGravity
+import viewdsl.marginHorizontal
+import viewdsl.margins
+import viewdsl.paddingHorizontal
+import viewdsl.paddingVertical
+import viewdsl.textColor
+import viewdsl.textSize
 
 class FriendsScreen : Screen(), FriendsView {
   
@@ -67,7 +66,7 @@ class FriendsScreen : Screen(), FriendsView {
       }
       child<TabLayout>(MatchParent, WrapContent) {
         id(TabLayoutId)
-        backgroundColor(Colors.Toolbar)
+        backgroundColor(core.resources.Colors.Toolbar)
         constraints { topToBottomOf(ToolbarId) }
       }
       child<ViewPager2>(MatchParent, IntSize(0)) {
@@ -120,12 +119,13 @@ class FriendsScreen : Screen(), FriendsView {
             marginHorizontal(32.dp)
             gravity(Gravity.CENTER)
             layoutGravity(Gravity.CENTER)
-            backgroundRoundRect(Dimens.DefaultCornerRadius, Colors.Dialog)
-            TextView(WrapContent, WrapContent, style = Styles.BaseTextView) {
+            backgroundRoundRect(core.resources.Dimens.DefaultCornerRadius,
+              Colors.Dialog)
+            TextView(WrapContent, WrapContent, style = core.resources.Styles.BaseTextView) {
               id(TextConfirmation)
               gravity(Gravity.CENTER)
               textSize(TextSizes.H4)
-              textColor(Colors.TextPrimary)
+              textColor(core.resources.Colors.TextPrimary)
               margins(top = 12.dp, bottom = 24.dp)
             }
             HorizontalLayout(WrapContent, WrapContent) {
@@ -137,12 +137,13 @@ class FriendsScreen : Screen(), FriendsView {
                 textSize(TextSizes.H5)
               }
               TextView(WrapContent, WrapContent) {
-                apply(ClickableTextView(Colors.ErrorRipple, Colors.Dialog))
+                apply(ClickableTextView(core.resources.Colors.ErrorRipple,
+                  Colors.Dialog))
                 id(TextProceed)
                 margins(start = 12.dp)
                 text(R.string.text_remove_all_caps)
                 textSize(TextSizes.H5)
-                textColor(Colors.Error)
+                textColor(core.resources.Colors.Error)
               }
             }
           }
@@ -151,9 +152,7 @@ class FriendsScreen : Screen(), FriendsView {
     }
   }
   
-  private val presenter by moxyPresenter {
-    FriendsPresenter(FriendsDi.friendsScreensBridge, AndroidDispatchers)
-  }
+  private val presenter by moxyPresenter { FriendsComponent.get().provideFriendsPresenter() }
   
   override fun onInit() {
     TabLayoutMediator(viewAs(TabLayoutId), viewAs(ViewPagerId)) { tab, position ->
@@ -179,26 +178,31 @@ class FriendsScreen : Screen(), FriendsView {
       FriendsType.ALL_FRIENDS -> {
         acceptText.visible()
         acceptText.text(R.string.text_start_chatting)
-        acceptText.drawables(start = R.drawable.ic_message, color = Colors.TextPrimary)
+        acceptText.drawables(start = R.drawable.ic_message,
+          color = core.resources.Colors.TextPrimary)
         acceptText.onClick { navigator.startChatWith(user) }
         dismissText.text(R.string.text_remove_from_friends)
         dismissText.onClick { presenter.askForFriendRemovingConfirmation(user) }
-        dismissText.drawables(start = R.drawable.ic_remove_firend, color = Colors.TextPrimary)
+        dismissText.drawables(start = R.drawable.ic_remove_firend,
+          color = core.resources.Colors.TextPrimary)
       }
       FriendsType.MY_REQUESTS -> {
         acceptText.gone()
         dismissText.text(R.string.text_cancel_request)
         dismissText.onClick { presenter.sendCancelMyRequestAction(user) }
-        dismissText.drawables(start = R.drawable.ic_cancel_circle, color = Colors.TextPrimary)
+        dismissText.drawables(start = R.drawable.ic_cancel_circle,
+          color = core.resources.Colors.TextPrimary)
       }
       FriendsType.REQUESTS_TO_ME -> {
         acceptText.visible()
         acceptText.text(R.string.text_accept_request)
-        acceptText.drawables(start = R.drawable.ic_add_friend, color = Colors.TextPrimary)
+        acceptText.drawables(start = R.drawable.ic_add_friend,
+          color = core.resources.Colors.TextPrimary)
         acceptText.onClick { presenter.sendAcceptRequestAction(user) }
         dismissText.text(R.string.text_dismiss_request)
         dismissText.onClick { presenter.sendDismissRequestAction(user) }
-        dismissText.drawables(start = R.drawable.ic_dismiss_circle, color = Colors.TextPrimary)
+        dismissText.drawables(start = R.drawable.ic_dismiss_circle,
+          color = core.resources.Colors.TextPrimary)
       }
     }
   }
@@ -228,7 +232,7 @@ class FriendsScreen : Screen(), FriendsView {
     val spannable = SpannableString(text)
     val indexOfText = text.indexOf(username, startIndex = firstPartOfText.length)
     spannable.setSpan(
-      CustomFontSpan(Fonts.SegoeUiBold),
+      CustomFontSpan(core.resources.Fonts.SegoeUiBold),
       indexOfText, indexOfText + username.length,
       Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
     )

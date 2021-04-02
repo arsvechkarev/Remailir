@@ -6,33 +6,31 @@ import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.arsvechkarev.core.concurrency.AndroidDispatchers
-import com.arsvechkarev.core.extenstions.ifTrue
-import com.arsvechkarev.core.extenstions.moxyPresenter
-import com.arsvechkarev.core.model.User
-import com.arsvechkarev.core.navigation.ViewPagerScreen
-import com.arsvechkarev.core.viewbuilding.Dimens
-import com.arsvechkarev.core.viewbuilding.Styles
-import com.arsvechkarev.core.viewbuilding.Styles.BoldTextView
-import com.arsvechkarev.core.viewbuilding.TextSizes
 import com.arsvechkarev.friends.R
-import com.arsvechkarev.friends.di.FriendsDi
+import com.arsvechkarev.friends.di.FriendsComponent
 import com.arsvechkarev.friends.presentation.CommonFriendsAdapter
-import com.arsvechkarev.viewdsl.Ints.dp
-import com.arsvechkarev.viewdsl.Size.Companion.MatchParent
-import com.arsvechkarev.viewdsl.Size.Companion.WrapContent
-import com.arsvechkarev.viewdsl.gravity
-import com.arsvechkarev.viewdsl.id
-import com.arsvechkarev.viewdsl.invisible
-import com.arsvechkarev.viewdsl.layoutGravity
-import com.arsvechkarev.viewdsl.margins
-import com.arsvechkarev.viewdsl.paddingHorizontal
-import com.arsvechkarev.viewdsl.paddings
-import com.arsvechkarev.viewdsl.text
-import com.arsvechkarev.viewdsl.textSize
-import com.arsvechkarev.viewdsl.visible
-import com.arsvechkarev.viewdsl.withViewBuilder
 import com.arsvechkarev.views.ComplexProgressBar
+import core.model.User
+import core.resources.Dimens.ProgressBarSizeBig
+import core.resources.Styles.BoldTextView
+import core.resources.TextSizes
+import core.ui.navigation.ViewPagerScreen
+import core.ui.utils.ifTrue
+import core.ui.utils.moxyPresenter
+import viewdsl.Ints.dp
+import viewdsl.Size.Companion.MatchParent
+import viewdsl.Size.Companion.WrapContent
+import viewdsl.gravity
+import viewdsl.id
+import viewdsl.invisible
+import viewdsl.layoutGravity
+import viewdsl.margins
+import viewdsl.paddingHorizontal
+import viewdsl.paddings
+import viewdsl.text
+import viewdsl.textSize
+import viewdsl.visible
+import viewdsl.withViewBuilder
 
 class AllFriendsPagerScreen : ViewPagerScreen(), AllFriendsView {
   
@@ -55,7 +53,7 @@ class AllFriendsPagerScreen : ViewPagerScreen(), AllFriendsView {
           gravity(CENTER)
           textSize(TextSizes.H3)
         }
-        child<ComplexProgressBar>(Dimens.ProgressBarSizeBig, Dimens.ProgressBarSizeBig) {
+        child<ComplexProgressBar>(ProgressBarSizeBig, ProgressBarSizeBig) {
           margins(top = 40.dp)
         }
       }
@@ -71,14 +69,14 @@ class AllFriendsPagerScreen : ViewPagerScreen(), AllFriendsView {
           textSize(TextSizes.H1)
           text(R.string.text_no_friends)
         }
-        TextView(MatchParent, WrapContent, style = Styles.BaseTextView) {
+        TextView(MatchParent, WrapContent, style = core.resources.Styles.BaseTextView) {
           id(TextNoDataId)
           gravity(CENTER)
           textSize(TextSizes.H4)
           margins(top = 32.dp)
           text(R.string.text_add_people_to_friends)
         }
-        TextView(WrapContent, WrapContent, style = Styles.ClickableButton()) {
+        TextView(WrapContent, WrapContent, style = core.resources.Styles.ClickableButton()) {
           text(R.string.text_find_people)
           margins(top = 32.dp)
         }
@@ -89,8 +87,7 @@ class AllFriendsPagerScreen : ViewPagerScreen(), AllFriendsView {
   private val adapter = CommonFriendsAdapter { presenter.onUserClicked(it) }
   
   private val presenter by moxyPresenter {
-    AllFriendsPresenter(FriendsDi.friendsInteractor, FriendsDi.friendsScreensBridge,
-      AndroidDispatchers)
+    FriendsComponent.get().provideAllFriendsScreenPresenter()
   }
   
   override fun onInit() {
@@ -108,8 +105,7 @@ class AllFriendsPagerScreen : ViewPagerScreen(), AllFriendsView {
   
   override fun showLoadedList(data: List<User>) {
     showOnly(view(RecyclerViewId))
-    adapter.data = data.toMutableList()
-    adapter.notifyDataSetChanged()
+    adapter.submitList(data)
   }
   
   override fun showFailureLoadingList(e: Throwable) {
@@ -121,16 +117,14 @@ class AllFriendsPagerScreen : ViewPagerScreen(), AllFriendsView {
   }
   
   override fun showSuccessRemovingFromFriends(user: User) {
-    adapter.data = (adapter.data - user).toMutableList()
-    adapter.notifyDataSetChanged()
+    adapter.submitList(adapter.currentList - user)
   }
   
   override fun showFailureRemovingFromFriends(user: User) {
   }
   
   override fun showFriendAdded(user: User) {
-    adapter.data.add(user)
-    adapter.notifyDataSetChanged()
+    adapter.submitList(adapter.currentList + user)
   }
   
   private fun showOnly(view: View) {

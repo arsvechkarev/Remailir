@@ -11,38 +11,37 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
-import com.arsvechkarev.core.extenstions.hideKeyboard
-import com.arsvechkarev.core.extenstions.showKeyboard
-import com.arsvechkarev.core.viewbuilding.Colors
-import com.arsvechkarev.core.viewbuilding.Colors.Icon
-import com.arsvechkarev.core.viewbuilding.Dimens.DividerHeight
-import com.arsvechkarev.core.viewbuilding.Dimens.DividerMargin
-import com.arsvechkarev.core.viewbuilding.Dimens.ToolbarImageSize
-import com.arsvechkarev.core.viewbuilding.Dimens.ToolbarMargin
-import com.arsvechkarev.core.viewbuilding.Styles.BoldTextView
-import com.arsvechkarev.core.viewbuilding.TextSizes
-import com.arsvechkarev.viewdsl.Ints.dp
-import com.arsvechkarev.viewdsl.Size.Companion.MatchParent
-import com.arsvechkarev.viewdsl.Size.Companion.WrapContent
-import com.arsvechkarev.viewdsl.Size.IntSize
-import com.arsvechkarev.viewdsl.animateGone
-import com.arsvechkarev.viewdsl.animateInvisible
-import com.arsvechkarev.viewdsl.animateVisible
-import com.arsvechkarev.viewdsl.backgroundColor
-import com.arsvechkarev.viewdsl.circleRippleBackground
-import com.arsvechkarev.viewdsl.exactly
-import com.arsvechkarev.viewdsl.image
-import com.arsvechkarev.viewdsl.invisible
-import com.arsvechkarev.viewdsl.layoutLeftTop
-import com.arsvechkarev.viewdsl.onClick
-import com.arsvechkarev.viewdsl.padding
-import com.arsvechkarev.viewdsl.paddingHorizontal
-import com.arsvechkarev.viewdsl.retrieveDrawable
-import com.arsvechkarev.viewdsl.size
-import com.arsvechkarev.viewdsl.statusBarHeight
-import com.arsvechkarev.viewdsl.text
-import com.arsvechkarev.viewdsl.textSize
-import com.arsvechkarev.viewdsl.unspecified
+import com.arsvechkarev.views.utils.hideKeyboard
+import com.arsvechkarev.views.utils.showKeyboard
+import core.resources.Colors
+import core.resources.Colors.Icon
+import core.resources.Dimens.DividerHeight
+import core.resources.Dimens.ToolbarImageSize
+import core.resources.Dimens.ToolbarMargin
+import core.resources.Styles.BoldTextView
+import core.resources.TextSizes
+import viewdsl.Ints.dp
+import viewdsl.Size.Companion.MatchParent
+import viewdsl.Size.Companion.WrapContent
+import viewdsl.Size.IntSize
+import viewdsl.animateGone
+import viewdsl.animateInvisible
+import viewdsl.animateVisible
+import viewdsl.backgroundColor
+import viewdsl.circleRippleBackground
+import viewdsl.exactly
+import viewdsl.image
+import viewdsl.invisible
+import viewdsl.layoutLeftTop
+import viewdsl.onClick
+import viewdsl.padding
+import viewdsl.paddingHorizontal
+import viewdsl.retrieveDrawable
+import viewdsl.size
+import viewdsl.statusBarHeight
+import viewdsl.text
+import viewdsl.textSize
+import viewdsl.unspecified
 
 class Toolbar(context: Context) : ViewGroup(context) {
   
@@ -209,9 +208,9 @@ class Toolbar(context: Context) : ViewGroup(context) {
     editText.layoutLeftTop(imageBack.right, editTextTop)
     val titleTop = height / 2 - title.measuredHeight / 2 + statusBarHeight() / 2
     title.layoutLeftTop(titleLeft, titleTop)
-//    divider.layout(
-//      DividerMargin, height - DividerHeight,
-//      width - DividerMargin, height)
+    //    divider.layout(
+    //      DividerMargin, height - DividerHeight,
+    //      width - DividerMargin, height)
   }
   
   override fun onDetachedFromWindow() {

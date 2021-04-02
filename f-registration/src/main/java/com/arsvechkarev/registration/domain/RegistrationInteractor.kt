@@ -1,13 +1,13 @@
 package com.arsvechkarev.registration.domain
 
 import android.os.SystemClock
-import com.arsvechkarev.core.KeyValueStorage
-import com.arsvechkarev.core.model.User
-import com.arsvechkarev.firebase.auth.Authenticator
-import com.arsvechkarev.firebase.auth.EmailSaver
-import com.arsvechkarev.firebase.database.FirebaseDatabase
-import com.arsvechkarev.firebase.database.UsersDatabaseSchema
+import authentication.Authenticator
+import authentication.EmailSaver
 import com.arsvechkarev.registration.presentation.RegistrationPresenter
+import core.KeyValueStorage
+import core.model.User
+import firebase.database.FirebaseDatabase
+import firebase.database.UsersDatabaseSchema
 import timerx.Timer
 import timerx.TimerBuilder
 import java.util.concurrent.TimeUnit
@@ -66,7 +66,7 @@ class RegistrationInteractor(
     onTimerTick: (CharSequence) -> Unit,
     onTimerFinish: () -> Unit
   ) {
-    authenticator.sendSignInLinkToEmail(email, com.arsvechkarev.firebase.auth.AuthSettings)
+    authenticator.sendSignInLinkToEmail(email)
     emailSaver.saveEmail(email)
     val timeInFuture = SystemClock.elapsedRealtime() + TimeUnit.MINUTES.toMillis(1)
     timerSaver.execute { putLong(RegistrationPresenter.TIMER_KEY, timeInFuture) }

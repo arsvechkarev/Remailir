@@ -3,34 +3,28 @@ package com.arsvechkarev.chat.domain
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
-import com.arsvechkarev.core.concurrency.AndroidDispatchers
-import com.arsvechkarev.core.concurrency.AndroidThreader
-import com.arsvechkarev.core.concurrency.Threader
-import com.arsvechkarev.core.extenstions.assertThat
-import com.arsvechkarev.firebase.auth.FirebaseAuthenticator
-import com.arsvechkarev.firebase.firestore.chat.ChatFirebaseDataSource
 import kotlinx.coroutines.runBlocking
+import kotlin.concurrent.thread
 
 class ChatExitingService : Service() {
   
-  private val chatFirebaseDataSource = ChatFirebaseDataSource(
-    FirebaseAuthenticator.getUsername(),
-    AndroidDispatchers
-  )
-  
-  private val threader: Threader = AndroidThreader
+  //  private val chatFirebaseDataSource = ChatFirebaseDataSource(
+  //    FirebaseAuthenticator.getUsername(),
+  //    CoreComponent.instance.dispatchers()
+  //  )
   
   override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-    assertThat(intent != null)
+    require(intent != null)
     val otherUserUsername = intent.getStringExtra(OTHER_USER_USERNAME)!!
     exitChat(otherUserUsername)
     return START_REDELIVER_INTENT
   }
   
   private fun exitChat(otherUserUsername: String) {
-    threader.onIoThread {
+    thread {
+      // TODO (4/1/2021): Handle threading properly
       runBlocking {
-        chatFirebaseDataSource.exitChat(otherUserUsername)
+        //        chatFirebaseDataSource.exitChat(otherUserUsername)
       }
     }
   }

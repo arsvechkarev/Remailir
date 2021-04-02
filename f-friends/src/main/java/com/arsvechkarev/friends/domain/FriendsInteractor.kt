@@ -1,11 +1,9 @@
 package com.arsvechkarev.friends.domain
 
-import com.arsvechkarev.core.model.FriendsType
-import com.arsvechkarev.core.model.User
+import core.model.FriendsType
+import core.model.User
 
-class FriendsInteractor(
-  private val friendsRepository: FriendsRepository,
-) {
+class FriendsInteractor(private val friendsRepository: FriendsRepository) {
   
   suspend fun getListByType(type: FriendsType): List<User> {
     return friendsRepository.getListByType(type)

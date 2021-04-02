@@ -2,14 +2,13 @@ package com.arsvechkarev.views.drawables
 
 import android.graphics.Canvas
 import android.graphics.Path
-import com.arsvechkarev.core.extenstions.Paint
-import com.arsvechkarev.core.extenstions.execute
-import com.arsvechkarev.core.extenstions.f
-import com.arsvechkarev.core.viewbuilding.Dimens.MessageStickingDistance
-import com.arsvechkarev.viewdsl.Floats.dp
 import com.arsvechkarev.views.drawables.MessageDrawable.MessageType.LEFT
 import com.arsvechkarev.views.drawables.MessageDrawable.MessageType.LEFT_CORNER
 import com.arsvechkarev.views.drawables.MessageDrawable.MessageType.RIGHT_CORNER
+import com.arsvechkarev.views.utils.Paint
+import com.arsvechkarev.views.utils.execute
+import core.resources.Dimens.MessageStickingDistance
+import viewdsl.Floats.dp
 
 class MessageDrawable(
   color: Int,
@@ -19,11 +18,11 @@ class MessageDrawable(
   private val paint = Paint(color)
   private val path = Path()
   private val cornerRadius = 4.dp
-  private val stickingDistance = MessageStickingDistance.f
+  private val stickingDistance = MessageStickingDistance.toFloat()
   
   override fun draw(canvas: Canvas) {
-    val width = bounds.width().f
-    val height = bounds.height().f
+    val width = bounds.width().toFloat()
+    val height = bounds.height().toFloat()
     createPathIsEmpty(width)
     canvas.execute {
       if (messageType == LEFT || messageType == LEFT_CORNER) {

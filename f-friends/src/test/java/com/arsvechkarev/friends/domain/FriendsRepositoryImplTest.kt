@@ -1,21 +1,19 @@
 package com.arsvechkarev.friends.domain
 
 import com.arsvechkarev.core.UserMapper
-import com.arsvechkarev.core.model.FriendsType.ALL_FRIENDS
-import com.arsvechkarev.core.model.FriendsType.MY_REQUESTS
-import com.arsvechkarev.core.model.FriendsType.REQUESTS_TO_ME
-import com.arsvechkarev.core.model.User
-import com.arsvechkarev.firebase.database.PathDatabaseSchema
 import com.arsvechkarev.testcommon.FakeFirebaseDatabase
 import com.arsvechkarev.testcommon.FakeJsonData.FullUsersDatabase
 import com.arsvechkarev.testcommon.doesNotHave
 import com.arsvechkarev.testcommon.has
-import com.arsvechkarev.testcommon.isExactlyTheSameAs
 import com.arsvechkarev.testcommon.shouldContainAll
 import com.arsvechkarev.testcommon.user
 import com.arsvechkarev.testcommon.usersList
 import com.arsvechkarev.testcommon.verify
-import com.arsvechkarev.testcommon.verifyFalse
+import core.impl.firebase.PathDatabaseSchema
+import core.model.FriendsType.ALL_FRIENDS
+import core.model.FriendsType.MY_REQUESTS
+import core.model.FriendsType.REQUESTS_TO_ME
+import core.model.User
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
@@ -52,19 +50,19 @@ class FriendsRepositoryImplTest {
     
     val oldFriendsOfAList = repositoryA.getListByType(ALL_FRIENDS)
     val oldFriendsOfCList = repositoryC.getListByType(ALL_FRIENDS)
-//    val oldFriendsOfACachedList = repositoryA.getFromCache(ALL_FRIENDS)!!
+    //    val oldFriendsOfACachedList = repositoryA.getFromCache(ALL_FRIENDS)!!
     
     verify { oldFriendsOfAList has user("c") }
-//    verify { oldFriendsOfACachedList has user("c") }
+    //    verify { oldFriendsOfACachedList has user("c") }
     verify { oldFriendsOfCList has user("a") }
     
     repositoryA.removeFriend(user("c"))
     
-//    val newCachedFriendsOfAList = repositoryA.getFromCache(ALL_FRIENDS)!!
+    //    val newCachedFriendsOfAList = repositoryA.getFromCache(ALL_FRIENDS)!!
     val newFriendsOfAList = repositoryA.getListByType(ALL_FRIENDS)
     val newFriendsOfCList = repositoryC.getListByType(ALL_FRIENDS)
     
-//    verify { newCachedFriendsOfAList doesNotHave user("c") }
+    //    verify { newCachedFriendsOfAList doesNotHave user("c") }
     verify { newFriendsOfAList doesNotHave user("c") }
     verify { newFriendsOfCList doesNotHave user("a") }
   }
@@ -144,7 +142,7 @@ class FriendsRepositoryImplTest {
   ): FriendsRepositoryImpl {
     return FriendsRepositoryImpl(
       User(username),
-      PathDatabaseSchema,
+      core.impl.firebase.PathDatabaseSchema,
       database,
       ByUsernameUsersActions,
       UserMapper

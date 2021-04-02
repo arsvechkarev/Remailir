@@ -1,6 +1,6 @@
 package com.arsvechkarev.testcommon
 
-import com.arsvechkarev.core.model.User
+import core.model.User
 
 @OptIn(ExperimentalStdlibApi::class)
 fun usersList(vararg names: String): List<User> {

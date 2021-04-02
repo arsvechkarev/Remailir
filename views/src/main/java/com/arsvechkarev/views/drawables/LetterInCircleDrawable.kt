@@ -2,10 +2,10 @@ package com.arsvechkarev.views.drawables
 
 import android.graphics.Canvas
 import android.graphics.Rect
-import com.arsvechkarev.core.extenstions.Paint
-import com.arsvechkarev.core.extenstions.TextPaint
-import com.arsvechkarev.core.extenstions.getTextHeight
-import com.arsvechkarev.core.viewbuilding.Fonts
+import com.arsvechkarev.views.utils.Paint
+import com.arsvechkarev.views.utils.TextPaint
+import com.arsvechkarev.views.utils.getTextHeight
+import core.resources.Fonts
 
 class LetterInCircleDrawable(
   private val letter: String,

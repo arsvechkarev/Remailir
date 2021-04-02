@@ -24,10 +24,9 @@ android {
 }
 
 dependencies {
-  implementation project(":core")
-  implementation project(":views")
-  implementation project(":firebase")
-  implementation project(":storage")
+  implementation project(':authentication-api')
+  implementation project(':core-ui')
+  implementation project(':views')
 
   def dependencies = rootProject.ext.applicationDependencies
   implementation platform(dependencies.firebasePlatform)

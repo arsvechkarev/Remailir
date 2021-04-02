@@ -6,11 +6,9 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.RectF
 import android.view.View
-import com.arsvechkarev.core.extenstions.execute
-import com.arsvechkarev.core.extenstions.f
-import com.arsvechkarev.core.viewbuilding.Colors
-import com.arsvechkarev.viewdsl.Ints.dp
-import com.arsvechkarev.viewdsl.cancelIfRunning
+import com.arsvechkarev.views.utils.execute
+import viewdsl.Ints.dp
+import viewdsl.cancelIfRunning
 
 class SimpleProgressBar(context: Context) : View(context) {
   
@@ -22,7 +20,7 @@ class SimpleProgressBar(context: Context) : View(context) {
   private val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
     style = Paint.Style.STROKE
     strokeCap = Paint.Cap.ROUND
-    color = Colors.Accent
+    color = core.resources.Colors.Accent
   }
   private val outerOval = RectF()
   private val innerOval = RectF()
@@ -49,8 +47,8 @@ class SimpleProgressBar(context: Context) : View(context) {
   }
   
   override fun onSizeChanged(width: Int, height: Int, oldw: Int, oldh: Int) {
-    val w = width.f
-    val h = height.f
+    val w = width.toFloat()
+    val h = height.toFloat()
     paint.strokeWidth = w / 10f
     val outerInset = paint.strokeWidth / 1.5f
     outerOval.set(outerInset, outerInset, w - outerInset, h - outerInset)

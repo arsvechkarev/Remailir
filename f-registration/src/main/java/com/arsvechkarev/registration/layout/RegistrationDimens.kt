@@ -1,6 +1,6 @@
 package com.arsvechkarev.registration.layout
 
-import com.arsvechkarev.viewdsl.Ints.dp
+import viewdsl.Ints.dp
 
 object RegistrationDimens {
   

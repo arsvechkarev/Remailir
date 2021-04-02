@@ -1,9 +1,9 @@
 package com.arsvechkarev.search.domain
 
-import com.arsvechkarev.core.concurrency.Dispatchers
-import com.arsvechkarev.core.model.User
-import com.arsvechkarev.firebase.database.FirebaseDatabase
-import com.arsvechkarev.firebase.database.UsersDatabaseSchema
+import core.Dispatchers
+import firebase.database.FirebaseDatabase
+import firebase.database.UsersDatabaseSchema
+import core.model.User
 import kotlinx.coroutines.withContext
 
 class SearchRepository(
@@ -31,21 +31,21 @@ class SearchRepository(
   
   suspend fun sendFriendRequest(user: User): RequestResult {
     val friendsList = getList(schema.friendsPath(user))
-//    if (friendsList.contains(user)) {
-//      return RequestResult.ERROR_ALREADY_FRIENDS
-//    }
-//    val requestFromMe = getList(schema.friendsRequestsFromUserPath(thisUserUsername))
-//    if (requestFromMe.contains(username)) {
-//      return RequestResult.ERROR_REQUEST_ALREADY_SENT
-//    }
-//    val requestsToMe = getList(schema.friendsRequestsToUserPath(thisUserUsername))
-//    if (requestsToMe.contains(username)) {
-//      return RequestResult.ERROR_THIS_USER_ALREADY_HAS_REQUEST
-//    }
-//    addValues(
-//      schema.friendsRequestsFromUserPath(thisUserUsername), username,
-//      schema.friendsRequestsToUserPath(username), thisUserUsername,
-//    )
+    //    if (friendsList.contains(user)) {
+    //      return RequestResult.ERROR_ALREADY_FRIENDS
+    //    }
+    //    val requestFromMe = getList(schema.friendsRequestsFromUserPath(thisUserUsername))
+    //    if (requestFromMe.contains(username)) {
+    //      return RequestResult.ERROR_REQUEST_ALREADY_SENT
+    //    }
+    //    val requestsToMe = getList(schema.friendsRequestsToUserPath(thisUserUsername))
+    //    if (requestsToMe.contains(username)) {
+    //      return RequestResult.ERROR_THIS_USER_ALREADY_HAS_REQUEST
+    //    }
+    //    addValues(
+    //      schema.friendsRequestsFromUserPath(thisUserUsername), username,
+    //      schema.friendsRequestsToUserPath(username), thisUserUsername,
+    //    )
     return RequestResult.SENT
   }
   

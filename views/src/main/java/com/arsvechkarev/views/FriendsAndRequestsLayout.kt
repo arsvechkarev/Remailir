@@ -8,26 +8,24 @@ import android.view.MotionEvent.ACTION_DOWN
 import android.view.MotionEvent.ACTION_UP
 import android.view.ViewConfiguration
 import android.view.ViewGroup
-import com.arsvechkarev.core.extenstions.Paint
-import com.arsvechkarev.core.extenstions.contains
-import com.arsvechkarev.core.extenstions.f
-import com.arsvechkarev.core.extenstions.i
-import com.arsvechkarev.core.model.FriendsType
-import com.arsvechkarev.core.model.FriendsType.ALL_FRIENDS
-import com.arsvechkarev.core.model.FriendsType.REQUESTS_TO_ME
-import com.arsvechkarev.core.model.FriendsType.MY_REQUESTS
-import com.arsvechkarev.core.viewbuilding.Colors
-import com.arsvechkarev.core.viewbuilding.TextSizes
-import com.arsvechkarev.viewdsl.AccelerateDecelerateInterpolator
-import com.arsvechkarev.viewdsl.DURATION_SHORT
-import com.arsvechkarev.viewdsl.Ints.dp
-import com.arsvechkarev.viewdsl.cancelIfRunning
-import com.arsvechkarev.viewdsl.exactly
-import com.arsvechkarev.viewdsl.layoutLeftTop
-import com.arsvechkarev.viewdsl.onClick
-import com.arsvechkarev.viewdsl.size
-import com.arsvechkarev.viewdsl.string
-import com.arsvechkarev.viewdsl.unspecified
+import com.arsvechkarev.views.utils.Paint
+import core.model.FriendsType
+import core.model.FriendsType.ALL_FRIENDS
+import core.model.FriendsType.MY_REQUESTS
+import core.model.FriendsType.REQUESTS_TO_ME
+import core.resources.Colors
+import core.resources.TextSizes
+import viewdsl.AccelerateDecelerateInterpolator
+import viewdsl.DURATION_SHORT
+import viewdsl.Ints.dp
+import viewdsl.cancelIfRunning
+import viewdsl.contains
+import viewdsl.exactly
+import viewdsl.layoutLeftTop
+import viewdsl.onClick
+import viewdsl.size
+import viewdsl.string
+import viewdsl.unspecified
 import kotlin.math.abs
 import kotlin.math.hypot
 
@@ -63,14 +61,15 @@ class FriendsAndRequestsLayout(context: Context) : ViewGroup(context) {
     setPadding(20.dp, 20.dp, 20.dp, 20.dp)
     addView(
       CircleIconView(
-        context, (arrowIconSize * 0.6f).i,
+        context, (arrowIconSize * 0.6f).toInt(),
         R.drawable.avd_up_to_down,
         R.drawable.avd_down_to_up,
         Colors.Dialog, Colors.Icon
       )
     )
     val createChip = { text: String ->
-      Chip(context, text, TextSizes.H4, Colors.TextPrimary, Colors.Dialog)
+      Chip(context, text, TextSizes.H4, Colors.TextPrimary,
+        Colors.Dialog)
     }
     addView(createChip(string(R.string.text_all_friends)))
     addView(createChip(string(R.string.text_my_requests)))
@@ -87,7 +86,7 @@ class FriendsAndRequestsLayout(context: Context) : ViewGroup(context) {
     opened = true
     arrowIcon.animateToFirstDrawable()
     coefficientAnimator.cancelIfRunning()
-    coefficientAnimator.setFloatValues(translationY, height.f - viewsHeight)
+    coefficientAnimator.setFloatValues(translationY, height.toFloat() - viewsHeight)
     coefficientAnimator.start()
   }
   
@@ -96,7 +95,8 @@ class FriendsAndRequestsLayout(context: Context) : ViewGroup(context) {
     opened = false
     arrowIcon.animateToSecondDrawable()
     coefficientAnimator.cancelIfRunning()
-    coefficientAnimator.setFloatValues(translationY, height.f - arrowIconSize - arrowIconPadding)
+    coefficientAnimator.setFloatValues(translationY,
+      height.toFloat() - arrowIconSize - arrowIconPadding)
     coefficientAnimator.start()
   }
   
@@ -132,7 +132,7 @@ class FriendsAndRequestsLayout(context: Context) : ViewGroup(context) {
       top + paddingTop)
     myRequestsChip.layoutLeftTop(paddingStart,
       friendsRequestsChip.bottom + chipVerticalPadding)
-    translationY = height.f - arrowIconSize - arrowIconPadding
+    translationY = height.toFloat() - arrowIconSize - arrowIconPadding
   }
   
   override fun onTouchEvent(event: MotionEvent): Boolean {
@@ -159,7 +159,7 @@ class FriendsAndRequestsLayout(context: Context) : ViewGroup(context) {
   
   override fun dispatchDraw(canvas: Canvas) {
     val topOffset = (arrowIconPadding + arrowIconSize).toFloat()
-    canvas.drawRect(0f, topOffset, width.f, height.f, backgroundPaint)
+    canvas.drawRect(0f, topOffset, width.toFloat(), height.toFloat(), backgroundPaint)
     super.dispatchDraw(canvas)
   }
 }

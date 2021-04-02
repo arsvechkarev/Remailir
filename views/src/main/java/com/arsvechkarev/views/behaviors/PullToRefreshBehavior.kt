@@ -9,7 +9,7 @@ import android.view.MotionEvent.ACTION_UP
 import android.view.View
 import android.view.ViewConfiguration
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import com.arsvechkarev.viewdsl.hasBehavior
+import viewdsl.hasBehavior
 import com.arsvechkarev.views.PullToRefreshView
 import kotlin.math.sqrt
 

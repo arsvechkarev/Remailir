@@ -5,9 +5,9 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.view.View
-import com.arsvechkarev.viewdsl.retrieveDrawable
-import com.arsvechkarev.viewdsl.startIfNotRunning
-import com.arsvechkarev.viewdsl.stopIfRunning
+import viewdsl.retrieveDrawable
+import viewdsl.startIfNotRunning
+import viewdsl.stopIfRunning
 import com.arsvechkarev.views.MaterialProgressBar.Thickness.NORMAL
 import com.arsvechkarev.views.MaterialProgressBar.Thickness.THICK
 

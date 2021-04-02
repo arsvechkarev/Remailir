@@ -6,40 +6,9 @@ import android.view.Gravity.CENTER
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.arsvechkarev.common.ErrorLayout
-import com.arsvechkarev.common.LayoutError
-import com.arsvechkarev.core.concurrency.AndroidDispatchers
-import com.arsvechkarev.core.extenstions.ifTrue
-import com.arsvechkarev.core.extenstions.moxyPresenter
-import com.arsvechkarev.core.model.User
-import com.arsvechkarev.core.navigation.Screen
-import com.arsvechkarev.core.viewbuilding.Colors
-import com.arsvechkarev.core.viewbuilding.Dimens
-import com.arsvechkarev.core.viewbuilding.Styles
-import com.arsvechkarev.core.viewbuilding.Styles.BoldTextView
-import com.arsvechkarev.core.viewbuilding.TextSizes
-import com.arsvechkarev.firebase.auth.FirebaseAuthenticator
-import com.arsvechkarev.firebase.firestore.chat.ChatFirebaseDataSource
+import com.arsvechkarev.views.ErrorLayout
+import com.arsvechkarev.views.LayoutError
 import com.arsvechkarev.home.R
-import com.arsvechkarev.home.domain.HomeRepository
-import com.arsvechkarev.home.list.HomeAdapter
-import com.arsvechkarev.viewdsl.Ints.dp
-import com.arsvechkarev.viewdsl.Size.Companion.MatchParent
-import com.arsvechkarev.viewdsl.Size.Companion.WrapContent
-import com.arsvechkarev.viewdsl.animateInvisible
-import com.arsvechkarev.viewdsl.animateVisible
-import com.arsvechkarev.viewdsl.backgroundColor
-import com.arsvechkarev.viewdsl.behavior
-import com.arsvechkarev.viewdsl.classNameTag
-import com.arsvechkarev.viewdsl.gravity
-import com.arsvechkarev.viewdsl.invisible
-import com.arsvechkarev.viewdsl.layoutGravity
-import com.arsvechkarev.viewdsl.margins
-import com.arsvechkarev.viewdsl.onClick
-import com.arsvechkarev.viewdsl.paddings
-import com.arsvechkarev.viewdsl.tag
-import com.arsvechkarev.viewdsl.text
-import com.arsvechkarev.viewdsl.textSize
 import com.arsvechkarev.views.ComplexProgressBar
 import com.arsvechkarev.views.PullToRefreshView
 import com.arsvechkarev.views.Toolbar
@@ -48,7 +17,29 @@ import com.arsvechkarev.views.behaviors.PullToRefreshBehavior
 import com.arsvechkarev.views.behaviors.ScrollingRecyclerBehavior
 import com.arsvechkarev.views.behaviors.ViewUnderHeaderBehavior
 import com.arsvechkarev.views.menu.MenuView
+import core.model.User
+import core.resources.Dimens.ProgressBarSizeBig
+import core.resources.Styles.BoldTextView
+import core.resources.TextSizes
+import core.ui.navigation.Screen
+import core.ui.utils.ifTrue
 import timber.log.Timber
+import viewdsl.Ints.dp
+import viewdsl.Size.Companion.MatchParent
+import viewdsl.Size.Companion.WrapContent
+import viewdsl.animateInvisible
+import viewdsl.animateVisible
+import viewdsl.behavior
+import viewdsl.classNameTag
+import viewdsl.gravity
+import viewdsl.invisible
+import viewdsl.layoutGravity
+import viewdsl.margins
+import viewdsl.onClick
+import viewdsl.paddings
+import viewdsl.tag
+import viewdsl.text
+import viewdsl.textSize
 
 class HomeScreen : Screen(), HomeView {
   
@@ -64,7 +55,7 @@ class HomeScreen : Screen(), HomeView {
         paddings(top = 16.dp)
         behavior(ScrollingRecyclerBehavior())
         layoutManager = LinearLayoutManager(context)
-        adapter = this@HomeScreen.adapter
+        //        adapter = this@HomeScreen.adapter
       }
       VerticalLayout(MatchParent, WrapContent) {
         tag(LayoutLoading)
@@ -72,13 +63,13 @@ class HomeScreen : Screen(), HomeView {
         behavior(viewUnderHeaderBehavior)
         gravity(CENTER)
         layoutGravity(CENTER)
-        TextView(MatchParent, WrapContent, style = Styles.BoldTextView) {
+        TextView(MatchParent, WrapContent, style = BoldTextView) {
           tag(TextLoading)
           gravity(CENTER)
           textSize(TextSizes.H3)
           text(R.string.text_loading_users)
         }
-        child<ComplexProgressBar>(Dimens.ProgressBarSizeBig, Dimens.ProgressBarSizeBig) {
+        child<ComplexProgressBar>(ProgressBarSizeBig, ProgressBarSizeBig) {
           margins(top = 40.dp)
         }
       }
@@ -92,7 +83,7 @@ class HomeScreen : Screen(), HomeView {
         classNameTag()
         val behavior = PullToRefreshBehavior(context)
         behavior(behavior)
-        onRefreshPulled = { presenter.onRefreshPulled() }
+        //        onRefreshPulled = { presenter.onRefreshPulled() }
         behavior.allowPulling = lb@{
           //          if (viewAs<Toolbar>().isInSearchMode) return@lb false
           //          if (view(LayoutError).isVisible) return@lb false
@@ -103,8 +94,8 @@ class HomeScreen : Screen(), HomeView {
       }
       child<Toolbar>(MatchParent, WrapContent) {
         classNameTag()
-        val text = FirebaseAuthenticator.getUsername()
-        title("Me: $text")
+        //        val text = core.impl.firebase.FirebaseAuthenticator.getUsername()
+        //        title("Me: $text")
         behavior(headerBehavior)
       }
       child<MenuView>(WrapContent, WrapContent) {
@@ -118,24 +109,25 @@ class HomeScreen : Screen(), HomeView {
     }
   }
   
-  private val adapter = HomeAdapter(onUserClicked = {
-    presenter.respondToChatRequest(it)
-  })
+  //  private val adapter = HomeAdapter(onUserClicked = {
+  //    presenter.respondToChatRequest(it)
+  //  })
   
-  private val presenter by moxyPresenter {
-    HomePresenter(
-      HomeRepository(
-        ChatFirebaseDataSource(
-          FirebaseAuthenticator.getUsername(),
-          AndroidDispatchers
-        )
-      ),
-      AndroidDispatchers
-    )
-  }
+  //  private val presenter by moxyPresenter {
+  //    HomePresenter(
+  //      HomeRepository(
+  //        ChatFirebaseDataSource(
+  //          core.impl.firebase.FirebaseAuthenticator.getUsername(),
+  //          core.impl.AndroidDispatchers
+  //        )
+  //      ),
+  //      core.impl.AndroidDispatchers
+  //    )
+  //  }
   
   override fun onInit() {
-    presenter.loadUsersWaitingToChat()
+    println()
+    //    presenter.loadUsersWaitingToChat()
   }
   
   override fun showLoadingUsersThatWaitingForChat() {
@@ -147,7 +139,7 @@ class HomeScreen : Screen(), HomeView {
   override fun showWaitingToChatList(list: List<User>) {
     textView("Text").text("Loaded")
     showLayout(viewAs<RecyclerView>())
-    adapter.submitList(list)
+    //    adapter.submitList(list)
   }
   
   override fun showNobodyWaitingForChat() {

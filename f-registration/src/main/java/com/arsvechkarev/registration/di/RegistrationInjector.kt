@@ -1,29 +1,25 @@
 package com.arsvechkarev.registration.di
 
-import com.arsvechkarev.core.SharedPrefsStorage
-import com.arsvechkarev.core.concurrency.AndroidDispatchers
-import com.arsvechkarev.firebase.auth.FirebaseAuthenticator
-import com.arsvechkarev.firebase.auth.SharedPrefsEmailSaver
-import com.arsvechkarev.firebase.database.FirebaseDatabaseImpl
-import com.arsvechkarev.firebase.database.PathDatabaseSchema
-import com.arsvechkarev.registration.domain.RegistrationInteractor
-import com.arsvechkarev.registration.presentation.RegistrationPresenter
-import com.arsvechkarev.registration.presentation.RegistrationPresenter.Companion.TIMER_FILENAME
-import com.arsvechkarev.viewdsl.ContextHolder
+//import core.impl.SharedPrefsStorage
+//import core.impl.AndroidDispatchers
+//import core.impl.firebase.FirebaseAuthenticator
+//import core.impl.firebase.SharedPrefsEmailSaver
+//import core.impl.firebase.FirebaseDatabaseImpl
+//import core.impl.firebase.PathDatabaseSchema
 
 object RegistrationInjector {
   
-  fun providePresenter(): RegistrationPresenter {
-    val context = ContextHolder.context
-    val profileSaver = SharedPrefsEmailSaver(context)
-    val timerSaver = SharedPrefsStorage(TIMER_FILENAME, context)
-    val interactor = RegistrationInteractor(
-      PathDatabaseSchema,
-      FirebaseAuthenticator,
-      FirebaseDatabaseImpl(AndroidDispatchers),
-      profileSaver,
-      timerSaver
-    )
-    return RegistrationPresenter(interactor, AndroidDispatchers)
-  }
+  //  fun providePresenter(): RegistrationPresenter {
+  //    val context = ContextHolder.context
+  //    val profileSaver = core.impl.firebase.SharedPrefsEmailSaver(context)
+  //    val timerSaver = core.impl.SharedPrefsStorage(TIMER_FILENAME, context)
+  //    val interactor = RegistrationInteractor(
+  //      core.impl.firebase.PathDatabaseSchema,
+  //      core.impl.firebase.FirebaseAuthenticator,
+  //      core.impl.firebase.FirebaseDatabaseImpl(core.impl.AndroidDispatchers),
+  //      profileSaver,
+  //      timerSaver
+  //    )
+  //    return RegistrationPresenter(interactor, core.impl.AndroidDispatchers)
+  //  }
 }

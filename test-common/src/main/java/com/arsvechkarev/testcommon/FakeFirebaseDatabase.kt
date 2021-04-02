@@ -1,11 +1,11 @@
 package com.arsvechkarev.testcommon
 
-import com.arsvechkarev.firebase.database.FirebaseDatabase
 import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import com.google.gson.JsonPrimitive
+import firebase.database.FirebaseDatabase
 
 class FakeFirebaseDatabase(json: String) : FirebaseDatabase {
   

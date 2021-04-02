@@ -1,8 +1,8 @@
 package com.arsvechkarev.home.domain
 
-import com.arsvechkarev.core.model.User
-import com.arsvechkarev.core.model.toUsersList
-import com.arsvechkarev.firebase.firestore.chat.ChatRequestsDataSource
+import firebase.chat.ChatRequestsDataSource
+import core.model.User
+import core.model.toUsersList
 
 class HomeRepository(
   private val chatDatabase: ChatRequestsDataSource

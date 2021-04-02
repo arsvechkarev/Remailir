@@ -1,8 +1,6 @@
 package com.arsvechkarev.friends.presentation.pagerscreens
 
 import com.arsvechkarev.core.UserMapper
-import com.arsvechkarev.core.model.User
-import com.arsvechkarev.firebase.database.PathDatabaseSchema
 import com.arsvechkarev.friends.domain.ByUsernameUsersActions
 import com.arsvechkarev.friends.domain.FriendsInteractor
 import com.arsvechkarev.friends.domain.FriendsRepositoryImpl
@@ -19,6 +17,8 @@ import com.arsvechkarev.testcommon.ScreenState.Loading
 import com.arsvechkarev.testcommon.ScreenState.Success
 import com.arsvechkarev.testcommon.user
 import com.arsvechkarev.testcommon.verify
+import core.impl.firebase.PathDatabaseSchema
+import core.model.User
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.After
@@ -48,7 +48,7 @@ class ScreensTest {
     val interactor = FriendsInteractor(FriendsRepository(user))
     val allFriendsPresenter = AllFriendsPresenter(interactor, FriendsScreensCommunicator())
     val fakeScreen = FakeAllFriendsScreen()
-    val friendsPath = PathDatabaseSchema.friendsPath(user)
+    val friendsPath = core.impl.firebase.PathDatabaseSchema.friendsPath(user)
     val friendsFromDatabase = fakeDatabase!!.getList(friendsPath).map(UserMapper::map)
     
     allFriendsPresenter.attachView(fakeScreen)
@@ -79,7 +79,7 @@ class ScreensTest {
       startLoadingRequestsToMe()
       startListeningToRequestsToMeChanges()
     }
-  
+    
     val userB = user("b")
     interactor.acceptRequest(userB)
     screensBridge.notifyRequestAccepted(userB)
@@ -90,7 +90,7 @@ class ScreensTest {
       stateAtPositionIs<Success<List<User>>>(1)
       stateAtPositionIs<Success<List<User>>>(2)
       
-      val friendsPath = PathDatabaseSchema.friendsPath(thisUser)
+      val friendsPath = core.impl.firebase.PathDatabaseSchema.friendsPath(thisUser)
       val friendsOfThisUser = fakeDatabase!!.getList(friendsPath).map(UserMapper::map)
       assertEquals(friendsOfThisUser, currentSuccessState<List<User>>().data)
     }
@@ -128,7 +128,7 @@ class ScreensTest {
   }
   
   private fun FriendsRepository(user: User): FriendsRepositoryImpl {
-    return FriendsRepositoryImpl(user, PathDatabaseSchema, fakeDatabase!!,
+    return FriendsRepositoryImpl(user, core.impl.firebase.PathDatabaseSchema, fakeDatabase!!,
       ByUsernameUsersActions, UserMapper)
   }
 }

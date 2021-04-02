@@ -5,57 +5,16 @@ import android.view.Gravity.CENTER
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.arsvechkarev.common.ErrorLayout
-import com.arsvechkarev.common.ImageError
-import com.arsvechkarev.common.LayoutError
-import com.arsvechkarev.common.TextError
-import com.arsvechkarev.common.TextRetry
-import com.arsvechkarev.core.WAITING_TIME
-import com.arsvechkarev.core.concurrency.AndroidDispatchers
-import com.arsvechkarev.core.extenstions.getMessageRes
-import com.arsvechkarev.core.extenstions.ifTrue
-import com.arsvechkarev.core.extenstions.moxyPresenter
-import com.arsvechkarev.core.model.User
-import com.arsvechkarev.core.navigation.Screen
-import com.arsvechkarev.core.viewbuilding.Colors
-import com.arsvechkarev.core.viewbuilding.Dimens
-import com.arsvechkarev.core.viewbuilding.Styles
-import com.arsvechkarev.core.viewbuilding.Styles.BoldTextView
-import com.arsvechkarev.core.viewbuilding.Styles.ClickableTextView
-import com.arsvechkarev.core.viewbuilding.TextSizes
-import com.arsvechkarev.firebase.auth.FirebaseAuthenticator
-import com.arsvechkarev.firebase.database.FirebaseDatabaseImpl
-import com.arsvechkarev.firebase.database.PathDatabaseSchema
+import com.arsvechkarev.views.ErrorLayout
+import com.arsvechkarev.views.ImageError
+import com.arsvechkarev.views.LayoutError
+import com.arsvechkarev.views.TextError
 import com.arsvechkarev.search.R
 import com.arsvechkarev.search.domain.RequestResult
 import com.arsvechkarev.search.domain.RequestResult.ERROR_ALREADY_FRIENDS
 import com.arsvechkarev.search.domain.RequestResult.ERROR_REQUEST_ALREADY_SENT
 import com.arsvechkarev.search.domain.RequestResult.ERROR_THIS_USER_ALREADY_HAS_REQUEST
-import com.arsvechkarev.search.domain.SearchRepository
 import com.arsvechkarev.search.list.SearchAdapter
-import com.arsvechkarev.viewdsl.Ints.dp
-import com.arsvechkarev.viewdsl.Size.Companion.MatchParent
-import com.arsvechkarev.viewdsl.Size.Companion.WrapContent
-import com.arsvechkarev.viewdsl.animateInvisible
-import com.arsvechkarev.viewdsl.animateVisible
-import com.arsvechkarev.viewdsl.backgroundRoundRect
-import com.arsvechkarev.viewdsl.behavior
-import com.arsvechkarev.viewdsl.classNameTag
-import com.arsvechkarev.viewdsl.gone
-import com.arsvechkarev.viewdsl.gravity
-import com.arsvechkarev.viewdsl.invisible
-import com.arsvechkarev.viewdsl.isVisible
-import com.arsvechkarev.viewdsl.layoutGravity
-import com.arsvechkarev.viewdsl.margins
-import com.arsvechkarev.viewdsl.onClick
-import com.arsvechkarev.viewdsl.paddingHorizontal
-import com.arsvechkarev.viewdsl.paddingVertical
-import com.arsvechkarev.viewdsl.paddings
-import com.arsvechkarev.viewdsl.tag
-import com.arsvechkarev.viewdsl.text
-import com.arsvechkarev.viewdsl.textColor
-import com.arsvechkarev.viewdsl.textSize
-import com.arsvechkarev.viewdsl.visible
 import com.arsvechkarev.views.ComplexProgressBar
 import com.arsvechkarev.views.PullToRefreshView
 import com.arsvechkarev.views.SimpleDialog
@@ -65,7 +24,40 @@ import com.arsvechkarev.views.behaviors.HeaderBehavior
 import com.arsvechkarev.views.behaviors.PullToRefreshBehavior
 import com.arsvechkarev.views.behaviors.ScrollingRecyclerBehavior
 import com.arsvechkarev.views.behaviors.ViewUnderHeaderBehavior
+import core.model.User
+import core.resources.Colors
+import core.resources.Dimens
+import core.resources.Dimens.ProgressBarSizeBig
+import core.resources.Styles.BoldTextView
+import core.resources.Styles.ClickableTextView
+import core.resources.TextSizes
+import core.ui.WAITING_TIME
+import core.ui.navigation.Screen
+import core.ui.utils.getMessageRes
+import core.ui.utils.ifTrue
 import timber.log.Timber
+import viewdsl.Ints.dp
+import viewdsl.Size.Companion.MatchParent
+import viewdsl.Size.Companion.WrapContent
+import viewdsl.animateInvisible
+import viewdsl.animateVisible
+import viewdsl.backgroundRoundRect
+import viewdsl.behavior
+import viewdsl.classNameTag
+import viewdsl.gone
+import viewdsl.gravity
+import viewdsl.invisible
+import viewdsl.isVisible
+import viewdsl.layoutGravity
+import viewdsl.margins
+import viewdsl.paddingHorizontal
+import viewdsl.paddingVertical
+import viewdsl.paddings
+import viewdsl.tag
+import viewdsl.text
+import viewdsl.textColor
+import viewdsl.textSize
+import viewdsl.visible
 
 class SearchScreen : Screen(), SearchView {
   
@@ -79,8 +71,8 @@ class SearchScreen : Screen(), SearchView {
         showSearchImage = true
         title(R.string.title_people)
         onBackClick { navigator.popCurrentScreen() }
-        onSearchTyped { text -> presenter.performFiltering(text) }
-        onExitFromSearchMode = { presenter.showCurrentList() }
+        //        onSearchTyped { text -> presenter.performFiltering(text) }
+        //        onExitFromSearchMode = { presenter.showCurrentList() }
       }
       child<RecyclerView>(MatchParent, MatchParent) {
         classNameTag()
@@ -96,13 +88,13 @@ class SearchScreen : Screen(), SearchView {
         behavior(viewUnderHeaderBehavior)
         gravity(CENTER)
         layoutGravity(CENTER)
-        TextView(MatchParent, WrapContent, style = Styles.BoldTextView) {
+        TextView(MatchParent, WrapContent, style = BoldTextView) {
           tag(TextLoading)
           gravity(CENTER)
           textSize(TextSizes.H3)
           text(R.string.text_loading_users)
         }
-        child<ComplexProgressBar>(Dimens.ProgressBarSizeBig, Dimens.ProgressBarSizeBig) {
+        child<ComplexProgressBar>(ProgressBarSizeBig, ProgressBarSizeBig) {
           margins(top = 40.dp)
         }
       }
@@ -111,7 +103,7 @@ class SearchScreen : Screen(), SearchView {
         classNameTag()
         val behavior = PullToRefreshBehavior(context)
         behavior(behavior)
-        onRefreshPulled = { presenter.onRefreshPulled() }
+        //        onRefreshPulled = { presenter.onRefreshPulled() }
         behavior.allowPulling = lb@{
           if (viewAs<SimpleDialog>().isOpened) return@lb false
           if (viewAs<Toolbar>().isInSearchMode) return@lb false
@@ -139,7 +131,7 @@ class SearchScreen : Screen(), SearchView {
             tag(TextSendRequest)
             margins(top = 12.dp)
             text(R.string.text_send_friend_request)
-            textColor(Colors.Correct)
+            textColor(core.resources.Colors.Correct)
           }
         }
       }
@@ -151,26 +143,26 @@ class SearchScreen : Screen(), SearchView {
     }
   }
   
-  private val presenter by moxyPresenter {
-    SearchPresenter(
-      SearchRepository(
-        FirebaseAuthenticator.getUsername(),
-        PathDatabaseSchema,
-        FirebaseDatabaseImpl(AndroidDispatchers),
-        AndroidDispatchers
-      ),
-      AndroidDispatchers
-    )
-  }
+  //  private val presenter by moxyPresenter {
+  //    SearchPresenter(
+  //      SearchRepository(
+  //        core.impl.firebase.FirebaseAuthenticator.getUsername(),
+  //        core.impl.firebase.PathDatabaseSchema,
+  //        core.impl.firebase.FirebaseDatabaseImpl(core.impl.AndroidDispatchers),
+  //        core.impl.AndroidDispatchers
+  //      ),
+  //      core.impl.AndroidDispatchers
+  //    )
+  //  }
   
   private val adapter = SearchAdapter(onUserClicked = { user ->
     textView(TextNameOfOtherUser).text(user.username)
-    textView(TextSendRequest).onClick { presenter.sendFriendRequest(user) }
+    //    textView(TextSendRequest).onClick { presenter.sendFriendRequest(user) }
     viewAs<SimpleDialog>().show()
   })
   
   override fun onInit() {
-    presenter.loadUsersList()
+    //    presenter.loadUsersList()
   }
   
   override fun onOrientationBecamePortrait() {
@@ -200,7 +192,7 @@ class SearchScreen : Screen(), SearchView {
     Timber.d(e)
     viewAs<Toolbar>().animateSearchInvisible()
     textView(TextError).text(e.getMessageRes())
-    textView(TextRetry).onClick { presenter.loadUsersList() }
+    //    textView(TextRetry).onClick { presenter.loadUsersList() }
     showLayout(view(LayoutError))
   }
   
@@ -236,7 +228,7 @@ class SearchScreen : Screen(), SearchView {
   
   override fun showSendingRequestFailure(e: Throwable, user: User) {
     viewAs<Snackbar>().switchToErrorMode()
-    viewAs<Snackbar>().buttonRetry.onClick { presenter.sendFriendRequest(user) }
+    //    viewAs<Snackbar>().buttonRetry.onClick { presenter.sendFriendRequest(user) }
     viewAs<Snackbar>().textError.text(R.string.error_unknown_short)
   }
   

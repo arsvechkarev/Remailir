@@ -7,37 +7,34 @@ import android.graphics.PorterDuff.Mode.SRC_ATOP
 import android.graphics.PorterDuffColorFilter
 import android.view.animation.LinearInterpolator
 import android.widget.FrameLayout
-import com.arsvechkarev.core.extenstions.Paint
-import com.arsvechkarev.core.extenstions.TextPaint
-import com.arsvechkarev.core.extenstions.execute
-import com.arsvechkarev.core.extenstions.f
-import com.arsvechkarev.core.extenstions.getTextHeight
-import com.arsvechkarev.core.extenstions.i
-import com.arsvechkarev.core.extenstions.vibrate
-import com.arsvechkarev.core.viewbuilding.Colors
-import com.arsvechkarev.core.viewbuilding.Fonts.SegoeUiBold
-import com.arsvechkarev.core.viewbuilding.TextSizes.H4
-import com.arsvechkarev.viewdsl.AccelerateDecelerateInterpolator
-import com.arsvechkarev.viewdsl.DURATION_DEFAULT
-import com.arsvechkarev.viewdsl.DURATION_SHORT
-import com.arsvechkarev.viewdsl.DURATION_VIBRATE_SHORT
-import com.arsvechkarev.viewdsl.Ints.dp
-import com.arsvechkarev.viewdsl.cancelIfRunning
-import com.arsvechkarev.viewdsl.doOnEnd
-import com.arsvechkarev.viewdsl.retrieveDrawable
-import com.arsvechkarev.viewdsl.startIfNotRunning
 import com.arsvechkarev.views.drawables.ProgressBarDrawable
+import com.arsvechkarev.views.utils.Paint
+import com.arsvechkarev.views.utils.TextPaint
+import com.arsvechkarev.views.utils.execute
+import com.arsvechkarev.views.utils.getTextHeight
+import com.arsvechkarev.views.utils.vibrate
+import core.resources.Fonts.SegoeUiBold
+import core.resources.TextSizes.H4
+import viewdsl.AccelerateDecelerateInterpolator
+import viewdsl.DURATION_DEFAULT
+import viewdsl.DURATION_SHORT
+import viewdsl.DURATION_VIBRATE_SHORT
+import viewdsl.Ints.dp
+import viewdsl.cancelIfRunning
+import viewdsl.doOnEnd
+import viewdsl.retrieveDrawable
+import viewdsl.startIfNotRunning
 
 class PullToRefreshView(context: Context) : FrameLayout(context) {
   
   private val progressBarSize = 30.dp
   private val innerPadding get() = progressBarSize / 1.8f
-  private val cornersRadius = 4.dp.f
+  private val cornersRadius = 4.dp.toFloat()
   private val progressBarDrawable = ProgressBarDrawable()
   private val arrowDownDrawable = context.retrieveDrawable(R.drawable.ic_arrow_down)
   private var arrowDownDrawableRotation = 0f
   private val textPaint = TextPaint(textSize = H4, font = SegoeUiBold)
-  private val backgroundPaint = Paint(Colors.Surface)
+  private val backgroundPaint = Paint(core.resources.Colors.Surface)
   private val textPullToRefresh = resources.getString(R.string.text_pull_to_refresh)
   private val textReleaseToRefresh = resources.getString(R.string.text_release_to_refresh)
   private val textRefreshing = resources.getString(R.string.text_refreshing)
@@ -76,15 +73,15 @@ class PullToRefreshView(context: Context) : FrameLayout(context) {
     duration = DURATION_DEFAULT
     interpolator = AccelerateDecelerateInterpolator
     addUpdateListener {
-      arrowDownDrawable.alpha = ((1 - it.animatedValue as Float) * 255).i
-      progressBarDrawable.alpha = (it.animatedValue as Float * 255).i
+      arrowDownDrawable.alpha = ((1 - it.animatedValue as Float) * 255).toInt()
+      progressBarDrawable.alpha = (it.animatedValue as Float * 255).toInt()
     }
   }
   private val alphaAnimator = ValueAnimator().apply {
     duration = DURATION_SHORT
     interpolator = AccelerateDecelerateInterpolator
     addUpdateListener {
-      val alpha = (it.animatedValue as Float * 255).i
+      val alpha = (it.animatedValue as Float * 255).toInt()
       progressBarDrawable.alpha = alpha
       backgroundPaint.alpha = alpha
       textRefreshingAlpha = alpha
@@ -164,17 +161,18 @@ class PullToRefreshView(context: Context) : FrameLayout(context) {
     textReleaseToRefreshHeight = textPaint.getTextHeight(textReleaseToRefresh).toFloat()
     textRefreshingHeight = textPaint.getTextHeight(textRefreshing).toFloat()
     val maxTextHeight = maxOf(textPullToRefreshHeight,
-      textReleaseToRefreshHeight, textRefreshingHeight).i
+      textReleaseToRefreshHeight, textRefreshingHeight).toInt()
     plankHeight = maxOf(progressBarSize, maxTextHeight) + verticalPadding * 2f
-    val left = (width / 2f - plankWidth / 2f + horizontalPadding).i
-    val top = (plankHeight / 2f - progressBarSize / 2f).i
+    val left = (width / 2f - plankWidth / 2f + horizontalPadding).toInt()
+    val top = (plankHeight / 2f - progressBarSize / 2f).toInt()
     progressBarDrawable.setBounds(
       left, top, left + progressBarSize, top + progressBarSize
     )
     arrowDownDrawable.setBounds(
       left, top, left + progressBarSize, top + progressBarSize
     )
-    arrowDownDrawable.colorFilter = PorterDuffColorFilter(Colors.TextPrimary, SRC_ATOP)
+    arrowDownDrawable.colorFilter = PorterDuffColorFilter(core.resources.Colors.TextPrimary,
+      SRC_ATOP)
     if (isPlankOpened) {
       progressBarDrawable.alpha = 255
       arrowDownDrawable.alpha = 0

@@ -13,24 +13,24 @@ import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
-import com.arsvechkarev.core.viewbuilding.Colors
-import com.arsvechkarev.core.viewbuilding.Colors.TextPrimary
-import com.arsvechkarev.core.viewbuilding.Fonts
-import com.arsvechkarev.core.viewbuilding.TextSizes
-import com.arsvechkarev.viewdsl.Ints.dp
-import com.arsvechkarev.viewdsl.Size.Companion.WrapContent
-import com.arsvechkarev.viewdsl.addView
-import com.arsvechkarev.viewdsl.animateInvisible
-import com.arsvechkarev.viewdsl.animateVisible
-import com.arsvechkarev.viewdsl.background
-import com.arsvechkarev.viewdsl.font
-import com.arsvechkarev.viewdsl.gravity
-import com.arsvechkarev.viewdsl.invisible
-import com.arsvechkarev.viewdsl.layoutGravity
-import com.arsvechkarev.viewdsl.paddingVertical
-import com.arsvechkarev.viewdsl.size
-import com.arsvechkarev.viewdsl.textSize
+import viewdsl.Ints.dp
+import viewdsl.Size.Companion.WrapContent
+import viewdsl.addView
+import viewdsl.animateInvisible
+import viewdsl.animateVisible
+import viewdsl.background
+import viewdsl.font
+import viewdsl.gravity
+import viewdsl.invisible
+import viewdsl.layoutGravity
+import viewdsl.paddingVertical
+import viewdsl.size
+import viewdsl.textSize
 import com.arsvechkarev.views.MaterialProgressBar
+import core.resources.Colors
+import core.resources.Colors.TextPrimary
+import core.resources.Fonts
+import core.resources.TextSizes
 
 class SignInButton(context: Context) : FrameLayout(context) {
   

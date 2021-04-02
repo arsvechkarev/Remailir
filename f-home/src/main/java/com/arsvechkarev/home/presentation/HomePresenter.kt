@@ -1,9 +1,9 @@
 package com.arsvechkarev.home.presentation
 
-import com.arsvechkarev.core.BasePresenter
-import com.arsvechkarev.core.concurrency.Dispatchers
-import com.arsvechkarev.core.model.User
 import com.arsvechkarev.home.domain.HomeRepository
+import core.Dispatchers
+import core.model.User
+import core.ui.BasePresenter
 
 class HomePresenter(
   private val repository: HomeRepository,

@@ -1,8 +1,8 @@
 package com.arsvechkarev.friends.old
 
-import com.arsvechkarev.core.model.FriendsType
-import com.arsvechkarev.core.model.User
-import com.arsvechkarev.core.model.UserAction
+import core.model.FriendsType
+import core.model.User
+import core.model.UserAction
 import moxy.MvpView
 import moxy.viewstate.strategy.AddToEndSingleStrategy
 import moxy.viewstate.strategy.StateStrategyType

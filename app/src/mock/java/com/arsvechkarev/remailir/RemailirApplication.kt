@@ -1,8 +1,9 @@
 package com.arsvechkarev.remailir
 
-import com.arsvechkarev.core.MockModeDrawerHolder
-import com.arsvechkarev.core.extenstions.readAssetsFile
-import com.arsvechkarev.friends.di.FriendsDi
+import com.arsvechkarev.remailir.di.AppComponent
+import com.arsvechkarev.remailir.fakes.MockModeProviders
+import core.MockModeDrawerHolder
+import core.di.AppDependenciesProvider
 import timber.log.Timber
 
 class RemailirApplication : BaseRemailirApplication() {
@@ -14,7 +15,6 @@ class RemailirApplication : BaseRemailirApplication() {
   }
   
   override fun configureDependencies() {
-    FriendsDi.database = FakeFirebaseDatabase(
-      applicationContext.readAssetsFile("fake_friends_data.json"))
+    AppDependenciesProvider.initialize(AppComponent.createComponent(MockModeProviders(this)))
   }
 }

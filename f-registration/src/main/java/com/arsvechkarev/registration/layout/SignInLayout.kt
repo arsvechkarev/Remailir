@@ -10,18 +10,6 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.arsvechkarev.core.extenstions.heightWithMargins
-import com.arsvechkarev.core.viewbuilding.Colors
-import com.arsvechkarev.core.viewbuilding.Dimens.CheckmarkHeight
-import com.arsvechkarev.core.viewbuilding.Dimens.CheckmarkWidth
-import com.arsvechkarev.core.viewbuilding.Dimens.ErrorLayoutImageSize
-import com.arsvechkarev.core.viewbuilding.Dimens.ErrorLayoutTextPadding
-import com.arsvechkarev.core.viewbuilding.Dimens.IconLogoSize
-import com.arsvechkarev.core.viewbuilding.Dimens.ProgressBarSizeBig
-import com.arsvechkarev.core.viewbuilding.Fonts
-import com.arsvechkarev.core.viewbuilding.Styles
-import com.arsvechkarev.core.viewbuilding.Styles.ClickableButton
-import com.arsvechkarev.core.viewbuilding.TextSizes
 import com.arsvechkarev.registration.R
 import com.arsvechkarev.registration.layout.RegistrationDimens.EditTextPadding
 import com.arsvechkarev.registration.layout.RegistrationDimens.MarginBottom
@@ -29,35 +17,44 @@ import com.arsvechkarev.registration.layout.RegistrationDimens.MarginHorizontal
 import com.arsvechkarev.registration.layout.RegistrationDimens.MarginHorizontalBig
 import com.arsvechkarev.registration.layout.RegistrationDimens.MarginTop
 import com.arsvechkarev.registration.layout.RegistrationDimens.MarginTopSmall
-import com.arsvechkarev.viewdsl.Ints.dp
-import com.arsvechkarev.viewdsl.Size.Companion.MatchParent
-import com.arsvechkarev.viewdsl.Size.Companion.WrapContent
-import com.arsvechkarev.viewdsl.addView
-import com.arsvechkarev.viewdsl.children
-import com.arsvechkarev.viewdsl.exactly
-import com.arsvechkarev.viewdsl.font
-import com.arsvechkarev.viewdsl.gone
-import com.arsvechkarev.viewdsl.gravity
-import com.arsvechkarev.viewdsl.image
-import com.arsvechkarev.viewdsl.invisible
-import com.arsvechkarev.viewdsl.layoutAroundPoint
-import com.arsvechkarev.viewdsl.layoutLeftTop
-import com.arsvechkarev.viewdsl.marginEnd
-import com.arsvechkarev.viewdsl.marginStart
-import com.arsvechkarev.viewdsl.marginTop
-import com.arsvechkarev.viewdsl.margins
-import com.arsvechkarev.viewdsl.padding
-import com.arsvechkarev.viewdsl.paddings
-import com.arsvechkarev.viewdsl.size
-import com.arsvechkarev.viewdsl.tag
-import com.arsvechkarev.viewdsl.text
-import com.arsvechkarev.viewdsl.textColor
-import com.arsvechkarev.viewdsl.textSize
-import com.arsvechkarev.viewdsl.unspecified
-import com.arsvechkarev.viewdsl.visible
-import com.arsvechkarev.viewdsl.withViewBuilder
 import com.arsvechkarev.views.CheckmarkView
 import com.arsvechkarev.views.MaterialProgressBar
+import core.resources.Dimens.CheckmarkHeight
+import core.resources.Dimens.CheckmarkWidth
+import core.resources.Dimens.ErrorLayoutImageSize
+import core.resources.Dimens.ErrorLayoutTextPadding
+import core.resources.Dimens.IconLogoSize
+import core.resources.Dimens.ProgressBarSizeBig
+import core.resources.Styles.ClickableButton
+import core.resources.TextSizes
+import viewdsl.Ints.dp
+import viewdsl.Size.Companion.MatchParent
+import viewdsl.Size.Companion.WrapContent
+import viewdsl.addView
+import viewdsl.children
+import viewdsl.exactly
+import viewdsl.font
+import viewdsl.gone
+import viewdsl.gravity
+import viewdsl.heightWithMargins
+import viewdsl.image
+import viewdsl.invisible
+import viewdsl.layoutAroundPoint
+import viewdsl.layoutLeftTop
+import viewdsl.marginEnd
+import viewdsl.marginStart
+import viewdsl.marginTop
+import viewdsl.margins
+import viewdsl.padding
+import viewdsl.paddings
+import viewdsl.size
+import viewdsl.tag
+import viewdsl.text
+import viewdsl.textColor
+import viewdsl.textSize
+import viewdsl.unspecified
+import viewdsl.visible
+import viewdsl.withViewBuilder
 
 @SuppressLint("ViewConstructor")
 class SignInLayout(context: Context) : ViewGroup(context) {
@@ -90,12 +87,12 @@ class SignInLayout(context: Context) : ViewGroup(context) {
         margins(start = MarginHorizontal, end = MarginHorizontal, top = MarginTop)
         textSize(TextSizes.H4)
         text(R.string.text_enter_your_email)
-        font(Fonts.SegoeUi)
+        font(core.resources.Fonts.SegoeUi)
       }
       child<EditText, MarginLayoutParams>(MatchParent, WrapContent) {
         tag(EditTextTag)
         margins(start = MarginHorizontal, end = MarginHorizontal, top = MarginTop)
-        font(Fonts.SegoeUi)
+        font(core.resources.Fonts.SegoeUi)
         textSize(TextSizes.H3)
         padding(EditTextPadding)
         setSingleLine()
@@ -105,9 +102,9 @@ class SignInLayout(context: Context) : ViewGroup(context) {
         tag(TextEditTextError)
         invisible()
         margins(start = MarginHorizontalBig, end = MarginHorizontalBig, top = MarginTop)
-        textColor(Colors.Error)
+        textColor(core.resources.Colors.Error)
         textSize(TextSizes.H4)
-        font(Fonts.SegoeUi)
+        font(core.resources.Fonts.SegoeUi)
       }
       TextView(MatchParent, WrapContent) {
         tag(TextLinkWasSent)
@@ -117,16 +114,16 @@ class SignInLayout(context: Context) : ViewGroup(context) {
           end = MarginHorizontal)
         textSize(TextSizes.H3)
         text(R.string.error_email_sent)
-        font(Fonts.SegoeUi)
+        font(core.resources.Fonts.SegoeUi)
       }
       TextView(MatchParent, WrapContent) {
         tag(TextTimer)
         invisible()
-        textColor(Colors.TextSecondary)
+        textColor(core.resources.Colors.TextSecondary)
         gravity(Gravity.CENTER)
         margins(top = MarginTopSmall, start = MarginHorizontal, end = MarginHorizontal)
         textSize(TextSizes.H4)
-        font(Fonts.SegoeUi)
+        font(core.resources.Fonts.SegoeUi)
       }
       TextView(WrapContent, WrapContent, style = ClickableButton()) {
         tag(ButtonOpenEmailApp)
@@ -142,7 +139,7 @@ class SignInLayout(context: Context) : ViewGroup(context) {
         tag(LayoutLoading)
         invisible()
         gravity(Gravity.CENTER)
-        TextView(WrapContent, WrapContent, style = Styles.BoldTextView) {
+        TextView(WrapContent, WrapContent, style = core.resources.Styles.BoldTextView) {
           tag(TextLoading)
           text(R.string.text_verifying_link)
           padding(24.dp)
@@ -154,7 +151,8 @@ class SignInLayout(context: Context) : ViewGroup(context) {
             tag(Checkmark)
           }
           addView {
-            MaterialProgressBar(context, Colors.Accent, MaterialProgressBar.Thickness.THICK).apply {
+            MaterialProgressBar(context, core.resources.Colors.Accent,
+              MaterialProgressBar.Thickness.THICK).apply {
               tag(ProgressBarTag)
               size(ProgressBarSizeBig, ProgressBarSizeBig)
             }
@@ -169,7 +167,7 @@ class SignInLayout(context: Context) : ViewGroup(context) {
           image(R.drawable.image_unknown_error)
           margins(bottom = ErrorLayoutTextPadding)
         }
-        TextView(WrapContent, WrapContent, style = Styles.BoldTextView) {
+        TextView(WrapContent, WrapContent, style = core.resources.Styles.BoldTextView) {
           tag(TextError)
           gravity(Gravity.CENTER)
           paddings(
@@ -181,8 +179,8 @@ class SignInLayout(context: Context) : ViewGroup(context) {
           text(R.string.error_email_link_expired)
         }
         TextView(WrapContent, WrapContent, style = ClickableButton(
-          colorStart = Colors.ErrorGradientStart,
-          colorEnd = Colors.ErrorGradientEnd,
+          colorStart = core.resources.Colors.ErrorGradientStart,
+          colorEnd = core.resources.Colors.ErrorGradientEnd,
         )) { tag(ButtonRetry) }
       }
     }

@@ -1,20 +1,22 @@
 package com.arsvechkarev.friends.domain
 
-import com.arsvechkarev.core.Mapper
-import com.arsvechkarev.core.model.FriendsType
-import com.arsvechkarev.core.model.FriendsType.ALL_FRIENDS
-import com.arsvechkarev.core.model.FriendsType.MY_REQUESTS
-import com.arsvechkarev.core.model.FriendsType.REQUESTS_TO_ME
-import com.arsvechkarev.core.model.User
-import com.arsvechkarev.firebase.database.FirebaseDatabase
-import com.arsvechkarev.firebase.database.UsersDatabaseSchema
+import firebase.database.FirebaseDatabase
+import core.StringToUserMapper
+import firebase.database.UsersActions
+import firebase.database.UsersDatabaseSchema
+import core.model.FriendsType
+import core.model.FriendsType.ALL_FRIENDS
+import core.model.FriendsType.MY_REQUESTS
+import core.model.FriendsType.REQUESTS_TO_ME
+import core.model.User
+import javax.inject.Inject
 
-class FriendsRepositoryImpl(
+class FriendsRepositoryImpl @Inject constructor(
   private val thisUser: User,
   private val schema: UsersDatabaseSchema,
   private val database: FirebaseDatabase,
   private val usersActions: UsersActions,
-  private val userMapper: Mapper<String, User>
+  private val userMapper: StringToUserMapper
 ) : FriendsRepository {
   
   private val cache = HashMap<FriendsType, MutableList<User>>()

@@ -7,22 +7,21 @@ import android.widget.EditText
 import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.arsvechkarev.core.extenstions.onTextChanged
-import com.arsvechkarev.core.viewbuilding.Colors
-import com.arsvechkarev.core.viewbuilding.TextSizes
-import com.arsvechkarev.viewdsl.Ints.dp
-import com.arsvechkarev.viewdsl.applyColor
-import com.arsvechkarev.viewdsl.backgroundColor
-import com.arsvechkarev.viewdsl.circleRippleBackground
-import com.arsvechkarev.viewdsl.exactly
-import com.arsvechkarev.viewdsl.image
-import com.arsvechkarev.viewdsl.layoutLeftTop
-import com.arsvechkarev.viewdsl.padding
-import com.arsvechkarev.viewdsl.setMaxLength
-import com.arsvechkarev.viewdsl.size
-import com.arsvechkarev.viewdsl.textColor
-import com.arsvechkarev.viewdsl.textSize
-import com.arsvechkarev.viewdsl.unspecified
+import core.resources.TextSizes
+import viewdsl.Ints.dp
+import viewdsl.applyColor
+import viewdsl.backgroundColor
+import viewdsl.circleRippleBackground
+import viewdsl.exactly
+import viewdsl.image
+import viewdsl.layoutLeftTop
+import viewdsl.onTextChanged
+import viewdsl.padding
+import viewdsl.setMaxLength
+import viewdsl.size
+import viewdsl.textColor
+import viewdsl.textSize
+import viewdsl.unspecified
 
 class ChatLayout(context: Context) : ViewGroup(context) {
   
@@ -31,11 +30,11 @@ class ChatLayout(context: Context) : ViewGroup(context) {
   private val editTextInnerPadding = 12.dp
   
   private val imageEnabledMode: ImageView.() -> Unit = {
-    drawable.applyColor(Colors.Icon)
+    drawable.applyColor(core.resources.Colors.Icon)
     isClickable = true
   }
   private val imageDisabledMode: ImageView.() -> Unit = {
-    drawable.applyColor(Colors.Disabled)
+    drawable.applyColor(core.resources.Colors.Disabled)
     isClickable = false
   }
   
@@ -56,15 +55,15 @@ class ChatLayout(context: Context) : ViewGroup(context) {
       layoutManager = linearLayoutManager
     })
     addView(View(context).apply {
-      backgroundColor(Colors.Surface)
+      backgroundColor(core.resources.Colors.Surface)
     })
     addView(EditText(context).apply {
       setHint(R.string.hint_message)
       textSize(TextSizes.H5)
-      textColor(Colors.TextPrimary)
-      setHintTextColor(Colors.TextSecondary)
+      textColor(core.resources.Colors.TextPrimary)
+      setHintTextColor(core.resources.Colors.TextSecondary)
       setMaxLength(500)
-      setBackgroundColor(Colors.Transparent)
+      setBackgroundColor(core.resources.Colors.Transparent)
       padding(editTextInnerPadding)
       onTextChanged {
         if (it.isBlank()) {
@@ -77,7 +76,7 @@ class ChatLayout(context: Context) : ViewGroup(context) {
     addView(ImageView(context).apply {
       image(R.drawable.ic_send)
       padding(imageSendPadding)
-      circleRippleBackground(Colors.Ripple)
+      circleRippleBackground(core.resources.Colors.Ripple)
       apply(imageDisabledMode)
     })
   }

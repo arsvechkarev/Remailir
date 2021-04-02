@@ -5,17 +5,18 @@ import android.graphics.Canvas
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.graphics.Rect
-import com.arsvechkarev.core.extenstions.Paint
-import com.arsvechkarev.core.viewbuilding.Colors
-import com.arsvechkarev.viewdsl.retrieveDrawable
+import viewdsl.retrieveDrawable
 import com.arsvechkarev.views.R
+import com.arsvechkarev.views.utils.Paint
+import core.resources.Colors
 
 class ProfileDrawable(
   context: Context,
   inverseColors: Boolean = false
 ) : BaseDrawable() {
   
-  private val paint = Paint(color = if (inverseColors) Colors.UserIconSecondary else Colors.Surface)
+  private val paint = Paint(
+    color = if (inverseColors) Colors.UserIconSecondary else Colors.Surface)
   
   private val profileDrawable = context.retrieveDrawable(R.drawable.ic_profile).apply {
     val color = if (inverseColors) Colors.Surface else Colors.UserIconSecondary

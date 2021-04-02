@@ -2,14 +2,7 @@ package com.arsvechkarev.registration.presentation
 
 import android.os.Bundle
 import android.view.View
-import com.arsvechkarev.core.MAX_SYMBOLS_FOR_NICKNAME
-import com.arsvechkarev.core.extenstions.getMessageRes
-import com.arsvechkarev.core.extenstions.getRegistrationMessageRes
-import com.arsvechkarev.core.extenstions.ifNotNull
-import com.arsvechkarev.core.extenstions.moxyPresenter
-import com.arsvechkarev.core.navigation.Screen
 import com.arsvechkarev.registration.R
-import com.arsvechkarev.registration.di.RegistrationInjector
 import com.arsvechkarev.registration.layout.SignInButton
 import com.arsvechkarev.registration.layout.SignInLayout
 import com.arsvechkarev.registration.layout.SignInLayout.Companion.ButtonOpenEmailApp
@@ -27,14 +20,19 @@ import com.arsvechkarev.registration.layout.SignInLayout.Companion.TextError
 import com.arsvechkarev.registration.layout.SignInLayout.Companion.TextLinkWasSent
 import com.arsvechkarev.registration.layout.SignInLayout.Companion.TextLoading
 import com.arsvechkarev.registration.layout.SignInLayout.Companion.TextTimer
-import com.arsvechkarev.viewdsl.animateInvisible
-import com.arsvechkarev.viewdsl.animateVisible
-import com.arsvechkarev.viewdsl.invisible
-import com.arsvechkarev.viewdsl.onClick
-import com.arsvechkarev.viewdsl.setMaxLength
-import com.arsvechkarev.viewdsl.text
+import viewdsl.animateInvisible
+import viewdsl.animateVisible
 import com.arsvechkarev.views.CheckmarkView
+import core.ui.MAX_SYMBOLS_FOR_NICKNAME
+import core.ui.navigation.Screen
+import core.ui.utils.getMessageRes
+import core.ui.utils.getRegistrationMessageRes
+import core.ui.utils.ifNotNull
 import timber.log.Timber
+import viewdsl.invisible
+import viewdsl.onClick
+import viewdsl.setMaxLength
+import viewdsl.text
 
 class RegistrationScreen : Screen(), RegistrationView {
   
@@ -42,15 +40,15 @@ class RegistrationScreen : Screen(), RegistrationView {
     SignInLayout(context)
   }
   
-  private val presenter by moxyPresenter { RegistrationInjector.providePresenter() }
+  //  private val presenter by moxyPresenter { RegistrationInjector.providePresenter() }
   
   override fun onInit(arguments: Bundle) {
     val checkLink = arguments.getBoolean(CHECK_LINK)
     if (checkLink) {
       val link = activityNonNull.intent.data.toString()
-      presenter.figureOutScreenToGo(link)
+      //      presenter.figureOutScreenToGo(link)
     } else {
-      presenter.figureOutScreenToGo()
+      //      presenter.figureOutScreenToGo()
     }
     view(ButtonOpenEmailApp).onClick { navigator.openEmailApp() }
   }
@@ -77,7 +75,7 @@ class RegistrationScreen : Screen(), RegistrationView {
     viewAs<SignInButton>(ButtonSignIn).isClickable = true
     viewAs<SignInButton>(ButtonSignIn).onClick {
       val username = editText(EditTextTag).text.toString().trim()
-      presenter.onEnteredUsername(username)
+      //      presenter.onEnteredUsername(username)
     }
   }
   
@@ -107,7 +105,7 @@ class RegistrationScreen : Screen(), RegistrationView {
       textView(TextLoading).text(R.string.text_successfully_verified)
       viewAs<CheckmarkView>(Checkmark).animateCheckmark(andThen = {
         view(LayoutLoading).animateInvisible(andThen = {
-          presenter.continueRegistration()
+          //          presenter.continueRegistration()
         })
       })
     })
@@ -121,7 +119,7 @@ class RegistrationScreen : Screen(), RegistrationView {
     textView(TextLoading).text(R.string.text_successfully_signed_in)
     viewAs<CheckmarkView>(Checkmark).animateCheckmark(andThen = {
       view(LayoutLoading).animateInvisible(andThen = {
-        presenter.continueRegistration()
+        //        presenter.continueRegistration()
       })
     })
   }
@@ -147,7 +145,7 @@ class RegistrationScreen : Screen(), RegistrationView {
     showFailureLayout(
       R.string.error_email_link_expired,
       R.string.text_resend_link,
-      onClickAction = { presenter.sendEmailLink(email) }
+      onClickAction = {/* presenter.sendEmailLink(email)*/ }
     )
   }
   
@@ -159,7 +157,7 @@ class RegistrationScreen : Screen(), RegistrationView {
       R.string.text_retry,
       onClickAction = {
         val emailLink = activityNonNull.intent.data.toString()
-        presenter.figureOutScreenToGo(emailLink)
+        //        presenter.figureOutScreenToGo(emailLink)
       })
   }
   
@@ -197,7 +195,7 @@ class RegistrationScreen : Screen(), RegistrationView {
     viewAs<SignInButton>(ButtonSignIn).title.text(R.string.text_continue)
     view(ButtonSignIn).onClick {
       val email = editText(EditTextTag).text.toString().trim()
-      presenter.sendEmailLink(email)
+      //      presenter.sendEmailLink(email)
     }
   }
   

@@ -5,17 +5,12 @@ import android.graphics.Canvas
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.view.View
-import com.arsvechkarev.core.extenstions.Paint
-import com.arsvechkarev.core.extenstions.TextPaint
-import com.arsvechkarev.core.extenstions.f
-import com.arsvechkarev.core.extenstions.getTextHeight
-import com.arsvechkarev.core.extenstions.i
-import com.arsvechkarev.core.viewbuilding.Colors
-import com.arsvechkarev.core.viewbuilding.Dimens
-import com.arsvechkarev.core.viewbuilding.Fonts
-import com.arsvechkarev.viewdsl.Ints.dp
-import com.arsvechkarev.viewdsl.retrieveDrawable
-import com.arsvechkarev.viewdsl.rippleBackground
+import com.arsvechkarev.views.utils.Paint
+import com.arsvechkarev.views.utils.TextPaint
+import com.arsvechkarev.views.utils.getTextHeight
+import viewdsl.Ints.dp
+import viewdsl.retrieveDrawable
+import viewdsl.rippleBackground
 
 class MenuItemView(
   context: Context,
@@ -26,14 +21,16 @@ class MenuItemView(
 ) : View(context) {
   
   private val icon = context.retrieveDrawable(iconRes)
-  private val textPaint = TextPaint(textSize, font = Fonts.SegoeUiBold)
-  private val circlePaint = Paint(Colors.OnAccent)
+  private val textPaint = TextPaint(textSize, font = core.resources.Fonts.SegoeUiBold)
+  private val circlePaint = Paint(core.resources.Colors.OnAccent)
   
   private var firstWord: String? = null
   private var secondWord: String? = null
   
   init {
-    rippleBackground(Colors.Ripple, Colors.Transparent, Dimens.DefaultCornerRadius)
+    rippleBackground(
+      core.resources.Colors.Ripple, core.resources.Colors.Transparent,
+      core.resources.Dimens.DefaultCornerRadius)
     val padding = 6.dp
     setPadding(padding, padding, padding, padding)
     if (text.contains(' ')) {
@@ -48,11 +45,11 @@ class MenuItemView(
     if (firstWord != null && secondWord != null) {
       val firstWidth = textPaint.measureText(firstWord!!)
       val secondWidth = textPaint.measureText(secondWord!!)
-      textWidth = maxOf(firstWidth, secondWidth).i
+      textWidth = maxOf(firstWidth, secondWidth).toInt()
       textHeight = textPaint.getTextHeight(firstWord!!) +
           textPaint.getTextHeight(secondWord!!) + (getTextPadding() * 2.5f).toInt()
     } else {
-      textWidth = textPaint.measureText(text).i
+      textWidth = textPaint.measureText(text).toInt()
       textHeight = textPaint.getTextHeight() + (getTextPadding() * 1.5f).toInt()
     }
     val width = maxOf(circleSize, textWidth) + paddingStart + paddingEnd
@@ -64,7 +61,7 @@ class MenuItemView(
   }
   
   override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
-    icon.colorFilter = PorterDuffColorFilter(Colors.Icon, PorterDuff.Mode.SRC_ATOP)
+    icon.colorFilter = PorterDuffColorFilter(core.resources.Colors.Icon, PorterDuff.Mode.SRC_ATOP)
     val padding = circleSize / 4
     icon.setBounds(
       w / 2 - circleSize / 2 + padding,
@@ -78,12 +75,12 @@ class MenuItemView(
     canvas.drawCircle(width / 2f, circleSize / 2f, circleSize / 2f - paddingTop, circlePaint)
     icon.draw(canvas)
     if (firstWord != null && secondWord != null) {
-      var y = circleSize + getTextPadding().f + textPaint.getTextHeight(firstWord!!)
+      var y = circleSize + getTextPadding().toFloat() + textPaint.getTextHeight(firstWord!!)
       canvas.drawText(firstWord!!, width / 2f, y, textPaint)
       y += textPaint.getTextHeight(firstWord!!) + getTextPadding()
       canvas.drawText(secondWord!!, width / 2f, y, textPaint)
     } else {
-      val y = circleSize + getTextPadding().f + textPaint.getTextHeight()
+      val y = circleSize + getTextPadding().toFloat() + textPaint.getTextHeight()
       canvas.drawText(text, width / 2f, y, textPaint)
     }
   }

@@ -2,19 +2,20 @@ package com.arsvechkarev.remailir
 
 import android.graphics.Canvas
 import android.graphics.Color
-import com.arsvechkarev.core.MockModeLabelDrawer
-import com.arsvechkarev.core.extenstions.Paint
-import com.arsvechkarev.core.extenstions.TextPaint
-import com.arsvechkarev.core.extenstions.execute
-import com.arsvechkarev.core.viewbuilding.Fonts
-import com.arsvechkarev.views.boringLayoutOf
+import android.graphics.Color.WHITE
+import com.arsvechkarev.views.utils.Paint
+import com.arsvechkarev.views.utils.TextPaint
+import com.arsvechkarev.views.utils.boringLayoutOf
+import com.arsvechkarev.views.utils.execute
+import core.MockModeLabelDrawer
+import core.resources.Fonts.SegoeUiBold
 
 object MockModeDrawerImpl : MockModeLabelDrawer {
   
-  private val paint = Paint(Color.RED)
-  private val textPaint = TextPaint(textSize = 60f, color = Color.WHITE, font = Fonts.SegoeUiBold)
-  
-  private val textLayout = boringLayoutOf(textPaint, "MOCK MODE")
+  // Set this properties as lazy, otherwise application freezes on start
+  private val paint by lazy { Paint(Color.RED) }
+  private val textPaint by lazy { TextPaint(textSize = 60f, color = WHITE, font = SegoeUiBold) }
+  private val textLayout by lazy { boringLayoutOf(textPaint, "MOCK MODE") }
   
   override fun drawLabel(canvas: Canvas) {
     val centerX = canvas.width / 2

@@ -1,9 +1,9 @@
 package com.arsvechkarev.friends.old
 
-import com.arsvechkarev.core.model.Data
-import com.arsvechkarev.core.model.FriendsType
-import com.arsvechkarev.core.model.User
 import com.arsvechkarev.friends.domain.FriendsRepositoryImpl
+import core.model.Data
+import core.model.FriendsType
+import core.model.User
 
 class FriendsOldInteractor(
   private val repository: FriendsRepositoryImpl

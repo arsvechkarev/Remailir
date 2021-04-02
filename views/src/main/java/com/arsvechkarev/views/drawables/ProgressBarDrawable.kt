@@ -4,9 +4,8 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.RectF
-import com.arsvechkarev.core.extenstions.execute
-import com.arsvechkarev.core.extenstions.f
-import com.arsvechkarev.core.viewbuilding.Colors
+import com.arsvechkarev.views.utils.execute
+import core.resources.Colors
 
 class ProgressBarDrawable : BaseDrawable() {
   
@@ -30,8 +29,8 @@ class ProgressBarDrawable : BaseDrawable() {
   }
   
   override fun onBoundsChange(bounds: Rect) {
-    val w = bounds.width().f
-    val h = bounds.height().f
+    val w = bounds.width().toFloat()
+    val h = bounds.height().toFloat()
     paint.strokeWidth = w / 10f
     val outerInset = paint.strokeWidth / 1.5f
     outerOval.set(outerInset, outerInset, w - outerInset, h - outerInset)
@@ -45,7 +44,7 @@ class ProgressBarDrawable : BaseDrawable() {
   
   override fun draw(canvas: Canvas) {
     canvas.execute {
-      canvas.translate(bounds.left.f, bounds.top.f)
+      canvas.translate(bounds.left.toFloat(), bounds.top.toFloat())
       val width = bounds.width()
       val height = bounds.height()
       rotate(outerRotationAngle, width / 2f, height / 2f)

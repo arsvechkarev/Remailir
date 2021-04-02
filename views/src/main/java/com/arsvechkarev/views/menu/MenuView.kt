@@ -10,23 +10,21 @@ import android.view.MotionEvent.ACTION_UP
 import android.view.View
 import android.view.ViewConfiguration
 import android.view.ViewGroup
-import com.arsvechkarev.core.extenstions.Paint
-import com.arsvechkarev.core.extenstions.contains
-import com.arsvechkarev.core.extenstions.execute
-import com.arsvechkarev.core.extenstions.f
-import com.arsvechkarev.core.extenstions.i
-import com.arsvechkarev.core.viewbuilding.Colors
-import com.arsvechkarev.core.viewbuilding.TextSizes
-import com.arsvechkarev.viewdsl.AccelerateDecelerateInterpolator
-import com.arsvechkarev.viewdsl.DURATION_DEFAULT
-import com.arsvechkarev.viewdsl.Ints.dp
-import com.arsvechkarev.viewdsl.cancelIfRunning
-import com.arsvechkarev.viewdsl.children
-import com.arsvechkarev.viewdsl.exactly
-import com.arsvechkarev.viewdsl.isOrientationPortrait
-import com.arsvechkarev.viewdsl.layoutLeftTop
+import viewdsl.AccelerateDecelerateInterpolator
+import viewdsl.DURATION_DEFAULT
+import viewdsl.Ints.dp
+import viewdsl.cancelIfRunning
+import viewdsl.contains
+import viewdsl.exactly
+import viewdsl.isOrientationPortrait
+import viewdsl.layoutLeftTop
 import com.arsvechkarev.views.CircleIconView
 import com.arsvechkarev.views.R
+import com.arsvechkarev.views.utils.Paint
+import com.arsvechkarev.views.utils.execute
+import core.resources.Colors
+import core.resources.TextSizes
+import viewdsl.children
 import kotlin.math.abs
 import kotlin.math.hypot
 
@@ -71,7 +69,7 @@ class MenuView(context: Context) : ViewGroup(context) {
   
   init {
     clipToPadding = false
-    val iconSize = (crossBaseSize * 0.75f).i
+    val iconSize = (crossBaseSize * 0.75f).toInt()
     addView(
       CircleIconView(
         context, iconSize,
@@ -116,7 +114,7 @@ class MenuView(context: Context) : ViewGroup(context) {
         maxItemHeight = maxOf(maxItemHeight, child.measuredHeight)
       }
     }
-    if (isOrientationPortrait) {
+    if (context.isOrientationPortrait) {
       measurePortrait(widthMeasureSpec, heightMeasureSpec)
     } else {
       measureLandscape(widthMeasureSpec, heightMeasureSpec)
@@ -124,9 +122,9 @@ class MenuView(context: Context) : ViewGroup(context) {
   }
   
   override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
-    val topOffset = (crossOpenedSize + crossOpenedPadding).f
-    val width = w.f
-    val height = h.f
+    val topOffset = (crossOpenedSize + crossOpenedPadding).toFloat()
+    val width = w.toFloat()
+    val height = h.toFloat()
     val curveOffset = minOf(width, height) / 3f
     with(path) {
       moveTo(width, topOffset)
@@ -139,7 +137,7 @@ class MenuView(context: Context) : ViewGroup(context) {
   }
   
   override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
-    if (isOrientationPortrait) {
+    if (context.isOrientationPortrait) {
       layoutPortrait()
     } else {
       layoutLandscape()
@@ -161,7 +159,7 @@ class MenuView(context: Context) : ViewGroup(context) {
     }
     val openCloseViewRange = pathHeight - crossOpenedPadding
     openCloseView.translationY = animCoefficient * -openCloseViewRange
-    val endScale = crossOpenedSize.f / crossBaseSize.f
+    val endScale = crossOpenedSize.toFloat() / crossBaseSize.toFloat()
     val scale = 1f - animCoefficient * (1f - endScale)
     openCloseView.scaleX = scale
     openCloseView.scaleY = scale

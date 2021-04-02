@@ -1,15 +1,16 @@
 package com.arsvechkarev.friends.presentation
 
-import com.arsvechkarev.core.BasePresenter
-import com.arsvechkarev.core.concurrency.Dispatchers
-import com.arsvechkarev.core.model.User
 import com.arsvechkarev.friends.domain.FriendsScreensCommunicator
 import com.arsvechkarev.friends.domain.FriendsScreensEvent.OnUserClicked
+import core.Dispatchers
+import core.model.User
+import core.ui.BasePresenter
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class FriendsPresenter(
+class FriendsPresenter @Inject constructor(
   private val screensCommunicator: FriendsScreensCommunicator,
   dispatchers: Dispatchers,
 ) : BasePresenter<FriendsView>(dispatchers) {

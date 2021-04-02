@@ -5,10 +5,10 @@ import com.arsvechkarev.chat.domain.ChatState
 import com.arsvechkarev.chat.domain.ChattingObserver
 import com.arsvechkarev.chat.domain.TYPE_JOINED
 import com.arsvechkarev.chat.domain.TYPE_REQUEST
-import com.arsvechkarev.core.BasePresenter
-import com.arsvechkarev.core.concurrency.Dispatchers
-import com.arsvechkarev.core.model.messaging.MessageOtherUser
-import com.arsvechkarev.core.model.messaging.MessageThisUser
+import core.Dispatchers
+import core.model.messaging.MessageOtherUser
+import core.model.messaging.MessageThisUser
+import core.ui.BasePresenter
 
 class ChatPresenter(
   private val interactor: ChatInteractor,

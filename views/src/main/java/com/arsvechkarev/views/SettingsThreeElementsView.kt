@@ -2,11 +2,11 @@ package com.arsvechkarev.views
 
 import android.content.Context
 import android.view.ViewGroup
-import com.arsvechkarev.core.viewbuilding.Colors
-import com.arsvechkarev.core.viewbuilding.TextSizes
-import com.arsvechkarev.viewdsl.children
-import com.arsvechkarev.viewdsl.onClick
-import com.arsvechkarev.viewdsl.size
+import core.resources.Colors
+import core.resources.TextSizes
+import viewdsl.children
+import viewdsl.onClick
+import viewdsl.size
 
 class SettingsThreeElementsView(context: Context) : ViewGroup(context) {
   
@@ -17,9 +17,11 @@ class SettingsThreeElementsView(context: Context) : ViewGroup(context) {
     val buildMenuItem = { iconRes: Int, titleRes: Int, color: Int ->
       TextWithImageView(context, iconRes, TextSizes.H4, color, context.getString(titleRes))
     }
-    addView(buildMenuItem(R.drawable.ic_log_out, R.string.text_log_out, Colors.Error))
+    addView(
+      buildMenuItem(R.drawable.ic_log_out, R.string.text_log_out, Colors.Error))
     addView(buildMenuItem(R.drawable.ic_share, R.string.text_share, Colors.Share))
-    addView(buildMenuItem(R.drawable.ic_source_code, R.string.text_source_code, Colors.SourceCode))
+    addView(buildMenuItem(R.drawable.ic_source_code, R.string.text_source_code,
+      Colors.SourceCode))
   }
   
   fun onLogOutClick(block: () -> Unit) {

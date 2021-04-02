@@ -6,15 +6,15 @@ import com.arsvechkarev.chat.domain.ChatState.CHATTING
 import com.arsvechkarev.chat.domain.ChatState.NONE
 import com.arsvechkarev.chat.domain.ChatState.OTHER_USER_LEFT
 import com.arsvechkarev.chat.domain.ChatState.WAITING_FOR_USER
-import com.arsvechkarev.core.model.messaging.DisplayableMessage
-import com.arsvechkarev.core.model.messaging.Message
-import com.arsvechkarev.core.model.messaging.MessageFactory
-import com.arsvechkarev.core.model.messaging.MessageOtherUser
-import com.arsvechkarev.core.model.messaging.MessageThisUser
-import com.arsvechkarev.firebase.firestore.chat.ChatMetaInfoDataSource
-import com.arsvechkarev.firebase.firestore.chat.ChatWaitingListener
-import com.arsvechkarev.firebase.firestore.messaging.MessageListener
-import com.arsvechkarev.firebase.firestore.messaging.MessagingDataSource
+import firebase.chat.ChatMetaInfoDataSource
+import firebase.chat.ChatWaitingListener
+import firebase.messaging.MessageListener
+import firebase.messaging.MessagingDataSource
+import core.model.messaging.DisplayableMessage
+import core.model.messaging.Message
+import core.model.messaging.MessageFactory
+import core.model.messaging.MessageOtherUser
+import core.model.messaging.MessageThisUser
 
 class ChatInteractor(
   private val context: Context,
@@ -50,7 +50,7 @@ class ChatInteractor(
           observer?.showOtherUserLeftChatting()
         }
         OTHER_USER_LEFT -> {
-    
+        
         }
       }
     }

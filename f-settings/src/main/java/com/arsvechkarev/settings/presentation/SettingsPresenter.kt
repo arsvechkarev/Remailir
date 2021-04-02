@@ -1,16 +1,16 @@
 package com.arsvechkarev.settings.presentation
 
-import com.arsvechkarev.core.BasePresenter
-import com.arsvechkarev.core.concurrency.Dispatchers
-import com.arsvechkarev.core.navigation.Navigator
-import com.arsvechkarev.core.settings.MutableSettings
-import com.arsvechkarev.firebase.auth.Authenticator
-import com.arsvechkarev.firebase.auth.EmailSaver
+import authentication.Authenticator
+import authentication.EmailSaver
+import core.Dispatchers
+import core.Settings
+import core.ui.BasePresenter
+import core.ui.navigation.Navigator
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 
 class SettingsPresenter(
-  private val settings: MutableSettings,
+  private val settings: Settings,
   private val authenticator: Authenticator,
   private val emailSaver: EmailSaver,
   private var navigator: Navigator?,
@@ -22,7 +22,7 @@ class SettingsPresenter(
   }
   
   fun setNotificationsEnabled(enabled: Boolean) {
-    settings.setNotificationsEnabled(enabled)
+    settings.areNotificationsEnabled = enabled
   }
   
   fun logOut() {

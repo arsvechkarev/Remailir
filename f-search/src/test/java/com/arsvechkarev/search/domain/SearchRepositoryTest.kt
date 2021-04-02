@@ -1,8 +1,5 @@
 package com.arsvechkarev.search.domain
 
-import com.arsvechkarev.core.concurrency.Dispatchers
-import com.arsvechkarev.core.model.User
-import com.arsvechkarev.firebase.database.PathDatabaseSchema
 import com.arsvechkarev.search.domain.RequestResult.ERROR_ALREADY_FRIENDS
 import com.arsvechkarev.search.domain.RequestResult.ERROR_REQUEST_ALREADY_SENT
 import com.arsvechkarev.search.domain.RequestResult.ERROR_THIS_USER_ALREADY_HAS_REQUEST
@@ -12,6 +9,9 @@ import com.arsvechkarev.testcommon.FakeFirebaseDatabase
 import com.arsvechkarev.testcommon.FakeJsonData.FullUsersDatabase
 import com.arsvechkarev.testcommon.isExactlyTheSameAs
 import com.arsvechkarev.testcommon.verify
+import core.Dispatchers
+import core.impl.firebase.PathDatabaseSchema
+import core.model.User
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
@@ -24,7 +24,8 @@ class SearchRepositoryTest {
     fakeDatabase: FakeFirebaseDatabase = FakeFirebaseDatabase(FullUsersDatabase),
     dispatchers: Dispatchers = FakeDispatchersProvider
   ): SearchRepository {
-    return SearchRepository(username, PathDatabaseSchema, fakeDatabase, dispatchers)
+    return SearchRepository(username, core.impl.firebase.PathDatabaseSchema, fakeDatabase,
+      dispatchers)
   }
   
   @Test

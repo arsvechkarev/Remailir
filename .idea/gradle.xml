@@ -11,16 +11,22 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/core" />
+            <option value="$PROJECT_DIR$/authentication-api" />
+            <option value="$PROJECT_DIR$/authentication-impl" />
+            <option value="$PROJECT_DIR$/core-api" />
+            <option value="$PROJECT_DIR$/core-impl" />
+            <option value="$PROJECT_DIR$/core-ui" />
             <option value="$PROJECT_DIR$/f-chat" />
-            <option value="$PROJECT_DIR$/f-common" />
             <option value="$PROJECT_DIR$/f-friends" />
             <option value="$PROJECT_DIR$/f-home" />
             <option value="$PROJECT_DIR$/f-registration" />
             <option value="$PROJECT_DIR$/f-search" />
             <option value="$PROJECT_DIR$/f-settings" />
-            <option value="$PROJECT_DIR$/firebase" />
-            <option value="$PROJECT_DIR$/storage" />
+            <option value="$PROJECT_DIR$/firebase-api" />
+            <option value="$PROJECT_DIR$/firebase-impl" />
+            <option value="$PROJECT_DIR$/recycler" />
+            <option value="$PROJECT_DIR$/recycler-api" />
+            <option value="$PROJECT_DIR$/resources" />
             <option value="$PROJECT_DIR$/test-common" />
             <option value="$PROJECT_DIR$/viewdsl" />
             <option value="$PROJECT_DIR$/views" />

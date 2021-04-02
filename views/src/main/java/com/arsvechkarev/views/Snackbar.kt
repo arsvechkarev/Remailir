@@ -4,33 +4,31 @@ import android.content.Context
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import com.arsvechkarev.core.viewbuilding.Colors
-import com.arsvechkarev.core.viewbuilding.Dimens
-import com.arsvechkarev.core.viewbuilding.Dimens.CheckmarkHeightSmall
-import com.arsvechkarev.core.viewbuilding.Dimens.CheckmarkWidthSmall
-import com.arsvechkarev.core.viewbuilding.Dimens.ProgressBarSizeSmall
-import com.arsvechkarev.core.viewbuilding.Styles.BaseTextView
-import com.arsvechkarev.core.viewbuilding.Styles.ClickableTextView
-import com.arsvechkarev.core.viewbuilding.TextSizes
-import com.arsvechkarev.viewdsl.AccelerateDecelerateInterpolator
-import com.arsvechkarev.viewdsl.DURATION_SHORT
-import com.arsvechkarev.viewdsl.Ints.dp
-import com.arsvechkarev.viewdsl.animateInvisible
-import com.arsvechkarev.viewdsl.animateVisible
-import com.arsvechkarev.viewdsl.atMost
-import com.arsvechkarev.viewdsl.backgroundRoundRect
-import com.arsvechkarev.viewdsl.circleRippleBackground
-import com.arsvechkarev.viewdsl.exactly
-import com.arsvechkarev.viewdsl.image
-import com.arsvechkarev.viewdsl.invisible
-import com.arsvechkarev.viewdsl.isVisible
-import com.arsvechkarev.viewdsl.layoutLeftTop
-import com.arsvechkarev.viewdsl.onClick
-import com.arsvechkarev.viewdsl.size
-import com.arsvechkarev.viewdsl.text
-import com.arsvechkarev.viewdsl.textColor
-import com.arsvechkarev.viewdsl.textSize
-import com.arsvechkarev.viewdsl.unspecified
+import core.resources.Dimens.CheckmarkHeightSmall
+import core.resources.Dimens.CheckmarkWidthSmall
+import core.resources.Dimens.ProgressBarSizeSmall
+import core.resources.Styles.BaseTextView
+import core.resources.Styles.ClickableTextView
+import core.resources.TextSizes
+import viewdsl.AccelerateDecelerateInterpolator
+import viewdsl.DURATION_SHORT
+import viewdsl.Ints.dp
+import viewdsl.animateInvisible
+import viewdsl.animateVisible
+import viewdsl.atMost
+import viewdsl.backgroundRoundRect
+import viewdsl.circleRippleBackground
+import viewdsl.exactly
+import viewdsl.image
+import viewdsl.invisible
+import viewdsl.isVisible
+import viewdsl.layoutLeftTop
+import viewdsl.onClick
+import viewdsl.size
+import viewdsl.text
+import viewdsl.textColor
+import viewdsl.textSize
+import viewdsl.unspecified
 
 class Snackbar(context: Context) : ViewGroup(context) {
   
@@ -50,16 +48,16 @@ class Snackbar(context: Context) : ViewGroup(context) {
   init {
     val p = 4.dp
     clipToPadding = false
-    backgroundRoundRect(Dimens.DefaultCornerRadius, Colors.Dialog)
+    backgroundRoundRect(core.resources.Dimens.DefaultCornerRadius, core.resources.Colors.Dialog)
     setPadding(18.dp, 8.dp, 16.dp, 8.dp)
     addView(SimpleProgressBar(context))
     addView(TextView(context).apply(BaseTextView))
     addView(TextView(context).apply(BaseTextView))
     addView(TextView(context).apply(BaseTextView))
     addView(TextView(context).apply {
-      apply(ClickableTextView(Colors.ErrorRipple, Colors.Dialog))
+      apply(ClickableTextView(core.resources.Colors.ErrorRipple, core.resources.Colors.Dialog))
       textSize(TextSizes.H5)
-      textColor(Colors.Error)
+      textColor(core.resources.Colors.Error)
       text(R.string.text_retry_all_caps)
     })
     addView(CheckmarkView(context).apply {
@@ -69,7 +67,7 @@ class Snackbar(context: Context) : ViewGroup(context) {
     })
     addView(ImageView(context).apply {
       setPadding(p, p, p, p)
-      circleRippleBackground(Colors.Ripple)
+      circleRippleBackground(core.resources.Colors.Ripple)
       image(R.drawable.ic_cross)
       onClick { hide() }
     })
