@@ -3,8 +3,17 @@ package core.ui.utils
 import moxy.MvpDelegate
 import moxy.MvpDelegateHolder
 import moxy.MvpPresenter
+import moxy.MvpView
 import moxy.presenter.PresenterField
 import kotlin.reflect.KProperty
+
+/**
+ * If view is in restore state, then commands from viewState should not be animated, just
+ * switched to. This method helps determine that
+ */
+fun <T : MvpView> T.shouldAnimate(presenter: MvpPresenter<T>): Boolean {
+  return !presenter.isInRestoreState(this)
+}
 
 inline fun <reified T : MvpPresenter<*>> MvpDelegateHolder.moxyPresenter(
   name: String = "presenter",

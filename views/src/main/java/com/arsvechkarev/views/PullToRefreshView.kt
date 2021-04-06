@@ -13,12 +13,10 @@ import com.arsvechkarev.views.utils.TextPaint
 import com.arsvechkarev.views.utils.execute
 import com.arsvechkarev.views.utils.getTextHeight
 import com.arsvechkarev.views.utils.vibrate
+import config.DurationsConfigurator
 import core.resources.Fonts.SegoeUiBold
 import core.resources.TextSizes.H4
 import viewdsl.AccelerateDecelerateInterpolator
-import viewdsl.DURATION_DEFAULT
-import viewdsl.DURATION_SHORT
-import viewdsl.DURATION_VIBRATE_SHORT
 import viewdsl.Ints.dp
 import viewdsl.cancelIfRunning
 import viewdsl.doOnEnd
@@ -63,14 +61,14 @@ class PullToRefreshView(context: Context) : FrameLayout(context) {
     configure(800L) { innerRotationAngle = -(animatedValue as Float) }
   }
   private val plankAnimator = ValueAnimator().apply {
-    duration = DURATION_SHORT
+    duration = DurationsConfigurator.DurationShort
     interpolator = AccelerateDecelerateInterpolator
     addUpdateListener {
       distanceToTop = it.animatedValue as Float
     }
   }
   private val textAndIconAnimator = ValueAnimator().apply {
-    duration = DURATION_DEFAULT
+    duration = DurationsConfigurator.DurationShort
     interpolator = AccelerateDecelerateInterpolator
     addUpdateListener {
       arrowDownDrawable.alpha = ((1 - it.animatedValue as Float) * 255).toInt()
@@ -78,7 +76,7 @@ class PullToRefreshView(context: Context) : FrameLayout(context) {
     }
   }
   private val alphaAnimator = ValueAnimator().apply {
-    duration = DURATION_SHORT
+    duration = DurationsConfigurator.DurationShort
     interpolator = AccelerateDecelerateInterpolator
     addUpdateListener {
       val alpha = (it.animatedValue as Float * 255).toInt()
@@ -88,7 +86,7 @@ class PullToRefreshView(context: Context) : FrameLayout(context) {
     }
   }
   private val arrowDrawableAnimator = ValueAnimator().apply {
-    duration = DURATION_SHORT
+    duration = DurationsConfigurator.DurationShort
     interpolator = AccelerateDecelerateInterpolator
     addUpdateListener {
       arrowDownDrawableRotation = it.animatedValue as Float
@@ -134,7 +132,7 @@ class PullToRefreshView(context: Context) : FrameLayout(context) {
   
   internal fun moveToPullToRefreshState() {
     if (progressBarDrawable.alpha == 0 || textPullToRefreshAlpha == 255) return
-    context.vibrate(DURATION_VIBRATE_SHORT)
+    context.vibrate(DurationsConfigurator.DurationShortVibration)
     textPullToRefreshAlpha = 255
     textReleaseToRefreshAlpha = 0
     arrowDrawableAnimator.setFloatValues(arrowDownDrawableRotation, 0f)
@@ -143,7 +141,7 @@ class PullToRefreshView(context: Context) : FrameLayout(context) {
   
   internal fun moveToReleaseToRefreshState() {
     if (progressBarDrawable.alpha == 0 || textReleaseToRefreshAlpha == 255) return
-    context.vibrate(DURATION_VIBRATE_SHORT)
+    context.vibrate(DurationsConfigurator.DurationShortVibration)
     textPullToRefreshAlpha = 0
     textReleaseToRefreshAlpha = 255
     arrowDrawableAnimator.setFloatValues(arrowDownDrawableRotation, 180f)

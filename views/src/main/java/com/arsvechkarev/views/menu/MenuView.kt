@@ -10,21 +10,21 @@ import android.view.MotionEvent.ACTION_UP
 import android.view.View
 import android.view.ViewConfiguration
 import android.view.ViewGroup
+import com.arsvechkarev.views.AnimatableCircleIconView
+import com.arsvechkarev.views.R
+import com.arsvechkarev.views.utils.Paint
+import com.arsvechkarev.views.utils.execute
+import config.DurationsConfigurator
+import core.resources.Colors
+import core.resources.TextSizes
 import viewdsl.AccelerateDecelerateInterpolator
-import viewdsl.DURATION_DEFAULT
 import viewdsl.Ints.dp
 import viewdsl.cancelIfRunning
+import viewdsl.children
 import viewdsl.contains
 import viewdsl.exactly
 import viewdsl.isOrientationPortrait
 import viewdsl.layoutLeftTop
-import com.arsvechkarev.views.CircleIconView
-import com.arsvechkarev.views.R
-import com.arsvechkarev.views.utils.Paint
-import com.arsvechkarev.views.utils.execute
-import core.resources.Colors
-import core.resources.TextSizes
-import viewdsl.children
 import kotlin.math.abs
 import kotlin.math.hypot
 
@@ -51,7 +51,7 @@ class MenuView(context: Context) : ViewGroup(context) {
   private var animCoefficient = 0f
   private var opened = false
   private val coefficientAnimator = ValueAnimator().apply {
-    duration = DURATION_DEFAULT
+    duration = DurationsConfigurator.DurationDefault
     interpolator = AccelerateDecelerateInterpolator
     addUpdateListener {
       animCoefficient = it.animatedValue as Float
@@ -59,19 +59,23 @@ class MenuView(context: Context) : ViewGroup(context) {
     }
   }
   
-  private val openCloseView get() = getChildAt(0) as CircleIconView
+  private val openCloseView get() = getChildAt(0) as AnimatableCircleIconView
+  
+  val isOpened get() = opened
+  
   val firstMenuItem get() = getChildAt(1) as MenuItemView
   val secondMenuItem get() = getChildAt(2) as MenuItemView
   val thirdMenuItem get() = getChildAt(3) as MenuItemView
   val fourthMenuItem get() = getChildAt(4) as MenuItemView
   
-  val isOpened get() = opened
+  var onMenuOpenClick: () -> Unit = {}
+  var onMenuCloseClick: () -> Unit = {}
   
   init {
     clipToPadding = false
     val iconSize = (crossBaseSize * 0.75f).toInt()
     addView(
-      CircleIconView(
+      AnimatableCircleIconView(
         context, iconSize,
         R.drawable.avd_plus_to_cross,
         R.drawable.avd_cross_to_plus,
@@ -87,22 +91,32 @@ class MenuView(context: Context) : ViewGroup(context) {
     addView(buildMenuItem(R.drawable.ic_saved_messages, R.string.title_saved_messages))
   }
   
-  fun openMenu() {
+  fun openMenu(animate: Boolean = true) {
     if (opened) return
     opened = true
-    openCloseView.animateToFirstDrawable()
-    coefficientAnimator.cancelIfRunning()
-    coefficientAnimator.setFloatValues(animCoefficient, 1f)
-    coefficientAnimator.start()
+    openCloseView.switchToFirstDrawable(animate)
+    if (animate) {
+      coefficientAnimator.cancelIfRunning()
+      coefficientAnimator.setFloatValues(animCoefficient, 1f)
+      coefficientAnimator.start()
+    } else {
+      animCoefficient = 1f
+      invalidate()
+    }
   }
   
-  fun closeMenu() {
+  fun closeMenu(animate: Boolean = true) {
     if (!opened) return
     opened = false
-    openCloseView.animateToSecondDrawable()
-    coefficientAnimator.cancelIfRunning()
-    coefficientAnimator.setFloatValues(animCoefficient, 0f)
-    coefficientAnimator.start()
+    openCloseView.switchToSecondDrawable(animate)
+    if (animate) {
+      coefficientAnimator.cancelIfRunning()
+      coefficientAnimator.setFloatValues(animCoefficient, 0f)
+      coefficientAnimator.start()
+    } else {
+      animCoefficient = 0f
+      invalidate()
+    }
   }
   
   override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -182,7 +196,7 @@ class MenuView(context: Context) : ViewGroup(context) {
         val scaledTouchSlop = ViewConfiguration.get(context).scaledTouchSlop
         if (wasDownEventInView && dst < scaledTouchSlop) {
           wasDownEventInView = false
-          if (opened) closeMenu() else openMenu()
+          if (opened) onMenuCloseClick() else onMenuOpenClick()
         }
       }
     }

@@ -6,10 +6,14 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import com.google.gson.JsonPrimitive
-import core.utils.readAssetsFile
 import firebase.database.FirebaseDatabase
+import java.util.ArrayList
 
 class FakeFirebaseDatabase(context: Context) : FirebaseDatabase {
+  
+  private fun Context.readAssetsFile(fileName: String): String = assets.open(fileName)
+      .bufferedReader()
+      .use { reader -> reader.readText() }
   
   val rootJsonObject: JsonElement = JsonParser.parseString(
     context.readAssetsFile("fake_friends_data.json")

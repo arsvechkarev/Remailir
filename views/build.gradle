@@ -32,5 +32,6 @@ dependencies {
   implementation dependencies.appCompat
   implementation dependencies.recyclerView
   implementation dependencies.coordinatorLayout
+  implementation dependencies.coroutinesCore
   implementation dependencies.glide
 }

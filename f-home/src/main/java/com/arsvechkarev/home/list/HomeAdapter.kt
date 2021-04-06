@@ -2,7 +2,7 @@ package com.arsvechkarev.home.list
 
 import android.widget.TextView
 import com.arsvechkarev.views.UserItemView
-import com.arsvechkarev.recycler.CustomListAdapter
+import com.arsvechkarev.recycler.BaseListAdapter
 import com.arsvechkarev.recycler.listDelegate
 import core.model.User
 import viewdsl.childViewAs
@@ -12,7 +12,7 @@ import viewdsl.withViewBuilder
 
 class HomeAdapter(
   private val onUserClicked: (User) -> Unit
-) : CustomListAdapter() {
+) : BaseListAdapter() {
   
   init {
     addDelegates(

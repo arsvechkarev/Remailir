@@ -1,6 +1,6 @@
 package com.arsvechkarev.registration.presentation
 
-import android.os.Bundle
+import android.content.Context
 import android.view.View
 import com.arsvechkarev.registration.R
 import com.arsvechkarev.registration.layout.SignInButton
@@ -20,41 +20,41 @@ import com.arsvechkarev.registration.layout.SignInLayout.Companion.TextError
 import com.arsvechkarev.registration.layout.SignInLayout.Companion.TextLinkWasSent
 import com.arsvechkarev.registration.layout.SignInLayout.Companion.TextLoading
 import com.arsvechkarev.registration.layout.SignInLayout.Companion.TextTimer
-import viewdsl.animateInvisible
-import viewdsl.animateVisible
 import com.arsvechkarev.views.CheckmarkView
 import core.ui.MAX_SYMBOLS_FOR_NICKNAME
-import core.ui.navigation.Screen
 import core.ui.utils.getMessageRes
 import core.ui.utils.getRegistrationMessageRes
-import core.ui.utils.ifNotNull
+import navigation.BaseScreen
 import timber.log.Timber
+import viewdsl.animateInvisible
+import viewdsl.animateVisible
 import viewdsl.invisible
 import viewdsl.onClick
 import viewdsl.setMaxLength
 import viewdsl.text
+import viewdsl.withViewBuilder
 
-class RegistrationScreen : Screen(), RegistrationView {
+class RegistrationScreen : BaseScreen(), RegistrationView {
   
-  override fun buildLayout() = withViewBuilder {
+  override fun buildLayout(context: Context) = context.withViewBuilder {
     SignInLayout(context)
   }
   
   //  private val presenter by moxyPresenter { RegistrationInjector.providePresenter() }
   
-  override fun onInit(arguments: Bundle) {
-    val checkLink = arguments.getBoolean(CHECK_LINK)
-    if (checkLink) {
-      val link = activityNonNull.intent.data.toString()
-      //      presenter.figureOutScreenToGo(link)
-    } else {
-      //      presenter.figureOutScreenToGo()
-    }
-    view(ButtonOpenEmailApp).onClick { navigator.openEmailApp() }
+  override fun onInit() {
+    //    val checkLink = arguments.getBoolean(CHECK_LINK)
+    //    if (checkLink) {
+    //      val link = activityNonNull.intent.data.toString()
+    //      presenter.figureOutScreenToGo(link)
+    //    } else {
+    //      presenter.figureOutScreenToGo()
+    //  }
+    //    view(ButtonOpenEmailApp).onClick { navigator.openEmailApp() }
   }
   
   override fun switchToMainScreen() {
-    navigator.switchToMainScreen()
+    //    navigator.switchToMainScreen()
   }
   
   override fun showInitialState() {
@@ -112,7 +112,7 @@ class RegistrationScreen : Screen(), RegistrationView {
   }
   
   override fun showSignedIn() {
-    hideKeyboard()
+    //    hideKeyboard()
     editText(EditTextTag).isEnabled = false
     withMainLayout { animateInvisible() }
     view(LayoutLoading).animateVisible()
@@ -156,7 +156,7 @@ class RegistrationScreen : Screen(), RegistrationView {
       e.getMessageRes(),
       R.string.text_retry,
       onClickAction = {
-        val emailLink = activityNonNull.intent.data.toString()
+        //        val emailLink = activityNonNull.intent.data.toString()
         //        presenter.figureOutScreenToGo(emailLink)
       })
   }
@@ -170,7 +170,7 @@ class RegistrationScreen : Screen(), RegistrationView {
   }
   
   override fun showTimeTicking(time: CharSequence) {
-    textView(TextTimer).text(getString(R.string.number_resend_link, time))
+    textView(TextTimer).text(getText(R.string.number_resend_link, time))
   }
   
   override fun showTimeHasRunOut() {
@@ -181,7 +181,7 @@ class RegistrationScreen : Screen(), RegistrationView {
   }
   
   override fun showEmailSent(email: String?) {
-    email.ifNotNull { editText(EditTextTag).text(it) }
+    email?.let { editText(EditTextTag).text(it) }
     viewAs<SignInButton>(ButtonSignIn).title.text(R.string.text_sign_in)
     viewAs<SignInButton>(ButtonSignIn).hideProgress()
     withTimerLayout { animateVisible() }

@@ -4,10 +4,10 @@ import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
+import moxy.MvpAppCompatActivity
 import viewdsl.childView
 
-abstract class BaseActivity : AppCompatActivity() {
+abstract class BaseActivity : MvpAppCompatActivity() {
   
   @PublishedApi
   internal val viewsCache = HashMap<String, View>()

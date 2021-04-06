@@ -30,6 +30,11 @@ inline fun <reified T : View> View.withViewBuilder(builder: ViewBuilder.() -> T)
   return builder(viewBuilder)
 }
 
+inline fun ViewGroup.applyViewBuilder(builder: ViewBuilder.() -> Unit) {
+  val viewBuilder = ViewBuilder(context)
+  builder(viewBuilder)
+}
+
 class ViewBuilder(val context: Context) {
   
   val StatusBarHeight get() = context.statusBarHeight

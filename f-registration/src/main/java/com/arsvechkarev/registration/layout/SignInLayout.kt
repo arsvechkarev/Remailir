@@ -21,8 +21,8 @@ import com.arsvechkarev.views.CheckmarkView
 import com.arsvechkarev.views.MaterialProgressBar
 import core.resources.Dimens.CheckmarkHeight
 import core.resources.Dimens.CheckmarkWidth
-import core.resources.Dimens.ErrorLayoutImageSize
-import core.resources.Dimens.ErrorLayoutTextPadding
+import core.resources.Dimens.FailureLayoutImageSize
+import core.resources.Dimens.FailureLayoutTextPadding
 import core.resources.Dimens.IconLogoSize
 import core.resources.Dimens.ProgressBarSizeBig
 import core.resources.Styles.ClickableButton
@@ -163,17 +163,17 @@ class SignInLayout(context: Context) : ViewGroup(context) {
         tag(LayoutError)
         invisible()
         gravity(Gravity.CENTER)
-        ImageView(ErrorLayoutImageSize, ErrorLayoutImageSize) {
+        ImageView(FailureLayoutImageSize, FailureLayoutImageSize) {
           image(R.drawable.image_unknown_error)
-          margins(bottom = ErrorLayoutTextPadding)
+          margins(bottom = FailureLayoutTextPadding)
         }
         TextView(WrapContent, WrapContent, style = core.resources.Styles.BoldTextView) {
           tag(TextError)
           gravity(Gravity.CENTER)
           paddings(
-            start = ErrorLayoutTextPadding,
-            end = ErrorLayoutTextPadding,
-            bottom = ErrorLayoutTextPadding
+            start = FailureLayoutTextPadding,
+            end = FailureLayoutTextPadding,
+            bottom = FailureLayoutTextPadding
           )
           textSize(TextSizes.H2)
           text(R.string.error_email_link_expired)

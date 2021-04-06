@@ -1,10 +1,10 @@
 package com.arsvechkarev.registration.domain
 
 import android.os.SystemClock
-import authentication.Authenticator
-import authentication.EmailSaver
+import core.Authenticator
 import com.arsvechkarev.registration.presentation.RegistrationPresenter
 import core.KeyValueStorage
+import core.ThisUserInfoStorage
 import core.model.User
 import firebase.database.FirebaseDatabase
 import firebase.database.UsersDatabaseSchema
@@ -16,7 +16,7 @@ class RegistrationInteractor(
   private val schema: UsersDatabaseSchema,
   private val authenticator: Authenticator,
   private val database: FirebaseDatabase,
-  private val emailSaver: EmailSaver,
+  private val thisUserInfoStorage: ThisUserInfoStorage,
   private val timerSaver: KeyValueStorage,
 ) {
   
@@ -26,12 +26,12 @@ class RegistrationInteractor(
     return authenticator.isSignInWithEmailLink(emailLink)
   }
   
-  fun isNoEmailSaved(): Boolean {
-    return emailSaver.getEmail() == null
+  suspend fun isNoEmailSaved(): Boolean {
+    return thisUserInfoStorage.getEmailOrNull() == null
   }
   
-  fun getSavedEmail(): String {
-    return emailSaver.getEmail()!!
+  suspend fun getSavedEmail(): String {
+    return thisUserInfoStorage.getEmailOrNull() ?: error("Email is not saved")
   }
   
   fun figureOutInitialState(
@@ -54,7 +54,7 @@ class RegistrationInteractor(
         builder.startTime(timeLeft, TimeUnit.MILLISECONDS)
         timer = builder.build()
         timer!!.start()
-        onTimerStarted(emailSaver.getEmail())
+        //        onTimerStarted(thisUserInfoStorage.getEmailOrNull()!!)
       }
     } else {
       onTimerDoesNotStart()
@@ -67,7 +67,7 @@ class RegistrationInteractor(
     onTimerFinish: () -> Unit
   ) {
     authenticator.sendSignInLinkToEmail(email)
-    emailSaver.saveEmail(email)
+    thisUserInfoStorage.saveEmail(email)
     val timeInFuture = SystemClock.elapsedRealtime() + TimeUnit.MINUTES.toMillis(1)
     timerSaver.execute { putLong(RegistrationPresenter.TIMER_KEY, timeInFuture) }
     timer = TimerBuilder()
@@ -100,11 +100,11 @@ class RegistrationInteractor(
         schema.friendsRequestsToUserPath(user) to ""
       )
     )
-    authenticator.saveUsername(username)
+    thisUserInfoStorage.saveUsername(username)
   }
   
   fun shouldSwitchToMainScreen(): Boolean {
-    return authenticator.userHasDisplayName()
+    return authenticator.isUserLoggedIn()
   }
   
   fun release() {

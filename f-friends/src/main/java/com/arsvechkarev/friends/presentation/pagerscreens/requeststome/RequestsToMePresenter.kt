@@ -19,8 +19,9 @@ class RequestsToMePresenter @Inject constructor(
 ) : BasePresenter<RequestsToMeView>(dispatchers) {
   
   fun startLoadingRequestsToMe() {
+    viewState.showLoadingList()
     coroutine {
-      viewState.showLoadingList()
+      fakeNetworkDelay()
       val friends = interactor.getListByType(REQUESTS_TO_ME)
       if (friends.isEmpty()) {
         viewState.showListIsEmpty()

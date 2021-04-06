@@ -24,8 +24,11 @@ android {
 }
 
 dependencies {
-  implementation project(':authentication-api')
+  implementation project(':core-api')
   implementation project(':core-ui')
+  implementation project(':viewdsl')
+  implementation project(':resources')
+  implementation project(':navigation')
   implementation project(':views')
 
   def dependencies = rootProject.ext.applicationDependencies

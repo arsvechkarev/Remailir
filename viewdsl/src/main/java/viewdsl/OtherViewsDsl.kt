@@ -9,6 +9,8 @@ import android.widget.EditText
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.SwitchCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 fun ImageView.image(@DrawableRes resId: Int) {
   setImageResource(resId)
@@ -34,6 +36,11 @@ fun SwitchCompat.setColors(
       colorTrackEnabled,
       colorTrackDisabled,
     ))
+}
+
+fun RecyclerView.setupWith(adapter: RecyclerView.Adapter<*>) {
+  layoutManager = LinearLayoutManager(context)
+  this.adapter = adapter
 }
 
 fun EditText.setMaxLength(max: Int) {

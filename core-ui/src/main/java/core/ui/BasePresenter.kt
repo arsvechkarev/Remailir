@@ -1,10 +1,12 @@
 package core.ui
 
 import androidx.annotation.CallSuper
+import config.NetworkConfigurator
 import core.Dispatchers
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeout
 import moxy.MvpPresenter
@@ -18,8 +20,12 @@ abstract class BasePresenter<V : MvpView>(
   
   protected fun coroutine(block: suspend () -> Unit) {
     scope.launch {
-      withTimeout(REQUEST_TIMEOUT) { block() }
+      withTimeout(NetworkConfigurator.requestTimeout) { block() }
     }
+  }
+  
+  protected suspend fun fakeNetworkDelay() {
+    delay(NetworkConfigurator.fakeNetworkDelay)
   }
   
   @CallSuper

@@ -1,18 +1,22 @@
 package com.arsvechkarev.home.domain
 
-import firebase.chat.ChatRequestsDataSource
+import core.StringToUserMapper
+import core.di.FeatureScope
 import core.model.User
-import core.model.toUsersList
+import firebase.chat.ChatsRequestsDataSource
+import javax.inject.Inject
 
-class HomeRepository(
-  private val chatDatabase: ChatRequestsDataSource
+@FeatureScope
+class HomeRepository @Inject constructor(
+  private val chatsDatasource: ChatsRequestsDataSource,
+  private val mapper: StringToUserMapper
 ) {
   
   suspend fun getUsersWaitingToChat(): List<User> {
-    return chatDatabase.getCurrentlyWaitingForChat().toUsersList()
+    return chatsDatasource.getCurrentlyWaitingForChat().map(mapper::map)
   }
   
   suspend fun respondToChatRequest(user: User): Boolean {
-    return chatDatabase.respondToChatRequest(user.username)
+    return chatsDatasource.respondToChatRequest(user.username)
   }
 }

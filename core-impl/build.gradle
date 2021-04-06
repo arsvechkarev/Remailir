@@ -29,7 +29,9 @@ dependencies {
   def dependencies = rootProject.ext.applicationDependencies
   implementation platform(dependencies.firebasePlatform)
   implementation dependencies.firebaseDatabase
+  implementation dependencies.firebaseAuth
   implementation dependencies.coroutinesCore
+  implementation dependencies.cicerone
   implementation dependencies.dagger
   kapt dependencies.daggerCompiler
 }

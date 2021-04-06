@@ -5,8 +5,8 @@ import android.view.View
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
+import config.DurationsConfigurator
 import viewdsl.AccelerateDecelerateInterpolator
-import viewdsl.DURATION_SHORT
 import viewdsl.doOnEnd
 import viewdsl.getBehavior
 
@@ -20,7 +20,7 @@ class HeaderBehavior : CoordinatorLayout.Behavior<View>() {
   private var alreadyStartedScrolling = false
   
   private val scrollAnimator = ValueAnimator().apply {
-    duration = DURATION_SHORT
+    duration = DurationsConfigurator.DurationShort
     interpolator = AccelerateDecelerateInterpolator
     addUpdateListener {
       val offset = it.animatedValue as Int

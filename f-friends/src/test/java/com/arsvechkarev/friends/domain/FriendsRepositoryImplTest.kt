@@ -1,6 +1,5 @@
 package com.arsvechkarev.friends.domain
 
-import com.arsvechkarev.core.UserMapper
 import com.arsvechkarev.testcommon.FakeFirebaseDatabase
 import com.arsvechkarev.testcommon.FakeJsonData.FullUsersDatabase
 import com.arsvechkarev.testcommon.doesNotHave
@@ -9,11 +8,13 @@ import com.arsvechkarev.testcommon.shouldContainAll
 import com.arsvechkarev.testcommon.user
 import com.arsvechkarev.testcommon.usersList
 import com.arsvechkarev.testcommon.verify
-import core.impl.firebase.PathDatabaseSchema
+import core.StringToUserMapper
 import core.model.FriendsType.ALL_FRIENDS
 import core.model.FriendsType.MY_REQUESTS
 import core.model.FriendsType.REQUESTS_TO_ME
 import core.model.User
+import firebase.database.ByUsernameUsersActions
+import firebase.impl.PathDatabaseSchema
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
@@ -50,19 +51,19 @@ class FriendsRepositoryImplTest {
     
     val oldFriendsOfAList = repositoryA.getListByType(ALL_FRIENDS)
     val oldFriendsOfCList = repositoryC.getListByType(ALL_FRIENDS)
-    //    val oldFriendsOfACachedList = repositoryA.getFromCache(ALL_FRIENDS)!!
+    val oldFriendsOfACachedList = repositoryA.getFromCache(ALL_FRIENDS)!!
     
     verify { oldFriendsOfAList has user("c") }
-    //    verify { oldFriendsOfACachedList has user("c") }
+    verify { oldFriendsOfACachedList has user("c") }
     verify { oldFriendsOfCList has user("a") }
     
     repositoryA.removeFriend(user("c"))
     
-    //    val newCachedFriendsOfAList = repositoryA.getFromCache(ALL_FRIENDS)!!
+    val newCachedFriendsOfAList = repositoryA.getFromCache(ALL_FRIENDS)!!
     val newFriendsOfAList = repositoryA.getListByType(ALL_FRIENDS)
     val newFriendsOfCList = repositoryC.getListByType(ALL_FRIENDS)
     
-    //    verify { newCachedFriendsOfAList doesNotHave user("c") }
+    verify { newCachedFriendsOfAList doesNotHave user("c") }
     verify { newFriendsOfAList doesNotHave user("c") }
     verify { newFriendsOfCList doesNotHave user("a") }
   }
@@ -142,10 +143,10 @@ class FriendsRepositoryImplTest {
   ): FriendsRepositoryImpl {
     return FriendsRepositoryImpl(
       User(username),
-      core.impl.firebase.PathDatabaseSchema,
+      PathDatabaseSchema,
       database,
       ByUsernameUsersActions,
-      UserMapper
+      StringToUserMapper()
     )
   }
 }

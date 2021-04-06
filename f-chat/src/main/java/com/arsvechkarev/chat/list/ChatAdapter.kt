@@ -4,7 +4,7 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import com.arsvechkarev.recycler.CustomListAdapter
+import com.arsvechkarev.recycler.BaseListAdapter
 import com.arsvechkarev.recycler.listDelegate
 import viewdsl.Ints.dp
 import viewdsl.background
@@ -29,7 +29,7 @@ import viewdsl.gravity
 import viewdsl.paddingVertical
 import viewdsl.withViewBuilder
 
-class ChatAdapter : CustomListAdapter() {
+class ChatAdapter : BaseListAdapter() {
   
   init {
     addDelegates(

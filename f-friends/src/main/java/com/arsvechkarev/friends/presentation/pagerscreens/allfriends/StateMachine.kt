@@ -1,0 +1,3 @@
+package com.arsvechkarev.friends.presentation.pagerscreens.allfriends
+
+interface PresenterActions

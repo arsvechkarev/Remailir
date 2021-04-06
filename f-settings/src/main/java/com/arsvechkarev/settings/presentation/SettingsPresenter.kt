@@ -1,19 +1,17 @@
 package com.arsvechkarev.settings.presentation
 
-import authentication.Authenticator
-import authentication.EmailSaver
+import core.Authenticator
 import core.Dispatchers
 import core.Settings
+import core.ThisUserInfoStorage
 import core.ui.BasePresenter
-import core.ui.navigation.Navigator
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 
 class SettingsPresenter(
   private val settings: Settings,
   private val authenticator: Authenticator,
-  private val emailSaver: EmailSaver,
-  private var navigator: Navigator?,
+  private val thisUserInfoStorage: ThisUserInfoStorage,
   dispatchers: Dispatchers
 ) : BasePresenter<SettingsView>(dispatchers) {
   
@@ -29,11 +27,11 @@ class SettingsPresenter(
     coroutine {
       viewState.showSigningOut()
       withContext(dispatchers.IO) {
-        emailSaver.deleteEmailSynchronously()
+        thisUserInfoStorage.clear()
         authenticator.signOut()
       }
       delay(SIGN_OUT_DURATION)
-      navigator?.signOut()
+      //      navigator?.signOut()
     }
   }
   
@@ -42,12 +40,12 @@ class SettingsPresenter(
   }
   
   fun openSourceCode() {
-    navigator?.openLink(SOURCE_CODE_LINK)
+    //    navigator?.openLink(SOURCE_CODE_LINK)
   }
   
   override fun onDestroy() {
     super.onDestroy()
-    navigator = null
+    //    navigator = null
   }
   
   companion object {

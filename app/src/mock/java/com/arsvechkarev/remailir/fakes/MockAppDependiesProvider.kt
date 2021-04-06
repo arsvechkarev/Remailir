@@ -1,27 +1,44 @@
 package com.arsvechkarev.remailir.fakes
 
 import android.app.Application
-import authentication.AuthDependenciesProvider
-import authentication.impl.di.AuthDependenciesComponent
 import com.arsvechkarev.remailir.di.Providers
+import com.arsvechkarev.remailir.di.RouterComponent
+import core.di.AuthDependenciesProvider
 import core.impl.di.CoreDependenciesComponent
 import core.impl.di.ServiceStarterComponent
 import core.impl.di.SettingsComponent
-import firebase.FirebaseDependenciesProvider
+import firebase.chat.FirebaseChatRequestsDataSourceProvider
 import firebase.database.ByUsernameUsersActions
 import firebase.database.FirebaseDatabase
+import firebase.database.FirebaseDatabaseDependenciesProvider
 import firebase.database.UsersActions
 import firebase.database.UsersDatabaseSchema
 import firebase.impl.PathDatabaseSchema
+import firebase.impl.di.FirebaseChatsComponent
+import navigation.RouterProvider
 
 class MockModeProviders(app: Application) : Providers {
   
-  override val coreDependenciesProvider = CoreDependenciesComponent.createComponent()
+  override val coreDependenciesProvider = CoreDependenciesComponent.createComponent(app)
+  override val routerProvider: RouterProvider = RouterComponent.createComponent()
   override val settingsProvider = SettingsComponent.createComponent(app)
   override val serviceStarterProvider = ServiceStarterComponent.createComponent(app)
-  override val authDependenciesProvider = AuthDependenciesComponent.createComponent(app)
   
-  override val firebaseDependenciesProvider = object : FirebaseDependenciesProvider {
+  override val authDependenciesProvider = object : AuthDependenciesProvider {
+  
+    init {
+      AuthDependenciesProvider.initialize(this)
+    }
+    
+    override fun provideAuthenticator() = FakeAuthenticator
+  }
+  
+  override val firebaseDatabaseDependenciesProvider = object :
+    FirebaseDatabaseDependenciesProvider {
+    
+    init {
+      FirebaseDatabaseDependenciesProvider.initialize(this)
+    }
     
     private val database = FakeFirebaseDatabase(app)
     
@@ -38,8 +55,6 @@ class MockModeProviders(app: Application) : Providers {
     }
   }
   
-  init {
-    AuthDependenciesProvider.initialize(authDependenciesProvider)
-    FirebaseDependenciesProvider.initialize(firebaseDependenciesProvider)
-  }
+  override val firebaseChatRequestsDataSourceProvider: FirebaseChatRequestsDataSourceProvider =
+      FirebaseChatsComponent.createComponent(coreDependenciesProvider)
 }

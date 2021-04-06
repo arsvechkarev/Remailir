@@ -24,9 +24,10 @@ android {
 }
 
 dependencies {
-  api project(':core-api')
-  api project(':viewdsl')
-  api project(':resources')
+  implementation project(':core-api')
+  implementation project(':navigation')
+  implementation project(':viewdsl')
+  implementation project(':resources')
 
   def dependencies = rootProject.ext.applicationDependencies
 
@@ -36,6 +37,7 @@ dependencies {
   implementation dependencies.firebaseAuth
   implementation dependencies.appCompat
   implementation dependencies.moxy
+  implementation dependencies.moxyAndroidx
   implementation dependencies.coordinatorLayout
   implementation dependencies.recyclerView
   implementation dependencies.coroutinesCore

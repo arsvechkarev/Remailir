@@ -10,11 +10,6 @@ import core.model.User
 
 class FakeMyRequestsScreen : FakeBaseScreen(), MyRequestsView {
   
-  override fun showRequestCancelled(user: User) {
-    val success = currentSuccessState<List<User>>()
-    updateState(Success(success.data - user))
-  }
-  
   override fun showLoadingList() {
     updateState(Loading)
   }
@@ -27,7 +22,21 @@ class FakeMyRequestsScreen : FakeBaseScreen(), MyRequestsView {
     updateState(Success(data))
   }
   
+  override fun showListChanged(newData: List<User>) {
+  }
+  
   override fun showFailureLoadingList(e: Throwable) {
     updateState(Failure(e))
+  }
+  
+  override fun showLoadingCancelMyRequest(user: User) {
+  }
+  
+  override fun showSuccessCancelMyRequest(user: User) {
+    val success = currentSuccessState<List<User>>()
+    updateState(Success(success.data - user))
+  }
+  
+  override fun showFailureCancelMyRequest(user: User) {
   }
 }

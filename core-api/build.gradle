@@ -24,10 +24,12 @@ android {
 }
 
 dependencies {
+  api project(':config')
   api project(':recycler-api')
 
   def dependencies = rootProject.ext.applicationDependencies
   implementation platform(dependencies.firebasePlatform)
+  implementation dependencies.cicerone
   implementation dependencies.coroutinesCore
   implementation dependencies.dagger
   implementation dependencies.firebaseDatabase

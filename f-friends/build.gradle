@@ -25,16 +25,20 @@ android {
 
 dependencies {
   implementation project(':core-api')
-  implementation project(':authentication-api')
   implementation project(':firebase-api')
   implementation project(':core-ui')
   implementation project(':recycler')
+  implementation project(':resources')
+  implementation project(':navigation')
+  implementation project(':viewdsl')
   implementation project(':views')
-  testImplementation project(":test-common")
+  testImplementation project(':test-common')
+  testImplementation project(':firebase-impl')
 
   def dependencies = rootProject.ext.applicationDependencies
   implementation platform(dependencies.firebasePlatform)
   implementation dependencies.kotlin
+  implementation dependencies.cicerone
   implementation dependencies.appCompat
   implementation dependencies.timber
   implementation dependencies.coordinatorLayout

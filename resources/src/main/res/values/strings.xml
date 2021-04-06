@@ -43,12 +43,13 @@
   <string name="text_find_people">Find people</string>
   <string name="text_remove_from_friends">Remove from friends</string>
   <string name="text_confirm_remove_from_friends">Do you want to remove %1$s from your friends?</string>
-  <string name="text_confirm_remove_from_friends_first_part">Do you want to remove</string>
+  <string name="text_confirm_remove_from_friends_first_part">Do you want to remove\u0020</string>
+  <string name="text_confirm_remove_from_friends_second_part">\u0020from your friends?</string>
   <string name="text_start_chatting">Start chatting</string>
   <string name="text_cancel_request">Cancel request</string>
   <string name="text_accept_request">Accept request</string>
   <string name="text_dismiss_request">Dismiss request</string>
-  <string name="text_removing_from_friends">Removing from friends…</string>
+  <string name="text_removing_from_friends">Removing from friends</string>
   <string name="text_cancelling_request">Cancelling request…</string>
   <string name="text_accepting_request">Accepting request…</string>
   <string name="text_dismissing_request">Dismissing request…</string>
@@ -82,4 +83,7 @@
   <string name="error_username_contains_prohibited_symbols">Username could contain only letters, numbers or underscore</string>
   <string name="error_username_already_exists">Username already taken</string>
   <string name="error_while_checking_link">An error occurred while checking link</string>
+  <string name="text_loading_removing_friend">Removing friend\u0020</string>
+  <string name="text_failure_removing_friend">Error removing friend\u0020</string>
+  <string name="text_success_removing_friend">Successfully removed friend\u0020</string>
 </resources>

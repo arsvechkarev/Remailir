@@ -1,12 +1,13 @@
 package com.arsvechkarev.remailir.di
 
-import authentication.AuthDependenciesProvider
+import core.di.AuthDependenciesProvider
 import core.di.AppDependenciesProvider
 import core.di.CoreDependenciesProvider
 import core.di.ServiceStarterProvider
 import core.di.SettingsProvider
 import dagger.Component
-import firebase.FirebaseDependenciesProvider
+import firebase.chat.FirebaseChatRequestsDataSourceProvider
+import firebase.database.FirebaseDatabaseDependenciesProvider
 import javax.inject.Singleton
 
 @Singleton
@@ -14,7 +15,8 @@ import javax.inject.Singleton
   dependencies = [
     CoreDependenciesProvider::class,
     AuthDependenciesProvider::class,
-    FirebaseDependenciesProvider::class,
+    FirebaseDatabaseDependenciesProvider::class,
+    FirebaseChatRequestsDataSourceProvider::class,
     SettingsProvider::class,
     ServiceStarterProvider::class
   ]
@@ -26,10 +28,11 @@ interface AppComponent : AppDependenciesProvider {
     fun createComponent(providers: Providers): AppComponent {
       return DaggerAppComponent.builder()
           .coreDependenciesProvider(providers.coreDependenciesProvider)
+          .authDependenciesProvider(providers.authDependenciesProvider)
+          .firebaseDatabaseDependenciesProvider(providers.firebaseDatabaseDependenciesProvider)
+          .firebaseChatRequestsDataSourceProvider(providers.firebaseChatRequestsDataSourceProvider)
           .settingsProvider(providers.settingsProvider)
           .serviceStarterProvider(providers.serviceStarterProvider)
-          .authDependenciesProvider(providers.authDependenciesProvider)
-          .firebaseDependenciesProvider(providers.firebaseDependenciesProvider)
           .build()
     }
   }

@@ -17,6 +17,8 @@
       <module name="Remailir.f-settings" target="13" />
       <module name="Remailir.firebase-api" target="13" />
       <module name="Remailir.firebase-impl" target="13" />
+      <module name="Remailir.navigation" target="13" />
+      <module name="Remailir.navigation-impl" target="13" />
       <module name="Remailir.recycler" target="13" />
       <module name="Remailir.resources" target="13" />
       <module name="Remailir.storage" target="13" />

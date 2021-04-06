@@ -95,12 +95,18 @@ class RegistrationPresenter(
   }
   
   private fun handleSignInWithEmailLink(emailLink: String) {
-    if (interactor.isNoEmailSaved()) {
-      viewState.showNoEmailSaved()
-      return
-    }
-    val email = interactor.getSavedEmail()
     coroutine {
+      if (interactor.isNoEmailSaved()) {
+        viewState.showNoEmailSaved()
+      } else {
+        proceedWithEmailLink(emailLink)
+      }
+    }
+  }
+  
+  private fun proceedWithEmailLink(emailLink: String) {
+    coroutine {
+      val email = interactor.getSavedEmail()
       try {
         viewState.showVerifyingLink()
         interactor.signInWithEmailLink(email, emailLink)

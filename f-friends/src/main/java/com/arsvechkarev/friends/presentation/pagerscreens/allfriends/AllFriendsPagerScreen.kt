@@ -1,84 +1,57 @@
 package com.arsvechkarev.friends.presentation.pagerscreens.allfriends
 
 import android.content.Context
-import android.view.Gravity.CENTER
 import android.view.View
-import android.widget.Toast
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.arsvechkarev.friends.R
 import com.arsvechkarev.friends.di.FriendsComponent
-import com.arsvechkarev.friends.presentation.CommonFriendsAdapter
-import com.arsvechkarev.views.ComplexProgressBar
+import com.arsvechkarev.friends.presentation.pagerscreens.CommonFriendsAdapter
+import com.arsvechkarev.friends.presentation.pagerscreens.LayoutFailure
+import com.arsvechkarev.friends.presentation.pagerscreens.LayoutLoading
+import com.arsvechkarev.friends.presentation.pagerscreens.LayoutNoData
+import com.arsvechkarev.friends.presentation.pagerscreens.LayoutSuccess
+import com.arsvechkarev.friends.presentation.pagerscreens.SnackBar
+import com.arsvechkarev.views.PullToRefreshView
+import com.arsvechkarev.views.Snackbar
+import com.arsvechkarev.views.applyOnCoroutine
+import com.arsvechkarev.views.behaviors.PullToRefreshBehavior
+import config.DurationsConfigurator
 import core.model.User
-import core.resources.Dimens.ProgressBarSizeBig
-import core.resources.Styles.BoldTextView
-import core.resources.TextSizes
-import core.ui.navigation.ViewPagerScreen
-import core.ui.utils.ifTrue
+import core.resources.Fonts.SegoeUiBold
+import core.ui.ViewPagerScreen
+import core.ui.spans.spannable
+import core.ui.utils.getMessageRes
+import core.ui.utils.makeViewsInvisibleExcept
 import core.ui.utils.moxyPresenter
-import viewdsl.Ints.dp
+import core.ui.utils.shouldAnimate
+import kotlinx.coroutines.delay
 import viewdsl.Size.Companion.MatchParent
-import viewdsl.Size.Companion.WrapContent
-import viewdsl.gravity
-import viewdsl.id
-import viewdsl.invisible
-import viewdsl.layoutGravity
-import viewdsl.margins
-import viewdsl.paddingHorizontal
-import viewdsl.paddings
+import viewdsl.behavior
+import viewdsl.classNameTag
+import viewdsl.onClick
 import viewdsl.text
-import viewdsl.textSize
-import viewdsl.visible
 import viewdsl.withViewBuilder
 
 class AllFriendsPagerScreen : ViewPagerScreen(), AllFriendsView {
   
   override fun buildView(context: Context) = context.withViewBuilder {
     RootCoordinatorLayout {
-      child<RecyclerView>(MatchParent, MatchParent) {
-        id(RecyclerViewId)
-        invisible()
-        paddings(top = 16.dp)
-        layoutManager = LinearLayoutManager(context)
-        adapter = this@AllFriendsPagerScreen.adapter
-      }
-      VerticalLayout(MatchParent, WrapContent) {
-        id(LayoutLoadingId)
-        invisible()
-        gravity(CENTER)
-        layoutGravity(CENTER)
-        TextView(MatchParent, WrapContent, style = BoldTextView) {
-          id(TextLoadingId)
-          gravity(CENTER)
-          textSize(TextSizes.H3)
-        }
-        child<ComplexProgressBar>(ProgressBarSizeBig, ProgressBarSizeBig) {
-          margins(top = 40.dp)
-        }
-      }
-      VerticalLayout(MatchParent, WrapContent) {
-        id(LayoutNoDataId)
-        invisible()
-        paddingHorizontal(40.dp)
-        gravity(CENTER)
-        layoutGravity(CENTER)
-        TextView(MatchParent, WrapContent, style = BoldTextView) {
-          id(TitleNoDataId)
-          gravity(CENTER)
-          textSize(TextSizes.H1)
-          text(R.string.text_no_friends)
-        }
-        TextView(MatchParent, WrapContent, style = core.resources.Styles.BaseTextView) {
-          id(TextNoDataId)
-          gravity(CENTER)
-          textSize(TextSizes.H4)
-          margins(top = 32.dp)
-          text(R.string.text_add_people_to_friends)
-        }
-        TextView(WrapContent, WrapContent, style = core.resources.Styles.ClickableButton()) {
-          text(R.string.text_find_people)
-          margins(top = 32.dp)
+      LayoutSuccess(RecyclerViewId, adapter)
+      LayoutLoading(LayoutLoadingId, R.string.text_loading_friends)
+      LayoutNoData(LayoutNoDataId, R.string.text_no_friends)
+      LayoutFailure(LayoutFailureId, TextFailureId, TextRetryId)
+      SnackBar()
+      child<PullToRefreshView>(MatchParent, MatchParent) {
+        classNameTag()
+        val behavior = PullToRefreshBehavior(context)
+        behavior(behavior)
+        onRefreshPulled = { presenter.onRefreshPulled() }
+        behavior.allowPulling = lb@{
+          return@lb presenter.allowPulling()
+          //          if (viewAs<Toolbar>().isInSearchMode) return@lb false
+          //          if (view(LayoutError).isVisible) return@lb false
+          //          if (viewAs<RecyclerView>().isVisible
+          //              && headerBehavior.getTopAndBottomOffset() == 0) return@lb true
+          return@lb true
         }
       }
     }
@@ -88,11 +61,6 @@ class AllFriendsPagerScreen : ViewPagerScreen(), AllFriendsView {
   
   private val presenter by moxyPresenter {
     FriendsComponent.get().provideAllFriendsScreenPresenter()
-  }
-  
-  override fun onInit() {
-    presenter.startLoadingAllFriends()
-    presenter.startListeningToFriendsActionsAndEvents()
   }
   
   override fun showLoadingList() {
@@ -113,37 +81,80 @@ class AllFriendsPagerScreen : ViewPagerScreen(), AllFriendsView {
   }
   
   override fun showFailureLoadingList(e: Throwable) {
+    showOnly(view(LayoutFailureId))
+    textView(TextFailureId).text(e.getMessageRes())
+    textView(TextRetryId).onClick { presenter.onRetryLoadingAllDataClicked() }
   }
   
   override fun showLoadingRemovingFromFriends(user: User) {
-    Toast.makeText(contextNonNull, "Removing ${user.username} from friends", Toast.LENGTH_LONG)
-        .show()
+    val animate = shouldAnimate(presenter)
+    val text = spannable {
+      +getText(R.string.text_loading_removing_friend)
+      +user.username.withFont(SegoeUiBold)
+    }
+    viewAs<Snackbar>().apply {
+      switchToLoadingMode(animate, text)
+      show(animate)
+    }
   }
   
   override fun showSuccessRemovingFromFriends(user: User) {
+    val animate = shouldAnimate(presenter)
+    val text = spannable {
+      +getText(R.string.text_success_removing_friend)
+      +user.username.withFont(SegoeUiBold)
+    }
+    viewAs<Snackbar>().applyOnCoroutine {
+      switchToSuccessMode(animate, text, onHideClick = { presenter.onHideSnackbarClicked() })
+      if (animate) {
+        delay(DurationsConfigurator.DurationMedium)
+      }
+      hide(animate)
+    }
   }
   
-  override fun showFailureRemovingFromFriends(user: User) {
+  override fun showFailureRemovingFromFriends(user: User, error: Throwable) {
+    val animate = shouldAnimate(presenter)
+    val text = spannable {
+      +getText(R.string.text_failure_removing_friend)
+      +user.username.withFont(SegoeUiBold)
+    }
+    viewAs<Snackbar>().apply {
+      switchToFailureMode(
+        animate = animate,
+        failureText = text,
+        onRetryClick = { presenter.onRetryRemovingFromFriendsClicked(user) },
+        onHideClick = { presenter.onHideSnackbarClicked() }
+      )
+    }
+  }
+  
+  override fun hideLayoutRemovingFromFriends() {
+    viewAs<Snackbar>().hide(shouldAnimate(presenter))
   }
   
   override fun showNewFriendAdded(updatedFriends: List<User>) {
     adapter.submitList(updatedFriends)
   }
   
-  private fun showOnly(view: View) {
-    view(RecyclerViewId).ifTrue({ it !== view }, { invisible() })
-    view(LayoutLoadingId).ifTrue({ it !== view }, { invisible() })
-    view(LayoutNoDataId).ifTrue({ it !== view }, { invisible() })
-    view.visible()
+  private fun showOnly(layout: View) {
+    makeViewsInvisibleExcept(
+      shouldAnimate = shouldAnimate(presenter),
+      allViews = arrayOf(
+        view(RecyclerViewId), view(LayoutLoadingId),
+        view(LayoutNoDataId), view(LayoutFailureId)
+      ),
+      except = layout
+    )
   }
   
   companion object {
     
     private val RecyclerViewId = View.generateViewId()
     private val LayoutLoadingId = View.generateViewId()
-    private val TextLoadingId = View.generateViewId()
     private val LayoutNoDataId = View.generateViewId()
-    private val TextNoDataId = View.generateViewId()
-    private val TitleNoDataId = View.generateViewId()
+    private val LayoutFailureId = View.generateViewId()
+    private val TextFailureId = View.generateViewId()
+    private val TextRetryId = View.generateViewId()
   }
 }

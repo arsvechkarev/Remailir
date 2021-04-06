@@ -7,10 +7,14 @@ import android.graphics.drawable.RippleDrawable
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.RoundRectShape
 import android.text.TextUtils
+import android.view.Gravity
+import android.view.View
 import android.widget.TextView
 import viewdsl.Ints.dp
 import viewdsl.background
 import viewdsl.font
+import viewdsl.layoutGravity
+import viewdsl.margin
 import viewdsl.paddingHorizontal
 import viewdsl.paddingVertical
 import viewdsl.rippleBackground
@@ -73,5 +77,10 @@ object Styles {
     textSize(TextSizes.H3)
     isClickable = true
     isFocusable = true
+  }
+  
+  val Snackbar: View.() -> Unit = {
+    margin(Dimens.MarginDefault)
+    layoutGravity(Gravity.BOTTOM)
   }
 }

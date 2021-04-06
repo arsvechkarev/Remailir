@@ -8,15 +8,17 @@ import moxy.viewstate.strategy.StateStrategyType
 @StateStrategyType(AddToEndSingleStrategy::class)
 interface HomeView : MvpView {
   
-  fun showLoadingUsersThatWaitingForChat()
+  fun showLoadingUsersWaitingToChat()
   
-  fun showWaitingToChatList(list: List<User>)
+  fun showSuccessUsersWaitingToChat(list: List<User>)
   
-  fun showNobodyWaitingForChat()
+  fun showEmptyUsersWaitingToChat()
   
-  fun showErrorLoadingWaitingToChat(e: Throwable)
-  
-  fun showGoToChat(user: User)
+  fun showErrorUsersWaitingToChat(e: Throwable)
   
   fun showFailedToRespondToChat(user: User)
+  
+  fun showOpenMenu()
+  
+  fun showCloseMenu()
 }

@@ -4,20 +4,13 @@ package viewdsl
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
-import android.animation.ArgbEvaluator
-import android.animation.ObjectAnimator
 import android.graphics.drawable.Animatable
 import android.view.View
-import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.OvershootInterpolator
-import androidx.interpolator.view.animation.FastOutSlowInInterpolator
-
-const val DURATION_VIBRATE_SHORT = 10L
-const val DURATION_SHORT = 170L
-const val DURATION_DEFAULT = 300L
-const val DURATION_MEDIUM = 500L
-const val DURATION_LONG = 800L
+import config.DurationsConfigurator
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 val AccelerateDecelerateInterpolator = AccelerateDecelerateInterpolator()
 val OvershootInterpolator = OvershootInterpolator()
@@ -47,7 +40,23 @@ fun Animator.doOnEnd(block: () -> Unit) {
   })
 }
 
-fun View.animateVisible(andThen: () -> Unit = {}, duration: Long = DURATION_DEFAULT) {
+suspend fun View.makeVisibleAndWait(animate: Boolean, duration: Long = DurationsConfigurator.DurationDefault) {
+  if (!animate) {
+    visible()
+  } else {
+    suspendCoroutine<Unit> { continuation ->
+      animateVisible(duration = duration, andThen = { continuation.resume(Unit) })
+    }
+  }
+}
+
+suspend fun View.animateInvisibleSuspend(duration: Long = DurationsConfigurator.DurationDefault) {
+  suspendCoroutine<Unit> { continuation ->
+    animateInvisible(duration = duration, andThen = { continuation.resume(Unit) })
+  }
+}
+
+fun View.animateVisible(andThen: () -> Unit = {}, duration: Long = DurationsConfigurator.DurationDefault) {
   alpha = 0f
   visible()
   animate().alpha(1f).setDuration(duration)
@@ -56,7 +65,7 @@ fun View.animateVisible(andThen: () -> Unit = {}, duration: Long = DURATION_DEFA
       .start()
 }
 
-fun View.animateInvisible(andThen: () -> Unit = {}, duration: Long = DURATION_DEFAULT) {
+fun View.animateInvisible(andThen: () -> Unit = {}, duration: Long = DurationsConfigurator.DurationDefault) {
   animate().alpha(0f).setDuration(duration)
       .setInterpolator(AccelerateDecelerateInterpolator)
       .withEndAction {
@@ -66,7 +75,7 @@ fun View.animateInvisible(andThen: () -> Unit = {}, duration: Long = DURATION_DE
       .start()
 }
 
-fun View.animateGone(andThen: () -> Unit = {}, duration: Long = DURATION_DEFAULT) {
+fun View.animateGone(andThen: () -> Unit = {}, duration: Long = DurationsConfigurator.DurationDefault) {
   animate().alpha(0f).setDuration(duration)
       .setInterpolator(AccelerateDecelerateInterpolator)
       .withEndAction {
@@ -76,7 +85,7 @@ fun View.animateGone(andThen: () -> Unit = {}, duration: Long = DURATION_DEFAULT
       .start()
 }
 
-fun View.animateSlideFromRight(duration: Long = DURATION_SHORT) {
+fun View.animateSlideFromRight(duration: Long = DurationsConfigurator.DurationShort) {
   val width = context.resources.displayMetrics.widthPixels
   val height = context.resources.displayMetrics.heightPixels
   alpha = 0f
@@ -90,7 +99,7 @@ fun View.animateSlideFromRight(duration: Long = DURATION_SHORT) {
       .start()
 }
 
-fun View.animateSlideToRight(duration: Long = DURATION_SHORT) {
+fun View.animateSlideToRight(duration: Long = DurationsConfigurator.DurationShort) {
   val width = context.resources.displayMetrics.widthPixels
   val height = context.resources.displayMetrics.heightPixels
   val dx = minOf(width, height) / 8f
@@ -129,19 +138,3 @@ fun animateInvisible(vararg views: View, andThen: () -> Unit = {}) {
     }
   }
 }
-
-fun View.animateColor(startColor: Int, endColor: Int, andThen: () -> Unit = {}) {
-  ObjectAnimator.ofObject(this,
-    "backgroundColor", ArgbEvaluator(), startColor, endColor).apply {
-    duration = DURATION_DEFAULT
-    interpolator = FastOutSlowInInterpolator()
-    if (andThen != {}) {
-      doOnEnd(andThen)
-    }
-    start()
-  }
-}
-
-fun ViewGroup.animateChildrenVisible() = forEachChild { it.animateVisible() }
-
-fun ViewGroup.animateChildrenInvisible() = forEachChild { it.animateInvisible() }

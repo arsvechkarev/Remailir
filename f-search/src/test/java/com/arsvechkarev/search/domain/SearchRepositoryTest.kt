@@ -4,7 +4,7 @@ import com.arsvechkarev.search.domain.RequestResult.ERROR_ALREADY_FRIENDS
 import com.arsvechkarev.search.domain.RequestResult.ERROR_REQUEST_ALREADY_SENT
 import com.arsvechkarev.search.domain.RequestResult.ERROR_THIS_USER_ALREADY_HAS_REQUEST
 import com.arsvechkarev.search.domain.RequestResult.SENT
-import com.arsvechkarev.testcommon.FakeDispatchersProvider
+import com.arsvechkarev.testcommon.FakeDispatchers
 import com.arsvechkarev.testcommon.FakeFirebaseDatabase
 import com.arsvechkarev.testcommon.FakeJsonData.FullUsersDatabase
 import com.arsvechkarev.testcommon.isExactlyTheSameAs
@@ -22,7 +22,7 @@ class SearchRepositoryTest {
   private fun createSearchRepository(
     username: String,
     fakeDatabase: FakeFirebaseDatabase = FakeFirebaseDatabase(FullUsersDatabase),
-    dispatchers: Dispatchers = FakeDispatchersProvider
+    dispatchers: Dispatchers = FakeDispatchers
   ): SearchRepository {
     return SearchRepository(username, core.impl.firebase.PathDatabaseSchema, fakeDatabase,
       dispatchers)

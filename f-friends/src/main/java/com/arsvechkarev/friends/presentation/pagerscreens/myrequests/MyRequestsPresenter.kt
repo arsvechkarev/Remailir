@@ -18,8 +18,21 @@ class MyRequestsPresenter @Inject constructor(
   dispatchers: Dispatchers
 ) : BasePresenter<MyRequestsView>(dispatchers) {
   
-  fun startLoadingMyRequests() {
+  override fun onFirstViewAttach() {
+    startLoadingMyRequests()
+    startListeningToMyRequestsChanges()
+  }
+  
+  fun onUserClicked(user: User) {
     coroutine {
+      screensCommunicator.onUserClicked(MY_REQUESTS, user)
+    }
+  }
+  
+  private fun startLoadingMyRequests() {
+    viewState.showLoadingList()
+    coroutine {
+      fakeNetworkDelay()
       val friends = interactor.getListByType(MY_REQUESTS)
       if (friends.isEmpty()) {
         viewState.showListIsEmpty()
@@ -29,7 +42,7 @@ class MyRequestsPresenter @Inject constructor(
     }
   }
   
-  fun startListeningToMyRequestsChanges() {
+  private fun startListeningToMyRequestsChanges() {
     scope.launch {
       screensCommunicator.friendsPagerScreenActions
           .filterIsInstance<CancelMyRequest>()
@@ -37,15 +50,10 @@ class MyRequestsPresenter @Inject constructor(
     }
   }
   
-  fun onUserClicked(user: User) {
-    coroutine {
-      screensCommunicator.onUserClicked(MY_REQUESTS, user)
-    }
-  }
-  
   private fun performCancelMyRequest(user: User) {
     viewState.showLoadingCancelMyRequest(user)
     coroutine {
+      fakeNetworkDelay()
       interactor.cancelMyRequest(user)
       val updatedMyRequests = interactor.getCachedListByType(MY_REQUESTS)
       viewState.showSuccessCancelMyRequest(user)

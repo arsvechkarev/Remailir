@@ -1,15 +1,18 @@
 package com.arsvechkarev.home.presentation
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.view.Gravity
 import android.view.Gravity.CENTER
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.arsvechkarev.home.R
+import com.arsvechkarev.home.di.HomeComponent
+import com.arsvechkarev.home.list.HomeAdapter
+import com.arsvechkarev.views.ComplexProgressBar
 import com.arsvechkarev.views.ErrorLayout
 import com.arsvechkarev.views.LayoutError
-import com.arsvechkarev.home.R
-import com.arsvechkarev.views.ComplexProgressBar
 import com.arsvechkarev.views.PullToRefreshView
 import com.arsvechkarev.views.Toolbar
 import com.arsvechkarev.views.behaviors.HeaderBehavior
@@ -21,30 +24,33 @@ import core.model.User
 import core.resources.Dimens.ProgressBarSizeBig
 import core.resources.Styles.BoldTextView
 import core.resources.TextSizes
-import core.ui.navigation.Screen
 import core.ui.utils.ifTrue
+import core.ui.utils.moxyPresenter
+import core.ui.utils.shouldAnimate
+import navigation.BaseScreen
 import timber.log.Timber
 import viewdsl.Ints.dp
 import viewdsl.Size.Companion.MatchParent
 import viewdsl.Size.Companion.WrapContent
-import viewdsl.animateInvisible
-import viewdsl.animateVisible
 import viewdsl.behavior
 import viewdsl.classNameTag
 import viewdsl.gravity
 import viewdsl.invisible
 import viewdsl.layoutGravity
+import viewdsl.makeInvisible
+import viewdsl.makeVisible
 import viewdsl.margins
 import viewdsl.onClick
 import viewdsl.paddings
 import viewdsl.tag
 import viewdsl.text
 import viewdsl.textSize
+import viewdsl.withViewBuilder
 
-class HomeScreen : Screen(), HomeView {
+class HomeScreen : BaseScreen(), HomeView {
   
   @SuppressLint("RtlHardcoded")
-  override fun buildLayout() = withViewBuilder {
+  override fun buildLayout(context: Context) = context.withViewBuilder {
     RootCoordinatorLayout {
       val viewUnderHeaderBehavior = ViewUnderHeaderBehavior()
       val headerBehavior = HeaderBehavior()
@@ -99,83 +105,75 @@ class HomeScreen : Screen(), HomeView {
         behavior(headerBehavior)
       }
       child<MenuView>(WrapContent, WrapContent) {
+        onMenuOpenClick = { presenter.onOpenMenu() }
+        onMenuCloseClick = { presenter.onCloseMenu() }
         classNameTag()
         layoutGravity(Gravity.BOTTOM or Gravity.RIGHT)
-        firstMenuItem.onClick { closeMenu(); navigator.goToFriendsScreen() }
-        secondMenuItem.onClick { closeMenu(); navigator.goToSearchScreen() }
-        thirdMenuItem.onClick { closeMenu(); navigator.goToSettingsScreen() }
-        fourthMenuItem.onClick { closeMenu(); navigator.goToSavedMessagesScreen() }
+        firstMenuItem.onClick { presenter.goToFriendsScreen() }
+        secondMenuItem.onClick { presenter.goToSearchScreen() }
+        thirdMenuItem.onClick { presenter.goToSettingsScreen() }
+        fourthMenuItem.onClick { presenter.goToSavedMessagesScreen() }
       }
     }
   }
   
-  //  private val adapter = HomeAdapter(onUserClicked = {
-  //    presenter.respondToChatRequest(it)
-  //  })
+  private val adapter = HomeAdapter(onUserClicked = {
+    presenter.respondToChatRequest(it)
+  })
   
-  //  private val presenter by moxyPresenter {
-  //    HomePresenter(
-  //      HomeRepository(
-  //        ChatFirebaseDataSource(
-  //          core.impl.firebase.FirebaseAuthenticator.getUsername(),
-  //          core.impl.AndroidDispatchers
-  //        )
-  //      ),
-  //      core.impl.AndroidDispatchers
-  //    )
-  //  }
+  private val presenter by moxyPresenter { HomeComponent.getPresenter() }
   
-  override fun onInit() {
-    println()
-    //    presenter.loadUsersWaitingToChat()
-  }
-  
-  override fun showLoadingUsersThatWaitingForChat() {
+  override fun showLoadingUsersWaitingToChat() {
     Timber.d("Loading")
     showLayout(viewAs<RecyclerView>())
     textView("Text").text("Loading users that waiting")
   }
   
-  override fun showWaitingToChatList(list: List<User>) {
+  override fun showSuccessUsersWaitingToChat(list: List<User>) {
     textView("Text").text("Loaded")
     showLayout(viewAs<RecyclerView>())
-    //    adapter.submitList(list)
+    adapter.submitList(list)
   }
   
-  override fun showNobodyWaitingForChat() {
+  override fun showEmptyUsersWaitingToChat() {
     textView("Text").text("Nothing")
     showLayout(viewAs<RecyclerView>())
     Timber.d("Nothing")
   }
   
-  override fun showErrorLoadingWaitingToChat(e: Throwable) {
+  override fun showErrorUsersWaitingToChat(e: Throwable) {
     textView("Text").text("Error")
     Timber.d(e)
-  }
-  
-  override fun showGoToChat(user: User) {
-    navigator.respondToChatWith(user)
   }
   
   override fun showFailedToRespondToChat(user: User) {
     Timber.d("showFailedToRespondToChat")
   }
   
-  override fun onBackPressed(): Boolean {
+  override fun showOpenMenu() {
+    viewAs<MenuView>().openMenu(animate = !presenter.isInRestoreState(this))
+  }
+  
+  override fun showCloseMenu() {
+    viewAs<MenuView>().closeMenu(animate = !presenter.isInRestoreState(this))
+  }
+  
+  override fun handleBackPress(): Boolean {
     val menuView = viewAs<MenuView>()
     if (menuView.isOpened) {
       menuView.closeMenu()
-      return true
+      return false
     }
-    return false
+    return true
   }
   
   private fun showLayout(layout: View) {
-    layout.animateVisible()
-    viewAs<RecyclerView>().ifTrue({ it !== layout }, { animateInvisible() })
-    view(LayoutLoading).ifTrue({ it !== layout }, { animateInvisible() })
-    view(LayoutError).ifTrue({ it !== layout }, { animateInvisible() })
+    val animate = shouldAnimate(presenter)
+    viewAs<RecyclerView>().ifTrue({ it !== layout }) { makeInvisible(animate) }
+    view(LayoutLoading).ifTrue({ it !== layout }) { makeInvisible(animate) }
+    view(LayoutError).ifTrue({ it !== layout }) { makeInvisible(animate) }
     viewAs<PullToRefreshView>().hide()
+    layout.makeVisible(animate)
   }
   
   companion object {

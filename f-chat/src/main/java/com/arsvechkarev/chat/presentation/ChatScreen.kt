@@ -1,6 +1,6 @@
 package com.arsvechkarev.chat.presentation
 
-import android.os.Bundle
+import android.content.Context
 import android.view.Gravity
 import com.arsvechkarev.chat.list.ChatAdapter
 import com.arsvechkarev.views.ChatLayout
@@ -12,7 +12,7 @@ import core.resources.Dimens
 import core.resources.Styles
 import core.resources.Styles.ClickableTextView
 import core.resources.TextSizes
-import core.ui.navigation.Screen
+import navigation.BaseScreen
 import timber.log.Timber
 import viewdsl.Ints.dp
 import viewdsl.Size.Companion.MatchParent
@@ -32,10 +32,11 @@ import viewdsl.tag
 import viewdsl.text
 import viewdsl.textColor
 import viewdsl.textSize
+import viewdsl.withViewBuilder
 
-class ChatScreen : Screen(), ChatView {
+class ChatScreen : BaseScreen(), ChatView {
   
-  override fun buildLayout() = withViewBuilder {
+  override fun buildLayout(context: Context) = context.withViewBuilder {
     RootCoordinatorLayout {
       addView(
         ChatLayout(context).apply {
@@ -120,11 +121,12 @@ class ChatScreen : Screen(), ChatView {
   
   private val adapter = ChatAdapter()
   
-  override fun onInit(arguments: Bundle) {
-    val otherUserUsername = arguments.getString(KEY_USERNAME)!!
-    val type = arguments.getString(KEY_TYPE)
+  override fun onInit() {
+    
+    //    val otherUserUsername = arguments.getString(KEY_USERNAME)!!
+    //    val type = arguments.getString(KEY_TYPE)
     //    presenter.initialize(type!!, otherUserUsername)
-    chatLayout.toolbar.title(otherUserUsername)
+    //    chatLayout.toolbar.title(otherUserUsername)
     chatLayout.recyclerView.adapter = adapter
   }
   
@@ -158,19 +160,19 @@ class ChatScreen : Screen(), ChatView {
   override fun showOtherUserLeftChatting() {
     textView("DialogTitle").text("Other user left. \nDo you want to quit?")
     //    textView("DialogYes").onClick { presenter.exit() }
-    textView("DialogNo").onClick { viewAs<SimpleDialog>().hide() }
-    viewAs<SimpleDialog>().show()
+    textView("DialogNo").onClick { viewAs<SimpleDialog>().hide(true) }
+    viewAs<SimpleDialog>().show(true)
   }
   
   override fun showExitRequestDialog() {
     textView("DialogTitle").text("Do you really want to quit?")
     //    textView("DialogYes").onClick { presenter.exit() }
-    textView("DialogNo").onClick { viewAs<SimpleDialog>().hide() }
-    viewAs<SimpleDialog>().show()
+    textView("DialogNo").onClick { viewAs<SimpleDialog>().hide(true) }
+    viewAs<SimpleDialog>().show(animate = true)
   }
   
   override fun showExit() {
-    navigator.popCurrentScreen(notifyBackPress = false)
+    //    navigator.popCurrentScreen(notifyBackPress = false)
   }
   
   //  override fun onBackPressed(): Boolean {

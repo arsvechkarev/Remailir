@@ -17,11 +17,6 @@ class FakeAllFriendsScreen : FakeBaseScreen(), AllFriendsView {
     updateState(state)
   }
   
-  override fun showFriendRemoved(user: User) {
-    val success = currentSuccessState<List<User>>()
-    updateState(Success(success.data - user))
-  }
-  
   override fun showLoadingList() {
     updateState(Loading)
   }
@@ -34,7 +29,20 @@ class FakeAllFriendsScreen : FakeBaseScreen(), AllFriendsView {
     updateState(Success(data))
   }
   
+  override fun showListChanged(newData: List<User>) {
+    updateState(Success(newData))
+  }
+  
   override fun showFailureLoadingList(e: Throwable) {
     updateState(Failure(e))
+  }
+  
+  override fun showLoadingRemovingFromFriends(user: User) {
+  }
+  
+  override fun showSuccessRemovingFromFriends(user: User) {
+  }
+  
+  override fun showFailureRemovingFromFriends(user: User) {
   }
 }

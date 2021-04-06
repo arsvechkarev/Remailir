@@ -1,47 +1,41 @@
 package com.arsvechkarev.remailir
 
-import android.content.Intent
-import android.content.pm.ActivityInfo
-import android.net.Uri
 import android.os.Bundle
-import android.provider.Settings.System
-import android.provider.Settings.System.ACCELEROMETER_ROTATION
 import android.view.View
-import com.arsvechkarev.chat.presentation.ChatScreen
-import com.arsvechkarev.chat.presentation.ChatScreen.Companion.KEY_TYPE
-import com.arsvechkarev.chat.presentation.ChatScreen.Companion.KEY_USERNAME
-import com.arsvechkarev.chat.presentation.ChatScreen.Companion.TYPE_JOINED
-import com.arsvechkarev.chat.presentation.ChatScreen.Companion.TYPE_REQUEST
-import com.arsvechkarev.friends.presentation.FriendsScreen
-import com.arsvechkarev.home.presentation.HomeScreen
-import com.arsvechkarev.registration.presentation.RegistrationScreen
-import com.arsvechkarev.registration.presentation.RegistrationScreen.Companion.CHECK_LINK
-import com.arsvechkarev.search.presentation.SearchScreen
-import com.arsvechkarev.settings.presentation.SettingsScreen
-import core.model.User
+import com.arsvechkarev.remailir.di.NavigationComponent
+import com.arsvechkarev.remailir.navigation.ScreensImplementation
+import com.github.terrakok.cicerone.Cicerone
+import core.di.AuthDependenciesProvider
 import core.resources.ViewBuilding
 import core.ui.BaseActivity
-import core.ui.navigation.Navigator
-import core.ui.navigation.NavigatorView
-import core.ui.navigation.Options
+import navigation.ExtendedNavigator
+import navigation.Router
+import navigation.screens.Screens
 import viewdsl.Size.Companion.MatchParent
-import viewdsl.classNameTag
+import viewdsl.id
 import viewdsl.size
 import viewdsl.withViewBuilder
+import javax.inject.Inject
+import navigation.RouterProvider.Companion.instance as routerProvider
 
-class MainActivity : BaseActivity(), Navigator {
-  
-  private val navigator get() = viewAs<NavigatorView>()
+class MainActivity : BaseActivity() {
   
   private val mainActivityLayout
     get() = withViewBuilder {
       RootView(context).apply {
+        id(rootViewId)
         size(MatchParent, MatchParent)
-        child<NavigatorView>(MatchParent, MatchParent) {
-          classNameTag()
-        }
       }
     }
+  
+  @Inject
+  lateinit var navigator: ExtendedNavigator
+  
+  @Inject
+  lateinit var cicerone: Cicerone<Router>
+  
+  @Inject
+  lateinit var router: Router
   
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -49,72 +43,31 @@ class MainActivity : BaseActivity(), Navigator {
     setContentView(mainActivityLayout)
     window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
         or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
-    navigator.navigate(HomeScreen::class)
+    Screens.setImplementation(ScreensImplementation)
+    NavigationComponent.createComponent(this, rootViewId, routerProvider).inject(this)
+    figureOutScreenToGo(savedInstanceState)
   }
   
-  override fun switchToMainScreen() {
-    if (System.getInt(contentResolver, ACCELEROMETER_ROTATION, 0) == 1) {
-      requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR
+  private fun figureOutScreenToGo(savedInstanceState: Bundle?) {
+    if (savedInstanceState != null) {
+      // Activity is recreated, navigator handles this case automatically
+      return
     }
-    navigator.navigate(
-      HomeScreen::class,
-      options = Options(clearAllOtherScreens = true)
-    )
-  }
-  
-  override fun popCurrentScreen(notifyBackPress: Boolean) {
-    if (notifyBackPress) {
-      onBackPressed()
+    if (AuthDependenciesProvider.instance.provideAuthenticator().isUserLoggedIn()) {
+      router.goForward(Screens().Home)
     } else {
-      navigator.handleGoBack(notifyBackPress = false)
+      router.goForward(Screens().Registration)
     }
   }
   
-  override fun startChatWith(user: User) {
-    navigator.navigate(ChatScreen::class,
-      options = Options(
-        removeOnExit = true,
-        arguments = Bundle().apply {
-          putString(KEY_USERNAME, user.username)
-          putString(KEY_TYPE, TYPE_REQUEST)
-        }))
+  override fun onResume() {
+    super.onResume()
+    cicerone.getNavigatorHolder().setNavigator(navigator)
   }
   
-  override fun respondToChatWith(user: User) {
-    navigator.navigate(ChatScreen::class,
-      options = Options(
-        removeOnExit = true,
-        arguments = Bundle().apply {
-          putString(KEY_USERNAME, user.username)
-          putString(KEY_TYPE, TYPE_JOINED)
-        }))
-  }
-  
-  override fun goToFriendsScreen() {
-    navigator.navigate(FriendsScreen::class)
-  }
-  
-  override fun goToSearchScreen() {
-    navigator.navigate(SearchScreen::class)
-  }
-  
-  override fun goToSettingsScreen() {
-    navigator.navigate(SettingsScreen::class)
-  }
-  
-  override fun goToSavedMessagesScreen() {
-  }
-  
-  override fun openEmailApp() {
-    val intent = Intent(Intent.ACTION_MAIN)
-    intent.addCategory(Intent.CATEGORY_APP_EMAIL)
-    startActivity(intent)
-  }
-  
-  override fun openLink(link: String) {
-    val intent = Intent(Intent.ACTION_VIEW)
-    intent.data = Uri.parse(link)
-    startActivity(intent)
+  override fun onPause() {
+    super.onPause()
+    cicerone.getNavigatorHolder().removeNavigator()
   }
   
   override fun onBackPressed() {
@@ -123,15 +76,23 @@ class MainActivity : BaseActivity(), Navigator {
     }
   }
   
-  override fun signOut() {
-    navigator.navigate(
-      RegistrationScreen::class,
-      options = Options(
-        clearAllOtherScreens = true,
-        arguments = Bundle().apply {
-          putBoolean(CHECK_LINK, false)
-        }
-      )
-    )
+  override fun onSaveInstanceState(outState: Bundle) {
+    super.onSaveInstanceState(outState)
+    navigator.onSaveInstanceState(outState)
+  }
+  
+  override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+    super.onRestoreInstanceState(savedInstanceState)
+    navigator.onRestoreInstanceState(savedInstanceState)
+  }
+  
+  override fun onDestroy() {
+    super.onDestroy()
+    navigator.releaseScreens()
+  }
+  
+  companion object {
+    
+    private val rootViewId = View.generateViewId()
   }
 }

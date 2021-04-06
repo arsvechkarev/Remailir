@@ -39,6 +39,14 @@ fun View.layoutLeftTop(left: Int, top: Int) {
   layout(left, top, left + measuredWidth, top + measuredHeight)
 }
 
+fun View.makeVisible(animate: Boolean) {
+  if (animate) animateVisible() else visible()
+}
+
+fun View.makeInvisible(animate: Boolean) {
+  if (animate) animateInvisible() else invisible()
+}
+
 fun View.visible() {
   visibility = View.VISIBLE
 }

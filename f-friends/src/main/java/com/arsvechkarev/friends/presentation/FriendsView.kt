@@ -9,9 +9,13 @@ import moxy.viewstate.strategy.StateStrategyType
 @StateStrategyType(AddToEndSingleStrategy::class)
 interface FriendsView : MvpView {
   
-  fun showOnUserClicked(friendsType: FriendsType, user: User)
+  fun showActionDialog(friendsType: FriendsType, user: User)
+  
+  fun hideActionDialog()
   
   fun showRemovingFriendConfirmationDialog(user: User)
   
-  fun hideDialog()
+  fun hideRemovingFriendConfirmationDialog()
+  
+  fun onRemovingFromScreen()
 }

@@ -1,25 +1,14 @@
 package com.arsvechkarev.friends.presentation
 
-import android.text.Spannable
-import android.text.SpannableString
+import android.content.Context
 import android.view.Gravity
 import android.view.View
-import android.widget.TextView
 import androidx.viewpager2.widget.ViewPager2
 import com.arsvechkarev.friends.R
 import com.arsvechkarev.friends.di.FriendsComponent
 import com.arsvechkarev.friends.presentation.pagerscreens.allfriends.AllFriendsPagerScreen
 import com.arsvechkarev.friends.presentation.pagerscreens.myrequests.MyRequestsPagerScreen
 import com.arsvechkarev.friends.presentation.pagerscreens.requeststome.RequestsToMePagerScreen
-import viewdsl.Ints.dp
-import viewdsl.animateInvisible
-import viewdsl.animateVisible
-import viewdsl.drawables
-import viewdsl.gone
-import viewdsl.invisible
-import viewdsl.onClick
-import viewdsl.text
-import viewdsl.visible
 import com.arsvechkarev.views.SimpleDialog
 import com.arsvechkarev.views.Toolbar
 import com.google.android.material.tabs.TabLayout
@@ -28,35 +17,46 @@ import core.model.FriendsType
 import core.model.User
 import core.resources.Colors
 import core.resources.Dimens
+import core.resources.Fonts
 import core.resources.Styles
 import core.resources.Styles.ClickableTextView
 import core.resources.TextSizes
-import core.ui.CustomFontSpan
-import core.ui.navigation.Screen
-import core.ui.navigation.ViewPagerAdapter
+import core.ui.ViewPagerAdapter
+import core.ui.spans.spannable
 import core.ui.utils.moxyPresenter
-import viewdsl.Size
+import core.ui.utils.shouldAnimate
+import navigation.BaseScreen
+import viewdsl.Ints.dp
 import viewdsl.Size.Companion.MatchParent
 import viewdsl.Size.Companion.WrapContent
 import viewdsl.Size.IntSize
+import viewdsl.animateInvisible
+import viewdsl.animateVisible
 import viewdsl.backgroundColor
 import viewdsl.backgroundRoundRect
 import viewdsl.classNameTag
 import viewdsl.constraints
 import viewdsl.drawablePadding
+import viewdsl.drawables
+import viewdsl.gone
 import viewdsl.gravity
 import viewdsl.id
+import viewdsl.invisible
 import viewdsl.layoutGravity
 import viewdsl.marginHorizontal
 import viewdsl.margins
+import viewdsl.onClick
 import viewdsl.paddingHorizontal
 import viewdsl.paddingVertical
+import viewdsl.text
 import viewdsl.textColor
 import viewdsl.textSize
+import viewdsl.visible
+import viewdsl.withViewBuilder
 
-class FriendsScreen : Screen(), FriendsView {
+class FriendsScreen : BaseScreen(), FriendsView {
   
-  override fun buildLayout() = withViewBuilder {
+  override fun buildLayout(context: Context) = context.withViewBuilder {
     RootConstraintLayout {
       id(ConstraintLayoutId)
       child<Toolbar>(MatchParent, WrapContent) {
@@ -66,7 +66,7 @@ class FriendsScreen : Screen(), FriendsView {
       }
       child<TabLayout>(MatchParent, WrapContent) {
         id(TabLayoutId)
-        backgroundColor(core.resources.Colors.Toolbar)
+        backgroundColor(Colors.Toolbar)
         constraints { topToBottomOf(ToolbarId) }
       }
       child<ViewPager2>(MatchParent, IntSize(0)) {
@@ -77,12 +77,11 @@ class FriendsScreen : Screen(), FriendsView {
           startToStartOf(parent)
           endToEndOf(parent)
         }
-        adapter = ViewPagerAdapter(
-          listOf(AllFriendsPagerScreen(), MyRequestsPagerScreen(), RequestsToMePagerScreen())
-        )
+        adapter = this@FriendsScreen.adapter
       }
       child<SimpleDialog>(MatchParent, MatchParent) {
         classNameTag()
+        onHide = { presenter.onHideDialog() }
         FrameLayout(WrapContent, WrapContent) {
           layoutGravity(Gravity.CENTER)
           VerticalLayout(WrapContent, WrapContent) {
@@ -119,13 +118,13 @@ class FriendsScreen : Screen(), FriendsView {
             marginHorizontal(32.dp)
             gravity(Gravity.CENTER)
             layoutGravity(Gravity.CENTER)
-            backgroundRoundRect(core.resources.Dimens.DefaultCornerRadius,
+            backgroundRoundRect(Dimens.DefaultCornerRadius,
               Colors.Dialog)
-            TextView(WrapContent, WrapContent, style = core.resources.Styles.BaseTextView) {
+            TextView(WrapContent, WrapContent, style = Styles.BaseTextView) {
               id(TextConfirmation)
               gravity(Gravity.CENTER)
               textSize(TextSizes.H4)
-              textColor(core.resources.Colors.TextPrimary)
+              textColor(Colors.TextPrimary)
               margins(top = 12.dp, bottom = 24.dp)
             }
             HorizontalLayout(WrapContent, WrapContent) {
@@ -137,13 +136,12 @@ class FriendsScreen : Screen(), FriendsView {
                 textSize(TextSizes.H5)
               }
               TextView(WrapContent, WrapContent) {
-                apply(ClickableTextView(core.resources.Colors.ErrorRipple,
-                  Colors.Dialog))
+                apply(ClickableTextView(Colors.ErrorRipple, Colors.Dialog))
                 id(TextProceed)
                 margins(start = 12.dp)
                 text(R.string.text_remove_all_caps)
                 textSize(TextSizes.H5)
-                textColor(core.resources.Colors.Error)
+                textColor(Colors.Error)
               }
             }
           }
@@ -151,6 +149,11 @@ class FriendsScreen : Screen(), FriendsView {
       }
     }
   }
+  
+  private val adapter = ViewPagerAdapter(
+    mvpDelegate,
+    listOf(AllFriendsPagerScreen(), MyRequestsPagerScreen(), RequestsToMePagerScreen())
+  )
   
   private val presenter by moxyPresenter { FriendsComponent.get().provideFriendsPresenter() }
   
@@ -162,12 +165,12 @@ class FriendsScreen : Screen(), FriendsView {
         2 -> R.string.text_friend_requests
         else -> throw IllegalStateException()
       }
-      tab.text = getString(text)
+      tab.text = getText(text)
     }.attach()
   }
   
-  override fun showOnUserClicked(friendsType: FriendsType, user: User) {
-    viewAs<SimpleDialog>().show()
+  override fun showActionDialog(friendsType: FriendsType, user: User) {
+    viewAs<SimpleDialog>().show(animate = shouldAnimate(presenter))
     view(DialogConfirmation).invisible()
     view(DialogDefault).visible()
     view(DialogDefault).alpha = 1f
@@ -178,65 +181,67 @@ class FriendsScreen : Screen(), FriendsView {
       FriendsType.ALL_FRIENDS -> {
         acceptText.visible()
         acceptText.text(R.string.text_start_chatting)
-        acceptText.drawables(start = R.drawable.ic_message,
-          color = core.resources.Colors.TextPrimary)
-        acceptText.onClick { navigator.startChatWith(user) }
+        acceptText.drawables(start = R.drawable.ic_message, color = Colors.TextPrimary)
+        acceptText.onClick { presenter.startChatWith(user) }
         dismissText.text(R.string.text_remove_from_friends)
         dismissText.onClick { presenter.askForFriendRemovingConfirmation(user) }
         dismissText.drawables(start = R.drawable.ic_remove_firend,
-          color = core.resources.Colors.TextPrimary)
+          color = Colors.TextPrimary)
       }
       FriendsType.MY_REQUESTS -> {
         acceptText.gone()
         dismissText.text(R.string.text_cancel_request)
         dismissText.onClick { presenter.sendCancelMyRequestAction(user) }
         dismissText.drawables(start = R.drawable.ic_cancel_circle,
-          color = core.resources.Colors.TextPrimary)
+          color = Colors.TextPrimary)
       }
       FriendsType.REQUESTS_TO_ME -> {
         acceptText.visible()
         acceptText.text(R.string.text_accept_request)
         acceptText.drawables(start = R.drawable.ic_add_friend,
-          color = core.resources.Colors.TextPrimary)
+          color = Colors.TextPrimary)
         acceptText.onClick { presenter.sendAcceptRequestAction(user) }
         dismissText.text(R.string.text_dismiss_request)
         dismissText.onClick { presenter.sendDismissRequestAction(user) }
         dismissText.drawables(start = R.drawable.ic_dismiss_circle,
-          color = core.resources.Colors.TextPrimary)
+          color = Colors.TextPrimary)
       }
     }
   }
   
+  override fun hideActionDialog() {
+    viewAs<SimpleDialog>().hide(animate = shouldAnimate(presenter))
+  }
+  
   override fun showRemovingFriendConfirmationDialog(user: User) {
-    textView(TextConfirmation).applyConfirmationSpan(user.username,
-      R.string.text_confirm_remove_from_friends,
-      R.string.text_confirm_remove_from_friends_first_part
-    )
+    val text = spannable {
+      +getText(R.string.text_confirm_remove_from_friends_first_part)
+      +user.username.withFont(Fonts.SegoeUiBold)
+      +getText(R.string.text_confirm_remove_from_friends_second_part)
+    }
+    textView(TextConfirmation).text(text)
     view(DialogDefault).animateInvisible()
     view(DialogConfirmation).animateVisible()
     view(TextProceed).onClick { presenter.sendRemoveFriendAction(user) }
-    view(TextDismiss).onClick { viewAs<SimpleDialog>().hide() }
+    view(TextDismiss).onClick { presenter.onHideDialog() }
   }
   
-  override fun hideDialog() {
-    viewAs<SimpleDialog>().hide()
+  override fun hideRemovingFriendConfirmationDialog() {
+    view(DialogDefault).animateVisible()
+    view(DialogConfirmation).animateInvisible()
   }
   
-  private fun TextView.applyConfirmationSpan(
-    username: String,
-    textRes: Int,
-    firstPartOfTheText: Int,
-  ) {
-    val firstPartOfText = getString(firstPartOfTheText)
-    val text = getString(textRes, username)
-    val spannable = SpannableString(text)
-    val indexOfText = text.indexOf(username, startIndex = firstPartOfText.length)
-    spannable.setSpan(
-      CustomFontSpan(core.resources.Fonts.SegoeUiBold),
-      indexOfText, indexOfText + username.length,
-      Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-    )
-    setText(spannable)
+  override fun onRemovingFromScreen() {
+    adapter.releaseScreens()
+  }
+  
+  override fun onRelease() {
+    FriendsComponent.clear()
+  }
+  
+  override fun handleBackPress(): Boolean {
+    presenter.handleBackPress()
+    return true
   }
   
   companion object {

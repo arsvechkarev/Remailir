@@ -4,7 +4,7 @@ import android.view.Gravity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.arsvechkarev.views.behaviors.ViewUnderHeaderBehavior
 import core.resources.Colors
-import core.resources.Dimens.ErrorLayoutImageSize
+import core.resources.Dimens.FailureLayoutImageSize
 import core.resources.Styles
 import core.resources.TextSizes
 import viewdsl.Ints.dp
@@ -32,7 +32,7 @@ fun CoordinatorLayout.ErrorLayout() = withViewBuilder {
     invisible()
     gravity(Gravity.CENTER)
     behavior(ViewUnderHeaderBehavior())
-    ImageView(ErrorLayoutImageSize, ErrorLayoutImageSize) {
+    ImageView(FailureLayoutImageSize, FailureLayoutImageSize) {
       tag(ImageError)
       image(R.drawable.image_unknown_error)
     }

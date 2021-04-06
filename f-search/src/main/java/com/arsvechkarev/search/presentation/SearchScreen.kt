@@ -1,14 +1,11 @@
 package com.arsvechkarev.search.presentation
 
+import android.content.Context
 import android.view.Gravity
 import android.view.Gravity.CENTER
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.arsvechkarev.views.ErrorLayout
-import com.arsvechkarev.views.ImageError
-import com.arsvechkarev.views.LayoutError
-import com.arsvechkarev.views.TextError
 import com.arsvechkarev.search.R
 import com.arsvechkarev.search.domain.RequestResult
 import com.arsvechkarev.search.domain.RequestResult.ERROR_ALREADY_FRIENDS
@@ -16,9 +13,13 @@ import com.arsvechkarev.search.domain.RequestResult.ERROR_REQUEST_ALREADY_SENT
 import com.arsvechkarev.search.domain.RequestResult.ERROR_THIS_USER_ALREADY_HAS_REQUEST
 import com.arsvechkarev.search.list.SearchAdapter
 import com.arsvechkarev.views.ComplexProgressBar
+import com.arsvechkarev.views.ErrorLayout
+import com.arsvechkarev.views.ImageError
+import com.arsvechkarev.views.LayoutError
 import com.arsvechkarev.views.PullToRefreshView
 import com.arsvechkarev.views.SimpleDialog
 import com.arsvechkarev.views.Snackbar
+import com.arsvechkarev.views.TextError
 import com.arsvechkarev.views.Toolbar
 import com.arsvechkarev.views.behaviors.HeaderBehavior
 import com.arsvechkarev.views.behaviors.PullToRefreshBehavior
@@ -31,10 +32,9 @@ import core.resources.Dimens.ProgressBarSizeBig
 import core.resources.Styles.BoldTextView
 import core.resources.Styles.ClickableTextView
 import core.resources.TextSizes
-import core.ui.WAITING_TIME
-import core.ui.navigation.Screen
 import core.ui.utils.getMessageRes
 import core.ui.utils.ifTrue
+import navigation.BaseScreen
 import timber.log.Timber
 import viewdsl.Ints.dp
 import viewdsl.Size.Companion.MatchParent
@@ -58,10 +58,11 @@ import viewdsl.text
 import viewdsl.textColor
 import viewdsl.textSize
 import viewdsl.visible
+import viewdsl.withViewBuilder
 
-class SearchScreen : Screen(), SearchView {
+class SearchScreen : BaseScreen(), SearchView {
   
-  override fun buildLayout() = withViewBuilder {
+  override fun buildLayout(context: Context) = context.withViewBuilder {
     RootCoordinatorLayout {
       val viewUnderHeaderBehavior = ViewUnderHeaderBehavior()
       val headerBehavior = HeaderBehavior()
@@ -70,7 +71,7 @@ class SearchScreen : Screen(), SearchView {
         classNameTag()
         showSearchImage = true
         title(R.string.title_people)
-        onBackClick { navigator.popCurrentScreen() }
+        //        onBackClick { navigator.popCurrentScreen() }
         //        onSearchTyped { text -> presenter.performFiltering(text) }
         //        onExitFromSearchMode = { presenter.showCurrentList() }
       }
@@ -158,7 +159,7 @@ class SearchScreen : Screen(), SearchView {
   private val adapter = SearchAdapter(onUserClicked = { user ->
     textView(TextNameOfOtherUser).text(user.username)
     //    textView(TextSendRequest).onClick { presenter.sendFriendRequest(user) }
-    viewAs<SimpleDialog>().show()
+    viewAs<SimpleDialog>().show(animate = true)
   })
   
   override fun onInit() {
@@ -197,21 +198,21 @@ class SearchScreen : Screen(), SearchView {
   }
   
   override fun showSendingRequest() {
-    viewAs<SimpleDialog>().hide()
-    viewAs<Snackbar>().switchToLoadingMode()
-    viewAs<Snackbar>().textLoading.text(R.string.text_sending_request)
-    viewAs<Snackbar>().show()
-    viewNonNull.postDelayed({
-      view?.findViewWithTag<Snackbar>(Snackbar::class.java.name)?.hide()
-    }, WAITING_TIME)
+    viewAs<SimpleDialog>().hide(animate = true)
+    //    viewAs<Snackbar>().switchToLoadingMode()
+    //    viewAs<Snackbar>().textLoading.text(R.string.text_sending_request)
+    //    viewAs<Snackbar>().show()
+    //    viewNonNull.postDelayed({
+    //      view?.findViewWithTag<Snackbar>(Snackbar::class.java.name)?.hide()
+    //    }, WAITING_TIME)
   }
   
   override fun showRequestSent() {
-    viewAs<Snackbar>().switchToInfoMode()
-    viewAs<Snackbar>().textInfo.text(R.string.text_request_sent)
-    viewNonNull.postDelayed({
-      view?.findViewWithTag<Snackbar>(Snackbar::class.java.name)?.hide()
-    }, WAITING_TIME)
+    //    viewAs<Snackbar>().switchToInfoMode()
+    //    viewAs<Snackbar>().textInfo.text(R.string.text_request_sent)
+    //    viewNonNull.postDelayed({
+    //      view?.findViewWithTag<Snackbar>(Snackbar::class.java.name)?.hide()
+    //    }, WAITING_TIME)
   }
   
   override fun showSendingRequestFailure(result: RequestResult) {
@@ -221,25 +222,25 @@ class SearchScreen : Screen(), SearchView {
       ERROR_THIS_USER_ALREADY_HAS_REQUEST -> R.string.error_user_sent_request
       else -> throw IllegalStateException()
     }
-    viewAs<Snackbar>().switchToErrorMode()
-    viewAs<Snackbar>().textError.text(text)
-    viewAs<Snackbar>().buttonRetry.invisible()
+    //    viewAs<Snackbar>().switchToFailureMode(true)
+    //    viewAs<Snackbar>().textFailure.text(text)
+    //    viewAs<Snackbar>().buttonRetry.invisible()
   }
   
   override fun showSendingRequestFailure(e: Throwable, user: User) {
-    viewAs<Snackbar>().switchToErrorMode()
+    //    viewAs<Snackbar>().switchToFailureMode(true, getString(R.string.error_unknown_short))
     //    viewAs<Snackbar>().buttonRetry.onClick { presenter.sendFriendRequest(user) }
-    viewAs<Snackbar>().textError.text(R.string.error_unknown_short)
+    //    viewAs<Snackbar>().textFailure.text(R.string.error_unknown_short)
   }
   
-  override fun onBackPressed(): Boolean {
-    val toolbar = viewAs<Toolbar>()
-    if (toolbar.isInSearchMode) {
-      toolbar.switchFromSearchMode()
-      return true
-    }
-    return false
-  }
+  //  override fun onBackPressed(): Boolean {
+  //    val toolbar = viewAs<Toolbar>()
+  //    if (toolbar.isInSearchMode) {
+  //      toolbar.switchFromSearchMode()
+  //      return true
+  //    }
+  //    return false
+  //  }
   
   private fun showLayout(layout: View) {
     layout.animateVisible()

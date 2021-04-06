@@ -40,10 +40,11 @@ dependencies {
   implementation project(':core-api')
   implementation project(':core-ui')
   implementation project(':core-impl')
-  implementation project(':authentication-api')
-  implementation project(':authentication-impl')
   implementation project(':firebase-api')
   implementation project(':firebase-impl')
+  implementation project(':navigation')
+  implementation project(':resources')
+  implementation project(':viewdsl')
   implementation project(':views')
   implementation project(':f-registration')
   implementation project(':f-chat')
@@ -52,13 +53,16 @@ dependencies {
   implementation project(':f-search')
   implementation project(':f-settings')
 
-  debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.6'
+  debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'
+  mockImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'
 
   def dependencies = rootProject.ext.applicationDependencies
   implementation dependencies.kotlin
   implementation dependencies.appCompat
+  implementation dependencies.cicerone
   implementation dependencies.dagger
   implementation dependencies.moxy
+  implementation dependencies.moxyAndroidx
   implementation dependencies.coroutinesCore
   kapt dependencies.daggerCompiler
 

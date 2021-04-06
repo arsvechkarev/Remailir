@@ -1,6 +1,6 @@
 package com.arsvechkarev.friends.presentation.pagerscreens.myrequests
 
-import com.arsvechkarev.friends.presentation.BaseFriendsMvpView
+import com.arsvechkarev.friends.presentation.pagerscreens.BaseFriendsMvpView
 import core.model.User
 import moxy.viewstate.strategy.AddToEndSingleStrategy
 import moxy.viewstate.strategy.StateStrategyType

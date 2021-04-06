@@ -1,20 +1,26 @@
 package com.arsvechkarev.remailir.di
 
-import authentication.AuthDependenciesProvider
+import core.di.AuthDependenciesProvider
 import core.di.CoreDependenciesProvider
 import core.di.ServiceStarterProvider
 import core.di.SettingsProvider
-import firebase.FirebaseDependenciesProvider
+import firebase.chat.FirebaseChatRequestsDataSourceProvider
+import firebase.database.FirebaseDatabaseDependenciesProvider
+import navigation.RouterProvider
 
 interface Providers {
   
   val coreDependenciesProvider: CoreDependenciesProvider
   
-  val settingsProvider: SettingsProvider
-  
-  val serviceStarterProvider: ServiceStarterProvider
+  val routerProvider: RouterProvider
   
   val authDependenciesProvider: AuthDependenciesProvider
   
-  val firebaseDependenciesProvider: FirebaseDependenciesProvider
+  val firebaseDatabaseDependenciesProvider: FirebaseDatabaseDependenciesProvider
+  
+  val firebaseChatRequestsDataSourceProvider: FirebaseChatRequestsDataSourceProvider
+  
+  val settingsProvider: SettingsProvider
+  
+  val serviceStarterProvider: ServiceStarterProvider
 }

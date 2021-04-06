@@ -23,6 +23,6 @@ android {
 }
 
 dependencies {
-  implementation project(":viewdsl")
+  implementation project(':viewdsl')
   implementation rootProject.ext.applicationDependencies.appCompat
 }
